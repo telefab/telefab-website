@@ -1,0 +1,104 @@
+version 2.6 ( updated 6-14-2012 )
+- Fixed WP 3.4 compatibility issues
+        * epanel/js/custom_uploader.js
+        * epanel/custom_functions.php
+
+version 2.5 ( Updated: 4-12-2012 )
+- Added 'Responsive layout' option
+	* home.php
+	* functions.php
+	* css/responsive.css
+	* js/et_flexslider.js
+	* js/jquery.fitvids.js
+	* js/jquery.flexslider-min.js
+	* includes/featured.php
+	* images/responsive_arrow.png
+	* epanel/options_chameleon.php
+
+version 2.4 ( Updated: 4-04-2012 )
+- Improved shortcodes functionality ( now you can use ET Tabs inside of the ET Learn more block )
+	* epanel/shortcodes/js/et_shortcodes_frontend.js
+	* epanel/shortcodes/shortcodes.css
+
+version 2.3 ( Updated: 3-13-2012 )
+- Added width and height attributes to images, small images stretch to fill the space now
+	* custom_functions.php
+- Deleted Support Docs, replaced it with the link to site documentation
+	* epanel/options_chameleon.php
+	* includes/functions/installation.php
+- Improved ePanel page select box functionality and compatibility with qTranslate and WPML plugins
+	* epanel/core_functions.php
+	* epanel/options_chameleon.php
+- Shortcodes improvements
+	* epanel/shortcodes/shortcodes.css
+	* epanel/shortcodes/js/et_shortcodes_frontend.js
+- Improved et_videolink compatibility with iPhone and iPad, you can use videos from these sites now: http://goo.gl/U7Iuj
+	* style.css
+	* page-template-portfolio.php
+	* epanel/page_templates/js/fancybox/jquery.fancybox--1.3.4.pack.js
+	* home.php
+- Added slider loading bar
+	* style.css
+	* includes/featured.php
+	* js/et_cycle.js
+	* js/et_roundabout.js
+	* js/et_nivo.js
+	* images/ajax-loader.gif
+
+version 2.2 ( Updated: 1-25-2012 )
+- improved thumbnail resizing system ( epanel/custom_functions.php )
+- fixed simple slider shortcode "slide" effect issue ( epanel/shortcodes/js/et_shortcodes_frontend.js )
+- increased superfish menu delay
+
+version 2.1
+- fixed Multi Media Bar issues in Chrome ( style.css )
+modified files: style.css
+
+version 2.0
+- Fixed slider bug
+    * js/custom.js
+
+version 1.9
+- Updated thumbnail function to clear unused images
+- Updated templates with improved coding structure
+- Fixed sample data images bug
+- Fixed featured slider bugs caused by new jQuery version
+
+version 1.8
+- Updated thumbnail function to better detect root folder. Thumbnails
+  must now be hosted within the same root folder as WordPress. 
+    * epanel/custom_functions.php
+
+version 1.7
+- Removed timthumb due to known vulnerabilities
+    * deleted timthumb.php, cache and temp folders
+    * modified 'epanel/custom_functions.php', 'epanel/options_themename.php'
+
+version 1.6
+- updated Nivo slider main js file, fixed nivo slider ie issue ( js/et_nivo.js ; js/jquery.nivo.slider.pack.js )
+- got rid of style-.css file addition into header.php file, fixed epanel font family settings - settings didn't apply because of esc_attr() ( functions.php )
+- fixed control panel validation issue ( js/et_control_panel.js )
+- added slider and media section height, updated theme version ( style.css )
+
+version 1.5
+- Fixed bug with homepage slider
+    * js/custom.js
+
+version 1.4
+- Performed extensive performance and security enhancements. 
+    * All files were updated. 
+
+version 1.3
+- Fixed slider issue
+    * style.css
+
+version 1.2
+- Fixed IE8 issues
+    * js/et_control_panel.js
+    * js/et_cycle.js
+
+version 1.1
+- Updated ePanel with various bug fixes
+- Changed lightbox script
+    * all files should be updated
+
