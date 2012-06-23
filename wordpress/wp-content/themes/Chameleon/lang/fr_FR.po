@@ -70,11 +70,11 @@ msgstr "Accueil"
 
 #: ../header.php:87
 msgid "Search this site..."
-msgstr "Rechercher sur le site..."
+msgstr "Rechercher"
 
 #: ../home.php:65
 msgid "Multi Media Bar"
-msgstr "Les projets"
+msgstr "Projets récents"
 
 #: ../home.php:67
 msgid "Previous"
