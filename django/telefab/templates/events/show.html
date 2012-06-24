@@ -1,0 +1,58 @@
+{% extends "layout/default.html" %}
+{% block title %}
+	Calendrier
+{% endblock %}
+{% block page_title %}
+	Calendrier
+{% endblock %}
+{% block page_subtitle %}
+	{% with first_day_data=hours_data.0.lines.0.days|first last_day_data=hours_data.0.lines.0.days|last %}
+		Du {{first_day_data.day|date:"j/n/Y"}} au {{last_day_data.day|date:"j/n/Y"}}
+	{% endwith %}
+{% endblock %}
+{% block page_link %}
+	Calendrier
+{% endblock %}
+{% block content %}
+	<div class="pager">
+		<p class="next">
+			<a href="{% url main.views.show_events year=next_date.year month=next_date.month day=next_date.day %}">Semaine suivante &raquo;</a>
+		</p>
+		<p class="previous">
+			<a href="{% url main.views.show_events year=previous_date.year month=previous_date.month day=previous_date.day %}">&laquo; Semaine précédente</a>
+		</p>
+	</div>
+	<table class="calendar">
+		<!-- Days list -->
+		<tr class="days">
+			<th class="hours">&nbsp;</th>
+			{% for day_data in hours_data.0.lines.0.days %}
+				<th{% if day_data.current %} class="current"{% endif %}>
+					<span class="day">{{ day_data.day|date:"l"|capfirst }}</span>
+					{{ day_data.day|date:"j F" }}
+				</th>
+			{% endfor %}
+		</tr>
+		<!-- Hours list -->
+		{% for hour_data in hours_data %}
+			<!-- n lines per hour -->
+			{% for line_data in hour_data.lines %}
+				<tr class="line{% if forloop.first %} firstline{% endif %}{% if forloop.last %} lastline{% endif %}">
+					<!-- Hour title -->
+					{% if forloop.first %}
+						<th class="hour">
+							<span>{{ hour_data.hour }}</span>&nbsp;h
+						</th>
+					{% else %}
+						<th class="hour">&nbsp;</th>
+					{% endif %}
+					<!-- One cell per day -->
+					{% for day_data in line_data.days %}
+						<td{% if day_data.category %} class="active {{day_data.category}}"{% endif %}>&nbsp;</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+			
+		{% endfor %}
+	</table>
+{% endblock %}

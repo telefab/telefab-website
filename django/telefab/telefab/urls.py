@@ -4,10 +4,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'telefab.views.home', name='home'),
-    # url(r'^telefab/', include('telefab.foo.urls')),
-
+	# Events
+	url(r'^calendrier/$', 'main.views.show_events'),
+	url(r'^calendrier/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})$', 'main.views.show_events'),
     # Administration
     url(r'^admin/', include(admin.site.urls)),
 )

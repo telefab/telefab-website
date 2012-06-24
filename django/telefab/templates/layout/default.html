@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>{% block title %}{% endblock %} | Téléfab</title>
+		<link media="screen" type="text/css" href="/wp-content/themes/Chameleon/style.css" rel="stylesheet">
+		<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/custom.css" rel="stylesheet">
+	</head>
+	<body>
+		<div id="container">
+			<div class="clearfix" id="header">
+				<a href="/">
+					<img id="logo" alt="Logo Téléfab" src="/wp-content/images/telefab-logo.png">
+				</a>
+				<ul class="nav sf-js-enabled" id="top-menu">
+					<li><a href="/">Accueil</a></li>
+					<li class="page_item"><a href="/blog/">Blog</a></li>
+					<li class="page_item"><a href="/portfolio/">Portfolio</a></li>
+					<li class="page_item current_page_item"><a href="/gestion/calendrier/">Calendrier</a></li>
+					<li class="page_item"><a href="/a-propos/">À propos</a></li>
+				</ul>
+				<div id="additional-info">
+					<div id="et-social-icons">
+						<a target="_blank" href="/comments/feed/"><img src="/wp-content/themes/Chameleon/images/rss.png" alt="Rss"></a>
+					</div>
+					<div id="search-form">
+						<form action="/" id="searchform" method="get">
+							<input type="text" id="searchinput" name="s">
+							<input type="image" id="searchsubmit" src="/wp-content/themes/Chameleon/images/search_btn.png">
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="breadcrumbs">
+				<a href="/">Accueil</a> <span class="raquo">»</span> {% block page_link %}{% endblock %}
+			</div>
+			<div id="category-name">
+				<div id="category-inner">
+					<h1 class="category-title">{% block page_title %}{% endblock %}</h1>
+					<p class="description">{% block page_subtitle %}{% endblock %}</p>
+				</div>
+			</div>
+			<div id="content" class="clearfix fullwidth">
+				{% block content %}
+				{% endblock %}
+			</div>
+			<div id="footer">
+				<div id="footer-content" class="clearfix">
+					<p id="copyright">Design par <a title="Premium WordPress Themes" href="http://www.elegantthemes.com">Elegant WordPress Themes</a> | Motorisé par <a href="http://www.djangoproject.com">Django</a></p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
