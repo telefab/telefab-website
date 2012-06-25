@@ -51,13 +51,7 @@ class Event(models.Model):
 				return name
 		return None
 	
-	def display_period(self):
-		"""
-		String representing the event time period
-		"""
-		return u"De " + self.start_time.strftime(u"%H:%M") + u" à " + self.end_time.strftime(u"%H:%M")
-	
-	def display_title(self):
+	def global_title(self):
 		"""
 		String representing the title depending on the type
 		"""
@@ -70,7 +64,7 @@ class Event(models.Model):
 			result = self.title
 		return result
 	
-	def display_animators(self):
+	def animators_list(self):
 		"""
 		String describing the animators
 		"""
@@ -94,5 +88,5 @@ class Event(models.Model):
 		"""
 		Returns a string representation
 		"""
-		return self.category_name() + u" du " + self.start_time.strftime(u"%d/%m/%Y %H:%M") + u" au " + self.end_time.strftime(u"%d/%m/%Y %H:%M")
+		return self.category_name() + u" du " + self.start_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M") + u" au " + self.end_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M")
 	

@@ -48,14 +48,14 @@
 					{% endif %}
 					<!-- One cell per day -->
 					{% for day_data in line_data.days %}
-						<td{% if day_data.event %} class="active active{{day_data.cell_index}} {{day_data.event.category_id}}" title="{{day_data.event.display_title}} - {{day_data.event.display_period}}{% if day_data.event.description %} - {{day_data.event.description}}{% endif %}{% if day_data.event.display_animators %} - {{day_data.event.display_animators}}{% endif %}"{% endif %}>
+						<td{% if day_data.event %} class="active active{{day_data.cell_index}} {{day_data.event.category_id}}" title="{{day_data.event.global_title}} - De {{day_data.event.start_time|date:"G:i"}} à {{day_data.event.end_time|date:"G:i"}}{% if day_data.event.description %} - {{day_data.event.description}}{% endif %}{% if day_data.event.animators_list %} - {{day_data.event.animators_list}}{% endif %}"{% endif %}>
 						{% if day_data.cell_index == 0 %}
 							<!-- Event title -->
-							{{ day_data.event.display_title }}
+							{{ day_data.event.global_title }}
 						{% endif %}
 						{% if day_data.cell_index == 1 %}
 							<!-- Event period -->
-							{{ day_data.event.display_period }}
+							De {{day_data.event.start_time|date:"G:i"}} à {{day_data.event.end_time|date:"G:i"}}
 						{% endif %}
 						</td>
 					{% endfor %}
