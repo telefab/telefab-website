@@ -1,4 +1,4 @@
-# This file uses the following encoding: utf-8 
+# This file uses the following encoding: utf-8
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -10,7 +10,7 @@ class UserProfile(models.Model):
 	class Meta:
 		verbose_name = u"profil"
 		verbose_name_plural = u"profils"
-		
+	
 	user = models.ForeignKey(User, verbose_name = u"utilisateur", unique = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
 
@@ -21,7 +21,7 @@ class Event(models.Model):
 	class Meta:
 		verbose_name = u"évènement"
 		verbose_name_plural = u"évènements"
-		
+	
 	start_time = models.DateTimeField(verbose_name = u"début")
 	end_time = models.DateTimeField(verbose_name = u"fin")
 	EVENT_CATEGORIES = (
@@ -41,7 +41,7 @@ class Event(models.Model):
 		if self.category is None:
 			return None
 		return self.EVENT_CATEGORY_IDS[self.category]
-
+	
 	def category_name(self):
 		"""
 		Returns the name of the category of this event
@@ -50,7 +50,46 @@ class Event(models.Model):
 			if id == self.category:
 				return name
 		return None
-		
+	
+	def display_period(self):
+		"""
+		String representing the event time period
+		"""
+		return u"De " + self.start_time.strftime(u"%H:%M") + u" à " + self.end_time.strftime(u"%H:%M")
+	
+	def display_title(self):
+		"""
+		String representing the title depending on the type
+		"""
+		if self.category == 0:
+			if len(self.animators.all()) > 0:
+				result = u"Ouvert"
+			else:
+				result = u"Libre-service"
+		else:
+			result = self.title
+		return result
+	
+	def display_animators(self):
+		"""
+		String describing the animators
+		"""
+		if len(self.animators.all()) == 0:
+			return None
+		else:
+			desc = u"Animateur"
+			if len(self.animators.all()) > 1:
+				desc = desc + "s"
+			first = True
+			for animator in self.animators.all():
+				if first:
+					sep = " : "
+					first = False
+				else:
+					sep = ", "
+				desc = desc + sep + unicode(animator)
+			return desc
+	
 	def __unicode__(self):
 		"""
 		Returns a string representation

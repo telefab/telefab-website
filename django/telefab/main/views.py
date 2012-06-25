@@ -41,6 +41,7 @@ def show_events(request, year=None, month=None, day=None):
 	# Prepare the grid of cells to display
 	hours_data = []
 	today = date.today()
+	event_data = {}
 	for hour in range(hour_min, hour_max + 1):
 		lines_data = []
 		hour_data = {
@@ -71,9 +72,13 @@ def show_events(request, year=None, month=None, day=None):
 				for event in events:
 					tests = tests + 1
 					if event.start_time <= cell_end_time and event.end_time >= cell_start_time:
-						day_data['category'] = event.category_id()
+						day_data['event'] = event
+						if event in event_data:
+							day_data['cell_index'] = event_data[event] + 1
+						else:
+							day_data['cell_index'] = 0
+						event_data[event] = day_data['cell_index']
 						break
-				day_data['tests'] = tests
 	# Render
 	template_data = {
 		'previous_date': {'year': str(previous_date.year).rjust(4, '0'), 'month': str(previous_date.month).rjust(2, '0'), 'day': str(previous_date.day).rjust(2, '0')},

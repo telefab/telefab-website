@@ -7,7 +7,7 @@
 {% endblock %}
 {% block page_subtitle %}
 	{% with first_day_data=hours_data.0.lines.0.days|first last_day_data=hours_data.0.lines.0.days|last %}
-		Du {{first_day_data.day|date:"j/n/Y"}} au {{last_day_data.day|date:"j/n/Y"}}
+		Du {{first_day_data.day|date:"d/m/Y"}} au {{last_day_data.day|date:"d/m/Y"}}
 	{% endwith %}
 {% endblock %}
 {% block page_link %}
@@ -48,7 +48,16 @@
 					{% endif %}
 					<!-- One cell per day -->
 					{% for day_data in line_data.days %}
-						<td{% if day_data.category %} class="active {{day_data.category}}"{% endif %}>&nbsp;</td>
+						<td{% if day_data.event %} class="active active{{day_data.cell_index}} {{day_data.event.category_id}}" title="{{day_data.event.display_title}} - {{day_data.event.display_period}}{% if day_data.event.description %} - {{day_data.event.description}}{% endif %}{% if day_data.event.display_animators %} - {{day_data.event.display_animators}}{% endif %}"{% endif %}>
+						{% if day_data.cell_index == 0 %}
+							<!-- Event title -->
+							{{ day_data.event.display_title }}
+						{% endif %}
+						{% if day_data.cell_index == 1 %}
+							<!-- Event period -->
+							{{ day_data.event.display_period }}
+						{% endif %}
+						</td>
 					{% endfor %}
 				</tr>
 			{% endfor %}
