@@ -19,7 +19,7 @@ DATABASES = {
 GLOBAL_ROOT = '/home/tristan/Developpement/Web/telefab-website/django/'
 
 # Site root URL
-URL_ROOT = '/gestion/'
+URL_ROOT = '/lab/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ob#3jske&amp;-p0%5h%!z=bywt*$sl3euh=*soix0vmzn798vbn_('
