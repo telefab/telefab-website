@@ -16,7 +16,7 @@ def show_events(request, year=None, month=None, day=None):
 	# Configuration
 	days = 7
 	hour_min = 8
-	hour_max = 18
+	hour_max = 22
 	lines_per_hour = 4 
 	# Select the week to display
 	if year is None or int(year) == 0:

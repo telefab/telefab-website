@@ -16,7 +16,6 @@ body {
 	width: 100%;
 	margin: 5px 0;
 	text-align: center;
-	position: relative;
 	border: 1px solid #929292;
 }
 
@@ -45,9 +44,6 @@ body {
 #content table.calendar span.day {
 	font-size: 1.3em;
 	display: block;
-}
-
-#content table.calendar th.hour {
 }
 
 #content table.calendar .firstline th.hour {
@@ -99,6 +95,42 @@ body {
 
 #content table.calendar td.session {
 	background-color: #00ABB8;
+}
+
+
+#content table.calendar td .tooltip {
+	display: none;
+	position: absolute;
+	background-color: white;
+	margin-top: 20px;
+	margin-left: -6.5%;
+	width: 25%;
+	border: 1px solid #929292;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	white-space: normal;
+	padding: 3px;
+	box-shadow: 8px 8px 12px #aaa;
+	-webkit-box-shadow: 8px 8px 12px #aaa;
+	-moz-box-shadow: 8px 8px 12px #aaa;
+}
+
+#content table.calendar td:hover .tooltip {
+	display: block;
+}
+
+#content table.calendar td .tooltip h3 {
+	color: #1D1D1D;
+}
+
+#content table.calendar td .tooltip p {
+	text-align: justify;
+	padding: 0;
+}
+
+#content table.calendar td .tooltip p.animators {
+	text-align: right;
 }
 
 /* Pager */
