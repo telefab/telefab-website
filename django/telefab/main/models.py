@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import get_default_timezone as tz
 
 class UserProfile(models.Model):
 	"""
@@ -13,6 +14,15 @@ class UserProfile(models.Model):
 	
 	user = models.ForeignKey(User, verbose_name = u"utilisateur", unique = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
+	
+	def __unicode__(self):
+		"""
+		Returns a string representation
+		"""
+		if self.user.first_name:
+			return self.user.first_name
+		else:
+			return self.user.username
 
 class Event(models.Model):
 	"""
@@ -33,6 +43,7 @@ class Event(models.Model):
 	title = models.CharField(verbose_name = u"titre", max_length = 50, blank = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
 	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True)
+	link = models.CharField(verbose_name=u"lien", max_length = 200, blank=True)
 	
 	def category_id(self):
 		"""
@@ -68,20 +79,19 @@ class Event(models.Model):
 		"""
 		String describing the animators
 		"""
-		if len(self.animators.all()) == 0:
+		anims = self.animators.all()
+		if len(anims) == 0:
 			return None
 		else:
-			desc = u"Animateur"
-			if len(self.animators.all()) > 1:
-				desc = desc + "s"
+			desc = u""
 			first = True
-			for animator in self.animators.all():
+			for animator in anims:
 				if first:
-					sep = " : "
+					sep = u""
 					first = False
 				else:
-					sep = ", "
-				desc = desc + sep + unicode(animator)
+					sep = u", "
+				desc = desc + sep + unicode(animator.get_profile())
 			return desc
 	
 	def __unicode__(self):

@@ -57,12 +57,18 @@
 								{% if day_data.event.description %}
 									<p>{{day_data.event.description}}</p>
 								{% endif %}
-								{% if day_data.event.animators_list %}
-									<p class="animators">{{day_data.event.animators_list}}</p>
+								{% if day_data.event.link %}
+									<p><a href="{{day_data.event.link }}" target="_blank">
+										En savoir plus &raquo;
+									</a></p>{% endif %}
+								{% if day_data.event.animators.count > 0 %}
+									<p class="animators"><span>Animateur{{day_data.event.animators.count|pluralize:"s"}} :</span> {{day_data.event.animators_list}}</p>
 								{% endif %}
 							</div>
 							<!-- Event title -->
-							{{ day_data.event.global_title }}
+							<span class="title">{% if day_data.event.link %}<a href="{{day_data.event.link }}" target="_blank">{% endif %}
+								{{ day_data.event.global_title }}
+							{% if day_data.event.link %}</a>{% endif %}</span>
 						{% endif %}
 						{% if day_data.cell_index == 1 %}
 							<!-- Event period -->
