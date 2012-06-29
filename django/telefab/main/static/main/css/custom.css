@@ -111,6 +111,12 @@ body {
 	opacity: 0;
 	-moz-transition-property: opacity;
 	-moz-transition-duration: 1s;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 1s;
+	-ie-transition-property: opacity;
+	-ie-transition-duration: 1s;
+	transition-property: opacity;
+	transition-duration: 1s;
 	position: absolute;
 	background-color: white;
 	margin-top: 20px;
@@ -119,12 +125,15 @@ body {
 	border: 1px solid #929292;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
+	-ie-border-radius: 10px;
 	border-radius: 10px;
 	white-space: normal;
 	padding: 3px;
 	box-shadow: 8px 8px 12px #aaa;
 	-webkit-box-shadow: 8px 8px 12px #aaa;
 	-moz-box-shadow: 8px 8px 12px #aaa;
+	-ie-box-shadow: 8px 8px 12px #aaa;
+	box-shadow: 8px 8px 12px #aaa;
 	pointer-events: none;
 }
 
