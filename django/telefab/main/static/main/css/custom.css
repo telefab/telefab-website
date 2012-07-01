@@ -33,6 +33,10 @@ body {
 	width: 5%;
 }
 
+#content table.calendar tr.days th.links {
+	font-size: 0.9em;
+}
+
 #content table.calendar tr.days th {
 	width: 13.5%;
 }

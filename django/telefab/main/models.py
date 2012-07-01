@@ -3,6 +3,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import get_default_timezone as tz
+from telefab.local_settings import WEBSITE_CONFIG
 
 class UserProfile(models.Model):
 	"""
@@ -93,6 +94,15 @@ class Event(models.Model):
 					sep = u", "
 				desc = desc + sep + unicode(animator.get_profile())
 			return desc
+
+	def absolute_link(self):
+		"""
+		The absolute link (if easy to find)
+		"""
+		if self.link[0] == '/':
+			return WEBSITE_CONFIG["protocol"] + '://' + WEBSITE_CONFIG["host"] + WEBSITE_CONFIG["path"] + self.link
+		else:
+			return self.link
 	
 	def __unicode__(self):
 		"""

@@ -23,3 +23,10 @@ URL_ROOT = '/lab/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'ob#3jske&amp;-p0%5h%!z=bywt*$sl3euh=*soix0vmzn798vbn_('
+
+# Data about the website
+WEBSITE_CONFIG = {
+	'host': 'telefab.local',
+	'protocol': 'http',
+	'path': ''
+}

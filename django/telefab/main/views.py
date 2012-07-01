@@ -1,10 +1,12 @@
 # This file uses the following encoding: utf-8 
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, Context, Template
-from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotFound, HttpResponseServerError
+from django.http import HttpResponse
 from models import *
 from datetime import date, datetime, timedelta
 from django.utils.timezone import get_default_timezone as tz
+from vobject import iCalendar
+from telefab.local_settings import WEBSITE_CONFIG
 
 # Events
 
@@ -23,14 +25,21 @@ def show_events(request, year=None, month=None, day=None):
 		ref_date = date.today()
 	else:
 		ref_date = date(int(year), int(month), int(day))
-	# Go to monday
-	ref_date = ref_date - timedelta(days=ref_date.weekday())
+	# Redirect to monday if not already there
+	if ref_date.weekday() > 0:
+		ref_date = ref_date - timedelta(days=ref_date.weekday())
+		return redirect("main.views.show_events", year=str(ref_date.year).rjust(4, '0'), month=str(ref_date.month).rjust(2, '0'), day=str(ref_date.day).rjust(2, '0'))
 	# List the days
 	days_range = []
 	for i in range(days):
 		days_range.append(ref_date + timedelta(days=i))
 	first_day = days_range[0]
 	last_day = days_range[-1]
+	# Get the position in time of this week:
+	if first_day > date.today():
+		position = "future"
+	elif:
+		#TODO
 	# Prepare the next and previous dates
 	next_date = ref_date + timedelta(days=7)
 	previous_date = ref_date - timedelta(days=7)
@@ -86,4 +95,23 @@ def show_events(request, year=None, month=None, day=None):
 		'hours_data': hours_data
 	}
 	return render_to_response("events/show.html", template_data, context_instance = RequestContext(request))
+
+def ical_events(request):
+	"""
+	Next 50 events in ical format
+	"""
+	calendar = iCalendar()
+	for event in Event.objects.filter(end_time__gte=datetime.now()).order_by('start_time')[0:50]:
+		ical_ev = calendar.add("vevent")
+		ical_ev.add("uid").value = "EVENT" + str(event.id) + "@" + WEBSITE_CONFIG["host"]
+		ical_ev.add("dtstart").value = event.start_time
+		ical_ev.add("dtend").value = event.end_time
+		ical_ev.add("summary").value = event.global_title()
+		if event.description:
+			ical_ev.add("description").value = event.description
+		for animator in event.animators.all():
+			ical_ev.add("attendee").value = unicode(animator.get_profile())
+		if event.link:
+			ical_ev.add("url").value = event.absolute_link()
+	return HttpResponse(calendar.serialize(), mimetype="text/calendar")
 

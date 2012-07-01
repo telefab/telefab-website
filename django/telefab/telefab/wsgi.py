@@ -13,8 +13,12 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os
+import os, sys
+from telefab.local_settings import GLOBAL_ROOT
 
+# Add the library directory to the path
+sys.path.append(GLOBAL_ROOT + "../lib")
+# Set the telefab settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "telefab.settings")
 
 # This application object is used by any WSGI server configured to use this

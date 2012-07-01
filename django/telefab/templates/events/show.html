@@ -25,7 +25,7 @@
 	<table class="calendar">
 		<!-- Days list -->
 		<tr class="days">
-			<th class="hours">&nbsp;</th>
+			<th class="hours links"><a href="{% url main.views.ical_events %}" title="Utilisez ce lien iCal pour importer ce calendrier">iCal</a></th>
 			{% for day_data in hours_data.0.lines.0.days %}
 				<th{% if day_data.current %} class="current"{% endif %}>
 					<span class="day">{{ day_data.day|date:"l"|capfirst }}</span>
