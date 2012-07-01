@@ -16,10 +16,16 @@
 {% block content %}
 	<div class="pager">
 		<p class="next">
+			{% if time_position == "past" %}
+				<a href="{% url main.views.show_events %}">Semaine actuelle &raquo;</a>
+			{% endif %}
 			<a href="{% url main.views.show_events year=next_date.year month=next_date.month day=next_date.day %}">Semaine suivante &raquo;</a>
 		</p>
 		<p class="previous">
 			<a href="{% url main.views.show_events year=previous_date.year month=previous_date.month day=previous_date.day %}">&laquo; Semaine précédente</a>
+			{% if time_position == "future" %}
+				<a href="{% url main.views.show_events %}">&laquo; Semaine actuelle</a>
+			{% endif %}
 		</p>
 	</div>
 	<table class="calendar">

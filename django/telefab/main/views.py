@@ -37,9 +37,11 @@ def show_events(request, year=None, month=None, day=None):
 	last_day = days_range[-1]
 	# Get the position in time of this week:
 	if first_day > date.today():
-		position = "future"
-	elif:
-		#TODO
+		time_position = "future"
+	elif last_day < date.today():
+		time_position = "past"
+	else:
+		time_position = "present"
 	# Prepare the next and previous dates
 	next_date = ref_date + timedelta(days=7)
 	previous_date = ref_date - timedelta(days=7)
@@ -92,7 +94,8 @@ def show_events(request, year=None, month=None, day=None):
 	template_data = {
 		'previous_date': {'year': str(previous_date.year).rjust(4, '0'), 'month': str(previous_date.month).rjust(2, '0'), 'day': str(previous_date.day).rjust(2, '0')},
 		'next_date': {'year': str(next_date.year).rjust(4, '0'), 'month': str(next_date.month).rjust(2, '0'), 'day': str(next_date.day).rjust(2, '0')},
-		'hours_data': hours_data
+		'hours_data': hours_data,
+		'time_position': time_position
 	}
 	return render_to_response("events/show.html", template_data, context_instance = RequestContext(request))
 
