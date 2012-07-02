@@ -6,8 +6,10 @@
 		<title>{% block title %}{% endblock %} | Téléfab</title>
 		<link media="screen" type="text/css" href="/wp-content/themes/Chameleon/style.css" rel="stylesheet">
 		<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/custom.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'/>
+		<link href='http://fonts.googleapis.com/css?family=Kreon:light,regular' rel='stylesheet' type='text/css'/>
 	</head>
-	<body>
+	<body class="page">
 		<div id="container">
 			<div class="clearfix" id="header">
 				<a href="/">
@@ -17,17 +19,17 @@
 					<li><a href="/">Accueil</a></li>
 					<li class="page_item"><a href="/blog/">Blog</a></li>
 					<li class="page_item"><a href="/portfolio/">Portfolio</a></li>
-					<li class="page_item current_page_item"><a href="{% url main.views.show_events %}">Calendrier</a></li>
+					<li class="page_item {% block menu_link_calendar %}{% endblock %}"><a href="{% url main.views.show_events %}">Calendrier</a></li>
 					<li class="page_item"><a href="/a-propos/">À propos</a></li>
 				</ul>
 				<div id="additional-info">
 					<div id="et-social-icons">
-						<a target="_blank" href="/comments/feed/"><img src="/wp-content/themes/Chameleon/images/rss.png" alt="Rss"></a>
+						<a target="_blank" href="/category/blog/feed"><img src="/wp-content/themes/Chameleon/images/rss.png" alt="Rss"></a>
 					</div>
 					<div id="search-form">
 						<form action="/" id="searchform" method="get">
-							<input type="text" id="searchinput" name="s">
-							<input type="image" id="searchsubmit" src="/wp-content/themes/Chameleon/images/search_btn.png">
+							<input type="text" id="searchinput" name="s" placeholder="Rechercher" />
+							<input type="image" id="searchsubmit" src="/wp-content/themes/Chameleon/images/search_btn.png" />
 						</form>
 					</div>
 				</div>
