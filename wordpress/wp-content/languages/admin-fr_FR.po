@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: WordPress 3.4\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
 "POT-Creation-Date: 2012-06-12 23:18:00+00:00\n"
-"PO-Revision-Date: 2012-06-13 20:52+0100\n"
+"PO-Revision-Date: 2012-06-28 00:44+0100\n"
 "Last-Translator: WordPress Francophone <traduction_at_wordpress-fr.net>\n"
 "Language-Team: WordPress Francophone <traduction@wordpress-fr.net>\n"
 "MIME-Version: 1.0\n"
@@ -4002,7 +4002,7 @@ msgstr "Voici quelques idées pour vous jeter à l&rsquo;eau. Assurez-vous bien 
 
 #: wp-admin/includes/dashboard.php:1265
 msgid "<a href=\"%s\">Choose your privacy setting</a>"
-msgstr "<a href=\"%s\">Choisir vos réglages de vie privée</a>"
+msgstr "<a href=\"%s\">Choisissez vos réglages de vie privée</a>"
 
 #: wp-admin/includes/dashboard.php:1266
 msgid "<a href=\"%s\">Select your tagline and time zone</a>"
@@ -4010,7 +4010,7 @@ msgstr "<a href=\"%s\">Réglez votre fuseau horaire et le slogan de votre site</
 
 #: wp-admin/includes/dashboard.php:1267
 msgid "<a href=\"%s\">Turn comments on or off</a>"
-msgstr "<a href=\"%s\">Activer/désactiver les commentaires</a>"
+msgstr "<a href=\"%s\">Activez/désactivez les commentaires</a>"
 
 #: wp-admin/includes/dashboard.php:1268
 msgid "<a href=\"%s\">Fill in your profile</a>"
@@ -4026,11 +4026,11 @@ msgstr "Allez voir l&rsquo;article et la page de démo dans leurs éditeurs resp
 
 #: wp-admin/includes/dashboard.php:1275
 msgid "View the <a href=\"%1$s\">sample page</a> and <a href=\"%2$s\">post</a>"
-msgstr "Afficher la <a href=\"%1$s\">page d&rsquo;exemple</a> et l&rsquo;<a href=\"%2$s\">article d&rsquo;exemple</a>"
+msgstr "Affichez la <a href=\"%1$s\">page d&rsquo;exemple</a> et l&rsquo;<a href=\"%2$s\">article d&rsquo;exemple</a>"
 
 #: wp-admin/includes/dashboard.php:1276
 msgid "Delete the <a href=\"%1$s\">sample page</a> and <a href=\"%2$s\">post</a>"
-msgstr "Effacer la <a href=\"%1$s\">page d&rsquo;exemple</a> et l&rsquo;<a href=\"%2$s\">article d&rsquo;exemple</a>"
+msgstr "Effacez la <a href=\"%1$s\">page d&rsquo;exemple</a> et l&rsquo;<a href=\"%2$s\">article d&rsquo;exemple</a>"
 
 #: wp-admin/includes/dashboard.php:1277
 msgid "<a href=\"%s\">Create an About Me page</a>"
@@ -8211,7 +8211,7 @@ msgstr "WordPress ne notifie aucun des <a href=\"http://codex.wordpress.org/Upda
 
 #: wp-admin/options.php:113
 msgid "<strong>ERROR</strong>: options page not found."
-msgstr "strong>ERREUR</strong>&nbsp;: La page d&rsquo;options est introuvable."
+msgstr "<strong>ERREUR</strong>&nbsp;: La page d&rsquo;options est introuvable."
 
 #: wp-admin/options.php:117
 msgid "You do not have sufficient permissions to modify unregistered settings for this site."
