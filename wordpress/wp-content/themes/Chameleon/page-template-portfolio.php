@@ -113,15 +113,14 @@ if ( $et_ptemplate_portfolio_size == 3 ) $et_ptemplate_portfolio_class = ' et_po
 					
 							<div class="et_pt_portfolio_item">
 								<?php if ($et_ptemplate_showtitle) { ?>
-									<h2 class="et_pt_portfolio_title"><?php echo $et_portfolio_title; ?></h2>
+									<h2 class="et_pt_portfolio_title"><a href="<?php the_permalink(); ?>"><?php echo $et_portfolio_title; ?></a></h2>
 								<?php } ?>
 								<div class="et_pt_portfolio_entry<?php if ( $height == $et_portrait_height ) echo ' et_portrait_layout'; ?>">
 									<div class="et_pt_portfolio_image<?php if ($et_videolink <> '') echo ' et_video'; ?>">
 										<?php print_thumbnail($thumb, $thumbnail["use_timthumb"], $titletext, $width, $height, ''); ?>
 										<span class="et_pt_portfolio_overlay"></span>
 										
-										<a class="et_portfolio_zoom_icon fancybox" title="<?php the_title(); ?>"<?php if ($et_videolink == '') echo ' rel="portfolio"'; ?> href="<?php if ($et_videolink <> '') echo esc_url( '#' . $et_video_id ); else echo($thumbnail['fullpath']); ?>"><?php esc_html_e('Zoom in','Chameleon'); ?></a>
-										<a class="et_portfolio_more_icon" href="<?php the_permalink(); ?>"><?php esc_html_e('Read more','Chameleon'); ?></a>
+										<a class="et_portfolio_more_icon" href="<?php the_permalink(); ?>" style="margin-left: 20px;"><?php esc_html_e('Read more','Chameleon'); ?></a>
 									</div> <!-- end .et_pt_portfolio_image -->
 								</div> <!-- end .et_pt_portfolio_entry -->
 								<?php if ($et_ptemplate_showdesc) { ?>

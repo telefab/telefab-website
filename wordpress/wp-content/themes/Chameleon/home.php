@@ -88,8 +88,8 @@
 								$titletext = get_the_title();
 								$thumbnail = get_thumbnail($width,$height,'multi-media-image',$titletext,$titletext,true,'Media');
 								$thumb = $thumbnail["thumb"];
-								$et_medialink = get_post_meta($post->ID,'et_medialink',true) ? get_post_meta($post->ID,'et_medialink',true) : '';
-								$et_videolink = get_post_meta($post->ID,'et_videolink',true) ? get_post_meta($post->ID,'et_videolink',true) : '';
+								$et_medialink = get_permalink($post->ID);
+								$et_videolink = '';
 								$et_media_description = get_post_meta($post->ID,'et_media_description',true) ? get_post_meta($post->ID,'et_media_description',true) : truncate_post(90,false);
 							?>
 							<?php if ( $media_current_post == 1 || ($media_current_post - 1) % 7 == 0 ) { 
@@ -111,7 +111,6 @@
 											<a href="<?php echo esc_attr($thumbnail["fullpath"]); ?>" rel="media" class="fancybox" title="<?php echo esc_attr($titletext); ?>">
 										<?php } ?>
 												<?php print_thumbnail($thumb, $thumbnail["use_timthumb"], $titletext, $width, $height, 'multi-media-image'); ?>
-												<span class="more"></span>
 											</a>
 										<div class="media-description">
 											<p><?php echo $et_media_description; ?></p>
