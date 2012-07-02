@@ -1,9 +1,11 @@
 # This file uses the following encoding: utf-8
 
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.utils.timezone import get_default_timezone as tz
 from telefab.local_settings import WEBSITE_CONFIG
+from telefab.settings import ANIMATORS_GROUP_NAME
 
 class UserProfile(models.Model):
 	"""
@@ -43,7 +45,7 @@ class Event(models.Model):
 	category = models.IntegerField(verbose_name = u"type", choices = EVENT_CATEGORIES, default = 0)
 	title = models.CharField(verbose_name = u"titre", max_length = 50, blank = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
-	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True)
+	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
 	link = models.CharField(verbose_name=u"lien", max_length = 200, blank=True)
 	
 	def category_id(self):

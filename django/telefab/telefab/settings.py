@@ -140,3 +140,6 @@ LOGGING = {
 
 # Profile to extend the User model
 AUTH_PROFILE_MODULE = "main.UserProfile"
+
+# Site-specific settings
+ANIMATORS_GROUP_NAME = "Animateurs"
