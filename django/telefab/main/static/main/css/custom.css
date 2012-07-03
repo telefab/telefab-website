@@ -82,15 +82,12 @@ body {
 }
 
 #content table.calendar td.active {
-	border-style: none;
+	border-top-style: none;
+	border-bottom-style: none;
 }
 
 #content table.calendar td.active0 {
 	font-weight: bold;
-}
-
-#content table.calendar td.active {
-	border-style: none;
 }
 
 #content table.calendar td.open {
