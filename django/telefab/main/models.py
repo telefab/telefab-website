@@ -39,9 +39,10 @@ class Event(models.Model):
 	end_time = models.DateTimeField(verbose_name = u"fin")
 	EVENT_CATEGORIES = (
 		(0, u"Ouverture"),
-		(1, u"Atelier")
+		(1, u"Atelier"),
+		(2, u"Discussion")
 	)
-	EVENT_CATEGORY_IDS = ['open', 'session']
+	EVENT_CATEGORY_IDS = ['open', 'session', 'talk']
 	category = models.IntegerField(verbose_name = u"type", choices = EVENT_CATEGORIES, default = 0)
 	title = models.CharField(verbose_name = u"titre", max_length = 50, blank = True)
 	description = models.TextField(verbose_name = u"description", blank = True)

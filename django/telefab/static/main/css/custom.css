@@ -101,6 +101,10 @@ body {
 	background-color: #00ABB8;
 }
 
+#content table.calendar td.talk {
+	background-color: #DD00EE;
+}
+
 #content table.calendar td .title {
 	cursor: default;
 	border-bottom: 1px dotted #1D1D1D;
