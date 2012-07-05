@@ -82,7 +82,7 @@ def show_events(request, year=None, month=None, day=None):
 				tests = 0
 				for event in events:
 					tests = tests + 1
-					if event.start_time <= cell_end_time and event.end_time >= cell_start_time:
+					if event.start_time < cell_end_time and event.end_time > cell_start_time:
 						day_data['event'] = event
 						if event in event_data:
 							day_data['cell_index'] = event_data[event] + 1
@@ -104,12 +104,15 @@ def ical_events(request):
 	Next 50 events in ical format
 	"""
 	calendar = iCalendar()
+	calendar.add("name").value = u"Téléfab"
 	for event in Event.objects.filter(end_time__gte=datetime.now()).order_by('start_time')[0:50]:
 		ical_ev = calendar.add("vevent")
 		ical_ev.add("uid").value = "EVENT" + str(event.id) + "@" + WEBSITE_CONFIG["host"]
 		ical_ev.add("dtstart").value = event.start_time
 		ical_ev.add("dtend").value = event.end_time
 		ical_ev.add("summary").value = event.global_title()
+		ical_ev.add("categories").value = [event.category_name()]
+		ical_ev.add("location").value = event.location
 		if event.description:
 			ical_ev.add("description").value = event.description
 		for animator in event.animators.all():

@@ -67,10 +67,14 @@
 								{% if day_data.event.link %}
 									<p><a href="{{day_data.event.link }}" target="_blank">
 										En savoir plus &raquo;
-									</a></p>{% endif %}
+									</a></p>
+								{% endif %}
 								{% if day_data.event.animators.count > 0 %}
 									<p class="animators"><span>Animateur{{day_data.event.animators.count|pluralize:"s"}} :</span> {{day_data.event.animators_list}}</p>
 								{% endif %}
+								<p class="location">
+									<span>Lieu :</span> {{day_data.event.location}}
+								</p>
 							</div>
 							<!-- Event title -->
 							<span class="title">{% if day_data.event.link %}<a href="{{day_data.event.link }}" target="_blank">{% endif %}

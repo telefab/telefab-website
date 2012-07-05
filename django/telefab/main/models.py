@@ -44,10 +44,11 @@ class Event(models.Model):
 	)
 	EVENT_CATEGORY_IDS = ['open', 'session', 'talk']
 	category = models.IntegerField(verbose_name = u"type", choices = EVENT_CATEGORIES, default = 0)
+	location = models.CharField(verbose_name=u"lieu", max_length = 25, default = u"Téléfab Brest")
 	title = models.CharField(verbose_name = u"titre", max_length = 50, blank = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
-	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
 	link = models.CharField(verbose_name=u"lien", max_length = 200, blank=True)
+	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
 	
 	def category_id(self):
 		"""

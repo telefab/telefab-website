@@ -157,11 +157,7 @@ body {
 	padding: 0;
 }
 
-#content table.calendar td .tooltip p.animators {
-	text-align: right;
-}
-
-#content table.calendar td .tooltip p.animators span {
+#content table.calendar td .tooltip p.animators span, #content table.calendar td .tooltip p.location span {
 	font-weight: bold;
 }
 
