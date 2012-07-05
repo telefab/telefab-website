@@ -3,13 +3,6 @@
  * for the django app
  */
 
-/* Page layout */
-
-body {
-	background-image: url(/wp-content/themes/Chameleon/images/body-bg13.png);
-	background-color: #303030;
-}
-
 /* Calendar */
 
 #content table.calendar {
@@ -42,7 +35,7 @@ body {
 }
 
 #content table.calendar tr.days th.current {
-	color: #427D8B;
+	color: #7d7d0f;
 }
 
 #content table.calendar span.day {
