@@ -26,3 +26,10 @@ class EventAdmin(admin.ModelAdmin):
 	date_hierarchy = 'start_time'
 	filter_horizontal = ('animators',)
 admin.site.register(Event, EventAdmin)
+
+# Equipments administration
+class EquipmentAdmin(admin.ModelAdmin):
+	model = Equipment
+	list_display =('name', 'quantity')
+	search_fields = ('name', 'description')
+admin.site.register(Equipment, EquipmentAdmin)

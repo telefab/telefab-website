@@ -121,3 +121,15 @@ def ical_events(request):
 			ical_ev.add("url").value = event.absolute_link()
 	return HttpResponse(calendar.serialize(), mimetype="text/calendar")
 
+# Equipments
+
+def show_equipments(request):
+	"""
+	Show a list of equipments available in the FabLab
+	"""
+	equipments = Equipment.objects.filter(quantity__gt = 0)
+	# Render
+	template_data = {
+		'equipments': equipments,
+	}
+	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))

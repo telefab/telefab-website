@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.utils.timezone import get_default_timezone as tz
 from telefab.local_settings import WEBSITE_CONFIG
 from telefab.settings import ANIMATORS_GROUP_NAME
+from django.core.urlresolvers import reverse
 
 class UserProfile(models.Model):
 	"""
@@ -101,7 +102,7 @@ class Event(models.Model):
 
 	def absolute_link(self):
 		"""
-		The absolute link (if easy to find)
+		The absolute information link (if easy to find)
 		"""
 		if self.link[0] == '/':
 			return WEBSITE_CONFIG["protocol"] + '://' + WEBSITE_CONFIG["host"] + WEBSITE_CONFIG["path"] + self.link
@@ -113,4 +114,33 @@ class Event(models.Model):
 		Returns a string representation
 		"""
 		return self.category_name() + u" du " + self.start_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M") + u" au " + self.end_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M")
+    
+	def get_absolute_url(self):
+		"""
+		Return the public URL to this object
+		"""
+		return reverse("main.views.show_events", kwargs={'day': self.start_time.astimezone(tz()).strftime(u"%d"), 'month': self.start_time.astimezone(tz()).strftime(u"%m"), 'year': self.start_time.astimezone(tz()).strftime(u"%Y")})
+
+class Equipment(models.Model):
+	"""
+	Represents equipment available in the FabLab
+	"""
+	class Meta:
+		verbose_name = u"équipement"
+		verbose_name_plural = u"matériel"
+
+	name = models.CharField(verbose_name = u"nom", max_length = 100)
+	description = models.TextField(verbose_name = u"description", blank = True)
+	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
 	
+	def __unicode__(self):
+		"""
+		Returns a string representation
+		"""
+		return self.name
+    
+	def get_absolute_url(self):
+		"""
+		Return the public URL to this object
+		"""
+		return reverse("main.views.show_equipments")

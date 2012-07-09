@@ -1,0 +1,31 @@
+{% extends "layout/default.html" %}
+{% block title %}
+	Matériel
+{% endblock %}
+{% block page_title %}
+	Matériel
+{% endblock %}
+{% block page_link %}
+	Matériel
+{% endblock %}
+{% block content %}
+	<div class="entry post clearfix">
+		<p>
+			Voici le matériel actuellement disponible au Téléfab :
+		</p>
+		<ul class="equipments">
+			{% for equipment in equipments %}
+				<li>
+					<h4>{{ equipment.name }}{% if equipment.quantity > 1 %} (x{{ equipment.quantity }}){% endif %}</h4>
+					<p>
+						{{ equipment.description }}
+					</p>
+				</li>
+			{% empty %}
+				<li class="empty">
+					Aucun matériel disponible pour le moment.
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}
