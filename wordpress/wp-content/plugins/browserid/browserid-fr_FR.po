@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Tristan Groléat <tristan@skillsum.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Verification void"
+msgstr "Vérification vide"
+
+msgid "Login failed"
+msgstr "Échec de connexion"
+
+msgid "Verification failed"
+msgstr "Échec de vérification"
+
+msgid "Verification invalid"
+msgstr "Vérification invalide"
+
+msgid "BrowserID"
+msgstr "Persona"
+
+msgid "Administration"
+msgstr "Administration"
+
+msgid "Logout"
+msgstr "Se déconnecter"
+
+msgid "Custom login HTML:"
+msgstr "HTML personnalisé de connexion :"
+
+msgid "Custom logout HTML:"
+msgstr "HTML personnalisé de déconnexion :"
+
+msgid "Login redirection URL:"
+msgstr "URL de redirection après connexion :"
+
+msgid "Default WordPress dashboard"
+msgstr "Panneau WordPress standard"
+
+msgid "Enable for comments:"
+msgstr "Activer pour les commentaires :"
+
+msgid "Enable bbPress integration:"
+msgstr "Activer l'intégration bbPress"
+
+msgid "Enables anonymous posting implicitly"
+msgstr "Active implicitement les commentaires anonymes"
+
+msgid "Custom comment HTML:"
+msgstr "HTML personnalisé pour commenter :"
+
+msgid "Verification server:"
+msgstr "Serveur de vérification :"
+
+msgid "Default https://browserid.org/verify"
+msgstr "Défaut https://browserid.org/verify"
+
+msgid "Do not check valid until time:"
+msgstr "Ne pas vérifier la date limite de validité :"
+
+msgid "Do not verify SSL certificate:"
+msgstr "Ne pas vérifier le certificat SSL :"
+
+msgid "Security risk!"
+msgstr "Risque de sécurité !"
+
+msgid "What is BrowserID?"
+msgstr "Qu'est-ce que Persona ?"
+
+msgid "Debug mode:"
+msgstr "Mode debug :"
+
