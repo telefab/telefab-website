@@ -10,16 +10,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Verification void"
-msgstr "Vérification vide"
+msgstr "V&eacute;rification vide"
 
 msgid "Login failed"
-msgstr "Échec de connexion"
+msgstr "&Eacute;chec de connexion"
 
 msgid "Verification failed"
-msgstr "Échec de vérification"
+msgstr "&Eacute;chec de v&eacute;rification"
 
 msgid "Verification invalid"
-msgstr "Vérification invalide"
+msgstr "V&eacute;rification invalide"
 
 msgid "BrowserID"
 msgstr "Persona"
@@ -28,16 +28,16 @@ msgid "Administration"
 msgstr "Administration"
 
 msgid "Logout"
-msgstr "Se déconnecter"
+msgstr "Se d&eacute;connecter"
 
 msgid "Custom login HTML:"
-msgstr "HTML personnalisé de connexion :"
+msgstr "HTML personnalis&eacute; de connexion :"
 
 msgid "Custom logout HTML:"
-msgstr "HTML personnalisé de déconnexion :"
+msgstr "HTML personnalis&eacute; de d&eacute;connexion :"
 
 msgid "Login redirection URL:"
-msgstr "URL de redirection après connexion :"
+msgstr "URL de redirection apr&egrave;s connexion :"
 
 msgid "Default WordPress dashboard"
 msgstr "Panneau WordPress standard"
@@ -46,28 +46,28 @@ msgid "Enable for comments:"
 msgstr "Activer pour les commentaires :"
 
 msgid "Enable bbPress integration:"
-msgstr "Activer l'intégration bbPress"
+msgstr "Activer l'int&eacute;gration bbPress"
 
 msgid "Enables anonymous posting implicitly"
 msgstr "Active implicitement les commentaires anonymes"
 
 msgid "Custom comment HTML:"
-msgstr "HTML personnalisé pour commenter :"
+msgstr "HTML personnalis&eacute; pour commenter :"
 
 msgid "Verification server:"
-msgstr "Serveur de vérification :"
+msgstr "Serveur de v&eacute;rification :"
 
 msgid "Default https://browserid.org/verify"
-msgstr "Défaut https://browserid.org/verify"
+msgstr "D&eacute;faut https://browserid.org/verify"
 
 msgid "Do not check valid until time:"
-msgstr "Ne pas vérifier la date limite de validité :"
+msgstr "Ne pas v&eacute;rifier la date limite de validit&eacute; :"
 
 msgid "Do not verify SSL certificate:"
-msgstr "Ne pas vérifier le certificat SSL :"
+msgstr "Ne pas v&eacute;rifier le certificat SSL :"
 
 msgid "Security risk!"
-msgstr "Risque de sécurité !"
+msgstr "Risque de s&eacute;curit&eacute; !"
 
 msgid "What is BrowserID?"
 msgstr "Qu'est-ce que Persona ?"
