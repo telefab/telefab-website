@@ -4,13 +4,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-02 17:47+0600\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Tristan Groléat <tristan@skillsum.com>\n"
-"Language-Team: Ann <anochka1985@gmail.com>\n"
+"Last-Translator: Tristan Groléat <twisterss@gmail.com>\n"
+"Language-Team: Tristan Groléat <twisterss@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: esc_html__;esc_html_e;esc_attr__;esc_attr_e\n"
 "X-Poedit-Basepath: .\n"
@@ -148,7 +148,7 @@ msgstr "Assurez-vous d'avoir entré le captcha."
 
 #: ../page-contact.php:22
 msgid "Numbers regenerated."
-msgstr "Nombres regénérés"
+msgstr "Nouveaux nombres générés."
 
 #: ../page-contact.php:23
 msgid "You entered the wrong number in captcha. "
@@ -156,7 +156,7 @@ msgstr "Vous avez entré le mauvais nombre dans le captcha."
 
 #: ../page-contact.php:32
 msgid "Make sure you fill all fields. "
-msgstr "Assurez-vous de remplir tous les champs."
+msgstr "Assurez-vous d'avoir rempli tous les champs."
 
 #: ../page-contact.php:37
 msgid "Invalid Email. "
@@ -180,7 +180,7 @@ msgstr "Sujet"
 
 #: ../page-contact.php:116
 msgid "Captcha: "
-msgstr "Captcha :"
+msgstr "Captcha :"
 
 #: ../page-contact.php:132
 msgid "Reset"
@@ -206,11 +206,11 @@ msgstr "Mot de passe"
 
 #: ../page-login.php:53
 msgid "Not a member?"
-msgstr "Pas encore membre ?"
+msgstr "Pas encore membre ?"
 
 #: ../page-login.php:53
 msgid "Register today!"
-msgstr "Enregistrez-vous maintenant !"
+msgstr "Enregistrez-vous maintenant !"
 
 #: ../page-search.php:46
 msgid "search this website"
