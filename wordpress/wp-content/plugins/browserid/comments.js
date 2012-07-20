@@ -1,5 +1,5 @@
 function browserid_comment(post_id) {
-	navigator.id.getVerifiedEmail(function(assertion) {
+	navigator.id.get(function(assertion) {
 		if (assertion) {
 			var form = jQuery('#browserid_' + post_id).closest('form');
 			form.append('<input type="hidden" name="browserid_comment" value="' + post_id + '" />');
@@ -8,6 +8,10 @@ function browserid_comment(post_id) {
 		}
 		else
 			alert(browserid_comments.browserid_failed);
+	},
+	{
+		siteName: browserid_comments.browserid_sitename || '',
+		siteLogo: browserid_comments.browserid_sitelogo || ''
 	});
 	return false;
 }

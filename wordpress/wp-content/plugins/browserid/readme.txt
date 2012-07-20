@@ -1,16 +1,16 @@
-=== Mozilla Persona ===
+=== Mozilla Persona (BrowserID) ===
 Contributors: Marcel Bokhorst, M66B
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=BrowserID%20WordPress%20plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: security, admin, authentication, access, widget, login, shortcode, comment, comments, discussion, bbPress, bbPress 2.0
 Requires at least: 3.1
 Tested up to: 3.4.1
-Stable tag: 0.29
+Stable tag: 0.32
 
-Implementation of Mozilla Persona for WordPress
+Implementation of Mozilla Persona (BrowserID) for WordPress
 
 == Description ==
 
-"*As a user of Mozilla Persona, you confirm your email addresses once. Then, you can sign into any web site that supports Mozilla Persona with just two clicks.*"
+"*As a user of Mozilla Persona (BrowserID), you confirm your email addresses once. Then, you can sign into any web site that supports Mozilla Persona with just two clicks.*"
 
 This plugin adds a Mozilla Persona login button as an additional way to login to your login page.
 There is also a widget, shortcode and template tag. It is possible to customize the login and logout button/link.
@@ -104,10 +104,7 @@ You can write comments on the [forum](http://forum.bokhorst.biz/).
 == Changelog ==
 
 = Development version =
-* Renamed Mozilla BrowserID into Mozilla Persona
-* New feature: site name/logo in login dialog
-* Both by [Shane Tomlinson](https://shanetomlinson.com/), thanks!
-* Updated Dutch and Flemish translations
+* ...
 
 Follow these steps to install the development version:
 
@@ -119,6 +116,17 @@ Follow these steps to install the development version:
 * Click *Upload* (a link at the top)
 * Click *Choose file* and select the file you downloaded before
 * Click *Install*, then *Activate Plugin*
+
+= 0.32 =
+* Fixed notices
+
+= 0.31 =
+* Renamed Mozilla BrowserID into Mozilla Persona
+* New feature: site name/logo in login dialog
+* Both by [Shane Tomlinson](https://shanetomlinson.com/), thanks!
+* Added French translation
+* Updated Dutch and Flemish translations
+* Tested with WordPress 3.4.1
 
 = 0.29 =
 * Added Swedish (sv\_SE) translation
@@ -247,6 +255,12 @@ Follow these steps to install the development version:
 * Development version
 
 == Upgrade Notice ==
+
+= 0.32 =
+Fixed notices
+
+= 0.31 =
+Renamed Mozilla BrowserID into Mozilla Persona
 
 = 0.29 =
 One improvement, one new translation

@@ -52,7 +52,7 @@ function ure_logEvent($message, $showMessage = false) {
 function ure_has_administrator_role($user_id) {
   global $wpdb, $ure_userToCheck;
 
-  if (!isset($user_id) || !$user_id) {
+  if (empty($user_id) || !is_numeric($user_id)) {
     return false;
   }
 

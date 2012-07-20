@@ -1,5 +1,5 @@
 function browserid_login() {
-	navigator.id.getVerifiedEmail(function(assertion) {
+	navigator.id.get(function(assertion) {
 		if (assertion) {
 			var rememberme = document.getElementById('rememberme');
 			if (rememberme != null)
@@ -29,6 +29,10 @@ function browserid_login() {
 		}
 		else
 			alert(browserid_text.browserid_failed);
+	},
+	{
+		siteName: browserid_text.browserid_sitename || '',
+		siteLogo: browserid_text.browserid_sitelogo || ''
 	});
 	return false;
 }
