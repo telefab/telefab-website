@@ -26,7 +26,11 @@ class UserProfile(models.Model):
 		if self.user.first_name:
 			return self.user.first_name
 		else:
-			return self.user.username
+			name = self.user.email.rsplit('@')[0].split('.')
+			cap_name = []
+			for word in name:
+				cap_name.append(word.capitalize())
+			return ' '.join(cap_name)
 
 class Event(models.Model):
 	"""

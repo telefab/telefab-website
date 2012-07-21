@@ -4,6 +4,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+	# Account
+	(r'^browserid/', include('django_browserid.urls')),
+	(r'^connexion', 'main.views.connection'),
 	# Events
 	url(r'^calendrier/$', 'main.views.show_events'),
 	url(r'^calendrier/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})$', 'main.views.show_events'),

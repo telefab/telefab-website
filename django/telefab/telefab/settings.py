@@ -1,11 +1,12 @@
 # Django settings for telefab project.
 
 from local_settings import *
+from browserid_settings import guess_username
 
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Tristan', 'tristan.groleat@telecom-bretagne.eu'),
 )
 
 MANAGERS = ADMINS
@@ -101,12 +102,27 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'django_browserid',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
 	'main',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'django_browserid.auth.BrowserIDBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.contrib.messages.context_processors.messages',
+    'django_browserid.context_processors.browserid_form',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -142,4 +158,18 @@ LOGGING = {
 AUTH_PROFILE_MODULE = "main.UserProfile"
 
 # Site-specific settings
+
+# URL used by browserid
+SITE_URL = WEBSITE_CONFIG['protocol'] + "://" + WEBSITE_CONFIG['host']
+
+# Path to redirect to on successful login.
+LOGIN_REDIRECT_URL = URL_ROOT + "connexion"
+
+# Path to redirect to on unsuccessful login attempt.
+LOGIN_REDIRECT_URL_FAILURE = URL_ROOT + "connexion"
+
+# Function to guess the user id from the browserid email
+BROWSERID_USERNAME_ALGO = guess_username
+
+# Name of the animators group in the DB (to create)
 ANIMATORS_GROUP_NAME = "Animateurs"

@@ -2,6 +2,7 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext, Context, Template
 from django.http import HttpResponse
+from django.core import urlresolvers
 from models import *
 from datetime import date, datetime, timedelta
 from django.utils.timezone import get_default_timezone as tz
@@ -133,3 +134,17 @@ def show_equipments(request):
 		'equipments': equipments,
 	}
 	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
+
+# Account
+
+def connection(request):
+	"""
+	Allows to register or log in
+	"""
+	if request.user.is_authenticated():
+		if request.user.is_staff:
+			return redirect(urlresolvers.reverse('admin:index'))
+		else:
+			return redirect("/")
+	else:
+		return render_to_response("account/connection.html", context_instance = RequestContext(request))

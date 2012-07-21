@@ -18,6 +18,8 @@ from telefab.local_settings import GLOBAL_ROOT
 
 # Add the library directory to the path
 sys.path.append(GLOBAL_ROOT + "../lib")
+# Add the application directory to the path
+sys.path.append(GLOBAL_ROOT)
 # Set the telefab settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "telefab.settings")
 

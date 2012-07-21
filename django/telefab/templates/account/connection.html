@@ -1,0 +1,29 @@
+{% extends "layout/default.html" %}
+{% load static %}
+{% block title %}
+	Se connecter
+{% endblock %}
+{% block page_title %}
+	Se connecter
+{% endblock %}
+{% block page_link %}
+	Se connecter
+{% endblock %}
+{% block content %}
+	<p>
+		Cliquez ci-dessous pour vous connecter. Si vous n'avez pas de compte, vous pourrez en créer un. Utilisez de préférence votre adresse Télécom Bretagne si vous en avez une. 
+	</p>
+	<p class="signin">
+		<a id="browserid" href="#"><img src="{% get_static_prefix %}main/img/sign_in_browserid.png" alt="Se connecter" /></a>
+	</p>
+	<form method="POST" action="{% url browserid_verify %}">
+	   {% csrf_token %}
+	   {{ browserid_form.as_p }}
+	</form>
+	<p>
+		Ce site utilise Persona.
+	</p>
+{% endblock %}
+{% block scripts %}
+	{{ browserid_form.media }}
+{% endblock %}
