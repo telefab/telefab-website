@@ -1,0 +1,44 @@
+{% extends "layout/lab.html" %}
+{% load static %}
+{% block title %}
+	Mon profil
+{% endblock %}
+{% block page_title %}
+	Mon profil
+{% endblock %}
+{% block lab_link %}
+	Mon profil
+{% endblock %}
+{% block content %}
+	<h2>Mes informations</h2>
+	{% if first_edit %}
+		<p class="msg_notice">
+			Avant de continuer, merci de renseigner ces informations :
+		</p>
+	{% endif %}
+	{% if just_saved %}
+		<p class="msg_confirm">
+			Les informations ont été enregistrées.
+		</p>
+	{% endif %}
+	<form method="POST" class="niceform" action="{% url main.views.profile %}">
+		{% csrf_token %}
+		{% if first_edit %}
+			<input type="hidden" name="first_edit" value="1" />
+		{% endif %}
+		<label for="first_name">Prénom :</label>
+		<input type="text" name="first_name" id="first_name" value="{{user.first_name}}" />
+		<label for="last_name">Nom :</label>
+		<input type="text" name="last_name" id="last_name" value="{{user.last_name}}" />
+		<input type="submit" value="Enregistrer" class="submit" />
+	</form>
+	{% if not first_edit %}
+		<h2>Mes identifiants</h2>
+		<p>
+			Pour changer votre mot de passe, rendez-vous sur <a href="https://login.persona.org/">Mozilla Persona</a>.
+		</p>
+		<p>
+			Attention, il n'est pas possible de changer votre adresse email ({{user.email}}) pour le moment. Contactez-nous si nécessaire.
+		</p>
+	{% endif %}
+{% endblock %}

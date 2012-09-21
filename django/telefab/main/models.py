@@ -24,7 +24,7 @@ class UserProfile(models.Model):
 		Returns a string representation
 		"""
 		if self.user.first_name:
-			return self.user.first_name
+			return self.user.first_name + u" " + self.user.last_name
 		else:
 			name = self.user.email.rsplit('@')[0].split('.')
 			cap_name = []
@@ -148,3 +148,77 @@ class Equipment(models.Model):
 		Return the public URL to this object
 		"""
 		return reverse("main.views.show_equipments")
+
+class Loan(models.Model):
+	"""
+	Represents a loan of some equipment
+	"""
+	class Meta:
+		verbose_name = u"prêt"
+		verbose_name_plural = u"prêts"
+
+	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", blank = True, null=True)
+	borrower_name = models.CharField(verbose_name = u"nom de l'emprunteur", max_length = 100, blank = True, null=True)
+	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan")
+	request_time = models.DateTimeField(verbose_name = u"date de la demande", blank = True, null=True)
+	loan_time = models.DateTimeField(verbose_name = u"date du prêt", blank = True, null=True)
+	scheduled_return_time = models.DateTimeField(verbose_name = u"date de retour programmée", blank = True, null=True)
+	return_time = models.DateTimeField(verbose_name = u"date de retour", blank = True, null=True)
+
+	def __unicode__(self):
+		"""
+		String representation of the loan
+		"""
+		return u"Emprunt par " + self.borrower_display()
+
+	def borrower_display(self):
+		"""
+		Name of the borrower to display
+		"""
+		if self.borrower:
+			return unicode(self.borrower.get_profile())
+		else:
+			return self.borrower_name
+	borrower_display.short_description = u"emprunteur"
+
+	def is_waiting(self):
+		"""
+		Is the loan requested and not given?
+		"""
+		return self.request_time is not None and self.loan_time is None
+	is_waiting.boolean = True
+	is_waiting.short_description = u"en attente"
+
+	def is_away(self):
+		"""
+		Is the equipment away?
+		"""
+		return self.loan_time is not None and self.return_time is None
+	is_away.boolean = True
+	is_away.short_description = u"prêt en cours"
+
+	def is_returned(self):
+		"""
+		Has the loan been returned?
+		"""
+		return self.return_time is not None
+	is_returned.boolean = True
+	is_returned.short_description = u"rendu"
+
+
+class EquipmentLoan(models.Model):
+	"""
+	Binds an equipment to a loan. Includes the number of pieces loaned
+	"""
+	class Meta:
+		verbose_name = "équipement"
+		verbose_name_plural = "matériel"
+	equipment = models.ForeignKey(Equipment, verbose_name = u"équipement")
+	loan = models.ForeignKey(Loan)
+	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
+
+	def __unicode__(self):
+		"""
+		String representation of the equipment loan
+		"""
+		return unicode(self.equipment)

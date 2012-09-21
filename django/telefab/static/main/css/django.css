@@ -3,6 +3,28 @@
  * for the django app
  */
 
+/* Context menu */
+#context_menu {
+	float: right;
+	padding-right: 48px;
+}
+
+/* Nice forms */
+
+.niceform {
+	margin-bottom: 20px;
+}
+
+.niceform label {
+	diplay: block;
+	float: left;
+	width: 200px;
+}
+
+.niceform input {
+	display: block;
+}
+
 /* Calendar */
 
 #content table.calendar {

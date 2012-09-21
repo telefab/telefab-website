@@ -6,6 +6,8 @@ from django.core import urlresolvers
 from models import *
 from datetime import date, datetime, timedelta
 from django.utils.timezone import get_default_timezone as tz
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from vobject import iCalendar
 from telefab.local_settings import WEBSITE_CONFIG
 
@@ -135,16 +137,66 @@ def show_equipments(request):
 	}
 	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
 
+def request_loan(request):
+	"""
+	Allows users to request a loan
+	"""
+	return render_to_response("equipments/request_loan.html", context_instance = RequestContext(request))
+
+
 # Account
+
+@login_required
+def welcome(request):
+	"""
+	Welcome page of the lab
+	"""
+	# If the user has not filled its profile: ask (only once)
+	if (not request.user.first_name or not request.user.last_name) and not request.session.get("already_welcome", False):
+		request.session["already_welcome"] = True
+		return redirect(urlresolvers.reverse('main.views.profile') + "?first_edit=1")
+	return render_to_response("account/welcome.html", context_instance = RequestContext(request))
 
 def connection(request):
 	"""
 	Allows to register or log in
 	"""
 	if request.user.is_authenticated():
-		if request.user.is_staff:
-			return redirect(urlresolvers.reverse('admin:index'))
-		else:
-			return redirect("/")
+		return redirect(urlresolvers.reverse('main.views.welcome'))
 	else:
-		return render_to_response("account/connection.html", context_instance = RequestContext(request))
+		template_data = {
+			'next': request.REQUEST.get('next', '')
+		}
+		return render_to_response("account/connection.html", template_data, context_instance = RequestContext(request))
+
+def disconnect(request):
+	"""
+	Log the user out
+	"""
+	logout(request)
+	return render_to_response("account/disconnect.html", context_instance = RequestContext(request))
+
+@login_required
+def profile(request):
+	"""
+	Modify the user profile
+	"""
+	# Did the user get sent here automatically at login?
+	first_edit = request.REQUEST.get('first_edit', False)
+	# Get data if any
+	first_name = request.POST.get('first_name', None)
+	last_name = request.POST.get('last_name', None)
+	just_saved = False
+	if first_name is not None and last_name is not None :
+		request.user.first_name = first_name
+		request.user.last_name = last_name
+		request.user.save()
+		just_saved = True
+		if first_edit:
+			# Go home if first time
+			return redirect(urlresolvers.reverse('main.views.welcome'))
+	template_data = {
+		'first_edit': first_edit,
+		'just_saved': just_saved
+	}
+	return render_to_response("account/profile.html", template_data, context_instance = RequestContext(request))

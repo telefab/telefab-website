@@ -33,3 +33,14 @@ class EquipmentAdmin(admin.ModelAdmin):
 	list_display =('name', 'quantity')
 	search_fields = ('name', 'description')
 admin.site.register(Equipment, EquipmentAdmin)
+
+# EquipmentLoan inline administration (equipment in loans)
+class EquipmentLoanAdmin(admin.TabularInline):
+	model = EquipmentLoan
+
+# Loan administration
+class LoanAdmin(admin.ModelAdmin):
+	model = Loan
+	list_display = ('borrower_display', 'is_waiting', 'is_away', 'is_returned')
+	inlines = [EquipmentLoanAdmin,]
+admin.site.register(Loan, LoanAdmin)

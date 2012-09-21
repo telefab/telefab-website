@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, include
 
 from django.contrib import admin
 admin.autodiscover()
@@ -6,13 +6,17 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	# Account
 	(r'^browserid/', include('django_browserid.urls')),
-	(r'^connexion', 'main.views.connection'),
+	(r'^$', 'main.views.welcome'),
+	(r'^connexion$', 'main.views.connection'),
+	(r'^deconnexion$', 'main.views.disconnect'),
+	(r'^profil$', 'main.views.profile'),
 	# Events
-	url(r'^calendrier/$', 'main.views.show_events'),
-	url(r'^calendrier/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})$', 'main.views.show_events'),
-	url(r'^calendrier/ical/$', 'main.views.ical_events'),
+	(r'^calendrier/$', 'main.views.show_events'),
+	(r'^calendrier/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})$', 'main.views.show_events'),
+	(r'^calendrier/ical/$', 'main.views.ical_events'),
 	# Equipments
-	url(r'^materiel/$', 'main.views.show_equipments'),
+	(r'^materiel$', 'main.views.show_equipments'),
+	(r'^materiel/demande_pret$', 'main.views.request_loan'),
     # Administration
-    url(r'^admin/', include(admin.site.urls)),
+    (r'^admin/', include(admin.site.urls)),
 )

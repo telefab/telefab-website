@@ -162,8 +162,11 @@ AUTH_PROFILE_MODULE = "main.UserProfile"
 # URL used by browserid
 SITE_URL = WEBSITE_CONFIG['protocol'] + "://" + WEBSITE_CONFIG['host']
 
+# URL to log in
+LOGIN_URL = URL_ROOT + 'connexion'
+
 # Path to redirect to on successful login.
-LOGIN_REDIRECT_URL = URL_ROOT + "connexion"
+LOGIN_REDIRECT_URL = URL_ROOT
 
 # Path to redirect to on unsuccessful login attempt.
 LOGIN_REDIRECT_URL_FAILURE = URL_ROOT + "connexion"

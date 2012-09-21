@@ -1,0 +1,22 @@
+{% extends "layout/lab.html" %}
+{% load static %}
+{% block title %}
+	Mon lab
+{% endblock %}
+{% block page_title %}
+	Mon lab
+{% endblock %}
+{% block lab_link %}
+	Bienvenue
+{% endblock %}
+{% block content %}
+	<h2>Mon compte</h2>
+	<ul>
+		<li><a href="{% url main.views.profile %}">Mon profil</a></li>
+		<li><a href="{% url main.views.disconnect %}">Se déconnecter</a></li>
+	</ul>
+	<h2>Matériel</h2>
+	<ul>
+		<li><a href="{% url main.views.request_loan %}">Demander un prêt</a></li>
+	</ul>
+{% endblock %}
