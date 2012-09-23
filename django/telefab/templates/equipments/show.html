@@ -16,7 +16,7 @@
 		<ul class="equipments">
 			{% for equipment in equipments %}
 				<li>
-					<h4>{{ equipment.name }}{% if equipment.quantity > 1 %} (x{{ equipment.quantity }}){% endif %}</h4>
+					<h4>{{ equipment.name|capfirst }}{% if equipment.quantity > 1 %} (x{{ equipment.quantity }}){% endif %}</h4>
 					<p>
 						{{ equipment.description }}
 					</p>
