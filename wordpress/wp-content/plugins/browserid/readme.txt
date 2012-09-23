@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB
 Tags: security, admin, authentication, access, widget, login, shortcode, comment, comments, discussion, bbPress, bbPress 2.0
 Requires at least: 3.1
 Tested up to: 3.4.1
-Stable tag: 0.32
+Stable tag: 0.33
 
 Implementation of Mozilla Persona (BrowserID) for WordPress
 
@@ -117,8 +117,13 @@ Follow these steps to install the development version:
 * Click *Choose file* and select the file you downloaded before
 * Click *Install*, then *Activate Plugin*
 
+= 0.33 =
+* Updated URL to verification server
+* Updated Mozilla CA certificates
+
 = 0.32 =
 * Fixed notices
+* Updated French translation
 
 = 0.31 =
 * Renamed Mozilla BrowserID into Mozilla Persona
@@ -135,7 +140,7 @@ Follow these steps to install the development version:
 
 = 0.28 =
 * Improvement: POST assertion by *Marvin Rühe*
-* Improvement: included Firefox CA certificates
+* Improvement: included Mozilla CA certificates
 * Improvement: included BrowserID logo
 * New feature: login button localization
 * Added German Translation by *Marvin Rühe*
@@ -255,6 +260,9 @@ Follow these steps to install the development version:
 * Development version
 
 == Upgrade Notice ==
+
+= 0.33 =
+Updated URL to verification server
 
 = 0.32 =
 Fixed notices

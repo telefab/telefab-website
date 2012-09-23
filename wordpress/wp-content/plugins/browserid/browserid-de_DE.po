@@ -57,8 +57,8 @@ msgstr "Benutzerdefiniertes Kommentar HTML:"
 msgid "Verification server:"
 msgstr "Best&auml;tigungs Server:"
 
-msgid "Default https://login.persona.org/verify"
-msgstr "Standard https://login.persona.org/verify"
+msgid "Default https://verifier.login.persona.org/verify"
+msgstr "Standard https://verifier.login.persona.org/verify"
 
 msgid "Do not check valid until time:"
 msgstr "Nicht kontrollieren Ablaufzeit:"

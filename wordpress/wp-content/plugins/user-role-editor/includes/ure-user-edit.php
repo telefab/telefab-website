@@ -102,25 +102,81 @@ $roleSelectHTML .= '</select>';
 
   <br/><br/><hr/>  
   <h3><?php _e('Add capabilities to this user:', 'ure'); ?></h3>
+	<?php _e('Core capabilities:', 'ure'); ?>
   <table class="form-table" style="clear:none;" cellpadding="0" cellspacing="0">
     <tr>
       <td style="vertical-align:top;">
 <?php
-        $deprecatedCaps = ure_get_deprecated_caps();
-        $quant = count($ure_fullCapabilities);
+  $deprecatedCaps = ure_get_deprecated_caps();
+	$quant = count($built_in_wp_caps);
+	$quantInColumn = 22;
+	$printed_quant = 0;
+	foreach ( $ure_fullCapabilities as $capability ) {
+		if ( !$capability['wp_core'] ) { // show WP built-in capabilities 1st
+			continue;
+		}
+		if (!$ure_show_deprecated_caps && isset($deprecatedCaps[$capability['inner']])) {
+			$input_type = 'hidden';
+		} else {
+			$input_type = 'checkbox';
+		}
+		if (isset($deprecatedCaps[$capability['inner']])) {
+			$labelStyle = 'style="color:#BBBBBB;"';
+		} else {
+			$labelStyle = '';
+		}
+		$checked = '';
+		$disabled = '';
+		if (isset($ure_roles[$ure_currentRole]['capabilities'][$capability['inner']])) {
+			$checked = 'checked="checked"';
+			$disabled = 'disabled="disabled"';
+		} else if (isset($ure_userToEdit->caps[$capability['inner']])) {
+			$checked = 'checked="checked"';
+		}
+		$cap_id = str_replace(' ', URE_SPACE_REPLACER, $capability['inner']);
+		?>
+		          <input type="<?php echo $input_type; ?>" name="<?php echo $cap_id; ?>" id="<?php echo $cap_id; ?>" value="<?php echo $capability['inner']; ?>" <?php echo $checked; ?> <?php echo $disabled; ?>/>
+		<?php
+		if ($input_type == 'checkbox') {
+			if ($ure_caps_readable) {
+				$capInd = 'human';
+				$capIndAlt = 'inner';
+			} else {
+				$capInd = 'inner';
+				$capIndAlt = 'human';
+			}
+			?>
+				          <label for="<?php echo $cap_id; ?>" title="<?php echo $capability[$capIndAlt]; ?>" <?php echo $labelStyle; ?> ><?php echo $capability[$capInd]; ?></label> <?php echo ure_capability_help_link($capability['inner']); ?><br/>
+			<?php
+			$printed_quant++;
+		}
+		if ( $printed_quant >= $quantInColumn ) {
+			$printed_quant = 0;
+			echo '</td>
+           <td style="vertical-align:top;">';
+		}
+	}
+	?>
+      </td>
+    </tr>
+  </table>
+  <hr/>
+<?php 
+	$quant = count($ure_fullCapabilities) - $quant;
+	if ($quant>0) {
+		_e('Custom capabilities:', 'ure'); 
+?>
+  <table class="form-table" style="clear:none;" cellpadding="0" cellspacing="0">
+    <tr>
+      <td style="vertical-align:top;">
+<?php
+        
         $quantInColumn = (int) $quant / 3;
-        $quantInCell = 0;
+        $printed_quant = 0;				
         foreach ($ure_fullCapabilities as $capability) {
-          if (!$ure_show_deprecated_caps && isset($deprecatedCaps[$capability['inner']])) {
-            $input_type = 'hidden';        
-          } else {
-            $input_type = 'checkbox';
-          }
-          if (isset($deprecatedCaps[$capability['inner']])) {
-            $labelStyle = 'style="color:#BBBBBB;"';
-          } else {
-            $labelStyle = '';
-          }
+					if ( $capability['wp_core'] ) {  // show plugins or user added capabilities
+						continue;
+					}
           $checked = ''; $disabled = '';
           if (isset($ure_roles[$ure_currentRole]['capabilities'][$capability['inner']])) {
             $checked = 'checked="checked"';
@@ -130,7 +186,7 @@ $roleSelectHTML .= '</select>';
           }
           $cap_id = str_replace(' ', URE_SPACE_REPLACER, $capability['inner']);
 ?>
-          <input type="<?php echo $input_type;?>" name="<?php echo $cap_id; ?>" id="<?php echo $cap_id; ?>" value="<?php echo $capability['inner']; ?>" <?php echo $checked; ?> <?php echo $disabled; ?>/>
+          <input type="checkbox" name="<?php echo $cap_id; ?>" id="<?php echo $cap_id; ?>" value="<?php echo $capability['inner']; ?>" <?php echo $checked; ?> <?php echo $disabled; ?>/>
 <?php
         if ($input_type=='checkbox') {
           if ($ure_caps_readable) {
@@ -141,12 +197,12 @@ $roleSelectHTML .= '</select>';
             $capIndAlt = 'human';
           }
         ?>
-          <label for="<?php echo $cap_id; ?>" title="<?php echo $capability[$capIndAlt]; ?>" <?php echo $labelStyle;?> ><?php echo $capability[$capInd]; ?></label> <?php echo ure_capability_help_link($capability['inner']); ?><br/>
+          <label for="<?php echo $cap_id; ?>" title="<?php echo $capability[$capIndAlt]; ?>" ><?php echo $capability[$capInd]; ?></label> <?php echo ure_capability_help_link($capability['inner']); ?><br/>
 <?php            
-          $quantInCell++;
+          $printed_quant++;
         }
-          if ($quantInCell >= $quantInColumn) {
-            $quantInCell = 0;
+          if ( $printed_quant >= $quantInColumn ) {
+            $printed_quant = 0;
             echo '</td>
            <td style="vertical-align:top;">';
           }
@@ -154,8 +210,11 @@ $roleSelectHTML .= '</select>';
         ?>
       </td>
     </tr>
-  </table>
-  <hr/>
+  </table>	
+	<hr/>
+<?php
+	}  // if ($quant>0)
+?>
   <input type="hidden" name="object" value="user" />
   <input type="hidden" name="user_id" value="<?php echo $ure_userToEdit->ID; ?>" />
   <div class="submit" style="padding-top: 0px;">

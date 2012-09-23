@@ -3,7 +3,7 @@
 Plugin Name: Mozilla Persona
 Plugin URI: http://wordpress.org/extend/plugins/browserid/
 Description: Mozilla Persona, the safest & easiest way to sign in
-Version: 0.32
+Version: 0.33
 Author: Marcel Bokhorst
 Author URI: http://blog.bokhorst.biz/about/
 */
@@ -146,7 +146,7 @@ if (!class_exists('M66BrowserID')) {
 				if (isset($options['browserid_vserver']) && $options['browserid_vserver'])
 					$vserver = $options['browserid_vserver'];
 				else
-					$vserver = 'https://login.persona.org/verify';
+					$vserver = 'https://verifier.login.persona.org/verify';
 
 				// No SSL verify?
 				$noverify = (isset($options['browserid_noverify']) && $options['browserid_noverify']);
@@ -213,8 +213,7 @@ if (!class_exists('M66BrowserID')) {
 							self::Handle_error($message);
 					}
 					else if ($result['status'] == 'okay' &&
-							$result['audience'] == $audience &&
-							$result['issuer'] == parse_url($vserver, PHP_URL_HOST)) {
+							$result['audience'] == $audience) {
 						// Check expiry time
 						$novalid = (isset($options['browserid_novalid']) && $options['browserid_novalid']);
 						if ($novalid || time() < $result['expires'] / 1000)
@@ -605,7 +604,7 @@ if (!class_exists('M66BrowserID')) {
 			if (empty($options['browserid_vserver']))
 				$options['browserid_vserver'] = null;
 			echo "<input id='browserid_vserver' name='browserid_options[browserid_vserver]' type='text' size='100' value='{$options['browserid_vserver']}' />";
-			echo '<br />' . __('Default https://login.persona.org/verify', c_bid_text_domain);
+			echo '<br />' . __('Default https://verifier.login.persona.org/verify', c_bid_text_domain);
 		}
 
 		// No valid until option

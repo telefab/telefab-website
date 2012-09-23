@@ -10,17 +10,6 @@ if (!function_exists("get_option")) {
   die;  // Silence is golden, direct call is prohibited
 }
 
-$ure_siteURL = get_site_url();
-$urePluginDirName = substr(strrchr(dirname(__FILE__), DIRECTORY_SEPARATOR), 1);
-
-define('URE_PLUGIN_URL', WP_PLUGIN_URL.'/'.$urePluginDirName);
-define('URE_PLUGIN_DIR', WP_PLUGIN_DIR.'/'.$urePluginDirName);
-define('URE_WP_ADMIN_URL', $ure_siteURL.'/wp-admin');
-define('URE_ERROR', 'Error is encountered');
-define('URE_SPACE_REPLACER', '_URE-SR_');
-define('URE_PARENT', 'users.php');
-define('URE_KEY_CAPABILITY', 'administrator');
-
 $ure_roles = false; $ure_capabilitiesToSave = false; 
 $ure_currentRole = false; $ure_currentRoleName = false;
 $ure_toldAboutBackup = false; $ure_apply_to_all = false; 
@@ -131,17 +120,17 @@ function ure_showMessage($message) {
 
 
 function ure_getUserRoles() {
-  global $wp_roles;
+  global $wp_roles, $wp_user_roles;
 
-  if (!isset($wp_roles)) {
-    $wp_roles = new WP_Roles();
-  } 
+	$wp_user_roles = null;  // do not take values from cache, force WP to retrieve roles from DB
+	$wp_roles = null;
+  $wp_roles = new WP_Roles();
   
   $ure_roles = $wp_roles->roles;
   if (is_array($ure_roles)) {
     asort($ure_roles);
   }
-  
+  	
   return $ure_roles;
 }
 // end of ure_getUserRoles()
@@ -241,18 +230,10 @@ function ure_saveRolesToDb() {
   }
   $ure_roles[$ure_currentRole]['capabilities'] = $ure_capabilitiesToSave;
   $option_name = $wpdb->prefix.'user_roles';
-  $serialized_roles = serialize($ure_roles);
-  $query = "update $wpdb->options
-                set option_value='$serialized_roles'
-                where option_name='$option_name'
-                limit 1";
-  $record = $wpdb->query($query);
-  if ($wpdb->last_error) {
-    ure_logEvent($wpdb->last_error, true);
-    return false;
-  }
-
-  return true;
+  
+  $result = update_option($option_name, $ure_roles);
+  
+  return $result;
 }
 // end of saveRolesToDb()
 
@@ -278,6 +259,9 @@ function ure_direct_site_roles_update($blogIds) {
       ure_logEvent($wpdb->last_error, true);
       return false;
     }
+    if ($record==0) {
+     return false;
+    }
   }
   
 }
@@ -290,7 +274,7 @@ function ure_updateRoles() {
   $ure_toldAboutBackup = false;
   if (is_multisite() && is_super_admin() && $ure_apply_to_all) {  // update Role for the all blogs/sites in the network (permitted to superadmin only)
     
-    if (defined('WP_DEBUG') && WP_DEBUG==1) {
+    if (defined('URE_DEBUG') && URE_DEBUG) {
      $time_shot = microtime();
     }
     
@@ -304,6 +288,7 @@ function ure_updateRoles() {
         switch_to_blog($blog_id);
         $ure_roles = ure_getUserRoles();
         if (!$ure_roles) {
+          echo '<div class="error fade below-h2">'.URE_ERROR.'</div>';
           return false;
         }
         if (!ure_saveRolesToDb()) {
@@ -311,12 +296,11 @@ function ure_updateRoles() {
         }
       }
       switch_to_blog($old_blog);
-      $ure_roles = ure_getUserRoles();
-            
+      $ure_roles = ure_getUserRoles();            
     }
   
-    if (defined('WP_DEBUG') && WP_DEBUG==1) {
-      echo '<div class="updated fade below-h2">Roles updated for '.(microtime()-$time_shot).' milliseconds</div>';
+    if (defined('URE_DEBUG') && URE_DEBUG) {
+      echo '<div class="updated fade below-h2">Roles updated for '.( microtime() - $time_shot ).' milliseconds</div>';
     }
     
   } else {
@@ -893,6 +877,9 @@ function ure_capability_help_link($capability) {
       break;                
     case 'moderate_comments':
       $url = 'http://www.shinephp.com/moderate_comments-wordpress-user-capability/';
+      break;    
+    case 'update_core':
+      $url = 'http://www.shinephp.com/update_core-capability-for-wordpress-user/';
       break;    
     default:
       $url = '';

@@ -3,7 +3,7 @@
 Plugin Name: User Role Editor
 Plugin URI: http://www.shinephp.com/user-role-editor-wordpress-plugin/
 Description: It allows you to change/add/delete any WordPress user role (except administrator) capabilities list with a few clicks.
-Version: 3.7.2
+Version: 3.8
 Author: Vladimir Garagulya
 Author URI: http://www.shinephp.com
 Text Domain: ure
@@ -41,7 +41,18 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
 	return ($exit_msg);
 }
 
-require_once('ure-lib.php');
+$ure_siteURL = get_site_url();
+$urePluginDirName = substr(strrchr(dirname(__FILE__), DIRECTORY_SEPARATOR), 1);
+
+define('URE_PLUGIN_URL', WP_PLUGIN_URL.'/'.$urePluginDirName);
+define('URE_PLUGIN_DIR', WP_PLUGIN_DIR.'/'.$urePluginDirName);
+define('URE_WP_ADMIN_URL', $ure_siteURL.'/wp-admin');
+define('URE_ERROR', 'Error is encountered');
+define('URE_SPACE_REPLACER', '_URE-SR_');
+define('URE_PARENT', 'users.php');
+define('URE_KEY_CAPABILITY', 'administrator');
+
+require_once('includes/ure-lib.php');
 
 load_plugin_textdomain('ure','', $urePluginDirName.'/lang');
 
@@ -69,7 +80,7 @@ function ure_optionsPage() {
 <div class="wrap">
   <div class="icon32" id="icon-options-general"><br/></div>
     <h2><?php _e('User Role Editor', 'ure'); ?></h2>
-		<?php require ('ure-options.php'); ?>
+		<?php require_once('includes/ure-options.php'); ?>
   </div>
 <?php
 
@@ -237,7 +248,7 @@ function ure_settings_menu() {
         $keyCapability = 'manage_network_users';
       }
     }
-    $ure_page = add_submenu_page('users.php', __('User Role Editor'), __('User Role Editor'), $keyCapability, basename(__FILE__), 'ure_optionsPage');
+    $ure_page = add_submenu_page('users.php', __('User Role Editor', 'ure'), __('User Role Editor', 'ure'), $keyCapability, basename(__FILE__), 'ure_optionsPage');
     add_action("admin_print_styles-$ure_page", 'ure_adminCssAction');
   }
 
