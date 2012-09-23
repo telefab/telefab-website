@@ -1,3 +1,46 @@
+version 2.8 ( updated 9-5-2012 )
+- Updated shortcodes
+	* epanel/shortcodes folder
+	* functions.php
+	* page-login.php
+	* epanel/custom_functions.php
+	* epanel/options_chameleon.php
+	* js/et_flexslider.js
+- Bumped version number
+	* style.css
+
+version 2.7 ( updated 8-12-2012 )
+- Fixed Automattic slider animation
+	* js/et_flexslider.js
+- Fixed Adsense code in 468x60 area
+	* single.php
+- Fixed Colorization options issues
+	* epanel/options_chameleon.php
+- Fixed videos in lightbox in responsive mode:
+	* js/jquery.fitvids.js
+- Improved responsive images display
+- Fixed images with caption:
+	* css/responsive.css
+- Fixed Control panel issues:
+	* functions.php
+	* js/et_control_panel.js
+- Fixed viewport meta:
+	* functions.php
+- Fixed comments issue:
+	* js/custom.js
+- Fixed contact form labels localization
+	* page-contact.php
+	* epanel/page_templates/page_templates.css
+	* epanel/page_templates/js/et-ptemplates-frontend.js
+	* updated lang folder
+- Fixed logo title
+	* header.php
+- Fixed 'disable all postinfo items' issue
+	* includes/postinfo.php
+- Updated ePanel core files:
+	* epanel/core_functions.php
+	* epanel/custom_functions.php	
+
 version 2.6 ( updated 6-14-2012 )
 - Fixed WP 3.4 compatibility issues
         * epanel/js/custom_uploader.js

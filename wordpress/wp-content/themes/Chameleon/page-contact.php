@@ -19,7 +19,7 @@ Template Name: Contact Page
 			$et_error_message .= '<p>' . esc_html__('Make sure you entered the captcha. ','Chameleon') . '</p>';
 			$et_contact_error = true;
 		} else if ( $_POST['et_contact_captcha'] <> ( $_SESSION['et_first_digit'] + $_SESSION['et_second_digit'] ) ) {			
-			$et_numbers_string = $et_regenerate_numbers ? esc_html__('Numbers regenerated.') : '';
+			$et_numbers_string = $et_regenerate_numbers ? esc_html__('Numbers regenerated.','Chameleon') : '';
 			$et_error_message .= '<p>' . esc_html__('You entered the wrong number in captcha. ','Chameleon') . $et_numbers_string . '</p>';
 			
 			if ($et_regenerate_numbers) {
@@ -98,14 +98,17 @@ Template Name: Contact Page
 					<form action="<?php echo(get_permalink($post->ID)); ?>" method="post" id="et_contact_form">
 						<div id="et_contact_left">
 							<p class="clearfix">
+								<label for="et_contact_name" class="et_contact_form_label"><?php esc_html_e('Name','Chameleon'); ?></label>
 								<input type="text" name="et_contact_name" value="<?php if ( isset($_POST['et_contact_name']) ) echo esc_attr($_POST['et_contact_name']); else esc_attr_e('Name','Chameleon'); ?>" id="et_contact_name" class="input" />
 							</p>
 							
 							<p class="clearfix">
+								<label for="et_contact_email" class="et_contact_form_label"><?php esc_html_e('Email Address','Chameleon'); ?></label>
 								<input type="text" name="et_contact_email" value="<?php if ( isset($_POST['et_contact_email']) ) echo esc_attr($_POST['et_contact_email']); else esc_attr_e('Email Address','Chameleon'); ?>" id="et_contact_email" class="input" />
 							</p>
 							
 							<p class="clearfix">
+								<label for="et_contact_subject" class="et_contact_form_label"><?php esc_html_e('Subject','Chameleon'); ?></label>
 								<input type="text" name="et_contact_subject" value="<?php if ( isset($_POST['et_contact_subject']) ) echo esc_attr($_POST['et_contact_subject']); else esc_attr_e('Subject','Chameleon'); ?>" id="et_contact_subject" class="input" />
 							</p>
 						</div> <!-- #et_contact_left -->
@@ -124,7 +127,8 @@ Template Name: Contact Page
 						<div class="clear"></div>
 						
 						<p class="clearfix">
-							<textarea class="input" id="et_contact_message" name="et_contact_message"><?php if ( isset($_POST['et_contact_message']) ) echo esc_textarea($_POST['et_contact_message']); else echo esc_textarea('Message','Chameleon'); ?></textarea>
+							<label for="et_contact_message" class="et_contact_form_label"><?php esc_html_e('Message','Chameleon'); ?></label>
+							<textarea class="input" id="et_contact_message" name="et_contact_message"><?php if ( isset($_POST['et_contact_message']) ) echo esc_textarea($_POST['et_contact_message']); else echo esc_textarea( __('Message','Chameleon') ); ?></textarea>
 						</p>
 							
 						<input type="hidden" name="et_contactform_submit" value="et_contact_proccess" />

@@ -60,19 +60,13 @@ jQuery(document).ready(function() {
 		$et_inputs = $et_contact_form.find('input[type=text],textarea'),
 		et_email_reg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
 		et_contact_error = false,
-		form_default_values = new Array(),
 		$et_contact_message = jQuery('#et-contact-message'),
 		et_message = '';
-		
-		form_default_values['et_contact_name'] = 'Name';
-		form_default_values['et_contact_email'] = 'Email Address';
-		form_default_values['et_contact_subject'] = 'Subject';
-		form_default_values['et_contact_message'] = 'Message';
 			
 	$et_inputs.live('focus', function(){
-		if ( jQuery(this).val() === form_default_values[jQuery(this).attr('id')] ) jQuery(this).val("");
+		if ( jQuery(this).val() === jQuery(this).siblings('label').text() ) jQuery(this).val("");
 	}).live('blur', function(){
-		if (jQuery(this).val() === "") jQuery(this).val(form_default_values[jQuery(this).attr('id')]);
+		if (jQuery(this).val() === "") jQuery(this).val( jQuery(this).siblings('label').text() );
 	});
 	
 	$et_contact_form.live('submit', function() {
@@ -82,11 +76,11 @@ jQuery(document).ready(function() {
 		$et_inputs.removeClass('et_contact_error');
 		
 		$et_inputs.each(function(index, domEle){
-			if ( jQuery(domEle).val() === '' || jQuery(domEle).val() === form_default_values[jQuery(domEle).attr('id')] ) {
+			if ( jQuery(domEle).val() === '' || jQuery(domEle).val() === jQuery(this).siblings('label').text() ) {
 				jQuery(domEle).addClass('et_contact_error');
 				et_contact_error = true;
 				
-				var default_value = form_default_values[jQuery(domEle).attr('id')];
+				var default_value = jQuery(this).siblings('label').text();
 				if ( default_value === undefined ) default_value = 'Captcha';
 								
 				et_message += '<li>Fill ' + default_value + ' field</li>';

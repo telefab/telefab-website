@@ -60,34 +60,34 @@ $options = array (
 				   "id" => $shortname."_logo",
 				   "type" => "upload",
 				   "std" => "",
-				   "desc" => "desc."
+				   "desc" => "If you would like to use your own custom logo image click the Upload Image button."
 			),
 
 			array( "name" => "Favicon",
 				   "id" => $shortname."_favicon",
 				   "type" => "upload",
 				   "std" => "",
-				   "desc" => "desc."
+				   "desc" => "If you would like to use your own custom favicon image click the Upload Image button."
 			),
 		
 			array( "name" => "Background Color",
 				   "id" => $shortname."_bgcolor",
 				   "type" => "textcolorpopup",
 				   "std" => "",
-				   "desc" => "desc.",),
+				   "desc" => "This will enable a custom background color. Selecting the field will bring up the color picker which will allow you to choose a custom color.",),
 				   
 			array( "name" => "Background Texture",
 				   "id" => $shortname."_bgtexture_url",
 				   "type" => "select",
 				   "std" => "Default",
 				   "options" => $epanel_texture_urls,
-				   "desc" => "desc.",),
+				   "desc" => "Choose a background texture from the drop down menu.",),
 				   
 			array( "name" => "Background Image",
 				   "id" => $shortname."_bgimage",
 				   "type" => "upload",
 				   "std" => "",
-				   "desc" => "desc."
+				   "desc" => "If you would like to upload your own background image click the Upload Image button."
 			),
 							   
 			array( "name" => "Header Font",
@@ -95,26 +95,26 @@ $options = array (
 				   "type" => "select",
 				   "std" => "Kreon",
 				   "options" => $et_google_fonts,
-				   "desc" => "desc.",),
+				   "desc" => "Choose a font from the drop down menu.",),
 				   
 			array( "name" => "Header Font Color",
 				   "id" => $shortname."_header_font_color",
 				   "type" => "textcolorpopup",
 				   "std" => "",
-				   "desc" => "desc.",),
+				   "desc" => "This will enable a custom header font color. Selecting the field will bring up the color picker which will allow you to choose a custom color.",),
 				   
 			array( "name" => "Body Font",
 				   "id" => $shortname."_body_font",
 				   "type" => "select",
 				   "std" => "Droid Sans",
 				   "options" => $et_google_fonts,
-				   "desc" => "desc.",),
+				   "desc" => "Choose a font from the drop down menu.",),
 				   
 			array( "name" => "Body Font Color",
 				   "id" => $shortname."_body_font_color",
 				   "type" => "textcolorpopup",
 				   "std" => "",
-				   "desc" => "desc.",),
+				   "desc" => "This will enable a custom body font color. Selecting the field will bring up the color picker which will allow you to choose a custom color.",),
 
 			array( "name" => "Blog Style post format",
                    "id" => $shortname."_blog_style",
@@ -134,13 +134,13 @@ $options = array (
                    "id" => $shortname."_show_twitter_icon",
                    "type" => "checkbox",
                    "std" => "on",
-                   "desc" => "desc."),
+                   "desc" => "Here you can choose to display the Twitter Icon on your homepage. "),
 			
 			array( "name" => "Show RSS Icon",
                    "id" => $shortname."_show_rss_icon",
                    "type" => "checkbox2",
                    "std" => "on",
-                   "desc" => "desc."),
+                   "desc" => "Here you can choose to display the RSS Icon on your homepage. "),
 
 			array( "type" => "clearfix",),
 			
@@ -148,7 +148,7 @@ $options = array (
                    "id" => $shortname."_show_facebook_icon",
                    "type" => "checkbox",
                    "std" => "on",
-                   "desc" => "desc."),
+                   "desc" => "Here you can choose to display the Facebook Icon on your homepage. "),
 			
 			array( "type" => "clearfix",),
 			
@@ -156,19 +156,19 @@ $options = array (
                    "id" => $shortname."_twitter_url",
                    "std" => "#",
                    "type" => "text",
-				   "desc" => "desc."),
+				   "desc" => "Enter the URL of your Twitter Profile."),
 			
 			array( "name" => "RSS Icon Url",
                    "id" => $shortname."_rss_url",
                    "std" => "",
                    "type" => "text",
-				   "desc" => "desc."),
+				   "desc" => "Enter the URL of your RSS feed. "),
 				   
 			array( "name" => "Facebook Profile Url",
                    "id" => $shortname."_facebook_url",
                    "std" => "#",
                    "type" => "text",
-				   "desc" => "desc."),
+				   "desc" => "Enter the URL of your Facebook Profile. "),
 							   				   
 			array( "name" => "Number of Posts displayed on Category page",
                    "id" => $shortname."_catnum_posts",
@@ -206,13 +206,13 @@ $options = array (
 				   "id" => $shortname."_use_excerpt",
 				   "type" => "checkbox",
 				   "std" => "false",
-				   "desc" => "desc."),
+				   "desc" => "This will enable the use of excerpts in posts or pages."),
 				   
 			array( "name" => "Show Control Panel",
 				   "id" => $shortname."_show_control_panel",
 				   "type" => "checkbox",
 				   "std" => "on",
-				   "desc" => "desc."),
+				   "desc" => "Here you can choose to show the CSS Control Panel on your homepage. It will only be visible to Administrators that are logged into your Wordpress Dashboard."),
 
 			array( "type" => "clearfix",),
 			
@@ -220,7 +220,14 @@ $options = array (
 				   "id" => $shortname."_responsive_layout",
 				   "type" => "checkbox",
 				   "std" => "on",
-				   "desc" => "desc."),
+				   "desc" => "Here you can choose to use the responsive layout of the theme."),
+				   
+			array( "name" => "Responsive shortcodes",
+				   "id" => $shortname."_responsive_shortcodes",
+				   "type" => "checkbox2",
+				   "std" => "on",
+				   "desc" => "Enable this option to make shortcodes respond to various screen sizes"
+			),
 				   
 			array( "type" => "clearfix",),
 
@@ -234,13 +241,13 @@ $options = array (
                    "id" => $shortname."_display_blurbs",
                    "type" => "checkbox",
                    "std" => "on",
-                   "desc" => "desc."),
+                   "desc" => "Here you can choose to display the Content Areas on the homepage. "),
 			
 			array( "name" => "Display Media Section",
                    "id" => $shortname."_display_media",
                    "type" => "checkbox2",
                    "std" => "on",
-                   "desc" => "desc."),
+                   "desc" => "Here you can choose to disaply the Media Section on the homepage. "),
 			
 			array( "type" => "clearfix",),
 			   
@@ -268,7 +275,7 @@ $options = array (
 				   "id" => $shortname."_home_page_1",
 				   "std" => "",
 				   "type" => "select",
-				   "desc" => "desc.",
+				   "desc" => "Here you can select the page you would like to display in the Content Area of the homepage. ",
 				   "options" => $site_pages,
 				   'et_array_for' => 'pages'),
 				   
@@ -276,7 +283,7 @@ $options = array (
 				   "id" => $shortname."_home_page_2",
 				   "std" => "",
 				   "type" => "select",
-				   "desc" => "desc.",
+				   "desc" => "Here you can select the page you would like to display in the Content Area of the homepage.",
 				   "options" => $site_pages,
 				   'et_array_for' => 'pages'),
 						
@@ -284,7 +291,7 @@ $options = array (
 				   "id" => $shortname."_home_page_3",
 				   "std" => "",
 				   "type" => "select",
-				   "desc" => "desc.",
+				   "desc" => "Here you can select the page you would like to display in the Content Area of the homepage.",
 				   "options" => $site_pages,
 				   'et_array_for' => 'pages'),
 				   
@@ -341,7 +348,7 @@ $options = array (
 				   "type" => "select",
 				   "std" => "cycle",
 				   "options" => array('cycle','nivo','roundabout'),
-				   "desc" => "desc.",),
+				   "desc" => "Here you can choose the type of slider you would like to display on the homepage. Please note that cycle is the only supported slider while in responsive mode. ",),
 
 			array( "name" => "Featured Category",
                    "id" => $shortname."_feat_cat",
@@ -615,7 +622,7 @@ $options = array (
                    "id" => $shortname."_thumbnails_index",
                    "type" => "checkbox",
                    "std" => "on",
-                   "desc" => "desc. "),	   
+                   "desc" => "Enable this option to show thumbnails on Index Pages."),	   
 
 			array( "type" => "clearfix",),
 
@@ -1044,7 +1051,7 @@ $options = array (
 				   "id" => $shortname."_468_adsense",
 				   "type" => "textarea",
 				   "std" => "",
-				   "desc" => "desc",),
+				   "desc" => "Place your adsense code here.",),
 
 		array( "name" => "advertisements-1",
 			   "type" => "subcontent-end",),
@@ -1062,10 +1069,10 @@ function custom_colors_css(){
 	
 	<style type="text/css">
 		body { color: #<?php echo(get_option($shortname.'_color_mainfont')); ?>; }
-		#content-area a { color: #<?php echo(get_option($shortname.'_color_mainlink')); ?>; }
-		ul.nav li a { color: #<?php echo(get_option($shortname.'_color_pagelink')); ?> !important; }
-		ul.nav > li.current_page_item > a, ul#top-menu > li:hover > a, ul.nav > li.current-cat > a { color: #<?php echo(get_option($shortname.'_color_pagelink_active')); ?>; }
-		h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color: #<?php echo(get_option($shortname.'_color_headings')); ?>; }
+		#content-area a, #content a { color: #<?php echo(get_option($shortname.'_color_mainlink')); ?>; }
+		ul#top-menu li a { color: #<?php echo(get_option($shortname.'_color_pagelink')); ?> !important; }
+		ul#top-menu > li.current_page_item > a, ul#top-menu li:hover > a, ul#top-menu > li.current-cat > a, ul#top-menu > li.current-menu-item > a { color: #<?php echo(get_option($shortname.'_color_pagelink_active')); ?> !important; }
+		h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color: #<?php echo(get_option($shortname.'_color_headings')); ?> !important; }
 		
 		#sidebar a { color:#<?php echo(get_option($shortname.'_color_sidebar_links')); ?>; }		
 		.footer-widget { color:#<?php echo(get_option($shortname.'_footer_text')); ?> }

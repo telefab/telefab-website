@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 if ( ! function_exists( 'get_custom_header' ) ) {
 	// compatibility with versions of WordPress prior to 3.4.
 	add_custom_background();
@@ -22,7 +21,69 @@ function et_activate_features(){
 	require_once(TEMPLATEPATH . '/epanel/import_settings.php'); 
 }
 	
-add_filter('widget_text', 'do_shortcode'); 
+add_filter('widget_text', 'do_shortcode');
+
+if ( ! function_exists( 'et_options_stored_in_one_row' ) ){
+	function et_options_stored_in_one_row(){
+		global $et_store_options_in_one_row;
+		
+		return isset( $et_store_options_in_one_row ) ? (bool) $et_store_options_in_one_row : false; 
+	}
+}
+
+if ( ! function_exists( 'et_get_option' ) ){
+	function et_get_option( $option_name, $default_value = '' ){
+		global $et_theme_options, $shortname;
+
+		if ( et_options_stored_in_one_row() ){
+			$et_theme_options_name = 'et_' . $shortname;
+			
+			if ( ! isset( $et_theme_options ) ) $et_theme_options = get_option( $et_theme_options_name );
+			$option_value = isset ( $et_theme_options[$option_name] ) ? $et_theme_options[$option_name] : false;
+		} else {
+			$option_value = get_option( $option_name );
+		}
+		
+		if ( !$option_value && '' != $default_value ) $option_value = $default_value;
+		
+		return $option_value;
+	}
+}
+
+if ( ! function_exists( 'et_update_option' ) ){
+	function et_update_option( $option_name, $new_value ){
+		global $et_theme_options, $shortname;
+		
+		if ( et_options_stored_in_one_row() ){
+			$et_theme_options_name = 'et_' . $shortname;
+			
+			if ( ! isset( $et_theme_options ) ) $et_theme_options = get_option( $et_theme_options_name );
+			$et_theme_options[$option_name] = $new_value;
+			
+			$option_name = $et_theme_options_name;
+			$new_value = $et_theme_options;
+		}
+		
+		update_option( $option_name, $new_value );
+	}
+}
+
+if ( ! function_exists( 'et_delete_option' ) ){
+	function et_delete_option( $option_name ){
+		global $et_theme_options, $shortname;
+		
+		if ( et_options_stored_in_one_row() ){
+			$et_theme_options_name = 'et_' . $shortname;
+			
+			if ( ! isset( $et_theme_options ) ) $et_theme_options = get_option( $et_theme_options_name );
+			
+			unset( $et_theme_options[$option_name] );
+			update_option( $et_theme_options_name, $et_theme_options );
+		} else {
+			delete_option( $option_name );
+		}
+	}
+}
 
 add_filter('body_class','et_browser_body_class');
 function et_browser_body_class($classes) {
@@ -51,7 +112,7 @@ if ( ! function_exists( 'truncate_post' ) ){
 		$postExcerpt = '';
 		$postExcerpt = $post->post_excerpt;
 		
-		if (get_option($shortname.'_use_excerpt') == 'on' && $postExcerpt <> '') { 
+		if (et_get_option($shortname.'_use_excerpt') == 'on' && $postExcerpt <> '') { 
 			if ($echo) echo $postExcerpt;
 			else return $postExcerpt;	
 		} else {
@@ -133,7 +194,7 @@ if ( ! function_exists( 'get_thumbnail' ) ){
 				if ($thumb_array['thumb'] == '') $thumb_array['thumb'] = esc_attr( get_post_meta($post->ID, 'Thumbnail', $single = true) );
 			}
 			
-			if (($thumb_array['thumb'] == '') && ((get_option($shortname.'_grab_image')) == 'on')) { 
+			if (($thumb_array['thumb'] == '') && ((et_get_option($shortname.'_grab_image')) == 'on')) { 
 				$thumb_array['thumb'] = esc_attr( et_first_image() );
 				if ( $fullpath ) $thumb_array['fullpath'] = $thumb_array['thumb'];
 			}
@@ -182,7 +243,7 @@ if ( ! function_exists( 'print_thumbnail' ) ){
 			
 			if ($class <> '') $output .= " class='" . esc_attr( $class ) . "' ";
 			
-			$dimensions = apply_filters( 'et_print_thumbnail_dimensions', " width='" . esc_attr( $width . 'px' ) . "' height='" .esc_attr( $height . 'px' ) . "'" );
+			$dimensions = apply_filters( 'et_print_thumbnail_dimensions', " width='" . esc_attr( $width ) . "' height='" .esc_attr( $height ) . "'" );
 
 			$output .= " alt='" . esc_attr( strip_tags( $alttext ) ) . "'{$dimensions} />";
 			
@@ -293,19 +354,19 @@ if ( ! function_exists( 'show_page_menu' ) ){
 		global $shortname, $themename, $exclude_pages, $strdepth, $page_menu, $is_footer;
 		
 		//excluded pages
-		if (get_option($shortname.'_menupages') <> '') $exclude_pages = implode(",", get_option($shortname.'_menupages'));
+		if (et_get_option($shortname.'_menupages') <> '') $exclude_pages = implode(",", et_get_option($shortname.'_menupages'));
 		
 		//dropdown for pages
 		$strdepth = '';
-		if (get_option($shortname.'_enable_dropdowns') == 'on') $strdepth = "depth=".get_option($shortname.'_tiers_shown_pages');
+		if (et_get_option($shortname.'_enable_dropdowns') == 'on') $strdepth = "depth=".et_get_option($shortname.'_tiers_shown_pages');
 		if ($strdepth == '') $strdepth = "depth=1";
 		
 		if ($is_footer) { $strdepth="depth=1"; $strdepth2 = $strdepth; }
 		
-		$page_menu = wp_list_pages("sort_column=".get_option($shortname.'_sort_pages')."&sort_order=".get_option($shortname.'_order_page')."&".$strdepth."&exclude=".$exclude_pages."&title_li=&echo=0");
+		$page_menu = wp_list_pages("sort_column=".et_get_option($shortname.'_sort_pages')."&sort_order=".et_get_option($shortname.'_order_page')."&".$strdepth."&exclude=".$exclude_pages."&title_li=&echo=0");
 		
 		if ($addUlContainer) echo('<ul class="'.$customClass.'">');
-			if (get_option($shortname . '_home_link') == 'on' && $addHomeLink) { ?> 
+			if (et_get_option($shortname . '_home_link') == 'on' && $addHomeLink) { ?> 
 				<li <?php if (is_front_page() || is_home()) echo('class="current_page_item"') ?>><a href="<?php echo esc_url( home_url() ); ?>"><?php _e('Home',$themename); ?></a></li>
 			<?php };
 			
@@ -319,18 +380,18 @@ if ( ! function_exists( 'show_categories_menu' ) ){
 		global $shortname, $themename, $category_menu, $exclude_cats, $hide, $strdepth2, $projects_cat;
 			
 		//excluded categories
-		if (get_option($shortname.'_menucats') <> '') $exclude_cats = implode(",", get_option($shortname.'_menucats')); 
+		if (et_get_option($shortname.'_menucats') <> '') $exclude_cats = implode(",", et_get_option($shortname.'_menucats')); 
 		
 		//hide empty categories
-		if (get_option($shortname.'_categories_empty') == 'on') $hide = '1';
+		if (et_get_option($shortname.'_categories_empty') == 'on') $hide = '1';
 		else $hide = '0';
 		
 		//dropdown for categories
 		$strdepth2 = '';
-		if (get_option($shortname.'_enable_dropdowns_categories') == 'on') $strdepth2 = "depth=".get_option($shortname.'_tiers_shown_categories'); 
+		if (et_get_option($shortname.'_enable_dropdowns_categories') == 'on') $strdepth2 = "depth=".et_get_option($shortname.'_tiers_shown_categories'); 
 		if ($strdepth2 == '') $strdepth2 = "depth=1";
 		
-		$args = "orderby=".get_option($shortname.'_sort_cat')."&order=".get_option($shortname.'_order_cat')."&".$strdepth2."&exclude=".$exclude_cats."&hide_empty=".$hide."&title_li=&echo=0";
+		$args = "orderby=".et_get_option($shortname.'_sort_cat')."&order=".et_get_option($shortname.'_order_cat')."&".$strdepth2."&exclude=".$exclude_cats."&hide_empty=".$hide."&title_li=&echo=0";
 		
 		$categories = get_categories( $args );
 		
@@ -346,12 +407,12 @@ if ( ! function_exists( 'show_categories_menu' ) ){
 function head_addons(){
 	global $shortname, $default_colorscheme;
 	
-	if ( apply_filters('et_get_additional_color_scheme',get_option($shortname.'_color_scheme')) <> $default_colorscheme ) { ?>
-		<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() . '/style-' . get_option($shortname.'_color_scheme') . '.css' ); ?>" type="text/css" media="screen" />
+	if ( apply_filters('et_get_additional_color_scheme',et_get_option($shortname.'_color_scheme')) <> $default_colorscheme ) { ?>
+		<link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() . '/style-' . et_get_option($shortname.'_color_scheme') . '.css' ); ?>" type="text/css" media="screen" />
 	<?php }; 
 
-	if ( get_option($shortname.'_child_css') == 'on' && get_option($shortname.'_child_cssurl') <> '' ) { //Enable child stylesheet  ?>
-		<link rel="stylesheet" href="<?php echo esc_url( get_option($shortname.'_child_cssurl') ); ?>" type="text/css" media="screen" />
+	if ( et_get_option($shortname.'_child_css') == 'on' && et_get_option($shortname.'_child_cssurl') <> '' ) { //Enable child stylesheet  ?>
+		<link rel="stylesheet" href="<?php echo esc_url( et_get_option($shortname.'_child_cssurl') ); ?>" type="text/css" media="screen" />
 	<?php };
 	
 	//prints the theme name, version in meta tag
@@ -364,7 +425,7 @@ function head_addons(){
 		echo '<meta content="' . esc_attr( $theme_info->display('Name') . ' v.' . $theme_info->display('Version') ) . '" name="generator"/>';
 	}
 
-	if (get_option($shortname.'_custom_colors') == 'on') custom_colors_css();
+	if (et_get_option($shortname.'_custom_colors') == 'on') custom_colors_css();
 	
 };// end function head_addons()
 add_action('wp_head','head_addons',7);
@@ -372,13 +433,13 @@ add_action('wp_head','head_addons',7);
 
 function integration_head(){
 	global $shortname;
-	if (get_option($shortname.'_integration_head') <> '' && get_option($shortname.'_integrate_header_enable') == 'on') echo( get_option($shortname.'_integration_head') ); 
+	if (et_get_option($shortname.'_integration_head') <> '' && et_get_option($shortname.'_integrate_header_enable') == 'on') echo( et_get_option($shortname.'_integration_head') ); 
 };
 add_action('wp_head','integration_head',12);
 
 function integration_body(){
 	global $shortname;
-	if (get_option($shortname.'_integration_body') <> '' && get_option($shortname.'_integrate_body_enable') == 'on') echo( get_option($shortname.'_integration_body') ); 
+	if (et_get_option($shortname.'_integration_body') <> '' && et_get_option($shortname.'_integrate_body_enable') == 'on') echo( et_get_option($shortname.'_integration_body') ); 
 };
 add_action('wp_footer','integration_body',12);
 
@@ -443,10 +504,10 @@ if ( ! function_exists( 'elegant_titles' ) ){
 		
 		#if the title is being displayed on the homepage
 		if (is_home() || is_front_page()) {
-			if (get_option($shortname.'_seo_home_title') == 'on') echo get_option($shortname.'_seo_home_titletext');  
+			if (et_get_option($shortname.'_seo_home_title') == 'on') echo et_get_option($shortname.'_seo_home_titletext');  
 			else {
-				$seo_home_type = get_option( $shortname . '_seo_home_type' );
-				$seo_home_separate = get_option($shortname.'_seo_home_separate');
+				$seo_home_type = et_get_option( $shortname . '_seo_home_type' );
+				$seo_home_separate = et_get_option($shortname.'_seo_home_separate');
 				
 				if ( $seo_home_type == 'BlogName | Blog description' ) echo $sitename . $seo_home_separate . $site_description; 
 				if ( $seo_home_type == 'Blog description | BlogName') echo $site_description. $seo_home_separate . $sitename;
@@ -457,12 +518,12 @@ if ( ! function_exists( 'elegant_titles' ) ){
 		if (is_single() || is_page()) { 
 			global $wp_query; 
 			$postid = $wp_query->post->ID; 
-			$key = get_option($shortname.'_seo_single_field_title');
+			$key = et_get_option($shortname.'_seo_single_field_title');
 			$exists3 = get_post_meta($postid, ''.$key.'', true);
-					if (get_option($shortname.'_seo_single_title') == 'on' && $exists3 !== '' ) echo $exists3; 
+					if (et_get_option($shortname.'_seo_single_title') == 'on' && $exists3 !== '' ) echo $exists3; 
 					else {
-						$seo_single_type = get_option($shortname.'_seo_single_type');
-						$seo_single_separate = get_option($shortname.'_seo_single_separate');
+						$seo_single_type = et_get_option($shortname.'_seo_single_type');
+						$seo_single_separate = et_get_option($shortname.'_seo_single_separate');
 						if ( $seo_single_type == 'BlogName | Post title' ) echo $sitename . $seo_single_separate . wp_title('',false,''); 
 						if ( $seo_single_type == 'Post title | BlogName' ) echo wp_title('',false,'') . $seo_single_separate . $sitename;
 						if ( $seo_single_type == 'Post title only' ) echo wp_title('',false,'');
@@ -471,8 +532,8 @@ if ( ! function_exists( 'elegant_titles' ) ){
 		}
 		#if the title is being displayed on index pages (categories/archives/search results)
 		if (is_category() || is_archive() || is_search()) {
-			$seo_index_type = get_option($shortname.'_seo_index_type');
-			$seo_index_separate = get_option($shortname.'_seo_index_separate');
+			$seo_index_type = et_get_option($shortname.'_seo_index_type');
+			$seo_index_separate = et_get_option($shortname.'_seo_index_separate');
 			if ( $seo_index_type == 'BlogName | Category name' ) echo $sitename . $seo_index_separate . wp_title('',false,''); 
 			if ( $seo_index_type == 'Category name | BlogName') echo wp_title('',false,'') . $seo_index_separate . $sitename;
 			if ( $seo_index_type == 'Category name only') echo wp_title('',false,'');
@@ -486,14 +547,14 @@ if ( ! function_exists( 'elegant_description' ) ){
 		global $shortname;
 		
 		#homepage descriptions
-		if ( is_home() && get_option($shortname.'_seo_home_description') == 'on' ) echo '<meta name="description" content="' . esc_attr( get_option($shortname.'_seo_home_descriptiontext') ) .'" />';
+		if ( is_home() && et_get_option($shortname.'_seo_home_description') == 'on' ) echo '<meta name="description" content="' . esc_attr( et_get_option($shortname.'_seo_home_descriptiontext') ) .'" />';
 		
 		#single page descriptions
 		global $wp_query; 
 		if ( isset($wp_query->post->ID) ) $postid = $wp_query->post->ID; 
-		$key2 = get_option($shortname.'_seo_single_field_description');
+		$key2 = et_get_option($shortname.'_seo_single_field_description');
 		if ( isset($postid) ) $exists = get_post_meta($postid, ''.$key2.'', true);
-		if (get_option($shortname.'_seo_single_description') == 'on' && $exists !== '') {
+		if (et_get_option($shortname.'_seo_single_description') == 'on' && $exists !== '') {
 			if (is_single() || is_page()) echo '<meta name="description" content="' . esc_attr( $exists ) . '" />';
 		}
 		
@@ -502,7 +563,7 @@ if ( ! function_exists( 'elegant_description' ) ){
 		$cat = get_query_var('cat'); 
 		$exists2 = category_description($cat);
 		
-		$seo_index_description = get_option($shortname.'_seo_index_description');
+		$seo_index_description = et_get_option($shortname.'_seo_index_description');
 		
 		if ($exists2 !== '' && $seo_index_description == 'on') {
 			if (is_category()) echo '<meta name="description" content="'. esc_attr( $exists2 ) .'" />';
@@ -518,14 +579,14 @@ if ( ! function_exists( 'elegant_keywords' ) ){
 		global $shortname;
 		
 		#homepage keywords
-		if (is_home() && get_option($shortname.'_seo_home_keywords') == 'on') echo '<meta name="keywords" content="'.esc_attr( get_option($shortname.'_seo_home_keywordstext') ).'" />';
+		if (is_home() && et_get_option($shortname.'_seo_home_keywords') == 'on') echo '<meta name="keywords" content="'.esc_attr( et_get_option($shortname.'_seo_home_keywordstext') ).'" />';
 		
 		#single page keywords
 		global $wp_query; 
 		if (isset($wp_query->post->ID)) $postid = $wp_query->post->ID; 
-		$key3 = get_option($shortname.'_seo_single_field_keywords');
+		$key3 = et_get_option($shortname.'_seo_single_field_keywords');
 		if (isset($postid)) $exists4 = get_post_meta($postid, ''.$key3.'', true);
-		if (isset($exists4) && $exists4 !== '' && get_option($shortname.'_seo_single_keywords') == 'on') {
+		if (isset($exists4) && $exists4 !== '' && et_get_option($shortname.'_seo_single_keywords') == 'on') {
 			if (is_single() || is_page()) echo '<meta name="keywords" content="' . esc_attr( $exists4 ) . '" />';	
 		}
 	}
@@ -537,17 +598,17 @@ if ( ! function_exists( 'elegant_canonical' ) ){
 		global $shortname;
 		
 		#homepage urls
-		if (is_home() && get_option($shortname.'_seo_home_canonical') == 'on') echo '<link rel="canonical" href="'. esc_url( home_url() ).'" />';
+		if (is_home() && et_get_option($shortname.'_seo_home_canonical') == 'on') echo '<link rel="canonical" href="'. esc_url( home_url() ).'" />';
 		
 		#single page urls
 		global $wp_query; 
 		if (isset($wp_query->post->ID)) $postid = $wp_query->post->ID; 
-		if (get_option($shortname.'_seo_single_canonical') == 'on') {
+		if (et_get_option($shortname.'_seo_single_canonical') == 'on') {
 			if (is_single() || is_page()) echo '<link rel="canonical" href="'.esc_url( get_permalink() ).'" />';	
 		}
 		
 		#index page urls
-		if (get_option($shortname.'_seo_index_canonical') == 'on') {
+		if (et_get_option($shortname.'_seo_index_canonical') == 'on') {
 			if (is_archive() || is_category() || is_search()) echo '<link rel="canonical" href="'. esc_url( get_permalink() ).'" />';	
 		}
 	}
@@ -557,7 +618,7 @@ add_action('wp_head','add_favicon');
 function add_favicon(){
 	global $shortname;
 	
-	$faviconUrl = get_option($shortname.'_favicon');
+	$faviconUrl = et_get_option($shortname.'_favicon');
 	if ($faviconUrl <> '') echo('<link rel="shortcut icon" href="'.esc_url( $faviconUrl ).'" />');
 }
 
@@ -737,9 +798,9 @@ function et_custom_posts_per_page( $query ) {
 	if ( is_admin() ) return $query;
 	
 	if ( $query->is_category ) {
-		$query->set( 'posts_per_page', get_option( $shortname . '_catnum_posts' ) );
+		$query->set( 'posts_per_page', et_get_option( $shortname . '_catnum_posts' ) );
 	} elseif ( $query->is_tag ) {
-		$query->set( 'posts_per_page', get_option( $shortname . '_tagnum_posts' ) );
+		$query->set( 'posts_per_page', et_get_option( $shortname . '_tagnum_posts' ) );
 	} elseif ( $query->is_search ) {
 		if ( isset($_GET['et_searchform_submit']) ) {			
 			$postTypes = array();
@@ -759,9 +820,9 @@ function et_custom_posts_per_page( $query ) {
 			if ( isset( $_GET['et-cat'] ) && $_GET['et-cat'] != 0 )
 				$query->set( 'cat', absint($_GET['et-cat']) );
 		}
-		$query->set( 'posts_per_page', get_option( $shortname . '_searchnum_posts' ) );
+		$query->set( 'posts_per_page', et_get_option( $shortname . '_searchnum_posts' ) );
 	} elseif ( $query->is_archive ) {
-		$query->set( 'posts_per_page', get_option( $shortname . '_archivenum_posts' ) );
+		$query->set( 'posts_per_page', et_get_option( $shortname . '_archivenum_posts' ) );
 	}
 
 	return $query;
@@ -850,8 +911,52 @@ if ( ! function_exists( 'et_theme_epanel_reminder' ) ){
 	function et_theme_epanel_reminder(){
 		global $shortname, $themename, $current_screen;
 		
-		if ( false === get_option( $shortname . '_logo' ) && 'appearance_page_core_functions' != $current_screen->id ){
+		if ( false === et_get_option( $shortname . '_logo' ) && 'appearance_page_core_functions' != $current_screen->id ){
 			printf( __('<div class="updated"><p>This is a fresh installation of %1$s theme. Don\'t forget to go to <a href="%2$s">ePanel</a> to set it up. This message will disappear once you have clicked the Save button within the <a href="%2$s">theme\'s options page</a>.</p></div>',$themename), get_current_theme(), admin_url( 'themes.php?page=core_functions.php' ) );
 		}
 	}
+}
+
+add_filter( 'gettext', 'et_admin_update_theme_message', 20, 3 );
+function et_admin_update_theme_message( $default_translated_text, $original_text, $domain ) {
+	global $themename;
+    $theme_page_message = 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Automatic update is unavailable for this theme.</em>';
+	$updates_page_message = 'Update package not available.';
+
+    if ( is_admin() && $original_text === $theme_page_message ) {
+        return __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member\'s area and <a href="http://www.elegantthemes.com/members-area/documentation.html#update" target="_blank">re-install it</a> in order to update it to the latest version.</em>', $themename );
+    }
+	
+	if ( is_admin() && $original_text === $updates_page_message ){
+		return __( 'Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member\'s area and <a href="http://www.elegantthemes.com/members-area/documentation.html#update" target="_blank">re-install it</a> in order to update it to the latest version.', $themename );
+	}
+
+    return $default_translated_text;
+}
+
+add_filter( 'body_class', 'et_add_fullwidth_body_class' );
+function et_add_fullwidth_body_class( $classes ){
+	$fullwidth_view = false;
+	
+	if ( is_page_template('page-full.php') ) $fullwidth_view = true;
+	
+	if ( is_page() || is_single() ){
+		$et_ptemplate_settings = get_post_meta( get_queried_object_id(),'et_ptemplate_settings',true );
+		$fullwidth = isset( $et_ptemplate_settings['et_fullwidthpage'] ) ? (bool) $et_ptemplate_settings['et_fullwidthpage'] : false;
+		
+		if ( $fullwidth ) $fullwidth_view = true;
+	}
+	
+	if ( is_single() && 'on' == get_post_meta( get_queried_object_id(), '_et_full_post', true ) ) $fullwidth_view = true;
+
+	$classes[] = apply_filters( 'et_fullwidth_view_body_class', $fullwidth_view ) ? 'et_fullwidth_view' : 'et_includes_sidebar';
+	
+	return $classes;
+}
+
+function et_add_responsive_shortcodes_css(){
+	global $shortname;
+	
+	if ( 'on' == et_get_option( $shortname . '_responsive_shortcodes', 'on' ) )
+		wp_enqueue_style( 'et-shortcodes-responsive-css', ET_SHORTCODES_DIR . '/css/shortcodes_responsive.css', false, ET_SHORTCODES_VERSION, 'all' );
 } ?>

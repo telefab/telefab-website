@@ -1,7 +1,7 @@
 <?php
 
 
-/********* ePanel v.2.9 ************/
+/********* ePanel v.3.0 ************/
 
 
 /* Adds jquery script */
@@ -149,7 +149,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 								
 								<?php 
 									$et_input_value = '';
-									$et_input_value = ( '' != get_option( $value['id'] ) ) ? get_option( $value['id'] ) : $value['std'];
+									$et_input_value = ( '' != et_get_option( $value['id'] ) ) ? et_get_option( $value['id'] ) : $value['std'];
 									$et_input_value = stripslashes( $et_input_value );
 								?>
 								
@@ -159,7 +159,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 							
 								<?php
 									$et_input_value = '';
-									$et_input_value = ( '' != get_option( $value['id'] ) ) ? get_option( $value['id'] ) : $value['std'];
+									$et_input_value = ( '' != et_get_option( $value['id'] ) ) ? et_get_option( $value['id'] ) : $value['std'];
 									$et_input_value = stripslashes( $et_input_value );
 								?>
 							
@@ -173,7 +173,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 								
 								<?php 
 									$et_input_value = '';
-									$et_input_value = ( '' != get_option( $value['id'] ) ) ? get_option( $value['id'] ) : $value['std']; 
+									$et_input_value = ( '' != et_get_option( $value['id'] ) ) ? et_get_option( $value['id'] ) : $value['std']; 
 								?>
 								
 								<input name="<?php echo esc_attr( $value['id'] ); ?>" id="<?php echo esc_attr( $value['id'] ); ?>" class="colorpopup" type="text" value="<?php echo esc_attr( $et_input_value ); ?>" />
@@ -182,7 +182,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 								
 								<?php
 									$et_textarea_value = '';
-									$et_textarea_value = ( '' != get_option( $value['id'] ) ) ? get_option( $value['id'] ) : $value['std'];
+									$et_textarea_value = ( '' != et_get_option( $value['id'] ) ) ? et_get_option( $value['id'] ) : $value['std'];
 									$et_textarea_value = stripslashes( $et_textarea_value );
 								?>
 								
@@ -190,7 +190,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 								
 							<?php } elseif ( 'upload' == $value['type'] ) { ?>
 									
-								<input id="<?php echo esc_attr( $value['id'] ); ?>" class="uploadfield" type="text" size="90" name="<?php echo esc_attr( $value['id'] ); ?>" value="<?php echo esc_url( get_option($value['id']) ); ?>" />
+								<input id="<?php echo esc_attr( $value['id'] ); ?>" class="uploadfield" type="text" size="90" name="<?php echo esc_attr( $value['id'] ); ?>" value="<?php echo esc_url( et_get_option($value['id']) ); ?>" />
 								<div class="upload_buttons">
 									<span class="upload_image_reset"><?php esc_html_e( 'Reset', $themename ); ?></span>
 									<input class="upload_image_button" type="button" value="<?php esc_attr_e( 'Upload Image', $themename ); ?>" />
@@ -206,7 +206,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 											$et_select_active = '';
 											$et_use_option_values = isset( $value['et_array_for'] ) && 'pages' == $value['et_array_for'] ? true : false;
 											
-											$et_option_db_value = get_option($value['id']);
+											$et_option_db_value = et_get_option($value['id']);
 											
 											if ( ( $et_use_option_values && is_numeric( $et_option_db_value ) && ( $et_option_db_value == $option_key ) ) || ( stripslashes( $et_option_db_value ) == trim( stripslashes( $option ) ) ) || ( ! $et_option_db_value && isset( $value['std'] ) && stripslashes( $option ) == stripslashes( $value['std'] ) ) )
 												$et_select_active = ' selected="selected"';
@@ -228,12 +228,17 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 										$checked = "";
 										$class_name_last = 0 == $i % 3 ? ' last' : '';
 										
-										if ( get_option( $value['id'] ) ) {
-											if ( in_array( $option, get_option( $value['id'] ) ) ) $checked = "checked=\"checked\"";
+										if ( et_get_option( $value['id'] ) ) {
+											if ( in_array( $option, et_get_option( $value['id'] ) ) ) $checked = "checked=\"checked\"";
 										}
 										
 										$et_checkboxes_label = $value['id'] . '-' . $option;
-										$et_checkboxes_value = ( 'pages' == $value['usefor'] ) ? get_pagename( $option ) : get_categname( $option );
+										if ( 'custom' == $value['usefor'] ) {
+											$et_helper = (array) $value['helper'];
+											$et_checkboxes_value = $et_helper[$option];
+										} else {
+											$et_checkboxes_value = ( 'pages' == $value['usefor'] ) ? get_pagename( $option ) : get_categname( $option );
+										}
 										?>
 										
 										<p class="<?php echo esc_attr( $className . $class_name_last ); ?>">
@@ -252,8 +257,8 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 							
 								foreach ( $value['options'] as $option ){
 									$checked = '';
-									if ( get_option( $value['id']) !== false ) {
-										if ( in_array( $option, get_option( $value['id'] ) ) ) $checked = "checked=\"checked\"";
+									if ( et_get_option( $value['id']) !== false ) {
+										if ( in_array( $option, et_get_option( $value['id'] ) ) ) $checked = "checked=\"checked\"";
 									} elseif ( isset( $value['std'] ) ) {
 										if ( in_array($option, $value['std']) ) $checked = "checked=\"checked\"";
 									} ?>
@@ -283,8 +288,8 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 						<div class="box-content">
 							<?php 
 								$checked = '';
-								if ( '' != get_option( $value['id'] ) ) {
-									if ( 'on' == get_option( $value['id'] ) ) { $checked = 'checked="checked"'; }
+								if ( '' != et_get_option( $value['id'] ) ) {
+									if ( 'on' == et_get_option( $value['id'] ) ) { $checked = 'checked="checked"'; }
 									else { $checked = ''; }
 								}
 								elseif ( 'on' == $value['std'] ) { $checked = 'checked="checked"'; }
@@ -396,20 +401,20 @@ if ( ! function_exists( 'epanel_save_data' ) ){
 					if( isset( $value['id'] ) ) { 
 						if( isset( $_POST[ $value['id'] ] ) ) {
 							if ( in_array( $value['type'], array('text','textlimit','select','textcolorpopup','checkbox','checkbox2') ) ) 
-								update_option( $value['id'], stripslashes( wp_kses_post( $_POST[$value['id']] ) ) );
+								et_update_option( $value['id'], stripslashes( wp_kses_post( $_POST[$value['id']] ) ) );
 							elseif ( 'upload' == $value['type'] )
-								update_option( $value['id'], stripslashes( esc_url_raw( $_POST[$value['id']] ) ) );
+								et_update_option( $value['id'], stripslashes( esc_url_raw( $_POST[$value['id']] ) ) );
 							elseif ( 'textarea' == $value['type'] )
-								update_option( $value['id'], stripslashes( $_POST[$value['id']] ) );
+								et_update_option( $value['id'], stripslashes( $_POST[$value['id']] ) );
 							elseif ( in_array( $value['type'], array('checkboxes','different_checkboxes') ) )
-								update_option( $value['id'], stripslashes_deep( array_map('wp_kses_post', $_POST[$value['id']]) ) );
+								et_update_option( $value['id'], stripslashes_deep( array_map('wp_kses_post', $_POST[$value['id']]) ) );
 						}
 						else {
-							if ( in_array( $value['type'], array('checkbox','checkbox2') ) ) update_option( $value['id'] , 'false' );
+							if ( in_array( $value['type'], array('checkbox','checkbox2') ) ) et_update_option( $value['id'] , 'false' );
 							elseif ( 'different_checkboxes' == $value['type'] ) {
-								update_option( $value['id'] , array() );
+								et_update_option( $value['id'] , array() );
 							}
-							else delete_option( $value['id'] );
+							else et_delete_option( $value['id'] );
 						}
 					}
 				}
@@ -422,8 +427,8 @@ if ( ! function_exists( 'epanel_save_data' ) ){
 				
 				foreach ($options as $value) {
 					if ( isset($value['id']) ) {
-						delete_option( $value['id'] );
-						if ( isset($value['std']) ) update_option( $value['id'], $value['std'] );
+						et_delete_option( $value['id'] );
+						if ( isset($value['std']) ) et_update_option( $value['id'], $value['std'] );
 					}
 				}
 				

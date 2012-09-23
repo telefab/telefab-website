@@ -1,14 +1,18 @@
 <?php 
 
-/********* Shortcodes v.2.0 ************/
+/********* Shortcodes v.3.0 ************/
 
-define('ET_SHORTCODES_VERSION', '2.0');
-define('ET_SHORTCODES_DIR', get_template_directory_uri() . '/epanel/shortcodes');
+define( 'ET_SHORTCODES_VERSION', '3.0' );
+if ( ! defined( 'ET_SHORTCODES_DIR' ) ) define( 'ET_SHORTCODES_DIR', get_template_directory_uri() . '/epanel/shortcodes' );
 
 add_action('wp_enqueue_scripts', 'et_shortcodes_css_and_js');
 function et_shortcodes_css_and_js(){
-	wp_enqueue_style('et-shortcodes-css', ET_SHORTCODES_DIR . '/shortcodes.css', false, ET_SHORTCODES_VERSION, 'all');
-	wp_enqueue_script('et-shortcodes-js', ET_SHORTCODES_DIR . '/js/et_shortcodes_frontend.js', array('jquery'), ET_SHORTCODES_VERSION, false);
+	global $themename;
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+	
+	wp_enqueue_style( 'et-shortcodes-css', ET_SHORTCODES_DIR . '/css/shortcodes.css', false, ET_SHORTCODES_VERSION, 'all' );
+	wp_register_script( 'et-shortcodes-js', ET_SHORTCODES_DIR . "/js/et_shortcodes_frontend{$suffix}.js", array('jquery'), ET_SHORTCODES_VERSION, false );
+	wp_localize_script( 'et-shortcodes-js', 'et_shortcodes_strings', array( 'previous' => __( 'Previous', $themename ), 'next' => __( 'Next', $themename ) ) );
 }
 
 function et_add_simple_buttons(){ 
@@ -293,17 +297,18 @@ function et_protected($atts, $content = null){
 		$output = $content;
 	} else {
 		$output = "<div class='et-protected'>
+					<div class='et-protected-title'>" . esc_html__('Member Login',$themename) . "</div>
 					<div class='et-protected-form'>
-					<form action='" . esc_url( site_url('wp-login.php') ) . "' method='post'>
-						<p><label>" . esc_html__('Username:',$themename) . " <input type='text' name='log' id='log' value='" . esc_attr( $user_login ) . "' size='20' /></label></p>
-						<p><label>" . esc_html__('Password:',$themename) . " <input type='password' name='pwd' id='pwd' size='20' /></label></p>
-						<input type='submit' name='submit' value='" . esc_html__('Login',$themename) . "' class='etlogin-button' />
-					</form> 
+						<form action='" . esc_url( site_url('wp-login.php') ) . "' method='post'>
+							<p><label>" . "<span>" . esc_html__('Username: ',$themename) . "</span>" . "<input type='text' name='log' id='log' value='" . esc_attr( $user_login ) . "' size='20' /><span class='et_protected_icon'></span></label></p>
+							<p><label>" . "<span>" . esc_html__('Password: ',$themename) . "</span>" . "<input type='password' name='pwd' id='pwd' size='20' /><span class='et_protected_icon et_protected_password'></span></label></p>
+							<input type='submit' name='submit' value='" . esc_html__('Login',$themename) . "' class='etlogin-button' />
+							<input type='hidden' name='redirect_to' value='" . esc_url( get_permalink() ) . "'>
+						</form> 
 					</div> <!-- .et-protected-form -->
-				<p class='et-registration'>" . sprintf( __( 'Not a member? <a href="%s">Register today!</a>', $themename ), esc_url( site_url('wp-login.php?action=register', 'login_post') ) ) . "</p>
 				</div> <!-- .et-protected -->";
 	}
-				
+	
 	return $output;
 }
 
@@ -337,7 +342,9 @@ function et_tooltip($atts, $content = null) {
 				"id" => '',
 				"class" => ''
 			), $atts));
-
+	
+	wp_enqueue_script( 'et-shortcodes-js' );
+	
 	$content = et_content_helper($content);
 	
 	$id = ($id <> '') ? " id='" . esc_attr( $id ) . "'" : '';
@@ -359,6 +366,8 @@ function et_learnmore($atts, $content = null) {
 				"class" => ''
 			), $atts));
 
+	wp_enqueue_script( 'et-shortcodes-js' );
+			
 	$content = et_content_helper($content);
 	
 	$id = ($id <> '') ? " id='" . esc_attr( $id ) . "'" : '';
@@ -369,7 +378,7 @@ function et_learnmore($atts, $content = null) {
 	$divClass .= ' clearfix';
 	
 	$output = "<div{$id} class='{$divClass}{$class}'>
-					<h3 class='{$hClass}'><span>" . esc_html( $caption ) . "</span></h3>
+					<h3 class='{$hClass}'>" . esc_html( $caption ) . "<span class='et_learnmore_arrow'><span></span></span></h3>
 					<div class='learn-more-content'>{$content}</div>
 				</div>";
 	
@@ -398,13 +407,13 @@ function et_button($atts, $content = null) {
 	$class = ($class <> '') ? esc_attr( ' ' . $class ) : '';
 	
 	if ($type == 'small')
-		$output .= "<a{$id} href='{$link}' class='small-button small{$color}{$class}'{$target}><span>{$content}</span></a>";
+		$output .= "<a{$id} href='{$link}' class='small-button small{$color}{$class}'{$target}>{$content}</a>";
 	
 	if ($type == 'big')
-		$output .= "<a{$id} href='{$link}' class='big-button big{$color}{$class}'{$target}><span>{$content}</span></a>";
+		$output .= "<a{$id} href='{$link}' class='big-button big{$color}{$class}'{$target}>{$content}</a>";
 		
 	if ($type == 'icon')
-		$output .= "<a{$id} href='{$link}' class='icon-button {$icon}-icon{$class}'{$target}><span class='et-icon'><span>{$content}</span></span></a>";
+		$output .= "<a{$id} href='{$link}' class='icon-button {$icon}-icon{$class}'{$target}>{$content}<span class='et-icon'></span></a>";
 	
 	if ( $br == 'yes' ) $output .= '<br class="clear"/>';
 		
@@ -413,7 +422,6 @@ function et_button($atts, $content = null) {
 
 add_shortcode('slide', 'et_slide');
 function et_slide($atts, $content = null) {
-
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
@@ -437,17 +445,18 @@ function et_tabs($atts, $content = null) {
 				"fx" => 'fade',
 				"auto" => 'no',
 				"autospeed" => '5000',
-				"id" => '1',
+				"id" => '',
 				"slidertype" => 'top tabs',
 				"class" => ''
 			), $atts));
 	
-	$i = rand(0, 1000);
+	wp_enqueue_script( 'et-shortcodes-js' );
 	
 	$auto = ( $auto == 'no' ) ? 'false' : 'true';
 	
 	$content = et_content_helper($content);
 	
+	$id = $id <> '' ? " id='{$id}'" : '';
 	$class = ($class <> '') ? " {$class}" : '';
 	
 	$class .= " et_sliderfx_{$fx}" . " et_sliderauto_{$auto}" . " et_sliderauto_speed_{$autospeed}";
@@ -455,37 +464,36 @@ function et_tabs($atts, $content = null) {
 	if ($slidertype == 'top tabs') {
 		$class .= ' et_slidertype_top_tabs';
 		$output = "
-			<div class='" . esc_attr( "et-tabs-container{$class}" ) ."' id='et-tabs-container{$i}'>
+			<div class='" . esc_attr( "et-tabs-container{$class}" ) ."'{$id}>
 				{$content}
 			</div> <!-- .et-tabs-container -->";
 	} elseif ($slidertype == 'left tabs') {
-		$class .= ' et_slidertype_left_tabs';
+		$class .= ' et_slidertype_left_tabs clearfix';
 		$output = "
-			<div class='" . esc_attr( "tabs-left{$class}" ) . "' id='tabs-left{$i}'>
+			<div class='" . esc_attr( "tabs-left{$class}" ) . "'{$id}>
+				<div class='et_left_tabs_bg'></div>
 				{$content}
 			</div> <!-- .tabs-left -->";
 	} elseif ($slidertype == 'simple') {
 		$class .= ' et_slidertype_simple';
 		$output = "
-		<div class='" . esc_attr( "et-simple-slider{$class}" ) . "' id='et-simple-slider{$i}'>
-			<a href='#' class='et-slider-leftarrow'>Left</a>
-			<a href='#' class='et-slider-rightarrow'>Right</a>
+		<div class='" . esc_attr( "et-simple-slider{$class}" ) . "'{$id}>
 			<div class='et-simple-slides'>
-				{$content}
+				<div class='et-tabs-content-wrapper'>
+					{$content}
+				</div>
 			</div>
 		</div> <!-- .et-simple-slider -->
 		";
 	} elseif ($slidertype == 'images') {
 		$class .= ' et_slidertype_images';
 		$output = "
-		<div class='" . esc_attr( "et-image-slider{$class}" ) . "' id='et-image-slider{$i}'>
+		<div class='" . esc_attr( "et-image-slider{$class}" ) . "'{$id}>
 			<div class='et-image-slides'>
-				{$content}
+				<div class='et-tabs-content-wrapper'>
+					{$content}
+				</div>
 			</div>
-			
-			<div class='et-image-shadow'></div>
-			<div class='et-image-shadowleft'></div>
-			<div class='et-image-shadowright'></div>
 		</div> <!-- .et-image-slider -->
 		";
 	}
@@ -576,7 +584,9 @@ function et_tabcontent($atts, $content = null) {
 	
 	$output = "
 		<div{$id} class='et-tabs-content{$class}'>
-			{$content}
+			<div class='et-tabs-content-wrapper'>
+				{$content}
+			</div>
 		</div>";
 	
 	return $output;
@@ -605,19 +615,22 @@ function et_tab($atts, $content = null) {
 add_shortcode('imagetab', 'et_imagetab');
 function et_imagetab($atts, $content = null) {
 	extract(shortcode_atts(array(
-		"width" => '',
-		"height" => '',
-		"id" => '',
-		"class" => ''
+		"width"		=> '',
+		"height"	=> '',
+		"id"		=> '',
+		"class"		=> '',
+		"link"		=> '',
+		"newwindow"	=> ''
 	), $atts));
 	
+	$target = '' != $newwindow ? ' target="_blank"' : '';
 	$content = et_content_helper($content);
 	
 	$id = ($id <> '') ? " id='" . esc_attr( $id ) . "'" : '';
 	$class = ($class <> '') ? esc_attr( ' ' . $class ) : '';
 	
 	$output = "
-		<div{$id} class='et-image{$class}' style='background: url(".et_new_thumb_resize( $content, $width, $height, '', $forstyle = true ).") no-repeat; width: {$width}px; height: {$height}px;'><span class='et-image-overlay'> </span></div>";
+		<div{$id} class='et_slidecontent et-image-slide{$class}'>" . ( '' != $link ? "<a href='" . esc_url( $link ) . "'{$target}>" : '' ) . et_new_thumb_resize( $content, $width, $height, '' ) . "<span class='et-image-overlay'> </span>" . ( '' != $link ? '</a>' : '' ) . "</div>";
 
 	return $output;
 }
@@ -625,8 +638,10 @@ function et_imagetab($atts, $content = null) {
 add_shortcode('author', 'et_author');
 function et_author($atts, $content = null) {
 	extract(shortcode_atts(array(
-		"id" => '',
-		"class" => ''
+		'id' => '',
+		'class' => '',
+		'name' => '',
+		'description' => ''
 	), $atts));
 	
 	$content = et_content_helper($content);
@@ -652,7 +667,7 @@ function et_author_image($atts, $content = null) {
 
 	$content = et_content_helper($content);
 	
-	$src = ($timthumb == 'on') ? ( et_new_thumb_resize( $content, 57, 57, '', $forstyle = true ) ) : $content;
+	$src = ($timthumb == 'on') ? ( et_new_thumb_resize( $content, 60, 60, '', $forstyle = true ) ) : $content;
 	
 	$output = "
 		<div class='author-image'>
@@ -678,6 +693,7 @@ function et_author_info($atts, $content = null) {
 
 add_shortcode('pricing_table', 'et_pricing_table');
 function et_pricing_table($atts, $content = null) {
+	wp_enqueue_script( 'et-shortcodes-js' );
 	
 	$content = et_content_helper($content);
 	
@@ -715,7 +731,7 @@ function et_pricing($atts, $content = null) {
 		"desc" => "",
 		"url" => "#",
 		"window" => "",
-		"moretext" => 'join now',
+		"moretext" => 'Join Now',
 		"type" => "small",
 		"currency" => "$"
 	), $atts));
@@ -729,20 +745,24 @@ function et_pricing($atts, $content = null) {
 			
 	$output = "
 		<div class='pricing-table{$type}'>
-			<div class='pricing-heading'>
-				<h2 class='pricing-title'>{$title}</h2>
-				<p>{$desc}</p>
-			</div> <!-- end .pricing-heading -->
+			<div class='pricing-table-wrap'>
+				<div class='pricing-heading'>
+					<h2 class='pricing-title'>{$title}</h2>
+					<p>{$desc}</p>
+				</div> <!-- end .pricing-heading -->
 
-			<div class='pricing-content'>
-                <div class='pricing-tcontent'>
-                    <ul class='pricing'>
-                        {$content}
-                    </ul>
-                    <span class='et-price'><span class='dollar-sign'>{$currency}</span>{$price_array[0]}<sup>{$price_array[1]}</sup></span>
-                </div> <!-- end .pricing-tcontent -->
-			</div> <!-- end .pricing-content -->
-			<a href='" . esc_url( $url ) . "' class='join-button'{$link_target}><span>{$moretext}</span></a>
+				<div class='pricing-content'>                
+					<ul class='pricing'>
+						{$content}
+					</ul>
+				</div> <!-- end .pricing-content -->
+				
+				<div class='pricing-content-bottom'>
+					<span class='et-price'><span class='dollar-sign'>{$currency}</span>{$price_array[0]}<sup>{$price_array[1]}</sup></span>
+				</div> <!-- end .pricing-content-bottom -->
+				
+				<a href='" . esc_url( $url ) . "' class='icon-button'{$link_target}>{$moretext}</a>
+			</div> <!-- end .pricing-table-wrap -->
 		</div> <!-- end .pricing-table -->";
 		
 	return $output;
@@ -757,7 +777,7 @@ function et_pricing_feature($atts, $content = null) {
 	$content = et_content_helper($content);
 	$class = ( $checkmark == 'x' ) ? ' class="x-mark"' : '';
 	
-	$output = "<li{$class}><span>{$content}</span></li>";
+	$output = "<li{$class}>{$content}<span></span></li>";
 	
 	return $output;
 }
@@ -803,7 +823,7 @@ function et_testimonial($atts, $content = null) {
 	
 	$image_markup = '';
 	if ( $image <> '' ) {
-		$image = ( $timthumb == 'on' ) ? et_new_thumb_resize( $image, 57, 57, '', $forstyle = true ) : $image;
+		$image = ( $timthumb == 'on' ) ? et_new_thumb_resize( $image, 60, 60, '', $forstyle = true ) : $image;
 		$image_markup = "
 			<div class='t-img'>
 				<img src='{$image}' alt='{$orig_name}' />
@@ -814,18 +834,17 @@ function et_testimonial($atts, $content = null) {
 			
 	$output = "
 		<div{$id} class='et-testimonial-box{$class}'{$style}>
-			<div class='et-testimonial-content'>
-			    <div class='et-testimonial clearfix'>
-					{$image_markup}
-					{$content}
-					<div class='t-info'>
-						{$author}
-						{$company}
-					</div>
-				</div>
-		    </div>
+			<div class='et-testimonial-author-info clearfix'>
+				{$image_markup}				
+				{$author}
+				{$company}
+			</div>
+			
+			<div class='et-testimonial clearfix'>
+				{$content}
+			</div>
+		    
 		    <div class='t-bottom-arrow'></div>
-			<div class='t-bottom-shadow'></div>
 		</div>";
 		
 	return $output;
@@ -850,7 +869,9 @@ function et_quote($atts, $content = null) {
 		<div{$id} class='et_quote{$class}'{$style}>
 			<div class='et_right_quote'>
 				{$content}
+				" . ( 'center' == $type ? "<span class='et_quote_additional_sign'></span>" : '' ) . "
 			</div>
+			<span class='et_quote_sign'></span>
 		</div>
 	";
 	
@@ -893,14 +914,13 @@ function et_columns($atts, $content = null, $name='') {
 }
 
 if ( ! function_exists( 'et_delete_htmltags' ) ){
-	function et_delete_htmltags($content,$paragraph_tag=false,$br_tag=false){	
-		#$content = preg_replace('#<\/p>(\s)*<p>$|^<\/p>(\s)*<p>#', '', trim($content));
+	function et_delete_htmltags($content,$paragraph_tag=false,$br_tag=false){
 		$content = preg_replace('#^<\/p>|^<br \/>|<p>$#', '', $content);
 		
 		$content = preg_replace('#<br \/>#', '', $content);
 		
 		if ( $paragraph_tag ) $content = preg_replace('#<p>|</p>#', '', $content);
-			
+		
 		return trim($content);
 	}
 }
@@ -930,8 +950,10 @@ function et_filter_mce_button($buttons) {
 	return $buttons;
 }
 
-function et_filter_mce_plugin($plugins) {	
-	$plugins['et_quicktags'] = get_template_directory_uri(). '/epanel/shortcodes/js/editor_plugin.js';
+function et_filter_mce_plugin($plugins) {
+	$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
+	
+	$plugins['et_quicktags'] = get_template_directory_uri(). "/epanel/shortcodes/js/editor_plugin{$suffix}.js";
 	
 	return $plugins;
 }

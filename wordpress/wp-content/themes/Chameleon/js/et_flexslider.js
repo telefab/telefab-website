@@ -16,7 +16,7 @@ jQuery(window).load(function($){
 			slideshow: false
 		}
 
-		if ( 1 === et_featured_slider_auto ) {
+		if ( '1' === et_featured_slider_auto ) {
 			et_slider_settings.slideshow = true;
 			et_slider_settings.slideshowSpeed = et_featured_auto_speed;
 		}
@@ -50,12 +50,6 @@ jQuery(window).load(function($){
 			
 			et_mobile_navigation_fix();
 			et_footer_widgets_fix();
-			
-			jQuery('.et_shortcode_slide_active').each( function(){
-				var $this_shortcode_slide = jQuery(this);
-				
-				$this_shortcode_slide.parent().css( 'height', $this_shortcode_slide.innerHeight() );
-			} );
 		}
 	});
 

@@ -9,7 +9,8 @@
 *********************************/ 
 .flexslider {width: 100%; margin: 0; padding: 0;}
 .flexslider .slides > li {display: none;} /* Hide the slides before the JS is loaded. Avoids image jumping */
-.flexslider .slides img, .post img {max-width: 100%; display: block; height: auto;}
+.flexslider .slides img, .post img, #logo { max-width: 100%; height: auto; }
+.flexslider .slides img { display: block; width: auto; }
 .flex-pauseplay span {text-transform: capitalize;}
 
 /* Clearfix for the .slides element */
@@ -77,6 +78,8 @@ nav#top-menu ul.mobile_nav { width: 320px; border: 1px solid #d6d6d6; background
 .mobile_nav li ul { position: relative; top: 0; width: auto; display: block !important; visibility: visible !important; }
 
 ul#top-menu ul { display: none; }
+
+.wp-caption { max-width: 96%; padding: 8px; }
 
 @media only screen and ( min-width: 768px ) and ( max-width: 960px ) {
 	.featured-description { height: 137px; top: 25px; }

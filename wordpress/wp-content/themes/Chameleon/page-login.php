@@ -45,12 +45,11 @@ Template Name: Login Page
 				<div class='et-protected'>
 					<div class='et-protected-form'>
 						<form action='<?php echo home_url(); ?>/wp-login.php' method='post'>
-							<p><label><?php esc_html_e('Username','Chameleon'); ?>: <input type='text' name='log' id='log' value='<?php echo esc_attr($user_login); ?>' size='20' /></label></p>
-							<p><label><?php esc_html_e('Password','Chameleon'); ?>: <input type='password' name='pwd' id='pwd' size='20' /></label></p>
+							<p><label><span><?php esc_html_e('Username','Chameleon'); ?>: </span><input type='text' name='log' id='log' value='<?php echo esc_attr($user_login); ?>' size='20' /><span class='et_protected_icon'></span></label></p>
+									<p><label><span><?php esc_html_e('Password','Chameleon'); ?>: </span><input type='password' name='pwd' id='pwd' size='20' /><span class='et_protected_icon et_protected_password'></span></label></p>
 							<input type='submit' name='submit' value='Login' class='etlogin-button' />
 						</form> 
 					</div> <!-- .et-protected-form -->
-					<p class='et-registration'><?php esc_html_e('Not a member?','Chameleon'); ?> <a href='<?php echo site_url('wp-login.php?action=register', 'login_post'); ?>'><?php esc_html_e('Register today!','Chameleon'); ?></a></p>
 				</div> <!-- .et-protected -->
 			</div> <!-- end #et-login -->
 			

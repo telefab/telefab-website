@@ -107,3 +107,5 @@ textarea.input { width: 478px; height:130px; }
 	.et_portfolio_large .et_portfolio_zoom_icon { left: 219px; }
 	
 #fancybox-title-float-main { text-shadow: none !important; }
+
+.et_contact_form_label { display: none; }

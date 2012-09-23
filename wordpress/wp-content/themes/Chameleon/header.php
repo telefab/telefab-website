@@ -43,7 +43,7 @@
 		<div id="header" class="clearfix">
 			<a href="<?php bloginfo('url'); ?>">
 				<?php $logo = (get_option('chameleon_logo') <> '') ? get_option('chameleon_logo') : get_bloginfo('template_directory').'/images/logo.png'; ?>
-				<img src="<?php echo esc_url($logo); ?>" alt="Chameleon Logo" id="logo"/>
+				<img src="<?php echo esc_url($logo); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>" id="logo"/>
 			</a>
 			<p id="slogan"><?php bloginfo('description'); ?></p>
 			<?php do_action('et_header'); ?>

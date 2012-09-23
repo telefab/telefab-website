@@ -38,7 +38,7 @@ jQuery(document).ready(function(){
 	if ( et_disable_toptier == 1 ) jQuery("ul.nav > li > ul").prev("a").attr("href","#");
 
 	var $comment_form = jQuery('form#commentform');
-	$comment_form.find('input, textarea').focus(function(){
+	$comment_form.find('input:text, textarea').focus(function(){
 		if (jQuery(this).val() === jQuery(this).next('label').text()) jQuery(this).val("");
 	}).blur(function(){
 		if (jQuery(this).val() === "") jQuery(this).val( jQuery(this).next('label').text() );

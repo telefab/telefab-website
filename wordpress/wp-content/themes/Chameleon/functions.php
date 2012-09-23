@@ -22,6 +22,8 @@ if ( ! function_exists( 'et_setup_theme' ) ){
 		require_once(TEMPLATEPATH . '/epanel/post_thumbnails_chameleon.php');
 		
 		include(TEMPLATEPATH . '/includes/widgets.php');
+		
+		add_action( 'wp_enqueue_scripts', 'et_add_responsive_shortcodes_css', 11 );
 	}
 }
 
@@ -228,12 +230,12 @@ function et_set_font_properties(){
 		$et_header_font_id = str_replace( ' ', '_', $et_header_font_id );
 		
 		if ( $et_header_font <> '' ) { 
-			$font_style .= "<link id='" . esc_attr($et_header_font_id) . "' href='http://fonts.googleapis.com/css?family=" . $et_header_font . "' rel='stylesheet' type='text/css' />";
+			$font_style .= "<link id='" . esc_attr($et_header_font_id) . "' href='" . esc_url( "http://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_header_font ) . ( 'Raleway' == $et_header_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
 			$font_family = "font-family: '" . str_replace( '+', ' ', $et_header_font ) . "', Arial, sans-serif !important; ";
 		}
 		
 		if ( $et_header_font_color <> '' ) {
-			$font_color_string = "color: #" . esc_attr($et_header_font_color) . " !important; ";
+			$font_color_string = "color: #" . esc_html($et_header_font_color) . "; ";
 		}
 		
 		$font_style .= "<style type='text/css'>h1,h2,h3,h4,h5,h6,ul#top-menu a { ". $font_family .  " }</style>";
@@ -265,16 +267,16 @@ function et_set_font_properties(){
 		$et_body_font_id = str_replace( ' ', '_', $et_body_font_id );
 		
 		if ( $et_body_font <> '' ) { 
-			$font_style .= "<link id='" . esc_attr($et_body_font_id) . "' href='http://fonts.googleapis.com/css?family=" . $et_body_font . "' rel='stylesheet' type='text/css' />";
+			$font_style .= "<link id='" . esc_attr($et_body_font_id) . "' href='" . esc_url( "http://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_body_font ) . ( 'Raleway' == $et_body_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
 			$font_family = "font-family: '" . str_replace( '+', ' ', $et_body_font ) . "', Arial, sans-serif !important; ";
 		}
 		
 		if ( $et_body_font_color <> '' ) {
-			$font_color_string = "color: #" . esc_attr($et_body_font_color) . " !important; ";
+			$font_color_string = "color: #" . esc_attr($et_body_font_color);
 		}
 		
 		$font_style .= "<style type='text/css'>body { ". $font_family .  " }</style>";
-		$font_style .= "<style type='text/css'>body { ". esc_attr($font_color_string) .  " }</style>";
+		$font_style .= "<style type='text/css'>body { ". esc_html($font_color_string) .  " }</style>";
 		
 		echo $font_style;
 	}
@@ -296,7 +298,7 @@ function et_responsive_layout(){
 add_action( 'wp_head', 'et_add_viewport_meta' );
 function et_add_viewport_meta(){
 	if ( 'on' != get_option('chameleon_responsive_layout') ) return;
-	echo '<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />';
 }
 
 
