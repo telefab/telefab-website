@@ -16,7 +16,14 @@ urlpatterns = patterns('',
 	(r'^calendrier/ical/$', 'main.views.ical_events'),
 	# Equipments
 	(r'^materiel$', 'main.views.show_equipments'),
-	(r'^materiel/demande_pret$', 'main.views.request_loan'),
+	# Loans
+	(r'^prets/nouveau$', 'main.views.edit_loan'),
+	(r'^prets/(?P<loan_id>\d+)$', 'main.views.edit_loan'),
+	(r'^prets$', 'main.views.show_loans'),
+	(r'^prets/tous$', 'main.views.show_all_loans'),
+	(r'^prets/(?P<loan_id>\d+)/annuler/(?P<value>\d+)$', 'main.views.manage_loan', {'action': 'cancel'}),
+	(r'^prets/(?P<loan_id>\d+)/confirmer/(?P<value>\d+)$', 'main.views.manage_loan', {'action': 'confirm'}),
+	(r'^prets/(?P<loan_id>\d+)/retour/(?P<value>\d+)$', 'main.views.manage_loan', {'action': 'return'}),
     # Administration
     (r'^admin/', include(admin.site.urls)),
 )

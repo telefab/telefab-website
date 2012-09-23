@@ -15,6 +15,10 @@
 	margin-bottom: 20px;
 }
 
+.niceform p {
+	padding: 0;
+}
+
 .niceform label {
 	diplay: block;
 	float: left;
@@ -23,6 +27,74 @@
 
 .niceform input {
 	display: block;
+}
+
+.niceform .section_title {
+	font-size: 1.5em;
+	padding-bottom: 5px;
+}
+
+.niceform .parts_separator {
+	font-size: 1.3em;
+	border-bottom: 1px solid rgb(200, 200, 200);
+	margin-right: 50px;
+}
+
+.niceform .link {
+	padding-bottom: 5px;
+}
+
+.niceform .submit input {
+	width: 30%;
+	margin: auto;
+}
+
+/* Message blocks */
+
+.msg_confirm, .msg_error {
+	margin: 20px;
+	padding: 5px;
+	border-style: solid;
+	border-width: 1px;
+}
+
+.msg_confirm p, .msg_confirm ul, .msg_error p, .msg_error ul {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.msg_confirm {
+	border-color: green;
+}
+
+
+.msg_error {
+	border-color: red;
+}
+
+/* Tables */
+
+.nicetable {
+	width: 90%;
+	margin: 20px auto;
+}
+
+.nicetable td, .nicetable th {
+	border: 1px solid #929292;
+	padding: 3px;
+	text-align: center;
+}
+
+.nicetable th {
+	font-weight: bold;
+}
+
+/* Special link */
+
+.special_link a {
+	font-weight: bold;
 }
 
 /* Calendar */

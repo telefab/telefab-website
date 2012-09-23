@@ -17,6 +17,10 @@
 	</ul>
 	<h2>Matériel</h2>
 	<ul>
-		<li><a href="{% url main.views.request_loan %}">Demander un prêt</a></li>
+		<li><a href="{% url main.views.edit_loan %}">Demander un prêt</a></li>
+		<li><a href="{% url main.views.show_loans %}">Voir mes prêts en cours</a></li>
+		{% if user.get_profile.is_animator %}
+			<li class="special_link"><a href="{% url main.views.show_all_loans %}">Gérer tous les prêts</a></li>
+		{% endif %}
 	</ul>
 {% endblock %}

@@ -32,6 +32,19 @@ class UserProfile(models.Model):
 				cap_name.append(word.capitalize())
 			return ' '.join(cap_name)
 
+	def is_animator(self):
+		"""
+		Has this user animator rights?
+		"""
+		return self.user.groups.filter(name = ANIMATORS_GROUP_NAME) > 0
+
+	@staticmethod
+	def get_animators():
+		"""
+		Return the list of all animators
+		"""
+		return User.objects.filter(groups__name = ANIMATORS_GROUP_NAME)
+
 class Event(models.Model):
 	"""
 	Represents an event in the FabLab: opening, session...
@@ -157,13 +170,16 @@ class Loan(models.Model):
 		verbose_name = u"prêt"
 		verbose_name_plural = u"prêts"
 
-	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", blank = True, null=True)
+	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", blank = True, null=True, related_name='loans')
 	borrower_name = models.CharField(verbose_name = u"nom de l'emprunteur", max_length = 100, blank = True, null=True)
 	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan")
 	request_time = models.DateTimeField(verbose_name = u"date de la demande", blank = True, null=True)
 	loan_time = models.DateTimeField(verbose_name = u"date du prêt", blank = True, null=True)
-	scheduled_return_time = models.DateTimeField(verbose_name = u"date de retour programmée", blank = True, null=True)
+	lender = models.ForeignKey(User, verbose_name = u"prêteur", blank = True, null=True, related_name='validated_loans', limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
+	scheduled_return_date = models.DateField(verbose_name = u"date de retour programmée", blank = True, null=True)
 	return_time = models.DateTimeField(verbose_name = u"date de retour", blank = True, null=True)
+	cancel_time = models.DateTimeField(verbose_name = u"date d'annulation", blank = True, null=True)
+	cancelled_by = models.ForeignKey(User, verbose_name = u"annulé par", blank = True, null=True, related_name='cancelled_loans')
 
 	def __unicode__(self):
 		"""
@@ -185,7 +201,7 @@ class Loan(models.Model):
 		"""
 		Is the loan requested and not given?
 		"""
-		return self.request_time is not None and self.loan_time is None
+		return self.request_time is not None and self.loan_time is None and self.cancel_time is None
 	is_waiting.boolean = True
 	is_waiting.short_description = u"en attente"
 
@@ -193,7 +209,7 @@ class Loan(models.Model):
 		"""
 		Is the equipment away?
 		"""
-		return self.loan_time is not None and self.return_time is None
+		return self.loan_time is not None and self.return_time is None and self.cancel_time is None
 	is_away.boolean = True
 	is_away.short_description = u"prêt en cours"
 
@@ -205,6 +221,14 @@ class Loan(models.Model):
 	is_returned.boolean = True
 	is_returned.short_description = u"rendu"
 
+	def is_cancelled(self):
+		"""
+		Has the loan been cancelled?
+		"""
+		return self.cancel_time is not None
+	is_cancelled.boolean = True
+	is_cancelled.short_description = u"annulé"
+
 
 class EquipmentLoan(models.Model):
 	"""
@@ -214,7 +238,7 @@ class EquipmentLoan(models.Model):
 		verbose_name = "équipement"
 		verbose_name_plural = "matériel"
 	equipment = models.ForeignKey(Equipment, verbose_name = u"équipement")
-	loan = models.ForeignKey(Loan)
+	loan = models.ForeignKey(Loan, related_name="bookings")
 	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
 
 	def __unicode__(self):

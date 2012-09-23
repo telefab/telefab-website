@@ -1,8 +1,10 @@
 # This file uses the following encoding: utf-8 
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.core.exceptions import PermissionDenied
 from django.template import RequestContext, Context, Template
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.core import urlresolvers
+from django.core.mail import send_mail
 from models import *
 from datetime import date, datetime, timedelta
 from django.utils.timezone import get_default_timezone as tz
@@ -137,12 +139,220 @@ def show_equipments(request):
 	}
 	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
 
-def request_loan(request):
-	"""
-	Allows users to request a loan
-	"""
-	return render_to_response("equipments/request_loan.html", context_instance = RequestContext(request))
+# Equipment loans
 
+@login_required
+def edit_loan(request, loan_id=None):
+	"""
+	Allows users to edit a loan or create one
+	"""
+	# Get the loan to edit or create a new loan
+	loan = None
+	is_new = False
+	is_owner = True
+	saving_errors = []
+	if loan_id is not None:
+		loan = get_object_or_404(Loan, pk=loan_id)
+		# Check that the user can edit this loan
+		if loan.borrower != request.user:
+			if not request.user.get_profile().is_animator() or loan.cancel_time:
+				raise PermissionDenied()
+			is_owner = False
+		elif not loan.is_waiting():
+			raise PermissionDenied()
+	else:
+		loan = Loan()
+		loan.borrower = request.user
+		loan.request_time = datetime.now()
+		is_new = True
+	# Check if some data has been sent
+	if request.POST.get("action", None) == "save":
+		# Set the return date
+		scheduled_return_date = request.POST.get('scheduled_return_date', '')
+		try:
+			scheduled_return_date = datetime.strptime(scheduled_return_date, "%d/%m/%Y").date()
+		except ValueError:
+			saving_errors.append(u"la date de retour est invalide")
+		if scheduled_return_date < date.today():
+			saving_errors.append(u"la date de retour ne peut pas être dans le passé")
+		else:
+			loan.scheduled_return_date = scheduled_return_date
+		# Save the loan
+		loan.save()
+		# Browse equipments
+		i = 0
+		to_save = []
+		to_delete = []
+		bookings_count = 0
+		equipments = list(loan.equipments.all())
+		while request.POST.get("equipment_id" + str(i+1), None) is not None:
+			i = i + 1
+			try:
+				booking_id = int(request.POST.get("equipment_booking_id" + str(i), ""))
+			except ValueError:
+				booking_id = 0
+			booking = None
+			if booking_id != 0:
+				try:
+					booking = loan.bookings.get(pk = booking_id)
+				except Booking.DoesNotExist:
+					saving_errors.append(u"une réservation modifiée n'existe pas")
+					continue
+			remove_request = False
+			try:
+				remove_request = int(request.POST.get("equipment_remove" + str(i), "0")) > 0
+			except:
+				pass
+			if remove_request:
+				# This booking has been deleted
+				if booking is not None:
+					to_delete.append(booking)
+					equipments.remove(booking.equipment)
+			else:
+				try:
+					quantity = int(request.POST.get("equipment_quantity" + str(i), ""))
+				except ValueError:
+					quantity = 0
+				if booking is not None:
+					bookings_count = bookings_count + 1
+					# This booking exists: edit the quantity
+					if quantity <= 0 or quantity > booking.equipment.quantity:
+						saving_errors.append(u"il n'y a que " + str(booking.equipment.quantity) + " exemplaire(s) de " + booking.equipment.name)
+						continue
+					if quantity != booking.quantity:
+						booking.quantity = quantity
+						to_save.append(booking)
+				else:
+					# New booking
+					# Get the equipment
+					equipment_id = -1
+					try:
+						equipment_id = int(request.POST.get("equipment_id" + str(i), ""))
+					except ValueError:
+						pass
+					if equipment_id == 0:
+						# If the equipment id is 0, this is an empty field to ignore
+						continue
+					try:
+						equipment = Equipment.objects.get(pk = int(request.POST.get("equipment_id" + str(i), "")))
+					except (Equipment.DoesNotExist, ValueError):
+						saving_errors.append(u"l'équipement \"" + request.POST.get("equipment_name" + str(i), "") + "\" n'existe pas")
+						continue
+					# Check that this equipment is not already booked
+					if equipment in equipments:
+						saving_errors.append(u"pour réserver plusieurs exemplaires d'un équipement, utilisez le champ \"quantité\"")
+						continue
+					# Check the quantity
+					if quantity <= 0 or quantity > equipment.quantity:
+						saving_errors.append("il n'y a que " + str(equipment.quantity) + " exemplaire(s) de " + equipment.name)
+						continue
+					# Create
+					bookings_count = bookings_count + 1
+					booking = EquipmentLoan(loan = loan, equipment = equipment, quantity = quantity)
+					to_save.append(booking)
+					equipments.append(equipment)
+		# Check that there is at least 1 booking
+		if bookings_count == 0:
+			saving_errors.append(u"au moins un équipement doit être réservé")
+		if not saving_errors:
+			# Save all if no error
+			loan.save()
+			for booking in to_delete:
+				booking.delete()
+			for booking in to_save:
+				booking.save()
+			if is_new:
+				# Send an email to all animators about the new request
+				for animator in UserProfile.get_animators():
+					send_mail(u"[Téléfab] Demande de prêt de matériel",
+						u"Une demande de prêt vient d'être faite sur le site du Téléfab. Gérez les demandes à cette adresse : " + urlresolvers.reverse('main.views.show_all_loans'),
+						"contact@telefab.fr",
+						[animator.email])
+			# Redirect
+			return redirect(urlresolvers.reverse('main.views.show_loans'))
+	# Render
+	template_data = {
+		'loan': loan,
+		'is_new': is_new,
+		'is_owner': is_owner,
+		'equipments': Equipment.objects.filter(quantity__gt = 0),
+		'saving_errors': saving_errors
+	}
+	return render_to_response("loans/edit.html", template_data, context_instance = RequestContext(request))
+
+@login_required
+def show_loans(request):
+	"""
+	Show all the current loans of an user
+	"""
+	# Loans finished less than 7 days ago
+	last_time = datetime.now() - timedelta(days=7)
+	loans = request.user.loans.filter((Q(cancel_time = None) | Q(cancel_time__gte = last_time)) & (Q(return_time = None) | Q(return_time__gte = last_time))).order_by('-request_time')
+	template_data = {
+		'loans': loans
+	}
+	return render_to_response("loans/show.html", template_data, context_instance = RequestContext(request))
+
+@login_required
+def show_all_loans(request):
+	"""
+	Show all loans to animators
+	"""
+	# Only animators
+	if not request.user.get_profile().is_animator():
+		raise PermissionDenied()
+	# Loans finished less than 7 days ago
+	last_time = datetime.now() - timedelta(days=7)
+	loans = Loan.objects.filter((Q(cancel_time = None) | Q(cancel_time__gte = last_time)) & (Q(return_time = None) | Q(return_time__gte = last_time))).order_by('-request_time')
+	template_data = {
+		'loans': loans,
+		'animator': True
+	}
+	return render_to_response("loans/show.html", template_data, context_instance = RequestContext(request))
+
+@login_required
+def manage_loan(request, loan_id, action, value):
+	"""
+	Allows animators to manage loans: cancel or confirm
+	"""
+	# Only animators
+	loan = get_object_or_404(Loan, pk=loan_id)
+	if action == "cancel":
+		# Manage the cancel status
+		if (loan.borrower != request.user or loan.loan_time) and not request.user.get_profile().is_animator():
+			raise PermissionDenied()
+		if value == "1":
+			loan.cancel_time = datetime.now()
+		else:
+			loan.cancel_time = None
+	elif action =="return":
+		# Manage the return status
+		if not request.user.get_profile().is_animator():
+			raise PermissionDenied()
+		if loan.cancel_time or not loan.loan_time:
+			raise PermissionDenied()
+		if value == "1":
+			loan.return_time = datetime.now()
+		else:
+			loan.return_time = None
+	elif action == "confirm":
+		# Manage the confirm status
+		if not request.user.get_profile().is_animator():
+			raise PermissionDenied()
+		if loan.cancel_time:
+			raise PermissionDenied()
+		if value == "1":
+			loan.loan_time = datetime.now()
+			loan.lender = request.user
+		else:
+			loan.loan_time = None
+	else:
+		raise Http404()
+	loan.save()
+	if request.user.get_profile().is_animator():
+		return redirect(urlresolvers.reverse('main.views.show_all_loans'))
+	else:
+		return redirect(urlresolvers.reverse('main.views.show_loans'))
 
 # Account
 

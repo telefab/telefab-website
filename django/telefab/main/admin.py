@@ -41,6 +41,6 @@ class EquipmentLoanAdmin(admin.TabularInline):
 # Loan administration
 class LoanAdmin(admin.ModelAdmin):
 	model = Loan
-	list_display = ('borrower_display', 'is_waiting', 'is_away', 'is_returned')
+	list_display = ('borrower_display', 'is_waiting', 'is_away', 'is_returned', 'scheduled_return_date')
 	inlines = [EquipmentLoanAdmin,]
 admin.site.register(Loan, LoanAdmin)

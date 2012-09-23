@@ -1,0 +1,125 @@
+{% extends "layout/lab.html" %}
+{% load static %}
+{% block title %}
+	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
+{% endblock %}
+{% block page_title %}
+	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
+{% endblock %}
+{% block lab_link %}
+	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
+{% endblock %}
+{% block content %}
+	<h2>{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}</h2>
+	{% if is_new %}
+		<p>
+			Pour emprunter du matériel, merci de faire une demande ci-dessous.
+		</p>
+	{% endif %}
+	{% if saving_errors %}
+		<div class="msg_error">
+			<p>
+				L'enregistrement a échoué car la demande de prêt n'était pas valide :
+			</p>
+			<ul>
+				{% for error in saving_errors %}
+					<li>
+						{{error}}{% if forloop.last %}.{% else %} ;{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+	{% if not is_owner %}
+		<p>
+			Emprunteur : <strong>{{loan.borrower_display}}</strong>
+		</p>
+	{% endif %}
+	<form method="POST" action="{% if is_new %}{% url main.views.edit_loan %}{% else %}{% url main.views.edit_loan loan.id %}{% endif %}" class="niceform" autocomplete="off">
+		{% csrf_token %}
+		<input type="hidden" name="action" value="save" />
+		<p>
+			<label for="scheduled_return_date">Date de retour prévue :</label>
+			<input type="text" id="scheduled_return_date" name="scheduled_return_date" value="{{loan.scheduled_return_date|date:'d/m/Y'|default:''}}" />
+		</p>
+		<div class="booking_sections">
+			{% if not is_new %}
+				{% for booking in loan.bookings.all %}
+					<div class="booking_section">
+						<h2 class="parts_separator">
+							Équipement
+						</h2>
+						<p>
+							<label for="equipment_name{{forloop.counter}}">Nom :</label>
+							<input type="text" id="equipment_name{{forloop.counter}}" name="equipment_name{{forloop.counter}}" class="equipment_name" value="{{booking.equipment.name}}" disabled="disabled" />
+						</p>
+						<p>
+							<label for="equipment_quantity{{forloop.counter}}">Quantité :</label>
+							<input type="text" id="equipment_quantity{{forloop.counter}}" name="equipment_quantity{{forloop.counter}}" class="equipment_quantity" value="{{booking.quantity}}" />
+						</p>
+						<p class="link">
+							<a href="#" class="delete_equipment">Supprimer cet équipement</a>
+						</p>
+						<input type="hidden" name="equipment_booking_id{{forloop.counter}}" class="equipment_booking_id" value="{{booking.id}}" />
+						<input type="hidden" name="equipment_id{{forloop.counter}}" class="equipment_id" value="{{booking.equipment.id}}" />
+						<input type="hidden" name="equipment_remove{{forloop.counter}}" class="equipment_remove" value="0" />
+					</div>
+				{% endfor %}
+			{% else %}
+					<div class="booking_section">
+						<h2 class="parts_separator">
+							Équipement
+						</h2>
+						<p>
+							<label for="equipment_name1">Nom :</label>
+							<input type="text" id="equipment_name1" name="equipment_name1" class="equipment_name" value="" />
+						</p>
+						<p>
+							<label for="equipment_quantity1">Quantité :</label>
+							<input type="text" id="equipment_quantity1" name="equipment_quantity1" class="equipment_quantity" value="1" />
+						</p>
+						<p class="link">
+							<a href="#" class="delete_equipment">Supprimer cet équipement</a>
+						</p>
+						<input type="hidden" name="equipment_booking_id1" class="equipment_booking_id" value="" />
+						<input type="hidden" name="equipment_id1" class="equipment_id" value="" />
+						<input type="hidden" name="equipment_remove1" class="equipment_remove" value="0" />
+					</div>
+			{% endif %}
+		</div>
+		<p class="link">
+			<a href="#" class="add_equipment">Ajouter un équipement</a>
+		</p>
+		<p class="submit">
+			<input type="submit" value="Enregistrer" />
+		</p>
+	</form>
+	<p>
+		La <a href="{% url main.views.show_equipments %}" target="_blank">liste du matériel</a> montre tous les équipements que vous pouvez emprunter.
+	</p>
+	<p>
+		<a href="{% url main.views.show_loans %}">
+			Retour à la liste des prêts en cours
+		</a>
+	</p>
+{% endblock %}
+{% block css %}
+	<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/jquery-ui/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+{% block scripts %}
+	<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.ui.datepicker-fr.js"></script>
+	<script type="text/javascript" src="{% get_static_prefix %}main/js/edit_loan.js"></script>
+	<script type="text/javascript">
+		/* Data about all equipment in javscript */
+		var equipment_data = [
+			{% for equipment in equipments %}
+				{
+					'id': {{equipment.id}},
+					'name': "{{equipment.name|escapejs}}",
+					'quantity': {{equipment.quantity}}
+				}{% if not forloop.last %},{% endif %}
+			{% endfor %}
+		];
+	</script>
+{% endblock %}
