@@ -141,15 +141,16 @@ LOGGING = {
         }
     },
     'handlers': {
-        'mail_admins': {
+        'file': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
+            'class': 'logging.FileHandler',
+            'filename': GLOBAL_ROOT + 'log/debug.log',
         }
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['file'],
             'level': 'ERROR',
             'propagate': True,
         },
