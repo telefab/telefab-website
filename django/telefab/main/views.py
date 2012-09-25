@@ -264,7 +264,7 @@ def edit_loan(request, loan_id=None):
 				booking.save()
 			if is_new:
 				# Send an email to all animators about the new request
-				body = unicode(request.user.get_profile()) + u" a fait une demande de matériel au Téléfab (retour prévu le " + loan.scheduled_return_date.strftime("%d/%m/%Y") + ":\n"
+				body = unicode(request.user.get_profile()) + u" a fait une demande de matériel au Téléfab (retour prévu le " + loan.scheduled_return_date.strftime("%d/%m/%Y") + ") :\n"
 				for booking in loan.bookings.all():
 					body = body + u"* " + unicode(booking.equipment)
 					if booking.quantity > 1:
