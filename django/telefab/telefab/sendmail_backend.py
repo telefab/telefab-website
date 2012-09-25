@@ -1,4 +1,4 @@
-"""sendmail email backend class."""
+"""sendmail (or postfix) email backend class."""
 
 from django.conf import settings
 from django.core.mail.backends.base import BaseEmailBackend
@@ -35,7 +35,7 @@ class EmailBackend(BaseEmailBackend):
         if not email_message.recipients():
             return False
         try:
-            ps = Popen(["sendmail"]+list(email_message.recipients()), \
+            ps = Popen(["mail"]+list(email_message.recipients()), \
             stdin=PIPE)
             ps.stdin.write(email_message.message().as_string())
             ps.stdin.flush()

@@ -145,7 +145,7 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'logging.FileHandler',
-            'filename': GLOBAL_ROOT + 'log/debug.log',
+            'filename': GLOBAL_ROOT + 'log/errors.log',
         }
     },
     'loggers': {
