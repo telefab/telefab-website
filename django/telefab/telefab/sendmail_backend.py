@@ -33,8 +33,9 @@ class EmailBackend(BaseEmailBackend):
         if not email_message.recipients():
             return False
         try:
-            ps = Popen(["mail", "-s", email_message.subject, "-r", email_message.from_email] + list(email_message.recipients()), stdin=PIPE)
-            ps.stdin.write(email_message.body)
+            msg = email_message.message()
+            ps = Popen(["mail", "-s", msg.get("subject").encode(), "-r", msg.get("from")] + list(email_message.recipients()), stdin=PIPE)
+            ps.stdin.write(msg.get_payload())
             ps.stdin.flush()
             ps.stdin.close()
             return not ps.wait()
