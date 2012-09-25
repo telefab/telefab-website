@@ -287,9 +287,11 @@ def show_loans(request):
 	"""
 	# Loans finished less than 7 days ago
 	last_time = datetime.now() - timedelta(days=7)
-	loans = request.user.loans.filter((Q(cancel_time = None) | Q(cancel_time__gte = last_time)) & (Q(return_time = None) | Q(return_time__gte = last_time))).order_by('-request_time')
+	loans = request.user.loans.filter(cancel_time = None, return_time = None).order_by('-request_time')
+	old_loans = request.user.loans.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))).order_by('-request_time')
 	template_data = {
-		'loans': loans
+		'loans': loans,
+		'old_loans': old_loans
 	}
 	return render_to_response("loans/show.html", template_data, context_instance = RequestContext(request))
 
@@ -303,9 +305,11 @@ def show_all_loans(request):
 		raise PermissionDenied()
 	# Loans finished less than 7 days ago
 	last_time = datetime.now() - timedelta(days=7)
-	loans = Loan.objects.filter((Q(cancel_time = None) | Q(cancel_time__gte = last_time)) & (Q(return_time = None) | Q(return_time__gte = last_time))).order_by('-request_time')
+	loans = Loan.objects.filter(cancel_time = None, return_time = None).order_by('-request_time')
+	old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))).order_by('-request_time')
 	template_data = {
 		'loans': loans,
+		'old_loans': old_loans,
 		'animator': True
 	}
 	return render_to_response("loans/show.html", template_data, context_instance = RequestContext(request))

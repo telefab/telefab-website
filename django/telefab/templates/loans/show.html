@@ -10,88 +10,8 @@
 	{% if animator %}Tous les prêts{% else %}Prêts en cours{% endif %}
 {% endblock %}
 {% block content %}
-	<h2>{% if animator %}Tous les prêts{% else %}Prêts en cours{% endif %}</h2>
-	<table class="nicetable">
-		<tr>
-			{% if animator %}
-				<th>Emprunteur</th>
-			{% endif %}
-			<th>État</th>
-			<th>Matériel</th>
-			<th>Date de retour programmée</th>
-			<th>Actions</th>
-		</tr>
-		{% for loan in loans %}
-			<tr>
-				{% if animator %}
-					<td>
-						{{loan.borrower_display}}
-					</td>
-				{% endif %}
-				<td>
-					{% if loan.cancel_time %}
-						Annulé
-					{% elif loan.return_time %}
-						Matériel rendu
-					{% elif loan.loan_time %}
-						Matériel prêté
-					{% else %}
-						En attente
-					{% endif %}
-				</td>
-				<td>
-					<ul>
-						{% for booking in loan.bookings.all %}
-							<li>{{ booking.equipment.name }}{% if booking.quantity > 1 %} (x{{booking.quantity}}){% endif %}</li>
-						{% endfor %}
-					</ul>
-				</td>
-				<td>
-					{{ loan.scheduled_return_date|date:"d/m/Y" }}
-				</td>
-				<td>
-					<ul>
-						{% if animator %}
-							{% if not loan.cancel_time and not loan.return_time %}
-								<li>
-									{% if loan.loan_time %}
-										<a href="{% url main.views.manage_loan loan_id=loan.id action='confirm' value=0 %}">Annuler prêté</a>
-									{% else %}
-										<a href="{% url main.views.manage_loan loan_id=loan.id action='confirm' value=1 %}">Déclarer prêté</a>
-									{% endif %}
-								</li>
-							{% endif %}
-							{% if loan.loan_time and not loan.cancel_time %}
-								<li>
-									{% if loan.return_time %}
-										<a href="{% url main.views.manage_loan loan_id=loan.id action='return' value=0 %}">Annuler rendu</a>
-									{% else %}
-										<a href="{% url main.views.manage_loan loan_id=loan.id action='return' value=1 %}">Déclarer rendu</a>
-									{% endif %}
-								</li>
-							{% endif %}
-						{% endif %}
-						{% if animator or not loan.loan_time %}
-							{% if not loan.cancel_time %}
-								<li>
-									<a href="{% url main.views.edit_loan loan.id %}">Modifier</a>
-								</li>
-							{% endif %}
-						{% endif %}
-						{% if animator or not loan.loan_time %}
-							<li>
-								{% if loan.cancel_time %}
-									<a href="{% url main.views.manage_loan loan_id=loan.id action='cancel' value=0 %}">Rétablir {% if animator %}le prêt{% else %}la demande{% endif %}</a>
-								{% else %}
-									<a href="{% url main.views.manage_loan loan_id=loan.id action='cancel' value=1 %}">Annuler {% if animator %}le prêt{% else %}la demande{% endif %}</a>
-								{% endif %}
-							</li>
-						{% endif %}
-					</ul>
-				</td>
-			</tr>
-		{% endfor %}
-	</table>
+	<h2>Prêts en cours</h2>
+	{% include "loans/_list.html" with loans=loans animator=animator only %}
 	{% if not animator %}
 		<p>
 			<a href="{% url main.views.edit_loan %}">
@@ -99,4 +19,6 @@
 			</a>
 		</p>
 	{% endif %}
+	<h2>Anciens prêts (visibles 7 jours)</h2>
+	{% include "loans/_list.html" with loans=old_loans animator=animator only %}
 {% endblock %}
