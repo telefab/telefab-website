@@ -21,17 +21,12 @@ class EmailBackend(BaseEmailBackend):
         """
         if not email_messages:
             return
-        try:
-            num_sent = 0
-            for message in email_messages:
-                sent = self._send(message)
-                if sent:
-                    num_sent = num_sent + 1
-        except:
-            if not self.fail_silently:
-                raise
-        finally:
-            return num_sent
+        num_sent = 0
+        for message in email_messages:
+            sent = self._send(message)
+            if sent:
+                num_sent = num_sent + 1
+        return num_sent
 
     def _send(self, email_message):
         """A helper method that does the actual sending."""
