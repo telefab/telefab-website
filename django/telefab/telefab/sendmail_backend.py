@@ -27,6 +27,9 @@ class EmailBackend(BaseEmailBackend):
                 sent = self._send(message)
                 if sent:
                     num_sent = num_sent + 1
+        except:
+            if not self.fail_silently:
+                raise
         finally:
             return num_sent
 
@@ -35,7 +38,7 @@ class EmailBackend(BaseEmailBackend):
         if not email_message.recipients():
             return False
         try:
-            ps = Popen(["mail", "-s", mail.subject, "-r", mail.from_email] + list(email_message.recipients()), stdin=PIPE)
+            ps = Popen(["mail", "-s", email_message.subject, "-r", email_message.from_email] + list(email_message.recipients()), stdin=PIPE)
             ps.stdin.write(email_message.body)
             ps.stdin.flush()
             ps.stdin.close()
