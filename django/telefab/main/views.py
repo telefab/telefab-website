@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from vobject import iCalendar
 from telefab.local_settings import WEBSITE_CONFIG
+from telefab.settings import SITE_URL, EMAIL_FROM
 
 # Events
 
@@ -263,11 +264,15 @@ def edit_loan(request, loan_id=None):
 				booking.save()
 			if is_new:
 				# Send an email to all animators about the new request
+				body = unicode(request.user.get_profile()) + u" a fait une demande de matériel au Téléfab (retour prévu le " + loan.scheduled_return_date.strftime("%d/%m/%Y") + ":\n"
+				for booking in loan.bookings.all():
+					body = body + u"* " + unicode(booking.equipment)
+					if booking.quantity > 1:
+						body = body + " (" + unicode(booking.quantity) + ")"
+					body = body + "\n"
+				body = body + "\nPour voir toutes les demandes, allez ici : " + SITE_URL + urlresolvers.reverse('main.views.show_all_loans')
 				for animator in UserProfile.get_animators():
-					send_mail(u"[Téléfab] Demande de prêt de matériel",
-						u"Une demande de prêt vient d'être faite sur le site du Téléfab. Gérez les demandes à cette adresse : " + urlresolvers.reverse('main.views.show_all_loans'),
-						"contact@telefab.fr",
-						[animator.email])
+					send_mail(u"[Téléfab] Demande de matériel : " + unicode(request.user.get_profile()), body, EMAIL_FROM, [animator.email])
 			# Redirect
 			return redirect(urlresolvers.reverse('main.views.show_loans'))
 	# Render

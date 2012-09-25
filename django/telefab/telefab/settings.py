@@ -5,13 +5,16 @@ from browserid_settings import guess_username
 
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
-    ('Tristan', 'tristan.groleat@telecom-bretagne.eu'),
-)
+if DEBUG:
+    # Email backend for debug: file
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = GLOBAL_ROOT + 'log/messages'
+else:
+    # Email backend: postfix
+    EMAIL_BACKEND = 'telefab.sendmail_backend.EmailBackend'
 
-MANAGERS = ADMINS
-
-EMAIL_BACKEND = 'telefab.sendmail_backend.EmailBackend'
+# Email to send from
+EMAIL_FROM = 'contact@' + WEBSITE_CONFIG['host']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
