@@ -10,8 +10,9 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = GLOBAL_ROOT + 'log/messages'
 else:
-    # Email backend: postfix
-    EMAIL_BACKEND = 'telefab.sendmail_backend.EmailBackend'
+    # Email backend: local SMTP
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 25
 
 # Email to send from
 EMAIL_FROM = 'contact@' + WEBSITE_CONFIG['host']
