@@ -36,7 +36,7 @@ class UserProfile(models.Model):
 		"""
 		Has this user animator rights?
 		"""
-		return self.user.groups.filter(name = ANIMATORS_GROUP_NAME) > 0
+		return len(self.user.groups.filter(name = ANIMATORS_GROUP_NAME)) > 0
 
 	@staticmethod
 	def get_animators():

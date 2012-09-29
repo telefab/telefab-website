@@ -178,14 +178,14 @@ def edit_loan(request, loan_id=None):
 			saving_errors.append(u"la date de retour ne peut pas être dans le passé")
 		else:
 			loan.scheduled_return_date = scheduled_return_date
-		# Save the loan
-		loan.save()
 		# Browse equipments
 		i = 0
 		to_save = []
 		to_delete = []
 		bookings_count = 0
-		equipments = list(loan.equipments.all())
+		equipments = []
+		if not is_new:
+			equipments = list(loan.equipments.all())
 		while request.POST.get("equipment_id" + str(i+1), None) is not None:
 			i = i + 1
 			try:
@@ -261,6 +261,7 @@ def edit_loan(request, loan_id=None):
 			for booking in to_delete:
 				booking.delete()
 			for booking in to_save:
+				booking.loan_id = loan.id
 				booking.save()
 			if is_new:
 				# Send an email to all animators about the new request
@@ -332,6 +333,7 @@ def manage_loan(request, loan_id, action, value):
 			raise PermissionDenied()
 		if value == "1":
 			loan.cancel_time = datetime.now()
+			loan.cancelled_by = request.user
 		else:
 			loan.cancel_time = None
 	elif action =="return":
