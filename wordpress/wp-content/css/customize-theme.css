@@ -22,3 +22,16 @@ body ul#top-menu > li.current_page_item > a, body ul#top-menu > li.current-menu-
 body ul#top-menu a:hover, body ul#top-menu > li.sfHover > a, body ul#top-menu a:active {
   color: #7d7d0f;
 }
+
+/* Open or closed place */
+.place_open, .place_closed {
+	font-weight: bold;
+}
+
+.place_open {
+	color: green;
+}
+
+.place_closed {
+	color: red;
+}

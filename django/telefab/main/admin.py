@@ -44,3 +44,9 @@ class LoanAdmin(admin.ModelAdmin):
 	list_display = ('borrower_display', 'is_waiting', 'is_away', 'is_returned', 'scheduled_return_date')
 	inlines = [EquipmentLoanAdmin,]
 admin.site.register(Loan, LoanAdmin)
+
+# Place administration
+class PlaceAdmin(admin.ModelAdmin):
+	model = Place
+	list_display = ('name', 'now_open')
+admin.site.register(Place, PlaceAdmin)

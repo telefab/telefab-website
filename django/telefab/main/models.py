@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.utils.timezone import get_default_timezone as tz
 from telefab.local_settings import WEBSITE_CONFIG
-from telefab.settings import ANIMATORS_GROUP_NAME
+from telefab.settings import ANIMATORS_GROUP_NAME, MAIN_PLACE_NAME
 from django.core.urlresolvers import reverse
 
 class UserProfile(models.Model):
@@ -246,3 +246,20 @@ class EquipmentLoan(models.Model):
 		String representation of the equipment loan
 		"""
 		return unicode(self.equipment)
+
+class Place(models.Model):
+	"""
+	Place with a monitored opening state
+	"""
+	class Meta:
+		verbose_name = "lieu"
+		verbose_name_plural = "lieux"
+	name = models.CharField(verbose_name = u"nom", max_length = 100)
+	now_open = models.BooleanField(verbose_name = u"ouvert maintenant", default = False)
+
+	@staticmethod
+	def get_main_place():
+		"""
+		Return the main place
+		"""
+		return Place.objects.get(name = MAIN_PLACE_NAME)

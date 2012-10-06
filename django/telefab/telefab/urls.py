@@ -24,6 +24,8 @@ urlpatterns = patterns('',
 	(r'^prets/(?P<loan_id>\d+)/annuler/(?P<value>\d+)$', 'main.views.manage_loan', {'action': 'cancel'}),
 	(r'^prets/(?P<loan_id>\d+)/confirmer/(?P<value>\d+)$', 'main.views.manage_loan', {'action': 'confirm'}),
 	(r'^prets/(?P<loan_id>\d+)/retour/(?P<value>\d+)$', 'main.views.manage_loan', {'action': 'return'}),
+	# Places
+	(r'^lieu/ouverture$', 'main.views.update_place'),
     # Administration
     (r'^admin/', include(admin.site.urls)),
 )

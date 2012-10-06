@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from vobject import iCalendar
 from telefab.local_settings import WEBSITE_CONFIG
-from telefab.settings import SITE_URL, EMAIL_FROM
+from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME
 
 # Events
 
@@ -376,7 +376,10 @@ def welcome(request):
 	if (not request.user.first_name or not request.user.last_name) and not request.session.get("already_welcome", False):
 		request.session["already_welcome"] = True
 		return redirect(urlresolvers.reverse('main.views.profile') + "?first_edit=1")
-	return render_to_response("account/welcome.html", context_instance = RequestContext(request))
+	template_data = {
+		'telefab_open': Place.get_main_place().now_open
+	}
+	return render_to_response("account/welcome.html", template_data, context_instance = RequestContext(request))
 
 def connection(request):
 	"""
@@ -421,3 +424,20 @@ def profile(request):
 		'just_saved': just_saved
 	}
 	return render_to_response("account/profile.html", template_data, context_instance = RequestContext(request))
+
+# Places
+
+@login_required
+def update_place(request):
+	"""
+	Updates a place to switch it between open or not.
+	This is quite dirty for now (only the main place is supported)
+	"""
+	# Only animators
+	if not request.user.get_profile().is_animator():
+		raise PermissionDenied()
+	# Update the place
+	place = Place.get_main_place()
+	place.now_open = not place.now_open
+	place.save()
+	return redirect(urlresolvers.reverse('main.views.welcome'))
