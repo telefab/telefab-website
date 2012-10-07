@@ -13,7 +13,7 @@
 	{% if user.get_profile.is_animator %}
 		<h2>Téléfab Brest</h2>
 		<ul>
-			<li><a href="{% url main.views.update_place %}">{% if telefab_open %}Déclarer fermé{% else %}Déclarer ouvert{% endif %}</a></li>
+			<li class="special_link"><a href="{% url main.views.update_place %}">{% if telefab_open %}Déclarer fermé{% else %}Déclarer ouvert{% endif %}</a></li>
 		</ul>
 	{% endif %}
 	<h2>Mon compte</h2>
