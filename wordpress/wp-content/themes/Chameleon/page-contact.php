@@ -53,7 +53,14 @@ Template Name: Contact Page
 		$et_email_to = ( isset($et_ptemplate_settings['et_email_to']) && !empty($et_ptemplate_settings['et_email_to']) ) ? $et_ptemplate_settings['et_email_to'] : get_site_option('admin_email');
 				
 		$et_site_name = is_multisite() ? $current_site->site_name : get_bloginfo('name');	
-		wp_mail($et_email_to, sprintf( '[%s] ' . esc_html($_POST['et_contact_subject']), $et_site_name ), esc_html($_POST['et_contact_message']),'From: "'. esc_html($_POST['et_contact_name']) .'" <' . esc_html($_POST['et_contact_email']) . '>');
+		
+		$contact_name 	= wp_strip_all_tags( $_POST['et_contact_name'] );
+		$contact_email 	= wp_strip_all_tags( $_POST['et_contact_email'] );
+
+		$headers  = 'From: ' . $contact_name . ' <' . $contact_email . '>' . "\r\n";
+		$headers .= 'Reply-To: ' . $contact_name . ' <' . $contact_email . '>';
+
+		wp_mail( apply_filters( 'et_contact_page_email_to', $et_email_to ), sprintf( '[%s] ' . wp_strip_all_tags( $_POST['et_contact_subject'] ), $et_site_name ), wp_strip_all_tags( $_POST['et_contact_message'] ), apply_filters( 'et_contact_page_headers', $headers, $contact_name, $contact_email ) );
 		
 		$et_error_message = '<p>' . esc_html__('Thanks for contacting us','Chameleon') . '</p>';
 	}

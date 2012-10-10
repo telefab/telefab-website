@@ -18,8 +18,7 @@
 <?php if ( $et_slider_type == 'flexslider' ) { ?>
 	<ul class="slides">
 <?php } ?>
-		<?php global $ids;
-		$ids = array(); 
+		<?php
 		$i=1;
 		
 		$featured_cat = get_option('chameleon_feat_cat'); 
@@ -135,7 +134,7 @@
 				</div> <!-- end .slide -->
 			<?php } ?>
 			
-		<?php $ids[] = $post->ID; $i++; endwhile; endif; wp_reset_query(); ?>
+		<?php $i++; endwhile; endif; wp_reset_query(); ?>
 <?php if ( $et_slider_type <> 'roundabout' && $et_slider_type != 'flexslider' ) { ?>
 	</div> <!-- end #slides -->
 <?php } ?>

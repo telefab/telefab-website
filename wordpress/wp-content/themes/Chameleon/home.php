@@ -103,7 +103,7 @@
 											<?php
 												global $wp_embed;
 												$et_video_id = 'et_video_post_' . $post->ID;
-												$et_videos_output .= '<div id="'. esc_attr( $et_video_id ) .'">' . $wp_embed->shortcode( '', $et_videolink ) . '</div>';
+												$et_videos_output .= '<div id="'. esc_attr( $et_video_id ) .'">' . apply_filters( 'the_content', $wp_embed->shortcode( '', $et_videolink ) ) . '</div>';
 											?>
 											
 											<a href="<?php echo esc_url( '#' . $et_video_id ); ?>" class="et-video fancybox" title="<?php echo esc_attr( $titletext ); ?>">

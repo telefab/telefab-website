@@ -81,7 +81,7 @@ jQuery(document).ready(function() {
 				et_contact_error = true;
 				
 				var default_value = jQuery(this).siblings('label').text();
-				if ( default_value === undefined ) default_value = 'Captcha';
+				if ( default_value == '' ) default_value = 'Captcha';
 								
 				et_message += '<li>Fill ' + default_value + ' field</li>';
 			}

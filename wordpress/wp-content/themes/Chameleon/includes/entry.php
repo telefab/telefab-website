@@ -1,17 +1,3 @@
-<?php
-	if ( is_home() ){
-		$args=array(
-			'showposts'=> esc_attr(get_option('chameleon_homepage_posts')),
-			'paged'=>$paged,
-			'category__not_in' => get_option('chameleon_exlcats_recent'),
-		);
-		if (get_option('chameleon_duplicate') == 'false'){
-			global $ids;
-			$args['post__not_in'] = $ids;
-		}
-		query_posts($args);
-	}
-?>
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 	<div class="post entry clearfix">
 		<?php
@@ -46,4 +32,4 @@
 	<?php } ?>
 <?php else : ?>
 	<?php get_template_part('includes/no-results'); ?>
-<?php endif; if ( is_home() ) wp_reset_query(); ?>
+<?php endif; ?>

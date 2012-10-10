@@ -16,18 +16,7 @@ jQuery(document).ready(function(){
 		return false;
 	});
 
-
-	var et_body_bgcolor = jQuery('body').css('backgroundColor'),
-		et_body_bgcolor_parts = et_body_bgcolor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-	delete ( et_body_bgcolor_parts[0] );
-	for (var i = 1; i <= 3; ++i) {
-		et_body_bgcolor_parts[i] = parseInt(et_body_bgcolor_parts[i]).toString(16);
-		if (et_body_bgcolor_parts[i].length == 1) et_body_bgcolor_parts[i] = '0' + et_body_bgcolor_parts[i];
-	}
-	var et_body_bgcolor_parts_hex = et_body_bgcolor_parts.join('');
-
 	jQuery('#et-control-background').ColorPicker({
-		color: et_body_bgcolor_parts_hex,
 		onShow: function (colpkr) {
 			jQuery(colpkr).fadeIn(500);
 			return false;

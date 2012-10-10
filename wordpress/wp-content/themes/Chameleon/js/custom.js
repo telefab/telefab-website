@@ -72,7 +72,9 @@ jQuery(document).ready(function(){
 		jQuery(this).parent('.thumb').find('.media-description').stop(true,true).css({'display':'block','opacity':0}).animate({opacity:1, bottom:'53px'},400);
 	},function(){
 		jQuery(this).find('img').stop(true,true).fadeTo(400,1).end().find('span').fadeTo(400,0);
-		jQuery(this).parent('.thumb').find('.media-description').stop(true,true).animate({opacity:0, bottom:'63px'},400);
+		jQuery(this).parent('.thumb').find('.media-description').stop(true,true).animate({opacity:0, bottom:'63px'},400,function(){
+			jQuery(this).css({'display': 'none'});
+		});
 	});
 
 	$comment_form.find('input, textarea').each(function(index,domEle){

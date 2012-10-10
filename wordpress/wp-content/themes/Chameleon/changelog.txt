@@ -1,3 +1,32 @@
+version 2.9 ( updated 10-01-2012 )
+- Fixed media bar popup message bug
+	* js/custom.js
+- Fixed blurbs images border in Firefox
+	* style.css
+- Fixed post images issue in IE 8
+	* css/responsive.css
+- Fixed Control panel javascript conflict in IE 7/8
+	* js/et_control_panel.js
+- Improved video link recognition
+	* home.php
+- Fixed query issues on homepage
+	* epanel/core_functions.php
+	* epanel/custom_functions.php
+	* functions.php
+	* includes/featured.php
+	* includes/entry.php
+- Fixed tab shortcode issues on iPhone
+	* epanel/shortcodes/css/shortcodes.css
+- Fixed contact form jquery validation bug
+	* epanel/page_templates/js/et-ptemplates-frontend.js
+- Shortcodes now work in excerpts
+- Fixed SEO custom title issue with static homepage
+	* epanel/custom_functions.php
+- Fixed contact form issue on Bluehost
+	* page-contact.php
+- Bumped version number
+	* style.css
+	
 version 2.8 ( updated 9-5-2012 )
 - Updated shortcodes
 	* epanel/shortcodes folder

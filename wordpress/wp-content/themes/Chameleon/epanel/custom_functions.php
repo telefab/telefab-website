@@ -22,6 +22,7 @@ function et_activate_features(){
 }
 	
 add_filter('widget_text', 'do_shortcode');
+add_filter('the_excerpt', 'do_shortcode');
 
 if ( ! function_exists( 'et_options_stored_in_one_row' ) ){
 	function et_options_stored_in_one_row(){
@@ -110,7 +111,7 @@ if ( ! function_exists( 'truncate_post' ) ){
 		if ( $post == '' ) global $post;
 			
 		$postExcerpt = '';
-		$postExcerpt = $post->post_excerpt;
+		$postExcerpt = apply_filters( 'the_excerpt', $post->post_excerpt );
 		
 		if (et_get_option($shortname.'_use_excerpt') == 'on' && $postExcerpt <> '') { 
 			if ($echo) echo $postExcerpt;
@@ -515,7 +516,7 @@ if ( ! function_exists( 'elegant_titles' ) ){
 			}
 		}
 		#if the title is being displayed on single posts/pages
-		if (is_single() || is_page()) { 
+		if ( ( is_single() || is_page() ) && ! is_front_page() ) { 
 			global $wp_query; 
 			$postid = $wp_query->post->ID; 
 			$key = et_get_option($shortname.'_seo_single_field_title');
@@ -792,10 +793,10 @@ if ( ! function_exists( 'et_resize_image' ) ){
 }
 
 add_action( 'pre_get_posts', 'et_custom_posts_per_page' );
-function et_custom_posts_per_page( $query ) {
+function et_custom_posts_per_page( $query = false ) {
 	global $shortname;
-	
-	if ( is_admin() ) return $query;
+
+	if ( ! is_a( $query, 'WP_Query' ) || ! $query->is_main_query() ) return;
 	
 	if ( $query->is_category ) {
 		$query->set( 'posts_per_page', et_get_option( $shortname . '_catnum_posts' ) );
@@ -824,8 +825,6 @@ function et_custom_posts_per_page( $query ) {
 	} elseif ( $query->is_archive ) {
 		$query->set( 'posts_per_page', et_get_option( $shortname . '_archivenum_posts' ) );
 	}
-
-	return $query;
 }
 
 add_filter('pre_set_site_transient_update_themes', 'et_check_themes_updates');

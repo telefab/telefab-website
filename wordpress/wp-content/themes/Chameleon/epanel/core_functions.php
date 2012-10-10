@@ -1,7 +1,7 @@
 <?php
 
 
-/********* ePanel v.3.0 ************/
+/********* ePanel v.3.1 ************/
 
 
 /* Adds jquery script */
@@ -394,6 +394,8 @@ if ( ! function_exists( 'epanel_save_data' ) ){
 		$epanel = basename(__FILE__);
 		
 		if ( isset($_POST['action']) ) {
+			do_action( 'et_epanel_changing_options' );
+			
 			if ( 'save_epanel' == $_POST['action'] ) {
 				if ( 'ajax' != $source ) check_admin_referer( 'epanel_nonce' );
 				
