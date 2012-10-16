@@ -101,7 +101,8 @@ def show_events(request, year=None, month=None, day=None):
 		'previous_date': {'year': str(previous_date.year).rjust(4, '0'), 'month': str(previous_date.month).rjust(2, '0'), 'day': str(previous_date.day).rjust(2, '0')},
 		'next_date': {'year': str(next_date.year).rjust(4, '0'), 'month': str(next_date.month).rjust(2, '0'), 'day': str(next_date.day).rjust(2, '0')},
 		'hours_data': hours_data,
-		'time_position': time_position
+		'time_position': time_position,
+		'telefab_open': Place.get_main_place().now_open
 	}
 	return render_to_response("events/show.html", template_data, context_instance = RequestContext(request))
 
@@ -438,6 +439,16 @@ def update_place(request):
 		raise PermissionDenied()
 	# Update the place
 	place = Place.get_main_place()
-	place.now_open = not place.now_open
-	place.save()
+	if place.now_open():
+		opening = place.do_close_now()
+		if opening is not None:
+			# When finishing an opening, check if an event should be created
+			existing_events = Event.objects.filter(start_time__lte = opening.end_time, end_time__gte = opening.start_time)
+			if len(existing_events) == 0:
+				# No existing event: create one automatically
+				event = Event(start_time = opening.start_time, end_time = opening.end_time, category = 0, location = opening.place.name, auto_opening = opening)
+				event.save()
+				event.animators.add(request.user)
+	else:
+		place.do_open_now(request.user)
 	return redirect(urlresolvers.reverse('main.views.welcome'))

@@ -25,6 +25,7 @@ class EventAdmin(admin.ModelAdmin):
 	search_fields = ('title', 'description')
 	date_hierarchy = 'start_time'
 	filter_horizontal = ('animators',)
+	exclude = ('auto_opening',)
 admin.site.register(Event, EventAdmin)
 
 # Equipments administration
@@ -48,5 +49,9 @@ admin.site.register(Loan, LoanAdmin)
 # Place administration
 class PlaceAdmin(admin.ModelAdmin):
 	model = Place
-	list_display = ('name', 'now_open')
 admin.site.register(Place, PlaceAdmin)
+
+# Opening administration
+class PlaceOpeningAdmin(admin.ModelAdmin):
+	model = PlaceOpening
+admin.site.register(PlaceOpening, PlaceOpeningAdmin)

@@ -15,6 +15,11 @@
 	Calendrier
 {% endblock %}
 {% block content %}
+	{% if telefab_open %}
+		<p>
+			La salle de Brest du Téléfab est actuellement <span class="place_open">ouverte</span>.
+		</p>
+	{% endif %}
 	<div class="pager">
 		<p class="next">
 			{% if time_position == "past" %}

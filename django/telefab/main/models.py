@@ -7,6 +7,7 @@ from django.utils.timezone import get_default_timezone as tz
 from telefab.local_settings import WEBSITE_CONFIG
 from telefab.settings import ANIMATORS_GROUP_NAME, MAIN_PLACE_NAME
 from django.core.urlresolvers import reverse
+from datetime import datetime
 
 class UserProfile(models.Model):
 	"""
@@ -67,6 +68,8 @@ class Event(models.Model):
 	description = models.TextField(verbose_name = u"description", blank = True)
 	link = models.CharField(verbose_name=u"lien", max_length = 200, blank=True)
 	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
+	# Only for automatically created events
+	auto_opening = models.ForeignKey("PlaceOpening", verbose_name = u"ouverture auto.", blank = True, null = True)
 	
 	def category_id(self):
 		"""
@@ -255,7 +258,47 @@ class Place(models.Model):
 		verbose_name = "lieu"
 		verbose_name_plural = "lieux"
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
-	now_open = models.BooleanField(verbose_name = u"ouvert maintenant", default = False)
+
+	def current_opening(self):
+		"""
+		Return the current opening if any, or None
+		"""
+		now = datetime.now(tz())
+		try:
+			return self.openings.get(Q(start_time__lte=now, end_time__gt=now) | Q(start_time__lte=now, end_time=None))
+		except PlaceOpening.DoesNotExist:
+			return None
+
+	def now_open(self):
+		"""
+		Is this place currently open?
+		"""
+		return self.current_opening() is not None
+
+	def do_open_now(self, animator = None):
+		"""
+		Set the place as currently open, return the opening if it was sucessful or null
+		"""
+		if self.now_open():
+			return None
+		return self.openings.create(start_time = datetime.now(), animator = animator)
+
+	def do_close_now(self, animator = None):
+		"""
+		Set the place as currently closed, return the opening if it was sucessful or null
+		"""
+		opening = self.current_opening()
+		if opening is None:
+			return None
+		opening.end_time = datetime.now()
+		opening.save()
+		return opening
+
+	def __unicode__(self):
+		"""
+		String representation
+		"""
+		return self.name
 
 	@staticmethod
 	def get_main_place():
@@ -263,3 +306,23 @@ class Place(models.Model):
 		Return the main place
 		"""
 		return Place.objects.get(name = MAIN_PLACE_NAME)
+
+class PlaceOpening(models.Model):
+	"""
+	Opening period of a place
+	"""
+	class Meta:
+		verbose_name = "ouverture"
+		verbose_name_plural = "ouvertures"
+
+	place = models.ForeignKey(Place, verbose_name = u"lieu", related_name='openings')
+	start_time = models.DateTimeField(verbose_name = u"début")
+	end_time = models.DateTimeField(verbose_name = u"fin", blank = True, null = True)
+	animator = models.ForeignKey(User, verbose_name = u"animateur", null = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
+	
+	def __unicode__(self):
+		"""
+		Returns a string representation
+		"""
+		return self.place.name + u" du " + self.start_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M") + u" au " + self.end_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M")
+
