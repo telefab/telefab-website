@@ -10,12 +10,6 @@
 	Bienvenue
 {% endblock %}
 {% block content %}
-	{% if user.get_profile.is_animator %}
-		<h2>Téléfab Brest</h2>
-		<ul>
-			<li class="special_link"><a href="{% url main.views.update_place %}">{% if telefab_open %}Déclarer fermé{% else %}Déclarer ouvert{% endif %}</a></li>
-		</ul>
-	{% endif %}
 	<h2>Mon compte</h2>
 	<ul>
 		<li><a href="{% url main.views.profile %}">Mon profil</a></li>
@@ -26,7 +20,13 @@
 		<li><a href="{% url main.views.edit_loan %}">Demander un prêt</a></li>
 		<li><a href="{% url main.views.show_loans %}">Voir mes prêts en cours</a></li>
 		{% if user.get_profile.is_animator %}
-			<li class="special_link"><a href="{% url main.views.show_all_loans %}">Gérer tous les prêts</a></li>
 		{% endif %}
 	</ul>
+	{% if user.get_profile.is_animator %}
+		<h2>Espace animateurs</h2>
+		<ul>
+			<li><a href="{% url main.views.update_place %}">{% if telefab_open %}Déclarer le Téléfab de Brest fermé{% else %}Déclarer le Téléfab de Brest ouvert{% endif %}</a></li>
+			<li><a href="{% url main.views.show_all_loans %}">Gérer les demandes de prêts</a></li>
+		</ul>
+	{% endif %}
 {% endblock %}

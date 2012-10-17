@@ -8,6 +8,7 @@ $(function() {
 	var section_sample = null; 
 	var sections_counter = sections_list.find('.booking_section').length;
 
+
 	// Equipment names list for autocomplete
 	var equipment_names = [];
 	for (var i = 0; i < equipment_data.length; i++)
@@ -90,6 +91,31 @@ $(function() {
 
 	// Check the whole form on submit
 	$('form').submit(function() {
+		// Check the return date
+		var date = $('#scheduled_return_date').datepicker('getDate');
+		if (date == null) {
+			$('<p />').text("Merci d'indiquer une date de retour indicative.").dialog({
+				modal: true,
+				resizable: false,
+				draggable: false,
+				title: "Erreur"
+			});
+			return false;
+		}
+		var today = new Date();
+		today.setHours(0);
+		today.setMinutes(0);
+		today.setSeconds(0);
+		today.setMilliseconds(0);
+		if (date < today) {
+			$('<p />').text("La date de retour prévue ne peut pas être déjà passée.").dialog({
+				modal: true,
+				resizable: false,
+				draggable: false,
+				title: "Erreur"
+			});
+			return false;
+		}
 		// Check each equipment
 		var ok = true;
 		var bookings = 0;
@@ -138,5 +164,5 @@ $(function() {
 	});
 
 	// Adds datepicker to the return date
-	$('#scheduled_return_date').datepicker($.datepicker.regional["fr"])
+	$('#scheduled_return_date').datepicker($.datepicker.regional["fr"]);
 })
