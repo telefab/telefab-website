@@ -174,11 +174,13 @@ def edit_loan(request, loan_id=None):
 		try:
 			scheduled_return_date = datetime.strptime(scheduled_return_date, "%d/%m/%Y").date()
 		except ValueError:
+			scheduled_return_date = None
 			saving_errors.append(u"la date de retour est invalide")
-		if scheduled_return_date < date.today():
-			saving_errors.append(u"la date de retour ne peut pas être dans le passé")
-		else:
-			loan.scheduled_return_date = scheduled_return_date
+		if scheduled_return_date is not None:
+			if scheduled_return_date < date.today():
+				saving_errors.append(u"la date de retour ne peut pas être dans le passé")
+			else:
+				loan.scheduled_return_date = scheduled_return_date
 		# Browse equipments
 		i = 0
 		to_save = []
