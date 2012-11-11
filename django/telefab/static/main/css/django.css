@@ -158,7 +158,8 @@
 
 #content table.calendar .events_container {
 	position: relative;
-	height: 22px;
+	height: 23px;
+	margin-top: -1px;
 }
 
 #content table.calendar .event {
