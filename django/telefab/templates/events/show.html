@@ -60,36 +60,50 @@
 					{% endif %}
 					<!-- One cell per day -->
 					{% for day_data in line_data.days %}
-						<td{% if day_data.event %} class="active active{{day_data.cell_index}} {{day_data.event.category_id}}"{% endif %}>
-						{% if day_data.cell_index == 0 %}
-							<!-- Tooltip with all info about the event -->
-							<div class="tooltip">
-								<h3>{{day_data.event.global_title}}</h3>
-								<h4>De {{day_data.event.start_time|date:"G:i"}} à {{day_data.event.end_time|date:"G:i"}}</h4>
-								{% if day_data.event.description %}
-									<p>{{day_data.event.description}}</p>
-								{% endif %}
-								{% if day_data.event.link %}
-									<p><a href="{{day_data.event.link }}" target="_blank">
-										En savoir plus &raquo;
-									</a></p>
-								{% endif %}
-								{% if day_data.event.animators.count > 0 %}
-									<p class="animators"><span>Animateur{{day_data.event.animators.count|pluralize:"s"}} :</span> {{day_data.event.animators_list}}</p>
-								{% endif %}
-								<p class="location">
-									<span>Lieu :</span> {{day_data.event.location}}
-								</p>
-							</div>
-							<!-- Event title -->
-							<span class="title">{% if day_data.event.link %}<a href="{{day_data.event.link }}" target="_blank">{% endif %}
-								{{ day_data.event.global_title }}
-							{% if day_data.event.link %}</a>{% endif %}</span>
-						{% endif %}
-						{% if day_data.cell_index == 1 %}
-							<!-- Event period -->
-							De {{day_data.event.start_time|date:"G:i"}} à {{day_data.event.end_time|date:"G:i"}}
-						{% endif %}
+						<td>
+								<div class="events_container">
+									{% for event_data in day_data.events %}
+										<div class="event_zone">
+											<div class="event {{event_data.event.category_id}}" style="height: {{event_data.height}}%; top: {{event_data.top}}%; width: {{event_data.width}}%; left: {{event_data.left}}%;">
+												<h3>{{event_data.event.global_title}}</h3>
+												<h4>De {{event_data.event.start_time|date:"G:i"}} à {{event_data.event.end_time|date:"G:i"}}</h4>
+												{% if event_data.event.description %}
+													<p>{{event_data.event.description}}</p>
+												{% endif %}
+												{% if event_data.event.link %}
+													<p><a href="{{event_data.event.link }}" target="_blank">
+														En savoir plus &raquo;
+													</a></p>
+												{% endif %}
+												{% if event_data.event.animators.count > 0 %}
+													<p class="animators"><span>Animateur{{event_data.event.animators.count|pluralize:"s"}} :</span> {{event_data.event.animators_list}}</p>
+												{% endif %}
+												<p class="location">
+													<span>Lieu :</span> {{event_data.event.location}}
+												</p>
+											</div>
+											<!-- Tooltip with all info about the event -->
+											<div class="tooltip">
+												<h3>{{event_data.event.global_title}}</h3>
+												<h4>De {{event_data.event.start_time|date:"G:i"}} à {{event_data.event.end_time|date:"G:i"}}</h4>
+												{% if event_data.event.description %}
+													<p>{{event_data.event.description}}</p>
+												{% endif %}
+												{% if event_data.event.link %}
+													<p><a href="{{event_data.event.link }}" target="_blank">
+														En savoir plus &raquo;
+													</a></p>
+												{% endif %}
+												{% if event_data.event.animators.count > 0 %}
+													<p class="animators"><span>Animateur{{event_data.event.animators.count|pluralize:"s"}} :</span> {{event_data.event.animators_list}}</p>
+												{% endif %}
+												<p class="location">
+													<span>Lieu :</span> {{event_data.event.location}}
+												</p>
+											</div>
+										</div>
+									{% endfor %}
+								</div>
 						</td>
 					{% endfor %}
 				</tr>

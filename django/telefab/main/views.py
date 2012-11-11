@@ -13,6 +13,7 @@ from django.contrib.auth import logout
 from vobject import iCalendar
 from telefab.local_settings import WEBSITE_CONFIG
 from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME
+import math
 
 # Events
 
@@ -23,17 +24,17 @@ def show_events(request, year=None, month=None, day=None):
 	"""
 	# Configuration
 	days = 7
-	hour_min = 8
-	hour_max = 22
-	lines_per_hour = 4 
+	hour_min = 9
+	hour_max = 18
+	lines_per_hour = 3
 	# Select the week to display
 	if year is None or int(year) == 0:
 		ref_date = date.today()
 	else:
 		ref_date = date(int(year), int(month), int(day))
 	# Redirect to monday if not already there
-	if ref_date.weekday() > 0:
-		ref_date = ref_date - timedelta(days=ref_date.weekday())
+	if ref_date.weekday() % days > 0:
+		ref_date = ref_date - timedelta(days=(ref_date.weekday() % days))
 		return redirect("main.views.show_events", year=str(ref_date.year).rjust(4, '0'), month=str(ref_date.month).rjust(2, '0'), day=str(ref_date.day).rjust(2, '0'))
 	# List the days
 	days_range = []
@@ -54,11 +55,16 @@ def show_events(request, year=None, month=None, day=None):
 	# Get the events to display
 	first_datetime = datetime(first_day.year, first_day.month, first_day.day, 0, 0, 0, 0, tz())
 	last_datetime = datetime(last_day.year, last_day.month, last_day.day, 23, 59, 59, 999999, tz())
-	events = Event.objects.filter(start_time__lte=last_datetime, end_time__gte=first_datetime).order_by('-category')
+	events = Event.objects.filter(start_time__lte=last_datetime, end_time__gte=first_datetime).order_by('start_time')
+	# Enlarge the times if needed
+	for event in events:
+		if event.start_time.hour < hour_min:
+			hour_min = event.start_time.hour
+		if event.end_time.hour > hour_max:
+			hour_max = event.end_time.hour
 	# Prepare the grid of cells to display
 	hours_data = []
 	today = date.today()
-	event_data = {}
 	for hour in range(hour_min, hour_max + 1):
 		lines_data = []
 		hour_data = {
@@ -82,20 +88,32 @@ def show_events(request, year=None, month=None, day=None):
 				days_data.append(day_data)
 				cell_start_time = datetime(day.year, day.month, day.day, hour, line * 60 / lines_per_hour, 0, 0, tz())
 				cell_end_time = datetime(day.year, day.month, day.day, hour, (line+1) * 60 / lines_per_hour - 1, 59, 999999, tz())
+				column_end_time = datetime(day.year, day.month, day.day, hour_max, 59, 59, 999999, tz())
 				day_data['start'] = cell_start_time
 				day_data['end'] = cell_end_time
+				day_data['events'] = [] 
 				# Search all events for events in this cell
-				tests = 0
 				for event in events:
-					tests = tests + 1
-					if event.start_time < cell_end_time and event.end_time > cell_start_time:
-						day_data['event'] = event
-						if event in event_data:
-							day_data['cell_index'] = event_data[event] + 1
-						else:
-							day_data['cell_index'] = 0
-						event_data[event] = day_data['cell_index']
-						break
+					if event.start_time >= cell_start_time and event.start_time <= cell_end_time:
+						event_data = {}
+						event_data['event'] = event
+						# Simultaneous events?
+						simult_events = 0
+						simult_index = 0
+						for test_event in events:
+							if test_event.start_time.date() == day and test_event != event and test_event.start_time < event.end_time and test_event.end_time > event.start_time:
+								simult_events = simult_events + 1
+							elif test_event == event:
+								simult_index = simult_events
+						# Event position
+						compare_time = event.end_time
+						if compare_time > column_end_time:
+							compare_time = column_end_time
+						event_data['height'] = int(math.ceil(100. * (compare_time - event.start_time).seconds / (60 * 60 / lines_per_hour))) - 2
+						event_data['top'] = int(math.ceil(100. * (event.start_time - cell_start_time).seconds / (60 * 60 / lines_per_hour)))
+						event_data['width'] = int(math.ceil(100. / (simult_events + 1))) - 2
+						event_data['left'] = int(math.ceil(100. * simult_index / (simult_events + 1)))
+						day_data['events'].append(event_data)
 	# Render
 	template_data = {
 		'previous_date': {'year': str(previous_date.year).rjust(4, '0'), 'month': str(previous_date.month).rjust(2, '0'), 'day': str(previous_date.day).rjust(2, '0')},

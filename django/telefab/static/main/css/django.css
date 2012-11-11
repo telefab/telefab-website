@@ -94,14 +94,17 @@
 /* Calendar */
 
 #content table.calendar {
-	width: 100%;
 	margin: 5px 0;
 	text-align: center;
 	border: 1px solid #929292;
+	width: 100%;
+}
+
+#content table.calendar th.hour, #content table.calendar th.hours {
+	width: 5%;
 }
 
 #content table.calendar tr.days {
-	height: 2em;
 	background: linear-gradient(to bottom, white, #929292);
 	background: -moz-linear-gradient(to bottom, white, #929292);
 	background: -webkit-linear-gradient(to bottom, white, #929292);
@@ -110,16 +113,8 @@
 	color: #1D1D1D;
 }
 
-#content table.calendar tr.days th.hours {
-	width: 5%;
-}
-
 #content table.calendar tr.days th.links {
 	font-size: 0.9em;
-}
-
-#content table.calendar tr.days th {
-	width: 13.5%;
 }
 
 #content table.calendar tr.days th.current {
@@ -143,57 +138,81 @@
 	font-size: 1.3em;
 }
 
+#content table.calendar .firstline td {
+	border-top-color: #929292;
+	border-top-style: solid;
+}
+
+#content table.calendar .lastline td {
+	border-bottom-color: #929292;
+	border-bottom-style: solid;
+}
+
 #content table.calendar td {
 	border-style: solid;
 	border-width: 1px;
 	border-color: #DDDDDD #929292;
 	color: #1D1D1D;
+	padding: 0;
+}
+
+#content table.calendar .events_container {
+	position: relative;
+	height: 22px;
+}
+
+#content table.calendar .event {
+	position: absolute;
+	border: 1px solid #1D1D1D;
+	background-color: white;
+	width: 100%;
+	z-index: 10;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ie-border-radius: 5px;
+	border-radius: 5px;
 	overflow: hidden;
-	white-space: nowrap;
 }
 
-#content table.calendar .firstline td, #content table.calendar .firstline td.active {
-	border-top-color: #929292;
-	border-top-style: solid;
+#content table.calendar .event h3 {
+	color: inherit;
+	font-family: inherit;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding-top: 3px;
 }
 
-#content table.calendar .lastline td, #content table.calendar .lastline td.active {
-	border-bottom-color: #929292;
-	border-bottom-style: solid;
+#content table.calendar .event h4 {
+	color: inherit;
+	font-family: inherit;
+	font-size: 1.2em;
+	font-style: italic;
 }
 
-#content table.calendar td.active {
-	border-top-style: none;
-	border-bottom-style: none;
+#content table.calendar .event p {
+	padding-bottom: 5px;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
-#content table.calendar td.active0 {
+#content table.calendar .event .animators span, #content table.calendar .event .location span {
 	font-weight: bold;
 }
 
-#content table.calendar td.open {
+
+#content table.calendar .event.open {
 	background-color: #ABB800;
 }
 
-#content table.calendar td.session {
+#content table.calendar .event.session {
 	background-color: #00ABB8;
 }
 
-#content table.calendar td.talk {
+#content table.calendar .event.talk {
 	background-color: #DD00EE;
 }
 
-#content table.calendar td .title {
-	cursor: default;
-	border-bottom: 1px dotted #1D1D1D;
-}
-
-#content table.calendar td .title a, #content table.calendar td .title a:hover {
-	color: inherit;
-	text-decoration: none;
-}
-
-#content table.calendar td .tooltip {
+#content table.calendar .event_zone .tooltip {
 	opacity: 0;
 	-moz-transition-property: opacity;
 	-moz-transition-duration: 1s;
@@ -205,9 +224,7 @@
 	transition-duration: 1s;
 	position: absolute;
 	background-color: white;
-	margin-top: 20px;
-	margin-left: -9%;
-	width: 30%;
+	width: 180px;
 	border: 1px solid #929292;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
@@ -221,24 +238,27 @@
 	-ie-box-shadow: 8px 8px 12px #aaa;
 	box-shadow: 8px 8px 12px #aaa;
 	pointer-events: none;
+	top: 0;
+	left: -40px;
+	z-index: 99;
 }
 
-#content table.calendar td:hover .tooltip {
+#content table.calendar .event_zone:hover .tooltip {
 	opacity: 1;
 	pointer-events: all;
 }
 
-#content table.calendar td .tooltip h3 {
+#content table.calendar .event_zone .tooltip h3 {
 	color: #1D1D1D;
 }
 
-#content table.calendar td .tooltip p {
+#content table.calendar .event_zone .tooltip p {
 	font-weight: normal;
 	text-align: justify;
 	padding: 0;
 }
 
-#content table.calendar td .tooltip p.animators span, #content table.calendar td .tooltip p.location span {
+#content table.calendar .event_zone .tooltip p.animators span, #content table.calendar .event_zone .tooltip p.location span {
 	font-weight: bold;
 }
 
