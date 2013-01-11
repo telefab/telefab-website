@@ -101,6 +101,10 @@
 	padding: 0;
 }
 
+#content .equipments li {
+	margin-bottom: 15px;
+}
+
 /* Calendar */
 
 #content table.calendar {
