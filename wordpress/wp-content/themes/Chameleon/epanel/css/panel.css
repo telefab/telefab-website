@@ -43,10 +43,10 @@
 			#epanel-logo { position: absolute; top: -38px; left: -180px;}
 			#epanel-content ul#epanel-mainmenu { float: left; position: absolute; left: -198px; top: 52px;}
 				#epanel-content ul#epanel-mainmenu li { background: url('../images/mainmenu-li-bottom.png') bottom left no-repeat; padding-bottom: 2px; padding-right: 0px; float: none; }
-				#epanel-content ul#epanel-mainmenu li.ui-tabs-selected{ padding-bottom: 0px; }
+				#epanel-content ul#epanel-mainmenu li.ui-tabs-selected, #epanel-content ul#epanel-mainmenu li.ui-tabs-active { padding-bottom: 0px; }
 					#epanel-content ul#epanel-mainmenu li a { color: #ffffff; background: url('../images/mainlink-bg.png') no-repeat; display: block; height: 34px; width: 139px; padding: 0px 0px 0px 43px; line-height: 34px; position: relative; font-size: 14px; }
-						#epanel-content ul#epanel-mainmenu li.ui-tabs-selected a { color: #000000; background: url('../images/active-mainlink-bg.png') no-repeat; display: block; height: 42px; width: 145px; padding: 0px 0px 0px 43px; line-height: 42px;  }
-							#epanel-content ul#epanel-mainmenu li.ui-tabs-selected a img { top: 14px; }
+						#epanel-content ul#epanel-mainmenu li.ui-tabs-selected a, #epanel-content ul#epanel-mainmenu li.ui-tabs-active a { color: #000000; background: url('../images/active-mainlink-bg.png') no-repeat; display: block; height: 42px; width: 145px; padding: 0px 0px 0px 43px; line-height: 42px;  }
+							#epanel-content ul#epanel-mainmenu li.ui-tabs-selected a img, #epanel-content ul#epanel-mainmenu li.ui-tabs-active a img { top: 14px; }
 					#epanel-content ul#epanel-mainmenu li a img { position: absolute; top: 10px; left: 20px; }
 		#epanel-content-wrap { background: url('../images/epanel-content-bg.png') repeat-y; width: 521px; float: left; display: inline; margin: 55px 0px 0px 198px; position: relative; }
 		#epanel-content { background: url('../images/epanel-content-topbg.png') no-repeat; position: relative; }
@@ -57,8 +57,8 @@
 							#epanel-content ul.idTabs li a span { background: url('../images/secondary-li-mark.png') no-repeat center left; padding-left: 8px; }
 						#epanel-content ul.idTabs li { padding-right: 22px; }
 						
-						#epanel-content ul.idTabs li.ui-tabs-selected { background: url('../images/secondary-active-bg.png') no-repeat top right; }
-							#epanel-content ul.idTabs li.ui-tabs-selected a { font-weight: bold; color: #657783; background: url('../images/secondary-active-bg.png') no-repeat top left; }
+						#epanel-content ul.idTabs li.ui-tabs-selected, #epanel-content ul.idTabs li.ui-tabs-active { background: url('../images/secondary-active-bg.png') no-repeat top right; }
+							#epanel-content ul.idTabs li.ui-tabs-selected a, #epanel-content ul.idTabs li.ui-tabs-active a { font-weight: bold; color: #657783; background: url('../images/secondary-active-bg.png') no-repeat top left; }
 				/*#epanel-content .tab-content { position: relative; } */
 				
 			

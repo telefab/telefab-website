@@ -770,10 +770,32 @@ if ( ! function_exists( 'et_resize_image' ) ){
 			}
 			
 			#we didn't find the image in cache, resizing is done here
-			$result = image_resize( $localfile, $new_width, $new_height, $crop, $suffix, $destination_dir );
+			if ( ! function_exists( 'wp_get_image_editor' ) ) {
+				// compatibility with versions of WordPress prior to 3.5.
+				$result = image_resize( $localfile, $new_width, $new_height, $crop, $suffix, $destination_dir );
+			} else {
+				$et_image_editor = wp_get_image_editor( $localfile );
+				
+				if ( ! is_wp_error( $et_image_editor ) ) {
+					$et_image_editor->resize( $new_width, $new_height, $crop );
+					
+					// generate correct file name/path
+					$et_new_image_name = $et_image_editor->generate_filename( $suffix, $destination_dir );
+					
+					do_action( 'et_resize_image_before_save', $et_image_editor, $et_new_image_name );
+					
+					$et_image_editor->save( $et_new_image_name );
+					
+					// assign new image path
+					$result = $et_new_image_name;
+				} else {
+					// assign a WP_ERROR ( WP_Image_Editor instance wasn't created properly )
+					$result = $et_image_editor;
+				}
+			}
 
-			if ( !is_wp_error( $result ) ) {
-				#transform local image path into URI
+			if ( ! is_wp_error( $result ) ) {
+				// transform local image path into URI
 				
 				if ( $is_jpeg ) $thumb = preg_replace( '#.jpeg$#', '.jpg', $thumb);
 				
