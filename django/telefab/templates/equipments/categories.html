@@ -14,6 +14,9 @@
 			Choisissez un type de matériel pour voir ce qui est disponible au Téléfab :
 		</p>
 		<ul class="equipment_categories">
+			<li>
+				<a class="all" href="{% url main.views.show_equipments %}"><em>Tout</em></a>
+			</li>
 			{% for category in categories %}
 				<li>
 					<a href="{% url main.views.show_equipments category=category.id %}">{{ category.name|capfirst }}</a>

@@ -169,7 +169,18 @@ class Equipment(models.Model):
 		"""
 		Return the public URL to this object
 		"""
-		return reverse("main.views.show_equipments")
+		return reverse("main.views.show_equipment_categories")
+
+	def available_quantity(self):
+		"""
+		Return the quantity not currently away in a loan
+		"""
+		available_quantity = self.quantity
+		for loan in self.loan_set.all():
+			if loan.is_away():
+				available_quantity-= loan.quantity
+		return available_quantity
+
 
 class EquipmentManufacturer(models.Model):
 	"""

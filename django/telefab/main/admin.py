@@ -28,12 +28,12 @@ class EventAdmin(admin.ModelAdmin):
 	exclude = ('auto_opening',)
 admin.site.register(Event, EventAdmin)
 
-# EquipmentCategory inline administration
+# EquipmentCategory administration
 class EquipmentCategoryAdmin(admin.ModelAdmin):
 	model = EquipmentCategory
 admin.site.register(EquipmentCategory, EquipmentCategoryAdmin)
 
-# EquipmentManufacturer inline administration
+# EquipmentManufacturer administration
 class EquipmentManufacturerAdmin(admin.ModelAdmin):
 	model = EquipmentManufacturer
 admin.site.register(EquipmentManufacturer, EquipmentManufacturerAdmin)
@@ -41,8 +41,9 @@ admin.site.register(EquipmentManufacturer, EquipmentManufacturerAdmin)
 # Equipments administration
 class EquipmentAdmin(admin.ModelAdmin):
 	model = Equipment
-	list_display =('name', 'quantity')
-	search_fields = ('name', 'description')
+	list_display = ('name', 'manufacturer', 'category', 'quantity')
+	list_filter = ('category', 'manufacturer')
+	search_fields = ('name', 'description', 'reference', 'location')
 admin.site.register(Equipment, EquipmentAdmin)
 
 # EquipmentLoan inline administration (equipment in loans)

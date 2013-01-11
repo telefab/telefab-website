@@ -91,6 +91,16 @@
 	font-weight: bold;
 }
 
+/* Equipments */
+
+#content .equipment_categories .all em {
+	color: inherit;
+}
+
+#content .equipments p {
+	padding: 0;
+}
+
 /* Calendar */
 
 #content table.calendar {

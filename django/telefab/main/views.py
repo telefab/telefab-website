@@ -163,8 +163,12 @@ def show_equipments(request, category=None):
 	"""
 	Show a list of equipments available in the FabLab
 	"""
-	category_obj = EquipmentCategory.objects.get(id = category)
-	equipments = Equipment.objects.filter(quantity__gt = 0, category__id = category).order_by('name')
+	category_obj = None
+	equipments = Equipment.objects.filter(quantity__gt = 0).order_by('name')
+	if category is not None:
+		category_obj = EquipmentCategory.objects.get(id = category)
+		equipments = equipments.filter(category__id = category)
+	
 	# Render
 	template_data = {
 		'category': category_obj,

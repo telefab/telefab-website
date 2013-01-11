@@ -11,14 +11,46 @@
 {% block content %}
 	<div class="entry post clearfix">
 		<p>
-			Voici le matériel de type "{{ category.name }}" actuellement disponible au Téléfab :
+			{% if category %}
+				Voici le matériel de type "{{ category.name }}" actuellement disponible au Téléfab :
+			{% else %}
+				Voici tout le matériel actuellement disponible au Téléfab :
+			{% endif %}
 		</p>
 		<ul class="equipments">
 			{% for equipment in equipments %}
 				<li>
-					<h4>{{ equipment.name|capfirst }}{% if equipment.quantity > 1 %} (x{{ equipment.quantity }}){% endif %}</h4>
+					<h4>{{ equipment.name|capfirst }}</h4>
 					<p>
 						{{ equipment.description }}
+					</p>
+					{% if equipment.location %}
+						<p class="location">
+							<strong>Emplacement :</strong> {{ equipment.location }}
+						</p>
+					{% endif %}
+					{% if equipment.manufacturer %}
+						<p class="manufacturer">
+							<strong>Constructeur :</strong> {{ equipment.manufacturer }}
+						</p>
+					{% endif %}
+					{% if equipment.reference %}
+						<p class="reference">
+							<strong>Référence :</strong> {{ equipment.reference }}
+						</p>
+					{% endif %}
+					{% if equipment.datasheet %}
+						<p class="datasheet">
+							<strong>Datasheet :</strong> <a href="{{ equipment.datasheet.url }}">Télécharger</a>
+						</p>
+					{% endif %}
+					{% if equipment.link %}
+						<p class="link">
+							<strong>Plus d'infos :</strong> <a href="{{ equipment.link|safe }}">{{ equipment.link }}</a>
+						</p>
+					{% endif %}
+					<p class="quantity">
+						<strong>Quantité :</strong> {{ equipment.quantity }} (disponible : {{ equipment.available_quantity }})
 					</p>
 				</li>
 			{% empty %}
