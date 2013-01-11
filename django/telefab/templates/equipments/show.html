@@ -11,6 +11,9 @@
 {% block content %}
 	<div class="entry post clearfix">
 		<p>
+			<a href="{% url main.views.show_equipment_categories %}">Retour aux types de matériel</a>
+		</p>
+		<p>
 			{% if category %}
 				Voici le matériel de type "{{ category.name }}" actuellement disponible au Téléfab :
 			{% else %}
@@ -59,5 +62,8 @@
 				</li>
 			{% endfor %}
 		</ul>
+		<p>
+			<a href="{% url main.views.show_equipment_categories %}">Retour aux types de matériel</a>
+		</p>
 	</div>
 {% endblock %}
