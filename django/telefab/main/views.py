@@ -152,7 +152,7 @@ def show_equipment_categories(request):
 	"""
 	Shows the list of equipment categories
 	"""
-	categories = Equipment.objects.order_by('name')
+	categories = EquipmentCategory.objects.order_by('name')
 	# Render
 	template_data = {
 		'categories': categories,
