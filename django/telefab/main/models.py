@@ -149,9 +149,15 @@ class Equipment(models.Model):
 		verbose_name = u"équipement"
 		verbose_name_plural = u"matériel"
 
+	manufacturer = models.ForeignKey("EquipmentManufacturer", verbose_name = u"fabriquant", blank = True, null = True)
+	category = models.ForeignKey("EquipmentCategory", verbose_name = u"type", blank = True, null = True)
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
+	reference = models.CharField(verbose_name = u"référence", max_length = 100)
 	description = models.TextField(verbose_name = u"description", blank = True)
 	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
+	location = models.CharField(verbose_name = u"emplacement", max_length = 100, blank = True)
+	link = models.URLField(verbose_name = u"lien", blank = True)
+	datasheet = models.FileField(verbose_name = u"datasheet", upload_to = "datasheet")
 	
 	def __unicode__(self):
 		"""
@@ -164,6 +170,40 @@ class Equipment(models.Model):
 		Return the public URL to this object
 		"""
 		return reverse("main.views.show_equipments")
+
+class EquipmentManufacturer(models.Model):
+	"""
+	Represents a manufacturer
+	"""
+	class Meta:
+		verbose_name = u"fabriquant"
+		verbose_name_plural = u"fabriquants"
+
+	name = models.CharField(verbose_name = u"nom", max_length = 100)
+
+	def __unicode__(self):
+		"""
+		Returns a string representation
+		"""
+		return self.name
+
+class EquipmentCategory(models.Model):
+	"""
+	Represents an equipment type
+	"""
+	class Meta:
+		verbose_name = u"type de matériel"
+		verbose_name_plural = u"types de matériel"
+
+	name = models.CharField(verbose_name = u"nom", max_length = 100)
+
+	def __unicode__(self):
+		"""
+		Returns a string representation
+		"""
+		return self.name
+
+
 
 class Loan(models.Model):
 	"""

@@ -28,6 +28,16 @@ class EventAdmin(admin.ModelAdmin):
 	exclude = ('auto_opening',)
 admin.site.register(Event, EventAdmin)
 
+# EquipmentCategory inline administration
+class EquipmentCategoryAdmin(admin.ModelAdmin):
+	model = EquipmentCategory
+admin.site.register(EquipmentCategory, EquipmentCategoryAdmin)
+
+# EquipmentManufacturer inline administration
+class EquipmentManufacturerAdmin(admin.ModelAdmin):
+	model = EquipmentManufacturer
+admin.site.register(EquipmentManufacturer, EquipmentManufacturerAdmin)
+
 # Equipments administration
 class EquipmentAdmin(admin.ModelAdmin):
 	model = Equipment
