@@ -152,7 +152,7 @@ class Equipment(models.Model):
 	manufacturer = models.ForeignKey("EquipmentManufacturer", verbose_name = u"fabriquant", blank = True, null = True)
 	category = models.ForeignKey("EquipmentCategory", verbose_name = u"type", blank = True, null = True)
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
-	reference = models.CharField(verbose_name = u"référence", max_length = 100)
+	reference = models.CharField(verbose_name = u"référence", max_length = 100, blank = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
 	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
 	location = models.CharField(verbose_name = u"emplacement", max_length = 100, blank = True)
