@@ -105,6 +105,11 @@
 	margin-bottom: 15px;
 }
 
+#content .equipments p strong {
+	display: inline-block;
+	width: 9em;
+}
+
 /* Calendar */
 
 #content table.calendar {
