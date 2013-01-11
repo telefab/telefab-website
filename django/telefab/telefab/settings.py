@@ -165,6 +165,9 @@ LOGGING = {
 # Profile to extend the User model
 AUTH_PROFILE_MODULE = "main.UserProfile"
 
+# Website used on public computers: log out at browser close!
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 # Site-specific settings
 
 # URL used by browserid
