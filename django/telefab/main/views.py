@@ -148,14 +148,27 @@ def ical_events(request):
 
 # Equipments
 
-def show_equipments(request):
+def show_equipment_categories(request):
+	"""
+	Shows the list of equipment categories
+	"""
+	categories = Equipment.objects.order_by('name')
+	# Render
+	template_data = {
+		'categories': categories,
+	}
+	return render_to_response("equipments/categories.html", template_data, context_instance = RequestContext(request))
+
+def show_equipments(request, category=None):
 	"""
 	Show a list of equipments available in the FabLab
 	"""
-	equipments = Equipment.objects.filter(quantity__gt = 0)
+	category_obj = EquipmentCategory.objects.get(id = category)
+	equipments = Equipment.objects.filter(quantity__gt = 0, category__id = category).order_by('name')
 	# Render
 	template_data = {
-		'equipments': equipments,
+		'category': category_obj,
+		'equipments': equipments
 	}
 	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
 
