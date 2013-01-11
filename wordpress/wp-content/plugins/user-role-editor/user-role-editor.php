@@ -3,7 +3,7 @@
 Plugin Name: User Role Editor
 Plugin URI: http://www.shinephp.com/user-role-editor-wordpress-plugin/
 Description: It allows you to change/add/delete any WordPress user role (except administrator) capabilities list with a few clicks.
-Version: 3.8
+Version: 3.9
 Author: Vladimir Garagulya
 Author URI: http://www.shinephp.com
 Text Domain: ure
@@ -29,16 +29,18 @@ if (!function_exists("get_option")) {
   die;  // Silence is golden, direct call is prohibited
 }
 
-global $wp_version, $current_user;
-
-if (version_compare($wp_version,"3.0","<")) {
-  $exit_msg = __('User Role Editor requires WordPress 3.0 or newer.', 'ure').'<a href="http://codex.wordpress.org/Upgrading_WordPress">'.__('Please update!', 'ure').'</a>';
-	return ($exit_msg);
+$ure_wp_version = get_bloginfo('version');  // as global $wp_version could be unavailable.
+if (version_compare( $ure_wp_version, '3.2', '<' ) ) {
+  $exit_msg = sprintf( __( 'User Role Editor requires WordPress %s or newer.', 'ure' ), $ure_wp_version ) .
+							'<a href="http://codex.wordpress.org/Upgrading_WordPress"> ' . __('Please update!', 'ure') . '</a>';	
+	wp_die($exit_msg);
 }
 
-if (version_compare(PHP_VERSION, '5.0.0', '<')) {
-  $exit_msg = __('User Role Editor requires PHP 5.0 or newer.', 'ure').'<a href="http://codex.wordpress.org/Upgrading_WordPress">'.__('Please update!', 'ure').'</a>';
-	return ($exit_msg);
+$ure_php_version = '5.2.4';
+if (version_compare(PHP_VERSION, '5.2.4', '<')) {
+  $exit_msg = sprintf( __( 'User Role Editor requires PHP %s or newer.', 'ure' ), $ure_php_version) . 
+							'<a href="http://codex.wordpress.org/Upgrading_WordPress"> ' . __( 'Please update!', 'ure' ) . '</a>';
+	wp_die($exit_msg);
 }
 
 $ure_siteURL = get_site_url();
@@ -54,7 +56,17 @@ define('URE_KEY_CAPABILITY', 'administrator');
 
 require_once('includes/ure-lib.php');
 
-load_plugin_textdomain('ure','', $urePluginDirName.'/lang');
+
+/**
+ * Load URE plugin translation files - linked to the 'plugins_loaded' action
+ * 
+ */
+function ure_load_translation() {
+	
+	load_plugin_textdomain( 'ure', '', dirname( plugin_basename( __FILE__ ) ) . DIRECTORY_SEPARATOR .'lang' );
+	
+}
+// end of ure_load_translation()
 
 
 function ure_optionsPage() {
@@ -191,8 +203,8 @@ function exclude_admins_view($views) {
 
 function ure_init() {
 
-  global $current_user, $wp_roles;
-  
+  global $current_user;
+  	
   if (!empty($current_user->ID)) {
     $user_id = $current_user->ID;
   } else {
@@ -294,7 +306,7 @@ if (function_exists('is_multisite') && is_multisite()) {
     global $wpdb, $wp_roles;
     
     // get Id of 1st (main) blog
-    $blogIds = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs order by blog_id asc"));
+    $blogIds = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs order by blog_id asc");
     if (!isset($blogIds[0])) {
       return;
     }
@@ -346,11 +358,13 @@ if (function_exists('is_multisite') && is_multisite()) {
 if (is_admin()) {
   // activation action
   register_activation_hook(__FILE__, "ure_install");
-  add_action('admin_init', 'ure_init');  
+	/* Add the translation function after the plugins loaded hook. */
+	add_action( 'plugins_loaded', 'ure_load_translation' );
+  add_action( 'admin_init', 'ure_init' );  
   // add a Settings link in the installed plugins page
-  add_filter('plugin_action_links', 'ure_plugin_action_links', 10, 2);
-  add_filter('plugin_row_meta', 'ure_plugin_row_meta', 10, 2);
-  add_action('admin_menu', 'ure_settings_menu');
+  add_filter( 'plugin_action_links', 'ure_plugin_action_links', 10, 2 );
+  add_filter( 'plugin_row_meta', 'ure_plugin_row_meta', 10, 2 );
+  add_action( 'admin_menu', 'ure_settings_menu' );
   add_action( 'user_row_actions', 'ure_user_row', 10, 2 );
 }
 

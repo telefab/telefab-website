@@ -3,7 +3,7 @@
 Plugin Name: Mozilla Persona
 Plugin URI: http://wordpress.org/extend/plugins/browserid/
 Description: Mozilla Persona, the safest & easiest way to sign in
-Version: 0.33
+Version: 0.34
 Author: Marcel Bokhorst
 Author URI: http://blog.bokhorst.biz/about/
 */

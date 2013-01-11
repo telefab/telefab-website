@@ -20,7 +20,7 @@ if (!is_multisite()) {
 } else {
   $old_blog = $wpdb->blogid;
   // Get all blog ids
-  $blogIds = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs"));
+  $blogIds = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
   foreach ($blogIds as $blog_id) {
     switch_to_blog($blog_id);
     $backup_option_name = $wpdb->prefix.'backup_user_roles';

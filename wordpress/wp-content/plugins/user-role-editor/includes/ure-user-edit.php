@@ -127,7 +127,8 @@ $roleSelectHTML .= '</select>';
 		}
 		$checked = '';
 		$disabled = '';
-		if (isset($ure_roles[$ure_currentRole]['capabilities'][$capability['inner']])) {
+		if ( isset( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) && 
+				 !empty( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) ) {
 			$checked = 'checked="checked"';
 			$disabled = 'disabled="disabled"';
 		} else if (isset($ure_userToEdit->caps[$capability['inner']])) {
@@ -177,8 +178,12 @@ $roleSelectHTML .= '</select>';
 					if ( $capability['wp_core'] ) {  // show plugins or user added capabilities
 						continue;
 					}
-          $checked = ''; $disabled = '';
-          if (isset($ure_roles[$ure_currentRole]['capabilities'][$capability['inner']])) {
+          $checked = ''; $disabled = '';          
+					if ( isset( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) && 
+							 !empty( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) ) {
+						
+						
+						
             $checked = 'checked="checked"';
             $disabled = 'disabled="disabled"';
           } else if (isset($ure_userToEdit->caps[$capability['inner']])) {
