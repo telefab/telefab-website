@@ -157,7 +157,7 @@ class Equipment(models.Model):
 	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
 	location = models.CharField(verbose_name = u"emplacement", max_length = 100, blank = True)
 	link = models.URLField(verbose_name = u"lien", blank = True)
-	datasheet = models.FileField(verbose_name = u"datasheet", upload_to = "datasheet")
+	datasheet = models.FileField(verbose_name = u"datasheet", upload_to = "datasheet", blank = True, null = True)
 	
 	def __unicode__(self):
 		"""
