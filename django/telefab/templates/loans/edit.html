@@ -117,7 +117,7 @@
 				{
 					'id': {{equipment.id}},
 					'name': "{{equipment.name|escapejs}}",
-					'quantity': {{equipment.quantity}}
+					'quantity': {{equipment.available_quantity}}
 				}{% if not forloop.last %},{% endif %}
 			{% endfor %}
 		];
