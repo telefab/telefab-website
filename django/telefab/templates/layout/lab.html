@@ -5,8 +5,5 @@
 	<a href="{% url main.views.welcome %}">Mon lab</a> <span class="raquo">»</span> {% block lab_link %}{% endblock %}
 {% endblock %}
 {% block context_menu %}
-	{% if user.is_staff %}
-		(Administration : <a href="{% url admin:index %}">lab</a>, <a href="/wp-admin">blog</a>) - 
-	{% endif %}
 	{{ user.get_profile }} <a href="{% url main.views.disconnect %}">(Se déconnecter)</a>
 {% endblock %}

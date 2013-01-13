@@ -39,6 +39,12 @@ class UserProfile(models.Model):
 		"""
 		return len(self.user.groups.filter(name = ANIMATORS_GROUP_NAME)) > 0
 
+	def is_blog_user(self):
+		"""
+		Is this django user also a blog user?
+		"""
+		return len(BlogUser.objects.filter(user_email=self.user.email)) > 0
+
 	@staticmethod
 	def get_animators():
 		"""
@@ -379,3 +385,18 @@ class PlaceOpening(models.Model):
 		else:
 			return self.place.name + u" du " + self.start_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M") + u" à maintenant"
 
+class BlogUser(models.Model):
+	"""
+	Link to the WordPress user table to add/check users
+	"""
+	class Meta:
+		db_table = "wp_users"
+		managed = False
+
+	ID = models.AutoField(primary_key=True)
+	user_login = models.CharField(max_length=60)
+	user_nicename = models.CharField(max_length=50)
+	user_email = models.EmailField(max_length=100)
+	user_registered = models.DateTimeField(auto_now=True)
+	display_name = models.CharField(max_length=250)
+		

@@ -105,6 +105,7 @@ $(function() {
 
 	// Clones the section sample with all the events and makes it fully ready to use as a new section
 	section_sample = sections_list.find('.booking_section').first().clone(true);
+	section_sample.removeClass('edit_disabled');
 	section_sample.find('.equipment_name').attr('disabled', false);
 	section_sample.find('.equipment_name').val('');
 	section_sample.find('.equipment_quantity').val('1');

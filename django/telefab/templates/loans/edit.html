@@ -45,13 +45,14 @@
 		<div class="booking_sections">
 			{% if not is_new %}
 				{% for booking in loan.bookings.all %}
-					<div class="booking_section">
+					<div class="booking_section edit_disabled">
 						<h2 class="parts_separator">
 							Équipement
 						</h2>
 						<p>
 							<label for="equipment_name{{forloop.counter}}">Nom :</label>
 							<input type="text" id="equipment_name{{forloop.counter}}" name="equipment_name{{forloop.counter}}" class="equipment_name" value="{{booking.equipment.name}}" disabled="disabled" />
+							<div class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></div>
 						</p>
 						<p>
 							<label for="equipment_quantity{{forloop.counter}}">Quantité :</label>

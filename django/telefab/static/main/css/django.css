@@ -130,6 +130,12 @@ body.naked {
 	font-weight: bold;
 }
 
+/* Loans */
+
+.booking_section.edit_disabled .tip {
+	display: none;
+}
+
 /* Equipments */
 
 #content .equipment_categories .all em {
