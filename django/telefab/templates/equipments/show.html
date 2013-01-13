@@ -51,12 +51,12 @@
 				{% endif %}
 				{% if equipment.datasheet %}
 					<p class="datasheet">
-						<strong>Datasheet :</strong> <a href="{{ equipment.datasheet.url }}">Télécharger</a>
+						<strong>Datasheet :</strong> <a href="{{ equipment.datasheet.url }}"{% if choice %} target="_blank"{% endif %}>Télécharger</a>
 					</p>
 				{% endif %}
 				{% if equipment.link %}
 					<p class="link">
-						<strong>Plus d'infos :</strong> <a href="{{ equipment.link|safe }}">{{ equipment.link }}</a>
+						<strong>Plus d'infos :</strong> <a href="{{ equipment.link|safe }}"{% if choice %} target="_blank"{% endif %}>{{ equipment.link }}</a>
 					</p>
 				{% endif %}
 				<p class="quantity">
