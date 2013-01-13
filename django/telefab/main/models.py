@@ -68,8 +68,6 @@ class Event(models.Model):
 	description = models.TextField(verbose_name = u"description", blank = True)
 	link = models.CharField(verbose_name=u"lien", max_length = 200, blank=True)
 	animators = models.ManyToManyField(User, verbose_name = u"animateurs", blank = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
-	# Only for automatically created events
-	auto_opening = models.ForeignKey("PlaceOpening", verbose_name = u"ouverture auto.", blank = True, null = True)
 	
 	def category_id(self):
 		"""
@@ -207,6 +205,7 @@ class EquipmentCategory(models.Model):
 		verbose_name_plural = u"types de matériel"
 
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
+	slug = models.SlugField(verbose_name = u"permalien", max_length = 100, blank = True)
 
 	def __unicode__(self):
 		"""

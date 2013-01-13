@@ -60,7 +60,7 @@
 					{% endif %}
 					<!-- One cell per day -->
 					{% for day_data in line_data.days %}
-						<td>
+						<td{% if day_data.main_place_open %} class="main_place_open"{% endif %}>
 								<div class="events_container">
 									{% for event_data in day_data.events %}
 										<div class="event_zone">
@@ -111,4 +111,11 @@
 			
 		{% endfor %}
 	</table>
+	<div id="calendar_meaning">
+		<h3>Légende</h3>
+		<p class="opening"><span class="demo"></span> Ouverture de la salle de Brest du Téléfab</p>
+		<p class="event open"><span class="demo"></span> Libre-service</p>
+		<p class="event session"><span class="demo"></span> Atelier</p>
+		<p class="event talk"><span class="demo"></span> Discussion</p>
+	</div>
 {% endblock %}

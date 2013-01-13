@@ -56,6 +56,7 @@ def show_events(request, year=None, month=None, day=None):
 	first_datetime = datetime(first_day.year, first_day.month, first_day.day, 0, 0, 0, 0, tz())
 	last_datetime = datetime(last_day.year, last_day.month, last_day.day, 23, 59, 59, 999999, tz())
 	events = Event.objects.filter(start_time__lte=last_datetime, end_time__gte=first_datetime).order_by('start_time')
+	openings = PlaceOpening.objects.filter(place=Place.get_main_place(), start_time__lte=last_datetime).filter(Q(end_time__gte=first_datetime) | Q(end_time = None)).order_by('start_time')
 	# Enlarge the times if needed
 	for event in events:
 		if event.start_time.hour < hour_min:
@@ -83,7 +84,7 @@ def show_events(request, year=None, month=None, day=None):
 				day_data = {
 					'day': day,
 					'current': day == today,
-					'category': None
+					'main_place_open': False
 				}	
 				days_data.append(day_data)
 				cell_start_time = datetime(day.year, day.month, day.day, hour, line * 60 / lines_per_hour, 0, 0, tz())
@@ -91,6 +92,14 @@ def show_events(request, year=None, month=None, day=None):
 				column_end_time = datetime(day.year, day.month, day.day, hour_max, 59, 59, 999999, tz())
 				day_data['start'] = cell_start_time
 				day_data['end'] = cell_end_time
+				# Check if the main place was open during this period
+				for opening in openings:
+					if opening.start_time < cell_end_time:
+						if (opening.end_time is None and cell_start_time < datetime.now(tz())) or (opening.end_time is not None and opening.end_time > cell_start_time):
+							day_data['main_place_open'] = True
+							break
+					else:
+						break
 				day_data['events'] = [] 
 				# Search all events for events in this cell
 				for event in events:
@@ -477,15 +486,7 @@ def update_place(request):
 	# Update the place
 	place = Place.get_main_place()
 	if place.now_open():
-		opening = place.do_close_now()
-		if opening is not None:
-			# When finishing an opening, check if an event should be created
-			existing_events = Event.objects.filter(start_time__lte = opening.end_time, end_time__gte = opening.start_time)
-			if len(existing_events) == 0:
-				# No existing event: create one automatically
-				event = Event(start_time = opening.start_time, end_time = opening.end_time, category = 0, location = opening.place.name, auto_opening = opening)
-				event.save()
-				event.animators.add(request.user)
+		place.do_close_now()
 	else:
 		place.do_open_now(request.user)
 	return redirect(urlresolvers.reverse('main.views.welcome'))

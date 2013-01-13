@@ -175,6 +175,14 @@
 	padding: 0;
 }
 
+#content table.calendar td.main_place_open {
+	background-image: linear-gradient(left , green 0%, white 10%);
+	background-image: -o-linear-gradient(left , green 0%, white 10%);
+	background-image: -moz-linear-gradient(left , green 0%, white 10%);
+	background-image: -webkit-linear-gradient(left , green 0%, white 10%);
+	background-image: -ms-linear-gradient(left , green 0%, white 10%);
+}
+
 #content table.calendar .events_container {
 	position: relative;
 	height: 23px;
@@ -280,6 +288,40 @@
 
 #content table.calendar .event_zone .tooltip p.animators span, #content table.calendar .event_zone .tooltip p.location span {
 	font-weight: bold;
+}
+
+#content #calendar_meaning {
+	margin-top: 20px;
+}
+
+#content #calendar_meaning p {
+	padding-bottom: 3px;
+}
+
+#content #calendar_meaning .demo {
+	padding-left: 20px;
+	margin-right: 5px;
+	border: 1px solid grey;
+}
+
+#content #calendar_meaning .opening .demo {
+	background-image: linear-gradient(left , green 0%, white 60%);
+	background-image: -o-linear-gradient(left , green 0%, white 60%);
+	background-image: -moz-linear-gradient(left , green 0%, white 60%);
+	background-image: -webkit-linear-gradient(left , green 0%, white 60%);
+	background-image: -ms-linear-gradient(left , green 0%, white 60%);
+}
+
+#content #calendar_meaning .open .demo {
+	background-color: #ABB800;
+}
+
+#content #calendar_meaning .session .demo {
+	background-color: #00ABB8;
+}
+
+#content #calendar_meaning .talk .demo {
+	background-color: #DD00EE;
 }
 
 /* Pager */

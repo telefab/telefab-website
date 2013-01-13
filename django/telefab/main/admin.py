@@ -25,12 +25,13 @@ class EventAdmin(admin.ModelAdmin):
 	search_fields = ('title', 'description')
 	date_hierarchy = 'start_time'
 	filter_horizontal = ('animators',)
-	exclude = ('auto_opening',)
 admin.site.register(Event, EventAdmin)
 
 # EquipmentCategory administration
 class EquipmentCategoryAdmin(admin.ModelAdmin):
 	model = EquipmentCategory
+	list_display = ('name', 'slug')
+	prepopulated_fields = {'slug': ('name',)}
 admin.site.register(EquipmentCategory, EquipmentCategoryAdmin)
 
 # EquipmentManufacturer administration
