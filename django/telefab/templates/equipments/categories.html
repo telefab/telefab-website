@@ -19,7 +19,7 @@
 			</li>
 			{% for category in categories %}
 				<li>
-					<a href="{% url main.views.show_equipments category=category.id %}">{{ category.name|capfirst }}</a>
+					<a href="{% url main.views.show_equipments category=category.slug %}">{{ category.name|capfirst }}</a>
 				</li>
 			{% endfor %}
 		</ul>

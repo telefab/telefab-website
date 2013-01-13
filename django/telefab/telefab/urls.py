@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 	(r'^calendrier/ical/$', 'main.views.ical_events'),
 	# Equipments
 	(r'^materiel/tout$', 'main.views.show_equipments'),
-	(r'^materiel/(?P<category>\d+)$', 'main.views.show_equipments'),
+	(r'^materiel/(?P<category>[-\w]+)$', 'main.views.show_equipments'),
 	(r'^materiel$', 'main.views.show_equipment_categories'),
 	# Loans
 	(r'^prets/nouveau$', 'main.views.edit_loan'),

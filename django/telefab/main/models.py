@@ -205,7 +205,7 @@ class EquipmentCategory(models.Model):
 		verbose_name_plural = u"types de matériel"
 
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
-	slug = models.SlugField(verbose_name = u"permalien", max_length = 100, blank = True)
+	slug = models.SlugField(verbose_name = u"permalien", max_length = 100)
 
 	def __unicode__(self):
 		"""

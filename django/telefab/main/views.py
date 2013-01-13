@@ -175,8 +175,8 @@ def show_equipments(request, category=None):
 	category_obj = None
 	equipments = Equipment.objects.filter(quantity__gt = 0).order_by('name')
 	if category is not None:
-		category_obj = EquipmentCategory.objects.get(id = category)
-		equipments = equipments.filter(category__id = category)
+		category_obj = EquipmentCategory.objects.get(slug = category)
+		equipments = equipments.filter(category = category_obj)
 	
 	# Render
 	template_data = {
