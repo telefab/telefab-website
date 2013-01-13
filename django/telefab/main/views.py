@@ -157,20 +157,23 @@ def ical_events(request):
 
 # Equipments
 
-def show_equipment_categories(request):
+def show_equipment_categories(request, choice=False):
 	"""
-	Shows the list of equipment categories
+	Shows the list of equipment categories,
+	used as modal dialog if choice is true
 	"""
 	categories = EquipmentCategory.objects.order_by('name')
 	# Render
 	template_data = {
 		'categories': categories,
+		'choice': choice
 	}
 	return render_to_response("equipments/categories.html", template_data, context_instance = RequestContext(request))
 
-def show_equipments(request, category=None):
+def show_equipments(request, category=None, choice=False):
 	"""
-	Show a list of equipments available in the FabLab
+	Show a list of equipments available in the FabLab (filtered by category if not None),
+	used as modal dialog if choice is true
 	"""
 	category_obj = None
 	equipments = Equipment.objects.filter(quantity__gt = 0).order_by('name')
@@ -181,7 +184,8 @@ def show_equipments(request, category=None):
 	# Render
 	template_data = {
 		'category': category_obj,
-		'equipments': equipments
+		'equipments': equipments,
+		'choice': choice
 	}
 	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
 
@@ -281,6 +285,8 @@ def edit_loan(request, loan_id=None):
 					if equipment_id == 0:
 						# If the equipment id is 0, this is an empty field to ignore
 						continue
+					# Count this booking (if error, saving won't end)
+					bookings_count = bookings_count + 1
 					try:
 						equipment = Equipment.objects.get(pk = int(request.POST.get("equipment_id" + str(i), "")))
 					except (Equipment.DoesNotExist, ValueError):
@@ -291,11 +297,10 @@ def edit_loan(request, loan_id=None):
 						saving_errors.append(u"pour réserver plusieurs exemplaires d'un équipement, utilisez le champ \"quantité\"")
 						continue
 					# Check the quantity
-					if quantity <= 0 or quantity > equipment.quantity:
-						saving_errors.append("il n'y a que " + str(equipment.quantity) + " exemplaire(s) de " + equipment.name)
+					if quantity <= 0 or quantity > equipment.available_quantity():
+						saving_errors.append("il n'y a que " + str(equipment.available_quantity()) + " exemplaire(s) de " + equipment.name)
 						continue
 					# Create
-					bookings_count = bookings_count + 1
 					booking = EquipmentLoan(loan = loan, equipment = equipment, quantity = quantity)
 					to_save.append(booking)
 					equipments.append(equipment)
@@ -324,11 +329,17 @@ def edit_loan(request, loan_id=None):
 			# Redirect
 			return redirect(urlresolvers.reverse('main.views.show_loans'))
 	# Render
+	all_equipments = Equipment.objects.filter(quantity__gt = 0)
+	equipments = []
+	for equipment in all_equipments:
+		# Filter out unavailable equipments
+		if equipment.available_quantity > 0:
+			equipments.append(equipment)
 	template_data = {
 		'loan': loan,
 		'is_new': is_new,
 		'is_owner': is_owner,
-		'equipments': Equipment.objects.filter(quantity__gt = 0),
+		'equipments': equipments,
 		'saving_errors': saving_errors
 	}
 	return render_to_response("loans/edit.html", template_data, context_instance = RequestContext(request))

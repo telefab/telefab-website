@@ -1,4 +1,4 @@
-{% extends "layout/default.html" %}
+{% extends choice|yesno:"layout/naked.html,layout/default.html" %}
 {% block title %}
 	Matériel
 {% endblock %}
@@ -9,19 +9,17 @@
 	Matériel
 {% endblock %}
 {% block content %}
-	<div class="entry post clearfix">
-		<p>
-			Choisissez un type de matériel pour voir ce qui est disponible au Téléfab :
-		</p>
-		<ul class="equipment_categories">
+	<p>
+		Choisissez un type de matériel pour voir ce qui est disponible au Téléfab :
+	</p>
+	<ul class="equipment_categories">
+		<li>
+			<a class="all" href="{% url main.views.show_equipments choice=choice %}"><em>Tout</em></a>
+		</li>
+		{% for category in categories %}
 			<li>
-				<a class="all" href="{% url main.views.show_equipments %}"><em>Tout</em></a>
+				<a href="{% url main.views.show_equipments category=category.slug choice=choice %}">{{ category.name|capfirst }}</a>
 			</li>
-			{% for category in categories %}
-				<li>
-					<a href="{% url main.views.show_equipments category=category.slug %}">{{ category.name|capfirst }}</a>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
+		{% endfor %}
+	</ul>
 {% endblock %}

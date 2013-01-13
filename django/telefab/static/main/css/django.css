@@ -3,6 +3,27 @@
  * for the django app
  */
 
+/* Naked pages for modal iframes */
+
+body.naked {
+	background: none;
+	padding: 0;
+}
+
+.naked #container {
+	width: 100%;
+	box-shadow: none;
+	background: none;
+}
+
+.naked #content {
+	padding: 10px;
+}
+
+.naked .entry.post {
+	padding: 0;
+}
+
 /* Context menu */
 #context_menu {
 	float: right;
@@ -17,36 +38,54 @@
 
 .niceform p {
 	padding: 0;
+	clear: both;
 }
 
 .niceform label {
-	diplay: block;
+	display: block;
 	float: left;
 	width: 200px;
+	margin: 7px 0;
 }
 
 .niceform input {
 	display: block;
+	float: left;
+}
+
+.niceform .tip {
+	float: left;
+	margin: 7px 10px;
 }
 
 .niceform .section_title {
+	clear: both;
 	font-size: 1.5em;
 	padding-bottom: 5px;
 }
 
 .niceform .parts_separator {
+	clear: both;
 	font-size: 1.3em;
 	border-bottom: 1px solid rgb(200, 200, 200);
 	margin-right: 50px;
+	padding-top: 10px;
 }
 
 .niceform .link {
+	clear: both;
 	padding-bottom: 5px;
 }
 
-.niceform .submit input {
+.niceform .submit {
+	clear: both;
+	padding-bottom: 15px;
 	width: 30%;
 	margin: auto;
+}
+
+.niceform .submit input {
+	width: 100%;
 }
 
 /* Message blocks */

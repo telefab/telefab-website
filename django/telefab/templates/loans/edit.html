@@ -73,6 +73,7 @@
 						<p>
 							<label for="equipment_name1">Nom :</label>
 							<input type="text" id="equipment_name1" name="equipment_name1" class="equipment_name" value="" />
+							<div class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></div>
 						</p>
 						<p>
 							<label for="equipment_quantity1">Quantité :</label>
@@ -94,9 +95,6 @@
 			<input type="submit" value="Enregistrer" />
 		</p>
 	</form>
-	<p>
-		La <a href="{% url main.views.show_equipment_categories %}" target="_blank">liste du matériel</a> montre tous les équipements que vous pouvez emprunter.
-	</p>
 	<p>
 		<a href="{% url main.views.show_loans %}">
 			Retour à la liste des prêts en cours

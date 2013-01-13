@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>{% block title %}{% endblock %} | Téléfab</title>
+		<link media="screen" type="text/css" href="/wp-content/themes/Chameleon/style.css" rel="stylesheet">
+		<link media="screen" type="text/css" href="/wp-content/css/customize-theme.css" rel="stylesheet">
+		<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/django.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold' rel='stylesheet' type='text/css'/>
+		<link href='http://fonts.googleapis.com/css?family=Kreon:light,regular' rel='stylesheet' type='text/css'/>
+		{% block css %}{% endblock %}
+	</head>
+	<body class="page{% block body_class %} naked{% endblock %}">
+		<div id="container">
+			{% block header %}
+			{% endblock %}
+				<div id="content" class="clearfix fullwidth">
+					<div class="entry post clearfix">
+						{% block content %}
+						{% endblock %}
+					</div>
+				</div>
+			{% block footer %}
+			{% endblock %}
+		</div>
+		<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.js"></script>
+		{% block scripts %}
+		{% endblock %}
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-33124188-1']);
+			_gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</body>
+</html>

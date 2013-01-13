@@ -1,4 +1,5 @@
-{% extends "layout/default.html" %}
+{% extends choice|yesno:"layout/naked.html,layout/default.html" %}
+{% load static %}
 {% block title %}
 	Matériel
 {% endblock %}
@@ -9,61 +10,73 @@
 	Matériel
 {% endblock %}
 {% block content %}
-	<div class="entry post clearfix">
-		<p>
-			<a href="{% url main.views.show_equipment_categories %}">Retour aux types de matériel</a>
-		</p>
-		<p>
-			{% if category %}
-				Voici le matériel de type "{{ category.name }}" actuellement disponible au Téléfab :
-			{% else %}
-				Voici tout le matériel actuellement disponible au Téléfab :
-			{% endif %}
-		</p>
-		<ul class="equipments">
-			{% for equipment in equipments %}
-				<li>
-					<h4>{{ equipment.name|capfirst }}</h4>
-					<p>
-						{{ equipment.description }}
+	<p>
+		<a href="{% url main.views.show_equipment_categories choice=choice %}">Retour aux types de matériel</a>
+	</p>
+	<p>
+		{% if category %}
+			Voici le matériel de type "{{ category.name }}" actuellement disponible au Téléfab :
+		{% else %}
+			Voici tout le matériel actuellement disponible au Téléfab :
+		{% endif %}
+	</p>
+	<ul class="equipments">
+		{% for equipment in equipments %}
+			<li>
+				<h4>
+					{{ equipment.name|capfirst }}
+					{% if choice %}
+						{% if equipment.available_quantity > 0 %}
+							- <a href="#" class="select_equipment" data-name="{{equipment.name}}">Sélectionner</a>
+						{% endif %}
+					{% endif %}
+				</h4>
+				<p>
+					{{ equipment.description }}
+				</p>
+				{% if equipment.location %}
+					<p class="location">
+						<strong>Emplacement :</strong> {{ equipment.location }}
 					</p>
-					{% if equipment.location %}
-						<p class="location">
-							<strong>Emplacement :</strong> {{ equipment.location }}
-						</p>
-					{% endif %}
-					{% if equipment.manufacturer %}
-						<p class="manufacturer">
-							<strong>Constructeur :</strong> {{ equipment.manufacturer }}
-						</p>
-					{% endif %}
-					{% if equipment.reference %}
-						<p class="reference">
-							<strong>Référence :</strong> {{ equipment.reference }}
-						</p>
-					{% endif %}
-					{% if equipment.datasheet %}
-						<p class="datasheet">
-							<strong>Datasheet :</strong> <a href="{{ equipment.datasheet.url }}">Télécharger</a>
-						</p>
-					{% endif %}
-					{% if equipment.link %}
-						<p class="link">
-							<strong>Plus d'infos :</strong> <a href="{{ equipment.link|safe }}">{{ equipment.link }}</a>
-						</p>
-					{% endif %}
-					<p class="quantity">
-						<strong>Quantité :</strong> {{ equipment.quantity }} (disponible : {{ equipment.available_quantity }})
+				{% endif %}
+				{% if equipment.manufacturer %}
+					<p class="manufacturer">
+						<strong>Constructeur :</strong> {{ equipment.manufacturer }}
 					</p>
-				</li>
-			{% empty %}
-				<li class="empty">
-					Aucun matériel disponible pour le moment.
-				</li>
-			{% endfor %}
-		</ul>
-		<p>
-			<a href="{% url main.views.show_equipment_categories %}">Retour aux types de matériel</a>
-		</p>
-	</div>
+				{% endif %}
+				{% if equipment.reference %}
+					<p class="reference">
+						<strong>Référence :</strong> {{ equipment.reference }}
+					</p>
+				{% endif %}
+				{% if equipment.datasheet %}
+					<p class="datasheet">
+						<strong>Datasheet :</strong> <a href="{{ equipment.datasheet.url }}">Télécharger</a>
+					</p>
+				{% endif %}
+				{% if equipment.link %}
+					<p class="link">
+						<strong>Plus d'infos :</strong> <a href="{{ equipment.link|safe }}">{{ equipment.link }}</a>
+					</p>
+				{% endif %}
+				<p class="quantity">
+					<strong>Quantité :</strong> {{ equipment.quantity }} (disponible : {{ equipment.available_quantity }})
+				</p>
+			</li>
+		{% empty %}
+			<li class="empty">
+				Aucun matériel disponible pour le moment.
+			</li>
+		{% endfor %}
+	</ul>
+	<p>
+		<a href="{% url main.views.show_equipment_categories choice=choice %}">Retour aux types de matériel</a>
+	</p>
 {% endblock %}
+{% if choice %}
+	{% block scripts %}
+		<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery-ui.js"></script>
+		<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.ui.datepicker-fr.js"></script>
+		<script type="text/javascript" src="{% get_static_prefix %}main/js/select_equipment.js"></script>
+	{% endblock %}
+{% endif %}
