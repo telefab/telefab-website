@@ -374,7 +374,7 @@ class PlaceOpening(models.Model):
 	place = models.ForeignKey(Place, verbose_name = u"lieu", related_name='openings')
 	start_time = models.DateTimeField(verbose_name = u"début")
 	end_time = models.DateTimeField(verbose_name = u"fin", blank = True, null = True)
-	animator = models.ForeignKey(User, verbose_name = u"animateur", null = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
+	animator = models.ForeignKey(User, verbose_name = u"animateur", blank=True, null = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
 	
 	def __unicode__(self):
 		"""
