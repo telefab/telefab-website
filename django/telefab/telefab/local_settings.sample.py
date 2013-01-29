@@ -30,3 +30,6 @@ WEBSITE_CONFIG = {
 	'protocol': 'http',
 	'path': ''
 }
+
+# Hard-coded API password (to use with Arduinos, insecure but simple)
+API_PASSWORD = 'toto'

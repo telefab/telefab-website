@@ -11,7 +11,7 @@ from django.utils.timezone import get_default_timezone as tz
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from vobject import iCalendar
-from telefab.local_settings import WEBSITE_CONFIG
+from telefab.local_settings import WEBSITE_CONFIG, API_PASSWORD
 from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME
 import math
 
@@ -532,7 +532,11 @@ def update_place_api(request):
 	"""
 	Update the place opening (used as API)
 	"""
+	# Check the hard-coded password
+	if request.REQUEST.get('password', None) != API_PASSWORD:
+		raise PermissionDenied()
 	place = Place.get_main_place()
+	# Should the place be opened or closed, or is it just a check?
 	to_open = request.POST.get('open', None)
 	if to_open == '1':
 		place.do_open_now()
