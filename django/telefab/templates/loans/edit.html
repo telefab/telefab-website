@@ -52,7 +52,7 @@
 						<p>
 							<label for="equipment_name{{forloop.counter}}">Nom :</label>
 							<input type="text" id="equipment_name{{forloop.counter}}" name="equipment_name{{forloop.counter}}" class="equipment_name" value="{{booking.equipment.name}}" disabled="disabled" />
-							<div class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></div>
+							<span class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></span>
 						</p>
 						<p>
 							<label for="equipment_quantity{{forloop.counter}}">Quantité :</label>
@@ -74,7 +74,7 @@
 						<p>
 							<label for="equipment_name1">Nom :</label>
 							<input type="text" id="equipment_name1" name="equipment_name1" class="equipment_name" value="" />
-							<div class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></div>
+							<span class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></span>
 						</p>
 						<p>
 							<label for="equipment_quantity1">Quantité :</label>

@@ -38,34 +38,46 @@ body.naked {
 
 .niceform p {
 	padding: 0;
-	clear: both;
 }
 
 .niceform label {
-	display: block;
-	float: left;
+	display: inline-block;
 	width: 200px;
 	margin: 7px 0;
 }
 
-.niceform input {
-	display: block;
-	float: left;
+.niceform input, .niceform select {
+	display: inline-block;
+	width: 250px;
+}
+
+.niceform select {
+	width: 256px;
+}
+
+.niceform select.half_input {
+	width: 123px;
+}
+
+.niceform .half_input {
+	width: 117px;
+}
+
+.niceform .separator {
+	width: 10px;
+	margin: 7px 0;
 }
 
 .niceform .tip {
-	float: left;
 	margin: 7px 10px;
 }
 
 .niceform .section_title {
-	clear: both;
 	font-size: 1.5em;
 	padding-bottom: 5px;
 }
 
 .niceform .parts_separator {
-	clear: both;
 	font-size: 1.3em;
 	border-bottom: 1px solid rgb(200, 200, 200);
 	margin-right: 50px;
@@ -73,12 +85,10 @@ body.naked {
 }
 
 .niceform .link {
-	clear: both;
 	padding-bottom: 5px;
 }
 
 .niceform .submit {
-	clear: both;
 	padding-bottom: 15px;
 	width: 30%;
 	margin: auto;

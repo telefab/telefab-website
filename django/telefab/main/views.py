@@ -155,6 +155,32 @@ def ical_events(request):
 			ical_ev.add("url").value = event.absolute_link()
 	return HttpResponse(calendar.serialize(), mimetype="text/calendar")
 
+@login_required
+def edit_event(request, event_id=None):
+	"""
+	Create or edit an event
+	"""
+	# Only animators allowed
+	if not request.user.get_profile().is_animator():
+		raise PermissionDenied()
+	# Get the event to edit or create a new event
+	event = None
+	is_new = False
+	saving_errors = []
+	if event_id is not None:
+		event = get_object_or_404(Event, pk=event_id)
+	else:
+		event = Event()
+		is_new = True
+	# Render
+	template_data = {
+		'event': event,
+		'is_new': is_new,
+		'saving_errors': saving_errors,
+		'hours': range(24)
+	}
+	return render_to_response("events/edit.html", template_data, context_instance = RequestContext(request))
+
 # Equipments
 
 def show_equipment_categories(request, choice=False):
@@ -501,3 +527,27 @@ def update_place(request):
 	else:
 		place.do_open_now(request.user)
 	return redirect(urlresolvers.reverse('main.views.welcome'))
+
+def update_place_api(request):
+	"""
+	Update the place opening (used as API)
+	"""
+	place = Place.get_main_place()
+	to_open = request.POST.get('open', None)
+	if to_open == '1':
+		place.do_open_now()
+	elif to_open == '0':
+		place.do_close_now()
+	else:
+		return HttpResponse("ERROR", content_type="text/plain")
+	return HttpResponse("OK", content_type="text/plain")
+
+def get_place_api(request):
+	"""
+	Update the place opening (used as API)
+	"""
+	place = Place.get_main_place()
+	if place.now_open():
+		return HttpResponse("OPEN", content_type="text/plain")
+	else:
+		return HttpResponse("CLOSED", content_type="text/plain")

@@ -14,6 +14,8 @@ urlpatterns = patterns('',
 	(r'^calendrier/$', 'main.views.show_events'),
 	(r'^calendrier/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})$', 'main.views.show_events'),
 	(r'^calendrier/ical/$', 'main.views.ical_events'),
+	(r'^calendrier/nouveau$', 'main.views.edit_event'),
+	(r'^calendrier/(?P<event_id>\d+)$', 'main.views.edit_event'),
 	# Equipments
 	(r'^materiel/tout$', 'main.views.show_equipments', {'choice': False}),
 	(r'^materiel/(?P<category>[-\w]+)$', 'main.views.show_equipments', {'choice': False}),
@@ -33,4 +35,7 @@ urlpatterns = patterns('',
 	(r'^lieu/ouverture$', 'main.views.update_place'),
     # Administration
     (r'^admin/', include(admin.site.urls)),
+    # API
+    (r'^api/lieu/modifier', 'main.views.update_place_api'),
+    (r'^api/lieu', 'main.views.get_place_api'),
 )
