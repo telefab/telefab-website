@@ -538,16 +538,8 @@ def update_place_api(request):
 		place.do_open_now()
 	elif to_open == '0':
 		place.do_close_now()
-	else:
-		return HttpResponse("ERROR", content_type="text/plain")
-	return HttpResponse("OK", content_type="text/plain")
-
-def get_place_api(request):
-	"""
-	Update the place opening (used as API)
-	"""
-	place = Place.get_main_place()
-	if place.now_open():
+	elif place.now_open():
 		return HttpResponse("OPEN", content_type="text/plain")
 	else:
 		return HttpResponse("CLOSED", content_type="text/plain")
+	return HttpResponse("OK", content_type="text/plain")

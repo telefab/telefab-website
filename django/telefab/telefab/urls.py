@@ -36,6 +36,5 @@ urlpatterns = patterns('',
     # Administration
     (r'^admin/', include(admin.site.urls)),
     # API
-    (r'^api/lieu/modifier', 'main.views.update_place_api'),
-    (r'^api/lieu', 'main.views.get_place_api'),
+    (r'^api/lieu', 'main.views.update_place_api')
 )
