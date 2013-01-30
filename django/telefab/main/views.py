@@ -5,6 +5,7 @@ from django.template import RequestContext, Context, Template
 from django.http import HttpResponse, Http404
 from django.core import urlresolvers
 from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 from models import *
 from datetime import date, datetime, timedelta
 from django.utils.timezone import get_default_timezone as tz
@@ -528,6 +529,7 @@ def update_place(request):
 		place.do_open_now(request.user)
 	return redirect(urlresolvers.reverse('main.views.welcome'))
 
+@csrf_exempt
 def update_place_api(request):
 	"""
 	Update the place opening (used as API)
