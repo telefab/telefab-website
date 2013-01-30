@@ -204,7 +204,7 @@ def show_equipments(request, category=None, choice=False):
 	category_obj = None
 	equipments = Equipment.objects.filter(quantity__gt = 0).order_by('name')
 	if category is not None:
-		category_obj = EquipmentCategory.objects.get(slug = category)
+		category_obj = get_object_or_404(EquipmentCategory, slug = category)
 		equipments = equipments.filter(category = category_obj)
 	
 	# Render
