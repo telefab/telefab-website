@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress 3.5\n"
+"Project-Id-Version: WordPress 3.5.1\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-12-07 21:18:34+00:00\n"
-"PO-Revision-Date: 2012-12-10 20:19+0100\n"
+"POT-Creation-Date: 2013-01-24 21:19:53+00:00\n"
+"PO-Revision-Date: 2013-01-25 01:13+0100\n"
 "Last-Translator: WordPress Francophone <traduction_at_wordpress-fr.net>\n"
 "Language-Team: WordPress Francophone <traduction@wordpress-fr.net>\n"
 "Language: fr_FR\n"
@@ -54,275 +54,15 @@ msgstr "Crédits"
 msgid "Freedoms"
 msgstr "Libertés"
 
-#: wp-admin/about.php:37 wp-admin/includes/template.php:1830
-msgid "New Media Manager"
-msgstr "Nouveau gestionnaire de médias"
-
-#: wp-admin/about.php:43
-msgid "Beautiful Interface"
-msgstr "Une superbe interface"
-
-#: wp-admin/about.php:44
-msgid ""
-"Adding media has been streamlined with an all-new experience, making it a "
-"breeze to upload files and place them into your posts."
-msgstr ""
-"L&rsquo;ajout de fichiers média a été repensé pour aboutir à une toute "
-"nouvelle approche, facilitant grandement la mise en ligne et l&rsquo;"
-"insertion dans vos articles."
-
-#: wp-admin/about.php:47
-msgid "Picturesque Galleries"
-msgstr "Des galeries très visuelles"
-
-#: wp-admin/about.php:48
-msgid ""
-"Creating image galleries is faster with drag and drop reordering, inline "
-"caption editing, and simplified controls for layout."
-msgstr ""
-"La création de galeries d&rsquo;images est plus rapide grâce à la "
-"réorganisation par glisser-déposer, la modification directe de la légende, "
-"et aux contrôles de mise en page simplifiés."
-
-#: wp-admin/about.php:54
-msgid "New Default Theme"
-msgstr "Nouveau thème par défaut"
-
-#: wp-admin/about.php:58
-msgid "Introducing Twenty Twelve"
-msgstr "Arrivée de Twenty Twelve"
-
-#: wp-admin/about.php:59
-msgid ""
-"The newest default theme for WordPress is simple, flexible, and elegant."
-msgstr ""
-"Le nouveau thème par défaut de WordPress est simple, flexible et élégant."
-
-#: wp-admin/about.php:60
-msgid ""
-"What makes it really shine are the design details, like the gorgeous Open "
-"Sans typeface and a fully responsive design that looks great on any device."
-msgstr ""
-"Il brille notamment par l&rsquo;attention portée aux détails, comme la "
-"superbe police Open Sans et le design totalement souple qui s&rsquo;adapte "
-"parfaitement à toutes les tailles d&rsquo;écran."
-
-#: wp-admin/about.php:61
-msgid ""
-"Naturally, Twenty Twelve supports all the theme features you’ve come to know "
-"and love, but it is also designed to be as great for a website as it is for "
-"a blog."
-msgstr ""
-"Bien entendu, Twenty Twelve intègre toutes les fonctionnalités que vous avez "
-"connu et apprécié avec les thèmes précédents, mais il a en plus été conçu "
-"pour fonctionner aussi bien pour un site web que pour un blog."
-
-#: wp-admin/about.php:66
-msgid "Retina Ready"
-msgstr "Prêt pour le Retina"
-
-#: wp-admin/about.php:70
-msgid "So Sharp You Can&#8217;t See the Pixels"
-msgstr "Tellement net que vous ne verrez pas les pixels"
-
-#: wp-admin/about.php:71
-msgid ""
-"The WordPress dashboard now looks beautiful on high-resolution screens like "
-"those found on the iPad, Kindle Fire HD, Nexus 10, and MacBook Pro with "
-"Retina Display. Icons and other visual elements are crystal clear and full "
-"of detail."
-msgstr ""
-"Le tableau de bord de WordPress est magnifique sur les écrans haute-"
-"résolution, comme ceux de l&rsquo;iPad, du Kindle Fire HD, du Nexus 10 et du "
-"MacBook Pro. Les icônes et autres éléments visuels sont clairs et très "
-"détaillés."
-
-#: wp-admin/about.php:76
-msgid "Smoother Experience"
-msgstr "Une utilisation plus harmonieuse"
-
-#: wp-admin/about.php:80
-msgid "Better Accessibility"
-msgstr "Une meilleure accessibilité"
-
-#: wp-admin/about.php:81
-msgid ""
-"WordPress supports more usage modes than ever before. Screenreaders, touch "
-"devices, and mouseless workflows all have improved ease of use and "
-"accessibility."
-msgstr ""
-"WordPress reconnaît plus de modes d&rsquo;utilisation qu&rsquo;auparavant. "
-"Les lecteurs d&rsquo;écrans, les appareils tactiles et les utilisations sans "
-"souris fonctionnent tous plus simplement et avec une meilleure accessibilité."
-
-#: wp-admin/about.php:83
-msgid "More Polish"
-msgstr "Un coup d&rsquo;éclat"
-
-#: wp-admin/about.php:84
-msgid ""
-"A number of screens and controls have been refined. For example, a new color "
-"picker makes it easier for you to choose that perfect shade of blue."
-msgstr ""
-"Un grand nombre d&rsquo;écrans et de contrôleurs ont été repensés. Par "
-"exemple, le nouveau sélecteur de couleur vous permet de trouver plus "
-"simplement cette teinte de bleu si particulière."
-
-#: wp-admin/about.php:89
-msgid "Under the Hood"
-msgstr "Sous le capot"
-
-#: wp-admin/about.php:93
-msgid "Meta Query Additions"
-msgstr "Support des Meta Queries"
-
-#: wp-admin/about.php:94
-msgid ""
-"The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now "
-"support meta queries just like <code>WP_Query.</code> Meta queries now "
-"support querying for objects without a particular meta key."
-msgstr ""
-"Les classes <code>WP_Comment_Query</code> et <code>WP_User_Query</code> "
-"reconnaissent désormais les requêtes méta, tout comme <code>WP_Query</code>. "
-"Les requêtes méta peuvent maintenant lancer une requête sur un objet sans "
-"nécessite de clef méta."
-
-#: wp-admin/about.php:97
-msgid "Post Objects"
-msgstr "Objets d&rsquo;articles"
-
-#: wp-admin/about.php:98
-msgid ""
-"Post objects are now instances of a <code>WP_Post</code> class, which "
-"improves performance by loading selected properties on demand."
-msgstr ""
-"Les objets d&rsquo;articles sont  dorénavant des instances de la classe "
-"<code>WP_Post</code>, qui améliore les performances en chargeant à la "
-"demande les propriétés sélectionnées."
-
-#: wp-admin/about.php:101
-msgid "Image Editing API"
-msgstr "L&rsquo;API de modification d&rsquo;image"
-
-#: wp-admin/about.php:102
-msgid ""
-"The <code>WP_Image_Editor</code> class abstracts image editing functionality "
-"such as cropping and scaling, and uses ImageMagick when available."
-msgstr ""
-"La classe <code>WP_Image_Editor</code> est une abstraction de la "
-"fonctionnalité de modification d&rsquo;image, comme le cadrage et le "
-"changement d&rsquo;échelle, et utilise ImageMagick si cette bibliothèque est "
-"disponible."
-
-#: wp-admin/about.php:108
-msgid "Multisite Improvements"
-msgstr "Amélioration du multisite"
-
-#: wp-admin/about.php:109
-msgid ""
-"<code>switch_to_blog()</code> is now significantly faster and more reliable."
-msgstr "<code>switch_to_blog()</code> est sensiblement plus rapide et fiable."
-
-#: wp-admin/about.php:112
-msgid "XML-RPC API"
-msgstr "L&rsquo;API XML-RPC"
-
-#: wp-admin/about.php:113
-msgid ""
-"The <a href=\"%s\">WordPress API</a> is now always enabled, and supports "
-"fetching users, editing profiles, managing post revisions, and searching "
-"posts."
-msgstr ""
-"L&rsquo;<a href=\"%s\">API de WordPress</a> est dorénavant toujours activée, "
-"et autorise la récupération des utilisateurs, la modification des profils, "
-"la gestion des révisions d&rsquo;articles, et la recherche d&rsquo;articles."
-
-#: wp-admin/about.php:113
-msgid "http://codex.wordpress.org/XML-RPC_WordPress_API"
-msgstr "http://codex.wordpress.org/XML-RPC_WordPress_API"
-
-#: wp-admin/about.php:116 wp-admin/credits.php:160
-msgid "External Libraries"
-msgstr "Bibliothèques tierces"
-
-#: wp-admin/about.php:117
-msgid ""
-"WordPress now includes the <a href=\"%1$s\">Underscore</a> and <a href=\"%2$s"
-"\">Backbone</a> JavaScript libraries. TinyMCE, jQuery, jQuery UI, and "
-"SimplePie have all been updated to the latest versions."
-msgstr ""
-"WordPress inclus aujourd&rsquo;hui les bibliothèques <a href=\"%1$s"
-"\">Underscore</a> et <a href=\"%2$s\">Backbone</a>. TinyMCE, jQuery, jQuery "
-"UI, et SimplePie ont tous été mis à jour à la dernière version"
-
-#: wp-admin/about.php:125
-msgid "Return to Updates"
-msgstr "Retourner aux mises à jour"
-
-#: wp-admin/about.php:125
-msgid "Return to Dashboard &rarr; Updates"
-msgstr "Retourner aux mises à jour"
-
-#: wp-admin/about.php:129
-msgid "Go to Dashboard &rarr; Home"
-msgstr "Aller sur l&rsquo;accueil"
-
-#: wp-admin/about.php:129
-msgid "Go to Dashboard"
-msgstr "Aller sur le tableau de bord"
-
-#: wp-admin/about.php:140
-msgid "Maintenance Release"
-msgid_plural "Maintenance Releases"
-msgstr[0] "Mise à jour de maintenance"
-msgstr[1] "Mises à jour de maintenance"
-
-#: wp-admin/about.php:141
-msgid "Security Release"
-msgid_plural "Security Releases"
-msgstr[0] "Mise à jour de sécurité"
-msgstr[1] "Mises à jour de sécurité"
-
-#: wp-admin/about.php:142
+#: wp-admin/about.php:37 wp-admin/about.php:150
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] "Mise à jour de maintenance et de sécurité"
 msgstr[1] "Mises à jour de maintenance et de sécurité"
 
-#. translators: 1: WordPress version number.
-#: wp-admin/about.php:145
-msgid "<strong>Version %1$s</strong> addressed a security issue."
-msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
-msgstr[0] ""
-"La <strong>version %1$s</strong> corrige une vulnérabilité de sécurité."
-msgstr[1] ""
-"La <strong>version %1$s</strong> corrige plusieurs vulnérabilités de "
-"sécurité."
-
-#. translators: 1: WordPress version number, 2: plural number of bugs.
-#: wp-admin/about.php:149
-msgid "<strong>Version %1$s</strong> addressed %2$s bug."
-msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
-msgstr[0] "La <strong>version %1$s</strong> corrige %2$s bug."
-msgstr[1] "La <strong>version %1$s</strong> corrige %2$s bugs."
-
-#. translators: 1: WordPress version number, 2: plural number of bugs. Singular
-#. security issue.
-#: wp-admin/about.php:153
-msgid ""
-"<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
-msgid_plural ""
-"<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
-msgstr[0] ""
-"La <strong>version %1$s</strong> s&rsquo;occupe d&rsquo;un problème de "
-"sécurité et corrige %2$s bug."
-msgstr[1] ""
-"<strong>Version %1$s</strong> s&rsquo;occupe d&rsquo;un problème de sécurité "
-"et corrige %2$s bugs."
-
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:157
+#: wp-admin/about.php:38 wp-admin/about.php:165
 msgid ""
 "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s "
 "bug."
@@ -336,11 +76,271 @@ msgstr[1] ""
 "<strong>Version %1$s</strong> s&rsquo;occupe de quelques problèmes de "
 "sécurité et corrige %2$s bugs."
 
-#: wp-admin/about.php:160
+#: wp-admin/about.php:40 wp-admin/about.php:168
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr ""
 "Pour plus d&rsquo;informations, consultez les <a href=\"%s\">notes de "
 "publication</a>."
+
+#: wp-admin/about.php:45 wp-admin/includes/template.php:1830
+msgid "New Media Manager"
+msgstr "Nouveau gestionnaire de médias"
+
+#: wp-admin/about.php:51
+msgid "Beautiful Interface"
+msgstr "Une superbe interface"
+
+#: wp-admin/about.php:52
+msgid ""
+"Adding media has been streamlined with an all-new experience, making it a "
+"breeze to upload files and place them into your posts."
+msgstr ""
+"L&rsquo;ajout de fichiers média a été repensé pour aboutir à une toute "
+"nouvelle approche, facilitant grandement la mise en ligne et l&rsquo;"
+"insertion dans vos articles."
+
+#: wp-admin/about.php:55
+msgid "Picturesque Galleries"
+msgstr "Des galeries très visuelles"
+
+#: wp-admin/about.php:56
+msgid ""
+"Creating image galleries is faster with drag and drop reordering, inline "
+"caption editing, and simplified controls for layout."
+msgstr ""
+"La création de galeries d&rsquo;images est plus rapide grâce à la "
+"réorganisation par glisser-déposer, la modification directe de la légende, "
+"et aux contrôles de mise en page simplifiés."
+
+#: wp-admin/about.php:62
+msgid "New Default Theme"
+msgstr "Nouveau thème par défaut"
+
+#: wp-admin/about.php:66
+msgid "Introducing Twenty Twelve"
+msgstr "Arrivée de Twenty Twelve"
+
+#: wp-admin/about.php:67
+msgid ""
+"The newest default theme for WordPress is simple, flexible, and elegant."
+msgstr ""
+"Le nouveau thème par défaut de WordPress est simple, flexible et élégant."
+
+#: wp-admin/about.php:68
+msgid ""
+"What makes it really shine are the design details, like the gorgeous Open "
+"Sans typeface and a fully responsive design that looks great on any device."
+msgstr ""
+"Il brille notamment par l&rsquo;attention portée aux détails, comme la "
+"superbe police Open Sans et le design totalement souple qui s&rsquo;adapte "
+"parfaitement à toutes les tailles d&rsquo;écran."
+
+#: wp-admin/about.php:69
+msgid ""
+"Naturally, Twenty Twelve supports all the theme features you’ve come to know "
+"and love, but it is also designed to be as great for a website as it is for "
+"a blog."
+msgstr ""
+"Bien entendu, Twenty Twelve intègre toutes les fonctionnalités que vous avez "
+"connu et apprécié avec les thèmes précédents, mais il a en plus été conçu "
+"pour fonctionner aussi bien pour un site web que pour un blog."
+
+#: wp-admin/about.php:74
+msgid "Retina Ready"
+msgstr "Prêt pour le Retina"
+
+#: wp-admin/about.php:78
+msgid "So Sharp You Can&#8217;t See the Pixels"
+msgstr "Tellement net que vous ne verrez pas les pixels"
+
+#: wp-admin/about.php:79
+msgid ""
+"The WordPress dashboard now looks beautiful on high-resolution screens like "
+"those found on the iPad, Kindle Fire HD, Nexus 10, and MacBook Pro with "
+"Retina Display. Icons and other visual elements are crystal clear and full "
+"of detail."
+msgstr ""
+"Le tableau de bord de WordPress est magnifique sur les écrans haute-"
+"résolution, comme ceux de l&rsquo;iPad, du Kindle Fire HD, du Nexus 10 et du "
+"MacBook Pro. Les icônes et autres éléments visuels sont clairs et très "
+"détaillés."
+
+#: wp-admin/about.php:84
+msgid "Smoother Experience"
+msgstr "Une utilisation plus harmonieuse"
+
+#: wp-admin/about.php:88
+msgid "Better Accessibility"
+msgstr "Une meilleure accessibilité"
+
+#: wp-admin/about.php:89
+msgid ""
+"WordPress supports more usage modes than ever before. Screenreaders, touch "
+"devices, and mouseless workflows all have improved ease of use and "
+"accessibility."
+msgstr ""
+"WordPress reconnaît plus de modes d&rsquo;utilisation qu&rsquo;auparavant. "
+"Les lecteurs d&rsquo;écrans, les appareils tactiles et les utilisations sans "
+"souris fonctionnent tous plus simplement et avec une meilleure accessibilité."
+
+#: wp-admin/about.php:91
+msgid "More Polish"
+msgstr "Un coup d&rsquo;éclat"
+
+#: wp-admin/about.php:92
+msgid ""
+"A number of screens and controls have been refined. For example, a new color "
+"picker makes it easier for you to choose that perfect shade of blue."
+msgstr ""
+"Un grand nombre d&rsquo;écrans et de contrôleurs ont été repensés. Par "
+"exemple, le nouveau sélecteur de couleur vous permet de trouver plus "
+"simplement cette teinte de bleu si particulière."
+
+#: wp-admin/about.php:97
+msgid "Under the Hood"
+msgstr "Sous le capot"
+
+#: wp-admin/about.php:101
+msgid "Meta Query Additions"
+msgstr "Support des Meta Queries"
+
+#: wp-admin/about.php:102
+msgid ""
+"The <code>WP_Comment_Query</code> and <code>WP_User_Query</code> classes now "
+"support meta queries just like <code>WP_Query.</code> Meta queries now "
+"support querying for objects without a particular meta key."
+msgstr ""
+"Les classes <code>WP_Comment_Query</code> et <code>WP_User_Query</code> "
+"reconnaissent désormais les requêtes méta, tout comme <code>WP_Query</code>. "
+"Les requêtes méta peuvent maintenant lancer une requête sur un objet sans "
+"nécessite de clef méta."
+
+#: wp-admin/about.php:105
+msgid "Post Objects"
+msgstr "Objets d&rsquo;articles"
+
+#: wp-admin/about.php:106
+msgid ""
+"Post objects are now instances of a <code>WP_Post</code> class, which "
+"improves performance by loading selected properties on demand."
+msgstr ""
+"Les objets d&rsquo;articles sont  dorénavant des instances de la classe "
+"<code>WP_Post</code>, qui améliore les performances en chargeant à la "
+"demande les propriétés sélectionnées."
+
+#: wp-admin/about.php:109
+msgid "Image Editing API"
+msgstr "L&rsquo;API de modification d&rsquo;image"
+
+#: wp-admin/about.php:110
+msgid ""
+"The <code>WP_Image_Editor</code> class abstracts image editing functionality "
+"such as cropping and scaling, and uses ImageMagick when available."
+msgstr ""
+"La classe <code>WP_Image_Editor</code> est une abstraction de la "
+"fonctionnalité de modification d&rsquo;image, comme le cadrage et le "
+"changement d&rsquo;échelle, et utilise ImageMagick si cette bibliothèque est "
+"disponible."
+
+#: wp-admin/about.php:116
+msgid "Multisite Improvements"
+msgstr "Amélioration du multisite"
+
+#: wp-admin/about.php:117
+msgid ""
+"<code>switch_to_blog()</code> is now significantly faster and more reliable."
+msgstr "<code>switch_to_blog()</code> est sensiblement plus rapide et fiable."
+
+#: wp-admin/about.php:120
+msgid "XML-RPC API"
+msgstr "L&rsquo;API XML-RPC"
+
+#: wp-admin/about.php:121
+msgid ""
+"The <a href=\"%s\">WordPress API</a> is now always enabled, and supports "
+"fetching users, editing profiles, managing post revisions, and searching "
+"posts."
+msgstr ""
+"L&rsquo;<a href=\"%s\">API de WordPress</a> est dorénavant toujours activée, "
+"et autorise la récupération des utilisateurs, la modification des profils, "
+"la gestion des révisions d&rsquo;articles, et la recherche d&rsquo;articles."
+
+#: wp-admin/about.php:121
+msgid "http://codex.wordpress.org/XML-RPC_WordPress_API"
+msgstr "http://codex.wordpress.org/XML-RPC_WordPress_API"
+
+#: wp-admin/about.php:124 wp-admin/credits.php:160
+msgid "External Libraries"
+msgstr "Bibliothèques tierces"
+
+#: wp-admin/about.php:125
+msgid ""
+"WordPress now includes the <a href=\"%1$s\">Underscore</a> and <a href=\"%2$s"
+"\">Backbone</a> JavaScript libraries. TinyMCE, jQuery, jQuery UI, and "
+"SimplePie have all been updated to the latest versions."
+msgstr ""
+"WordPress inclus aujourd&rsquo;hui les bibliothèques <a href=\"%1$s"
+"\">Underscore</a> et <a href=\"%2$s\">Backbone</a>. TinyMCE, jQuery, jQuery "
+"UI, et SimplePie ont tous été mis à jour à la dernière version"
+
+#: wp-admin/about.php:133
+msgid "Return to Updates"
+msgstr "Retourner aux mises à jour"
+
+#: wp-admin/about.php:133
+msgid "Return to Dashboard &rarr; Updates"
+msgstr "Retourner aux mises à jour"
+
+#: wp-admin/about.php:137
+msgid "Go to Dashboard &rarr; Home"
+msgstr "Aller sur l&rsquo;accueil"
+
+#: wp-admin/about.php:137
+msgid "Go to Dashboard"
+msgstr "Aller sur le tableau de bord"
+
+#: wp-admin/about.php:148
+msgid "Maintenance Release"
+msgid_plural "Maintenance Releases"
+msgstr[0] "Mise à jour de maintenance"
+msgstr[1] "Mises à jour de maintenance"
+
+#: wp-admin/about.php:149
+msgid "Security Release"
+msgid_plural "Security Releases"
+msgstr[0] "Mise à jour de sécurité"
+msgstr[1] "Mises à jour de sécurité"
+
+#. translators: 1: WordPress version number.
+#: wp-admin/about.php:153
+msgid "<strong>Version %1$s</strong> addressed a security issue."
+msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
+msgstr[0] ""
+"La <strong>version %1$s</strong> corrige une vulnérabilité de sécurité."
+msgstr[1] ""
+"La <strong>version %1$s</strong> corrige plusieurs vulnérabilités de "
+"sécurité."
+
+#. translators: 1: WordPress version number, 2: plural number of bugs.
+#: wp-admin/about.php:157
+msgid "<strong>Version %1$s</strong> addressed %2$s bug."
+msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
+msgstr[0] "La <strong>version %1$s</strong> corrige %2$s bug."
+msgstr[1] "La <strong>version %1$s</strong> corrige %2$s bugs."
+
+#. translators: 1: WordPress version number, 2: plural number of bugs. Singular
+#. security issue.
+#: wp-admin/about.php:161
+msgid ""
+"<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
+msgid_plural ""
+"<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
+msgstr[0] ""
+"La <strong>version %1$s</strong> s&rsquo;occupe d&rsquo;un problème de "
+"sécurité et corrige %2$s bug."
+msgstr[1] ""
+"<strong>Version %1$s</strong> s&rsquo;occupe d&rsquo;un problème de sécurité "
+"et corrige %2$s bugs."
 
 #: wp-admin/admin-footer.php:21
 msgid ""
@@ -442,7 +442,7 @@ msgid ""
 "where you can also change the timestamp of the comment."
 msgstr ""
 "Vous pouvez également modérer le commentaire depuis cet écran, à l&rsquo;"
-"aide du module État, d&rsquo;où vous pouvez également changer l&rsquo;"
+"aide du bloc État, d&rsquo;où vous pouvez également changer l&rsquo;"
 "horodatage du commentaire."
 
 #: wp-admin/comment.php:57 wp-admin/custom-background.php:97
@@ -1458,11 +1458,11 @@ msgid ""
 "this screen."
 msgstr ""
 "Le champ du titre et la zone d&rsquo;édition de l&rsquo;article sont "
-"inamovibles, mais vous pouvez déplacer toutes les autres boites par simple "
+"inamovibles, mais vous pouvez déplacer toutes les autres blocs par simple "
 "glisser/déposer. Vous pouvez également les fermer/ouvrir en cliquant sur la "
 "barre de titre de chaque boite. Utilisez l&rsquo;onglet &laquo;&nbsp;Options "
 "de l&rsquo;écran&nbsp;&raquo; pour cacher d&rsquo;autres boites (Extrait, "
-"Envoyer des rétroliens, Chapmps personnalisés, Discussion, Identifiant, "
+"Envoyer des rétroliens, Champs personnalisés, Discussion, Identifiant, "
 "Auteur) ou pour choisir un affichage sur une ou deux colonnes pour cet écran."
 
 #: wp-admin/edit-form-advanced.php:179
@@ -1559,12 +1559,12 @@ msgstr ""
 "Le processus de création d&rsquo;une page reste très proche de celui d&rsquo;"
 "un article, et les écrans respectifs peuvent être personnalisés de la même "
 "manière, par le biais de glisser/déposer, de l&rsquo;onglet &laquo;&nbsp;"
-"Option de l&rsquo;Écran&nbsp;&raquo;, et en ouvrant/fermant les boites selon "
+"Option de l&rsquo;Écran&nbsp;&raquo;, et en ouvrant/fermant les blocs selon "
 "vos besoins. Cet écran dispose également du mode &laquo;&nbsp;aucune "
 "distraction&nbsp;&raquo;, tant dans le mode Visuel que dans le mode Texte, "
 "via les boutons &laquo;&nbsp;Plein Écran&nbsp;&raquo;. L&rsquo;éditeur de "
 "page fonctionne globalement comme celui des articles, mais dispose de "
-"certaines spécificités, disponibles dans la boite &laquo;&nbsp;Attributs de "
+"certaines spécificités, disponibles dans le bloc &laquo;&nbsp;Attributs de "
 "Page&nbsp;&raquo;&nbsp;:"
 
 #: wp-admin/edit-form-advanced.php:204
@@ -1608,10 +1608,10 @@ msgstr ""
 "Modifier l&rsquo;Image&nbsp;&raquo;, sous la miniature, afin de faire "
 "apparaître un éditeur d&rsquo;image, vous permettant de recadrer, d&rsquo;"
 "appliquer une rotation ou d&rsquo;inverser une image, ainsi que de défaire "
-"et refaire vos modifications. Les boites sur la droite vous donnent accès à "
+"et refaire vos modifications. Les blocs sur la droite vous donnent accès à "
 "d&rsquo;autres options pour le changement d&rsquo;échelle, le recadrage et "
 "même le recadrage de la miniature, qui peut être différent de celui de "
-"l&rsquo;image originale. Cliquez sur le bouton Aide de ces boites pour "
+"l&rsquo;image originale. Cliquez sur le bouton Aide de ces blocs pour "
 "obtenir plus d&rsquo;informations."
 
 #: wp-admin/edit-form-advanced.php:221 wp-admin/media.php:77
@@ -1691,16 +1691,16 @@ msgid ""
 "or backdate a post."
 msgstr ""
 "<strong>Publier</strong> - Vous pouvez définir la manière dont votre article "
-"est publié dans la boite Publier. Pour &laquo;&nbsp;État&nbsp;&raquo;, "
-"&laquo;&nbsp;Visibilité&nbsp;&raquo;, &laquo;&nbsp;Format&nbsp;&raquo; et "
-"&laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo;, un clic sur le lien "
-"&laquo;&nbsp;Modifier&nbsp;&raquo; affichera plus d&rsquo;options. &laquo;"
-"&nbsp;Visibilité&nbsp;&raquo; inclut des options pour protéger l&rsquo;"
-"article avec un mot de passe ou faire en sorte qu&rsquo;il reste en tête de "
-"page indéfiniment. &laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo; vous "
-"permet de programmer la publication de votre article à une date précise, "
-"dans le futur ou le passé&nbsp;; cela vous permet d&rsquo;écrire à l&rsquo;"
-"avance des articles à publier, ou de les antidater."
+"est publié dans le bloc &laquo;&nsbp;Publier&nbsp;&raquo;. Pour &laquo;&nbsp;"
+"État&nbsp;&raquo;, &laquo;&nbsp;Visibilité&nbsp;&raquo;, &laquo;&nbsp;"
+"Format&nbsp;&raquo; et &laquo;&nbsp;Publier (immédiatement)&nbsp;&raquo;, un "
+"clic sur le lien &laquo;&nbsp;Modifier&nbsp;&raquo; affichera plus d&rsquo;"
+"options. &laquo;&nbsp;Visibilité&nbsp;&raquo; inclut des options pour "
+"protéger l&rsquo;article avec un mot de passe ou faire en sorte qu&rsquo;il "
+"reste en tête de page indéfiniment. &laquo;&nbsp;Publier (immédiatement)"
+"&nbsp;&raquo; vous permet de programmer la publication de votre article à "
+"une date précise, dans le futur ou le passé&nbsp;; cela vous permet d&rsquo;"
+"écrire à l&rsquo;avance des articles à publier, ou de les antidater."
 
 #: wp-admin/edit-form-advanced.php:248
 msgid ""
@@ -1888,7 +1888,7 @@ msgid ""
 "display on your site as the link) are required fields."
 msgstr ""
 "Vous pouvez ajouter ou modifier des liens sur cet écran, en saisissant dans "
-"chacune des boites. Seuls sont obligatoires les champs &laquo;&nbsp;Adresse "
+"chacun des blocs. Seuls sont obligatoires les champs &laquo;&nbsp;Adresse "
 "Web&nbsp;&raquo; et &laquo;&nbsp;Nom&nbsp;&raquo; (le texte que vous voulez "
 "voir affiché sur votre site pour cette adresse)."
 
@@ -1899,11 +1899,11 @@ msgid ""
 "boxes you don&#8217;t use in the Screen Options tab, or minimize boxes by "
 "clicking on the title bar of the box."
 msgstr ""
-"Les boites pour le nom, l&rsquo;adresse web et la description sont fixes, "
-"tandis que les autres peuvent être repositionnées par glisser/déposer. Vous "
-"pouvez également cacher les boites que vous n&rsquo;utilisez pas via l&rsquo;"
+"Les blocs pour le nom, l&rsquo;adresse web et la description sont fixes, "
+"tandis que les autres peuvent être repositionnés par glisser/déposer. Vous "
+"pouvez également cacher les blocs que vous n&rsquo;utilisez pas via l&rsquo;"
 "onglet &laquo;&nbsp;Options de l&rsquo;écran&nbsp;&raquo;, et fermer les "
-"boites en cliquant sur leur barre de titre."
+"blocs en cliquant sur leur barre de titre."
 
 #: wp-admin/edit-link-form.php:48
 msgid ""
@@ -2060,8 +2060,8 @@ msgid ""
 "categories, tags have no hierarchy, meaning there&#8217;s no relationship "
 "from one tag to another."
 msgstr ""
-"Vous pouvez assigner des <strong>mots-clefs</strong> à vos articles via la "
-"boite dédiée. Au contraire des catégories, les mots-clefs n&rsquo;ont pas de "
+"Vous pouvez assigner des <strong>mots-clefs</strong> à vos articles via le "
+"bloc dédié. Au contraire des catégories, les mots-clefs n&rsquo;ont pas de "
 "hiérarchie, ce qui signifie qu&rsquo;ils ne peuvent pas être liés entre eux."
 
 #: wp-admin/edit-tags.php:198
@@ -3321,7 +3321,7 @@ msgid "Visit %s"
 msgstr "Aller sur %s"
 
 #: wp-admin/includes/class-wp-list-table.php:378
-#: wp-admin/includes/media.php:2030
+#: wp-admin/includes/media.php:2033
 msgid "Show all dates"
 msgstr "Afficher toutes les dates"
 
@@ -4021,7 +4021,7 @@ msgid "Main Page (no parent)"
 msgstr "Page principale (pas de page parente)"
 
 #: wp-admin/includes/class-wp-posts-list-table.php:873
-#: wp-admin/includes/media.php:949 wp-admin/includes/media.php:1824
+#: wp-admin/includes/media.php:949 wp-admin/includes/media.php:1827
 #: wp-admin/includes/meta-boxes.php:651 wp-admin/includes/meta-boxes.php:652
 msgid "Order"
 msgstr "Ordre"
@@ -4229,7 +4229,7 @@ msgid "Download failed."
 msgstr "Le téléchargement a échoué."
 
 #: wp-admin/includes/class-wp-upgrader.php:52
-#: wp-admin/includes/update-core.php:663
+#: wp-admin/includes/update-core.php:665
 msgid "Installing the latest version&#8230;"
 msgstr "Installation de la dernière version&#8230;"
 
@@ -4239,7 +4239,7 @@ msgstr "Le dossier de destination existe déjà."
 
 #: wp-admin/includes/class-wp-upgrader.php:54 wp-admin/includes/file.php:616
 #: wp-admin/includes/file.php:708 wp-admin/includes/file.php:767
-#: wp-admin/includes/update-core.php:813
+#: wp-admin/includes/update-core.php:828
 msgid "Could not create directory."
 msgstr "Impossible de créer le dossier."
 
@@ -4604,11 +4604,11 @@ msgstr "Brouillons récents"
 
 #: wp-admin/includes/dashboard.php:89
 msgid "http://wordpress.org/news/"
-msgstr "http://www.wordpress-fr.net/planet/"
+msgstr "http://www.wordpress-fr.net/"
 
 #: wp-admin/includes/dashboard.php:90
 msgid "http://wordpress.org/news/feed/"
-msgstr "http://feeds2.feedburner.com/WordpressFrancophonePlanet"
+msgstr "http://feeds.feedburner.com/WordpressFrancophone"
 
 #: wp-admin/includes/dashboard.php:91
 msgid "WordPress Blog"
@@ -4749,7 +4749,7 @@ msgstr[1] "%s sites"
 
 #: wp-admin/includes/dashboard.php:425
 msgid "You have %1$s and %2$s."
-msgstr "Votre plateforme compte %1$s et %2$s."
+msgstr "Vous avez %1$s et %2$s."
 
 #: wp-admin/includes/dashboard.php:444 wp-admin/users.php:443
 msgid "Search Users"
@@ -4836,7 +4836,7 @@ msgid ""
 msgstr ""
 "Ce widget envoie une requête vers <a href=\"http://blogsearch.google.com/"
 "\">le moteur de recherche des blogs de Google</a>, de sorte que quand un "
-"autre blog fera un lien vers le vôtre, son nom s&rsquo;affichera ici. Ce "
+"autre site fera un lien vers le vôtre, son nom s&rsquo;affichera ici. Ce "
 "moteur n&rsquo;a pas encore trouvé de lien entrant&hellip; Ce n&rsquo;est "
 "pas grave, on n&rsquo;est pas pressé."
 
@@ -5250,8 +5250,8 @@ msgid "Could not extract file from archive."
 msgstr "Impossible d&rsquo;extraire les fichiers depuis l&rsquo;archive."
 
 #: wp-admin/includes/file.php:635 wp-admin/includes/file.php:721
-#: wp-admin/includes/file.php:762 wp-admin/includes/update-core.php:636
-#: wp-admin/includes/update-core.php:716 wp-admin/includes/update-core.php:808
+#: wp-admin/includes/file.php:762 wp-admin/includes/update-core.php:638
+#: wp-admin/includes/update-core.php:731 wp-admin/includes/update-core.php:823
 msgid "Could not copy file."
 msgstr "Impossible de copier le fichier."
 
@@ -5702,24 +5702,24 @@ msgstr "Titre absent, il sera rempli à partir du nom du fichier."
 msgid "Location of the uploaded file."
 msgstr "Emplacement du fichier envoyé."
 
-#: wp-admin/includes/media.php:998 wp-admin/includes/media.php:2146
+#: wp-admin/includes/media.php:998 wp-admin/includes/media.php:2149
 msgid "Alt text for the image, e.g. &#8220;The Mona Lisa&#8221;"
 msgstr ""
 "Texte alternatif de l&rsquo;image, exemple&nbsp;: &laquo; La Joconde &raquo;"
 
-#: wp-admin/includes/media.php:1081 wp-admin/includes/media.php:1810
+#: wp-admin/includes/media.php:1081 wp-admin/includes/media.php:1813
 msgid "Show"
 msgstr "Afficher"
 
-#: wp-admin/includes/media.php:1082 wp-admin/includes/media.php:1811
+#: wp-admin/includes/media.php:1082 wp-admin/includes/media.php:1814
 msgid "Hide"
 msgstr "Cacher"
 
-#: wp-admin/includes/media.php:1155 wp-admin/includes/media.php:2364
+#: wp-admin/includes/media.php:1155 wp-admin/includes/media.php:2367
 msgid "File name:"
 msgstr "Nom du fichier&nbsp;:"
 
-#: wp-admin/includes/media.php:1156 wp-admin/includes/media.php:2367
+#: wp-admin/includes/media.php:1156 wp-admin/includes/media.php:2370
 msgid "File type:"
 msgstr "Type du fichier&nbsp;:"
 
@@ -5727,12 +5727,12 @@ msgstr "Type du fichier&nbsp;:"
 msgid "Upload date:"
 msgstr "Date de mise en ligne&nbsp;:"
 
-#: wp-admin/includes/media.php:1159 wp-admin/includes/media.php:2377
+#: wp-admin/includes/media.php:1159 wp-admin/includes/media.php:2380
 msgid "Dimensions:"
 msgstr "Tailles&nbsp;:"
 
-#: wp-admin/includes/media.php:1177 wp-admin/includes/media.php:2176
-#: wp-admin/includes/media.php:2182
+#: wp-admin/includes/media.php:1177 wp-admin/includes/media.php:2179
+#: wp-admin/includes/media.php:2185
 msgid "Insert into Post"
 msgstr "Insérer dans l&rsquo;article"
 
@@ -5745,16 +5745,16 @@ msgstr "Vous êtes sur le point de supprimer <strong>%s</strong>."
 msgid "Continue"
 msgstr "Continuer"
 
-#: wp-admin/includes/media.php:1550
+#: wp-admin/includes/media.php:1553
 msgid "Drop files here"
 msgstr "Déposez vos fichiers ici"
 
-#: wp-admin/includes/media.php:1551
+#: wp-admin/includes/media.php:1554
 msgctxt "Uploader: Drop files here - or - Select Files"
 msgid "or"
 msgstr "ou"
 
-#: wp-admin/includes/media.php:1573
+#: wp-admin/includes/media.php:1576
 msgid ""
 "Your browser has some limitations uploading large files with the multi-file "
 "uploader. Please use the browser uploader for files over 100MB."
@@ -5763,124 +5763,124 @@ msgstr ""
 "ligne plusieurs larges fichiers en même temps. Veuillez utiliser l&rsquo;"
 "outil du navigateur pour les fichiers dépassant 100 Mo."
 
-#: wp-admin/includes/media.php:1607
+#: wp-admin/includes/media.php:1610
 msgid "Add media files from your computer"
 msgstr "Ajouter un fichier média depuis votre ordinateur"
 
-#: wp-admin/includes/media.php:1636 wp-admin/includes/media.php:1834
-#: wp-admin/includes/media.php:2080
+#: wp-admin/includes/media.php:1639 wp-admin/includes/media.php:1837
+#: wp-admin/includes/media.php:2083
 msgid "Save all changes"
 msgstr "Enregistrer toutes les modifications"
 
-#: wp-admin/includes/media.php:1671
+#: wp-admin/includes/media.php:1674
 msgid "Insert media from another website"
 msgstr "Insérer un média depuis un autre site"
 
-#: wp-admin/includes/media.php:1809
+#: wp-admin/includes/media.php:1812
 msgid "All Tabs:"
 msgstr "Tous les onglets&nbsp;:"
 
-#: wp-admin/includes/media.php:1813
+#: wp-admin/includes/media.php:1816
 msgid "Sort Order:"
 msgstr "Ordre de tri&nbsp;:"
 
-#: wp-admin/includes/media.php:1814 wp-admin/includes/media.php:1882
+#: wp-admin/includes/media.php:1817 wp-admin/includes/media.php:1885
 msgid "Ascending"
 msgstr "Croissant"
 
-#: wp-admin/includes/media.php:1815 wp-admin/includes/media.php:1885
+#: wp-admin/includes/media.php:1818 wp-admin/includes/media.php:1888
 msgid "Descending"
 msgstr "Décroissant"
 
-#: wp-admin/includes/media.php:1816
+#: wp-admin/includes/media.php:1819
 msgctxt "verb"
 msgid "Clear"
 msgstr "Effacer"
 
-#: wp-admin/includes/media.php:1823 wp-admin/menu.php:63 wp-admin/menu.php:215
+#: wp-admin/includes/media.php:1826 wp-admin/menu.php:63 wp-admin/menu.php:215
 msgid "Media"
 msgstr "Médias"
 
-#: wp-admin/includes/media.php:1846
+#: wp-admin/includes/media.php:1849
 msgid "Link thumbnails to:"
 msgstr "Lier les miniatures à&nbsp;:"
 
-#: wp-admin/includes/media.php:1851
+#: wp-admin/includes/media.php:1854
 msgid "Image File"
 msgstr "Fichier image"
 
-#: wp-admin/includes/media.php:1861
+#: wp-admin/includes/media.php:1864
 msgid "Order images by:"
 msgstr "Ranger les images par&nbsp;:"
 
-#: wp-admin/includes/media.php:1866
+#: wp-admin/includes/media.php:1869
 msgid "Menu order"
 msgstr "Ordre du menu"
 
-#: wp-admin/includes/media.php:1868
+#: wp-admin/includes/media.php:1871
 msgid "Date/Time"
 msgstr "Horodatage"
 
-#: wp-admin/includes/media.php:1869
+#: wp-admin/includes/media.php:1872
 msgid "Random"
 msgstr "Aléatoire"
 
-#: wp-admin/includes/media.php:1877
+#: wp-admin/includes/media.php:1880
 msgid "Order:"
 msgstr "Ordre&nbsp;:"
 
-#: wp-admin/includes/media.php:1892
+#: wp-admin/includes/media.php:1895
 msgid "Gallery columns:"
 msgstr "Colonnes de galerie&nbsp;:"
 
-#: wp-admin/includes/media.php:1913
+#: wp-admin/includes/media.php:1916
 msgid "Update gallery settings"
 msgstr "Mettre à jour les réglages de galerie"
 
-#: wp-admin/includes/media.php:1961 wp-admin/includes/media.php:1963
+#: wp-admin/includes/media.php:1964 wp-admin/includes/media.php:1966
 #: wp-admin/upload.php:238
 msgid "Search Media"
 msgstr "Chercher parmi les médias"
 
-#: wp-admin/includes/media.php:1986
+#: wp-admin/includes/media.php:1989
 msgid "All Types"
 msgstr "Tous les types"
 
-#: wp-admin/includes/media.php:2009 wp-admin/includes/nav-menu.php:627
+#: wp-admin/includes/media.php:2012 wp-admin/includes/nav-menu.php:627
 #: wp-admin/includes/nav-menu.php:840
 msgid "&laquo;"
 msgstr "&laquo;"
 
-#: wp-admin/includes/media.php:2010 wp-admin/includes/nav-menu.php:628
+#: wp-admin/includes/media.php:2013 wp-admin/includes/nav-menu.php:628
 #: wp-admin/includes/nav-menu.php:841
 msgid "&raquo;"
 msgstr "&raquo;"
 
-#: wp-admin/includes/media.php:2050
+#: wp-admin/includes/media.php:2053
 msgid "Filter &#187;"
 msgstr "Filtrer &#187;"
 
-#: wp-admin/includes/media.php:2100
+#: wp-admin/includes/media.php:2103
 msgid "Image Caption"
 msgstr "Légende de l&rsquo;image"
 
-#: wp-admin/includes/media.php:2121
+#: wp-admin/includes/media.php:2124
 msgid "Audio, Video, or Other File"
 msgstr "Audio, vidéo ou un autre format"
 
-#: wp-admin/includes/media.php:2139
+#: wp-admin/includes/media.php:2142
 msgid "Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;"
 msgstr "Texte du lien, par exemple &laquo; Théorie sur le chaos (PDF) &raquo;"
 
-#: wp-admin/includes/media.php:2165
+#: wp-admin/includes/media.php:2168
 msgid "Link Image To:"
 msgstr "Lier l&rsquo;image à&nbsp;:"
 
-#: wp-admin/includes/media.php:2170
+#: wp-admin/includes/media.php:2173
 msgid "Link to image"
 msgstr "Lier à l&rsquo;image"
 
-#: wp-admin/includes/media.php:2205
+#: wp-admin/includes/media.php:2208
 msgid ""
 "You are using the multi-file uploader. Problems? Try the <a href=\"%1$s\" "
 "target=\"%2$s\">browser uploader</a> instead."
@@ -5889,7 +5889,7 @@ msgstr ""
 "rencontrez des problèmes, essayez la <a href=\"#\">méthode du navigateur</a> "
 "à la place."
 
-#: wp-admin/includes/media.php:2219
+#: wp-admin/includes/media.php:2222
 msgid ""
 "You are using the browser&#8217;s built-in file uploader. The WordPress "
 "uploader includes multiple file selection and drag and drop capability. <a "
@@ -5902,7 +5902,7 @@ msgstr ""
 
 #. translators: %1$s is link start tag, %2$s is link end tag, %3$d is width,
 #. %4$d is height
-#: wp-admin/includes/media.php:2250
+#: wp-admin/includes/media.php:2253
 msgid ""
 "Scale images to match the large size selected in %1$simage options%2$s (%3$d "
 "&times; %4$d)."
@@ -5910,13 +5910,13 @@ msgstr ""
 "Redimensionner les images pour correspondre à la taille large définie dans "
 "les %1$sréglages des médias%2$s (%3$d &times; %4$d)."
 
-#: wp-admin/includes/media.php:2262
+#: wp-admin/includes/media.php:2265
 msgid "Sorry, you have used all of your storage quota of %s MB."
 msgstr ""
 "Désolé, vous avez utilisé l&rsquo;intégralité de votre quota de stockage (%s "
 "Mo)."
 
-#: wp-admin/includes/media.php:2360
+#: wp-admin/includes/media.php:2363
 msgid "File URL:"
 msgstr "Adresse web du fichier&nbsp;:"
 
@@ -7624,15 +7624,15 @@ msgstr "Photoblogging"
 msgid "Seasonal"
 msgstr "Saisonnier"
 
-#: wp-admin/includes/update-core.php:618
+#: wp-admin/includes/update-core.php:619
 msgid "Verifying the unpacked files&#8230;"
 msgstr "Vérification des fichiers décompressés&#8230;"
 
-#: wp-admin/includes/update-core.php:629
+#: wp-admin/includes/update-core.php:630
 msgid "The update could not be unpacked"
 msgstr "La mise à jour ne peut pas être décompressée"
 
-#: wp-admin/includes/update-core.php:657
+#: wp-admin/includes/update-core.php:659
 msgid ""
 "The update cannot be installed because WordPress %1$s requires PHP version "
 "%2$s or higher and MySQL version %3$s or higher. You are running PHP version "
@@ -7643,7 +7643,7 @@ msgstr ""
 "ou supérieure à la %3$s. Votre hébergement utilise PHP version %4$s et MySQL "
 "version %5$s."
 
-#: wp-admin/includes/update-core.php:659
+#: wp-admin/includes/update-core.php:661
 msgid ""
 "The update cannot be installed because WordPress %1$s requires PHP version "
 "%2$s or higher. You are running version %3$s."
@@ -7652,7 +7652,7 @@ msgstr ""
 "version de PHP égale ou supérieure à la %2$s. Votre hébergement utilise PHP "
 "version %3$s."
 
-#: wp-admin/includes/update-core.php:661
+#: wp-admin/includes/update-core.php:663
 msgid ""
 "The update cannot be installed because WordPress %1$s requires MySQL version "
 "%2$s or higher. You are running version %3$s."
@@ -7661,15 +7661,15 @@ msgstr ""
 "version de MySQL égale ou supérieure à la %2$s. Votre hébergement utilise "
 "MySQL version %3$s."
 
-#: wp-admin/includes/update-core.php:746
+#: wp-admin/includes/update-core.php:761
 msgid "Upgrading database&#8230;"
 msgstr "Mise à jour de la base de données&#8230;"
 
-#: wp-admin/includes/update-core.php:848 wp-admin/update-core.php:356
+#: wp-admin/includes/update-core.php:863 wp-admin/update-core.php:356
 msgid "WordPress updated successfully"
 msgstr "WordPress a bien été mis à jour"
 
-#: wp-admin/includes/update-core.php:851 wp-admin/update-core.php:357
+#: wp-admin/includes/update-core.php:866 wp-admin/update-core.php:357
 msgid ""
 "Welcome to WordPress %1$s. You will be redirected to the About WordPress "
 "screen. If not, click <a href=\"%2$s\">here</a>."
@@ -7678,7 +7678,7 @@ msgstr ""
 "&laquo;&nbsp;À propos&nbsp;&raquo; de WordPress. Si ce n&rsquo;est pas le "
 "cas, cliquez <a href=\"%s\">ici</a>."
 
-#: wp-admin/includes/update-core.php:852 wp-admin/update-core.php:358
+#: wp-admin/includes/update-core.php:867 wp-admin/update-core.php:358
 msgid "Welcome to WordPress %1$s. <a href=\"%2$s\">Learn more</a>."
 msgstr "Bienvenu dans WordPress %1$s. <a href=\"%2$s\">En savoir plus</a>."
 
@@ -8047,8 +8047,8 @@ msgid ""
 "Dashboard boxes to show, and how many columns to display."
 msgstr ""
 "<strong>Réglages d&rsquo;écran</strong> - Utiliser l&rsquo;onglet des "
-"réglages d&rsquo;écran pour choisir les modules du tableau de bord à "
-"afficher, et le nombre de colonnes afficher."
+"réglages d&rsquo;écran pour choisir les blocs du tableau de bord à afficher, "
+"et le nombre de colonnes afficher."
 
 #: wp-admin/index.php:63
 msgid ""
@@ -8056,10 +8056,10 @@ msgid ""
 "clicking on the title bar of the selected box and releasing when you see a "
 "gray dotted-line rectangle appear in the location you want to place the box."
 msgstr ""
-"<strong>Glisser/déposer</strong> - Pour réarranger les modules, glissez/"
-"déposez-les en cliquant sur la barre de titre du module sélectionné, et "
+"<strong>Glisser/déposer</strong> - Pour réarranger les blocs, glissez/"
+"déposez-les en cliquant sur la barre de titre du bloc sélectionné, et "
 "relâchez-la lorsque vous apercevez un rectangle avec une bordure grise à "
-"l&rsquo;emplacement où vous souhaitez placer le module."
+"l&rsquo;emplacement où vous souhaitez placer le bloc."
 
 #: wp-admin/index.php:64
 msgid ""
@@ -8067,10 +8067,10 @@ msgid ""
 "collapse it. In addition, some boxes have configurable content, and will "
 "show a &#8220;Configure&#8221; link in the title bar if you hover over it."
 msgstr ""
-"<strong>Contrôle des boîtes</strong> - Cliquez sur la barre de titre d&rsquo;"
-"une boîte pour l&rsquo;étendre ou la réduire. Par ailleurs, certaines boîtes "
+"<strong>Contrôle des blocs</strong> - Cliquez sur la barre de titre d&rsquo;"
+"un bloc pour l&rsquo;étendre ou le réduire. Par ailleurs, certains blocks "
 "ont un contenu configurable, et afficheront un lien &laquo;&nbsp;"
-"Configurer&nbsp;&raquo; dans la barre de titre lorsque la souris la "
+"Configurer&nbsp;&raquo; dans la barre de titre lorsque la souris le "
 "survolera."
 
 #: wp-admin/index.php:68
@@ -8079,7 +8079,7 @@ msgstr "Arrangement"
 
 #: wp-admin/index.php:72
 msgid "The boxes on your Dashboard screen are:"
-msgstr "Les modules de l&rsquo;écran du tableau de bord sont&nbsp;:"
+msgstr "Les blocs de l&rsquo;écran du tableau de bord sont&nbsp;:"
 
 #: wp-admin/index.php:74
 msgid ""
@@ -8138,8 +8138,8 @@ msgid ""
 msgstr ""
 "<strong>Autres actualités de WordPress (en français)</strong> - Affiche le "
 "flux du <a href=\"http://www.wordpress-fr.net/planet/\" target=\"_blank"
-"\">Planet de WordPress</a>. Vous pouvez configurer ce module pour utiliser "
-"un autre flux de votre choix."
+"\">Planet de WordPress-FR</a>. Vous pouvez configurer ce bloc pour utiliser "
+"un flux de votre choix."
 
 #: wp-admin/index.php:86
 msgid ""
@@ -8958,8 +8958,8 @@ msgid ""
 msgstr ""
 "Pour créer un nouveau menu personnalisé, cliquez sur l&rsquo;onglet &laquo;"
 "&nbsp;+&nbsp;&raquo;, nommez le menu puis cliquez sur &laquo;&nbsp;Créer un "
-"menu&nbsp;&raquo;. Ensuite, ajoutez-y des éléments à partir des boites "
-"appropriées. Vous pourrez modifier les informations pour chaque élément de "
+"menu&nbsp;&raquo;. Ensuite, ajoutez-y des éléments à partir des blocs "
+"appropriés. Vous pourrez modifier les informations pour chaque élément de "
 "menu, et les glisser/déposer afin d&rsquo;en changer l&rsquo;ordre. Vous "
 "pouvez également glisser un élément de menu un peu plus vers la droite afin "
 "d&rsquo;en faire un sous-menu. N&rsquo;oubliez pas de cliquer sur &laquo;"
@@ -9081,7 +9081,7 @@ msgstr "Réglages par défaut des&nbsp;articles"
 
 #: wp-admin/options-discussion.php:47
 msgid "Attempt to notify any blogs linked to from the article"
-msgstr "Tenter de notifier les blogs liés depuis le contenu des articles"
+msgstr "Tenter de notifier les sites liés depuis le contenu des articles"
 
 #: wp-admin/options-discussion.php:57
 msgid "These settings may be overridden for individual articles."
@@ -10066,7 +10066,7 @@ msgid ""
 "opens a popup window with all these options."
 msgstr ""
 "&laquo;&nbsp;Publier un article&nbsp;&raquo; est un bookmarklet qui vous "
-"facilite la publication sur votre blog quand vous voyez une page "
+"facilite la publication sur votre site quand vous voyez une page "
 "intéressante sur Internet. Vous pouvez l&rsquo;utiliser simplement pour "
 "publier un lien, ou pour en publier un extrait. &laquo;&nbsp;Publier un "
 "article&nbsp;&raquo; vous permet même de choisir parmi les images incluses "
@@ -13057,17 +13057,16 @@ msgid ""
 "your site protected from spam even while you sleep. To get started: 1) Click "
 "the \"Activate\" link to the left of this description, 2) <a href=\"http://"
 "akismet.com/get/?return=true\">Sign up for an Akismet API key</a>, and 3) Go "
-"to your <a href=\"admin.php?page=akismet-key-config\">Akismet configuration</"
-"a> page, and save your API key."
+"to your Akismet configuration page, and save your API key."
 msgstr ""
-"Utilisé par des millions de blogs, Akismet est très probablement la "
-"meilleure manière de <strong>protéger votre blog des commentaires et "
-"trackbacks indésirables (spam)</strong>. Il protège votre site même pendant "
-"votre sommeil. Pour mettre sa protection en place&nbsp;: 1) Cliquez sur le "
-"lien &laquo;&nbsp;Activer&nbsp;&raquo;, à gauche de la description, 2) <a "
-"href=\"http://akismet.com/get/?return=true\">obtenez une clef d&rsquo;API "
-"Akismet, et 3) Allez sur <a href=\"admin.php?page=akismet-key-config\">la "
-"page de configuration</a>, et enregistrez votre clef d&rsquo;API."
+"Utilisé par des millions de sites, Akismet est très probablement la "
+"meilleure manière de <strong>protéger votre site des commentaires et "
+"trackbacks indésirables (spam)</strong>. Il vous protège même pendant votre "
+"sommeil. Pour mettre sa protection en place&nbsp;: 1) Cliquez sur le lien "
+"&laquo;&nbsp;Activer&nbsp;&raquo;, à gauche de la description, 2) <a href="
+"\"http://akismet.com/get/?return=true\">Abtenez une clef d&rsquo;API "
+"Akismet, et 3) Allez sur votre page de configuration d&rsquo;Akismet et "
+"enregistrez-y votre clef d&rsquo;API."
 
 #. Author of the plugin/theme
 msgid "Automattic"

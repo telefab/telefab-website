@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Twenty Twelve 1.1 (WordPress 3.5)\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tags/twentytwelve\n"
-"POT-Creation-Date: 2012-12-07 21:19:18+00:00\n"
-"PO-Revision-Date: 2012-12-10 20:22+0100\n"
+"POT-Creation-Date: 2013-01-01 00:19:42+00:00\n"
+"PO-Revision-Date: 2013-01-24 23:34+0100\n"
 "Last-Translator: WordPress Francophone <traduction_at_wordpress-fr.net>\n"
 "Language-Team: WordPress-Francophone <traduction@wordpress-fr.net>\n"
 "Language: fr_FR\n"
@@ -149,7 +149,7 @@ msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 "Afficher tous les articles de %s <span class=\"meta-nav\">&rarr;</span>"
 
-#. #-#-#-#-#  twentytwelve.pot (Twenty Twelve 1.1)  #-#-#-#-#
+#. #-#-#-#-#  twentytwelve.pot (Twenty Twelve 1.1.1)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:17
 msgid "http://wordpress.org/"

@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: WordPress 3.5\n"
+"Project-Id-Version: WordPress 3.5.1\n"
 "Report-Msgid-Bugs-To: http://wppolyglots.wordpress.com\n"
-"POT-Creation-Date: 2012-12-03 04:18:45+00:00\n"
-"PO-Revision-Date: 2012-12-10 20:10+0100\n"
+"POT-Creation-Date: 2013-01-24 21:20:26+00:00\n"
+"PO-Revision-Date: 2013-01-25 01:30+0100\n"
 "Last-Translator: WordPress Francophone <traduction_at_wordpress-fr.net>\n"
 "Language-Team: WordPress Francophone <traduction@wordpress-fr.net>\n"
 "Language: fr_FR\n"
@@ -63,7 +63,7 @@ msgid ""
 "sites. Screens for Sites and Users are also accessible through the left-hand "
 "navigation in the Network Admin section."
 msgstr ""
-"La boîte &laquo;&nbsp;Aujourdh&rsquo;hui&nbsp;&raquo; permet à l&rsquo;"
+"Le bloc &laquo;&nbsp;Aujourd&rsquo;hui&nbsp;&raquo; permet à l&rsquo;"
 "administrateur du réseau de se rendre à l&rsquo;écran de création de sites "
 "et celui de création d&rsquo;utilisateurs, ou de lancer une recherche sur "
 "l&rsquo;ensemble des sites et utilisateurs. Ces écrans sont également "
@@ -1330,8 +1330,8 @@ msgstr ""
 "La constante DO_NOT_UPGRADE_GLOBAL_TABLES ne doit pas être définie lors de "
 "la création du réseau."
 
-#: wp-admin/network.php:156 wp-admin/network.php:343 wp-admin/network.php:466
-#: wp-admin/network.php:500
+#: wp-admin/network.php:156 wp-admin/network.php:344 wp-admin/network.php:465
+#: wp-admin/network.php:499
 msgid "Warning:"
 msgstr "Attention&nbsp;:"
 
@@ -1462,7 +1462,7 @@ msgctxt "subdirectory examples"
 msgid "like <code>%1$s/site1</code> and <code>%1$s/site2</code>"
 msgstr "comme <code>%1$s/site1</code> et <code>%1$s/site2</code>"
 
-#: wp-admin/network.php:229 wp-admin/network.php:466 wp-admin/network.php:500
+#: wp-admin/network.php:229 wp-admin/network.php:465 wp-admin/network.php:499
 msgid ""
 "Subdirectory networks may not be fully compatible with custom wp-content "
 "directories."
@@ -1556,15 +1556,15 @@ msgstr "Adresse de contact de l&rsquo;administrateur"
 msgid "Your email address."
 msgstr "Votre adresse de contact."
 
-#: wp-admin/network.php:338
+#: wp-admin/network.php:339
 msgid "The original configuration steps are shown here for reference."
 msgstr "Pour rappel, voici les étapes de configuration originelles."
 
-#: wp-admin/network.php:343
+#: wp-admin/network.php:344
 msgid "An existing WordPress network was detected."
 msgstr "Un réseau WordPress existant a été détecté."
 
-#: wp-admin/network.php:344
+#: wp-admin/network.php:345
 msgid ""
 "Please complete the configuration steps. To create a new network, you will "
 "need to empty or remove the network database tables."
@@ -1573,11 +1573,11 @@ msgstr ""
 "réseau, vous devrez vider ou effacer les tables de la base de données du "
 "réseau."
 
-#: wp-admin/network.php:355
+#: wp-admin/network.php:356
 msgid "Enabling the Network"
 msgstr "Activer le réseau de sites"
 
-#: wp-admin/network.php:356
+#: wp-admin/network.php:357
 msgid ""
 "Complete the following steps to enable the features for creating a network "
 "of sites."
@@ -1585,7 +1585,7 @@ msgstr ""
 "Suivez les étapes ci-après pour activer les fonctionnalités permettant la "
 "création d&rsquo;un réseau de sites."
 
-#: wp-admin/network.php:359 wp-admin/network.php:361
+#: wp-admin/network.php:360 wp-admin/network.php:362
 msgid ""
 "<strong>Caution:</strong> We recommend you back up your existing <code>wp-"
 "config.php</code> and <code>%s</code> files."
@@ -1594,7 +1594,7 @@ msgstr ""
 "de sauvegarde de vos fichiers <code>wp-config.php</code> et <code>%s</code> "
 "actuels."
 
-#: wp-admin/network.php:363
+#: wp-admin/network.php:364
 msgid ""
 "<strong>Caution:</strong> We recommend you back up your existing <code>wp-"
 "config.php</code> file."
@@ -1602,7 +1602,7 @@ msgstr ""
 "<strong>Attention&nbsp;:</strong> nous vous recommandons de faire une copie "
 "de sauvegarde de votre fichier <code>wp-config.php</code> actuel."
 
-#: wp-admin/network.php:369
+#: wp-admin/network.php:370
 msgid ""
 "Add the following to your <code>wp-config.php</code> file in <code>%s</code> "
 "<strong>above</strong> the line reading <code>/* That&#8217;s all, stop "
@@ -1612,7 +1612,7 @@ msgstr ""
 "dans <code>%s</code>, au-dessus de la ligne <code>/* C&rsquo;est tout, ne "
 "touchez pas à ce qui suit ! Bon blogging ! */</code>&nbsp;:"
 
-#: wp-admin/network.php:401
+#: wp-admin/network.php:402
 msgid ""
 "This unique authentication key is also missing from your <code>wp-config."
 "php</code> file."
@@ -1626,13 +1626,13 @@ msgstr[1] ""
 "Ces clefs d&rsquo;authentification uniques ne se trouvent pas non plus dans "
 "votre fichier <code>wp-config.php</code>."
 
-#: wp-admin/network.php:401
+#: wp-admin/network.php:402
 msgid "To make your installation more secure, you should also add:"
 msgstr ""
 "Pour mieux sécuriser votre installation, vous devriez également "
 "ajouter&nbsp;:"
 
-#: wp-admin/network.php:463
+#: wp-admin/network.php:462
 msgid ""
 "Add the following to your <code>web.config</code> file in <code>%s</code>, "
 "replacing other WordPress rules:"
@@ -1640,7 +1640,7 @@ msgstr ""
 "Ajoutez les lignes suivantes à votre fichier <code>web.config</code>, dans "
 "<code>%s</code>, en remplacement des autres règles liées à WordPress&nbsp;:"
 
-#: wp-admin/network.php:497
+#: wp-admin/network.php:496
 msgid ""
 "Add the following to your <code>.htaccess</code> file in <code>%s</code>, "
 "replacing other WordPress rules:"
@@ -1648,7 +1648,7 @@ msgstr ""
 "Ajoutez les lignes suivantes à votre fichier <code>.htaccess</code>, dans "
 "<code>%s</code>, en remplacement des autres règles liées à WordPress&nbsp;:"
 
-#: wp-admin/network.php:509
+#: wp-admin/network.php:508
 msgid ""
 "Once you complete these steps, your network is enabled and configured. You "
 "will have to log in again."
