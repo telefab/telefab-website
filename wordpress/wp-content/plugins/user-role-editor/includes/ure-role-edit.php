@@ -158,7 +158,9 @@ if (is_multisite()) {
   function ure_onSubmit() {
     if (!confirm('<?php echo sprintf(__('Role "%s" update: please confirm to continue', 'ure'), __($ure_roles[$ure_currentRole]['name'], 'ure')); ?>')) {
       return false;
-    }
+    } else {
+			return true;
+		}
   }
 
 
@@ -210,107 +212,20 @@ if (is_multisite() && is_super_admin()) {
         <table class="form-table" style="clear:none;" cellpadding="0" cellspacing="0">
           <tr>
             <td style="vertical-align:top;">
-<?php
-	if ('administrator' == $ure_currentRole ) {
-		$onclick_for_admin = 'onclick="turn_it_back(this)"';
-	} else {
-		$onclick_for_admin = '';
-	}
-  $deprecatedCaps = ure_get_deprecated_caps();
-	$quant = count($built_in_wp_caps);
-	$quantInColumn = 22;
-	$printed_quant = 0;
-  foreach( $ure_fullCapabilities as $capability) {    
-		if ( !$capability['wp_core'] ) { // show WP built-in capabilities 1st
-			continue;
-		}		
-    if (!$ure_show_deprecated_caps && isset($deprecatedCaps[$capability['inner']])) {
-      $input_type = 'hidden';        
-    } else {
-      $input_type = 'checkbox';      
-    }
-    if (isset($deprecatedCaps[$capability['inner']])) {
-      $labelStyle = 'style="color:#BBBBBB;"';  
-    } else {
-      $labelStyle = '';
-    }
-    $checked = '';
-		if ( isset( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) && 
-				 !empty( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) ) {		
-      $checked = 'checked="checked"';
-    }
-    $cap_id = str_replace(' ', URE_SPACE_REPLACER, $capability['inner']);    
-?>
-   <input type="<?php echo $input_type;?>" name="<?php echo $cap_id; ?>" id="<?php echo $cap_id; ?>" value="<?php echo $capability['inner']; ?>" <?php echo $checked.' '.$onclick_for_admin; ?> />
-<?php
-  if ($input_type=='checkbox') {
-    if ($ure_caps_readable) {
-      $capInd = 'human';
-      $capIndAlt = 'inner';
-    } else {
-      $capInd = 'inner';
-      $capIndAlt = 'human';
-    }
-?>
-   <label for="<?php echo $cap_id; ?>" title="<?php echo $capability[$capIndAlt]; ?>" <?php echo $labelStyle;?> ><?php echo $capability[$capInd]; ?></label> <?php echo ure_capability_help_link($capability['inner']); ?><br/>
-<?php   
-    $printed_quant++;
-   }
-   if ($printed_quant>=$quantInColumn) {
-     $printed_quant = 0;
-     echo '</td>
-           <td style="vertical-align:top;">';
-   }
-  }
-?>
+								<?php ure_show_capabilities( true, true ); ?>
             </td>
           </tr>
        </table>
 <hr />
 <?php 
-	$quant = count($ure_fullCapabilities) - $quant;
+	$quant = count( $ure_fullCapabilities ) - count( ure_getBuiltInWPCaps() );
 	if ($quant>0) {
 		_e('Custom capabilities:', 'ure'); 
 ?>
         <table class="form-table" style="clear:none;" cellpadding="0" cellspacing="0">
           <tr>
             <td style="vertical-align:top;">
-<?php
-$quantInColumn = (int) $quant / 3;
-$printed_quant = 0;
-foreach ($ure_fullCapabilities as $capability) {
-	if ($capability['wp_core']) { // show plugins or users added capabilities
-		continue;
-	}
-	$checked = '';
-	if ( isset( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) && 
-			 !empty( $ure_roles[ $ure_currentRole ][ 'capabilities' ][ $capability[ 'inner' ] ] ) ) {
-		$checked = 'checked="checked"';
-	}
-	$cap_id = str_replace(' ', URE_SPACE_REPLACER, $capability['inner']);
-	?>
-	   <input type="<?php echo $input_type; ?>" name="<?php echo $cap_id; ?>" id="<?php echo $cap_id; ?>" value="<?php echo $capability['inner']; ?>" <?php echo $checked.' '.$onclick_for_admin; ?>/>
-	<?php
-	if ($input_type == 'checkbox') {
-		if ($ure_caps_readable) {
-			$capInd = 'human';
-			$capIndAlt = 'inner';
-		} else {
-			$capInd = 'inner';
-			$capIndAlt = 'human';
-		}
-		?>
-		   <label for="<?php echo $cap_id; ?>" title="<?php echo $capability[$capIndAlt]; ?>" ><?php echo $capability[$capInd]; ?></label> <?php echo ure_capability_help_link($capability['inner']); ?><br/>
-		<?php
-		$printed_quant++;
-	}
-	if ($printed_quant >= $quantInColumn) {
-		$printed_quant = 0;
-		echo '</td>
-           <td style="vertical-align:top;">';
-	}
-}
-?>
+								<?php ure_show_capabilities( false, true );	?>
             </td>
           </tr>
       </table>

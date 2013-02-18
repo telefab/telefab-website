@@ -14,6 +14,7 @@ $ure_roles = false; $ure_capabilitiesToSave = false;
 $ure_currentRole = false; $ure_currentRoleName = false;
 $ure_toldAboutBackup = false; $ure_apply_to_all = false; 
 $ure_userToEdit = false; $ure_fullCapabilities = false;
+$ure_show_deprecated_caps = false; $ure_caps_readable = false;
 
 // this array will be used to cashe users checked for Administrator role
 $ure_userToCheck = array();
@@ -119,14 +120,14 @@ function ure_showMessage($message) {
 // end of ure_showMessage()
 
 
-function ure_getUserRoles() {
+function ure_getUserRoles( $ure_object='role' ) {
   global $wp_roles;
 
 	if (!isset( $wp_roles ) ) {
 		$wp_roles = new WP_Roles();
 	}
 
-	if ( function_exists('bbp_filter_blog_editable_roles') ) {  // bbPress plugin is active
+	if ('role'===$ure_object && function_exists('bbp_filter_blog_editable_roles') ) {  // bbPress plugin is active
 		$ure_roles = bbp_filter_blog_editable_roles( $wp_roles->roles );  // exclude bbPress roles
 		$bbp_full_caps = bbp_get_caps_for_role( bbp_get_keymaster_role() );
 		// add bbPress keymaster caps to Administrator role
@@ -729,19 +730,31 @@ class ure_TableSorter {
 
 
 function ure_updateUser($user) {
-  global $wpdb, $ure_capabilitiesToSave, $ure_currentRole;
+  global $wp_roles, $ure_capabilitiesToSave;
 
-  $user->remove_all_caps();
-  if (count($user->roles)>0) {
-    $userRole = $user->roles[0];
-  } else {
-    $userRole = '';
-  }
-  $user->set_role($ure_currentRole);
-    
-  if (count($ure_capabilitiesToSave)>0) {
-    foreach ($ure_capabilitiesToSave as $key=>$value) {
-      $user->add_cap($key);
+	// revoke all roles and capabilities from this user
+  $user->roles = false;
+	$user->remove_all_caps();
+		
+	// add roles to user
+	foreach( $_POST as $key=>$value ) {
+		$result = preg_match( '/^wp_role_(.+)/', $key, $match);
+		if ($result === 1 ) {
+			$role = $match[ 1 ];
+			if ( isset( $wp_roles->roles[ $role ] ) ) {
+				$user->add_role($role);
+			}
+		}
+	}
+	
+	// add individual capabilities to user
+  if ( count( $ure_capabilitiesToSave ) > 0 ) {
+    foreach ( $ure_capabilitiesToSave as $key=>$value ) {
+			foreach( $user->roles as $role_id=>$role) {
+				if ( empty( $role['capabilities'][$key] ) ) {
+					$user->add_cap($key);
+				}
+			}
     }
   }
   $user->update_user_level_from_caps();
@@ -1043,4 +1056,134 @@ function ure_get_deprecated_caps() {
 }
 // end of get_deprecated_caps()
 
+/**
+ * output HTML-code for capabilities list
+ * @global boolean $ure_currentRole
+ * @global type $ure_show_deprecated_caps
+ * @global boolean $ure_roles
+ * @global boolean $ure_fullCapabilities
+ * @global type $ure_caps_readable
+ * @param boolean $core - if true, then show WordPress core capabilities, else custom (plugins and themes created)
+ * @param boolean $for_role - if true, it is role capabilities list, else - user specific capabilities list
+ */
+function ure_show_capabilities( $core=true, $for_role=true ) {
+	global $ure_currentRole, $ure_show_deprecated_caps, $ure_roles, $ure_fullCapabilities, $ure_caps_readable, $ure_userToEdit;
+	
+	$onclick_for_admin = '';
+	if (! ( is_multisite() && is_super_admin() ) ) {  // do not limit SuperAdmin for multi-site
+		if ('administrator' == $ure_currentRole) {
+			$onclick_for_admin = 'onclick="turn_it_back(this)"';
+		}
+	}
+	
+	if ($core) {
+		$quant = count( ure_getBuiltInWPCaps() );
+		$deprecatedCaps = ure_get_deprecated_caps();	
+	} else {
+		$quant = count( $ure_fullCapabilities ) - count( ure_getBuiltInWPCaps() );	
+		$deprecatedCaps = array();
+	}
+	$quantInColumn = (int) $quant / 3;
+	$printed_quant = 0;
+  foreach( $ure_fullCapabilities as $capability) {    
+		if ($core) {
+			if ( !$capability['wp_core'] ) { // show WP built-in capabilities 1st
+				continue;
+			}		
+		} else {
+			if ( $capability['wp_core'] ) { // show plugins and themes added capabilities
+				continue;
+			}
+		}
+    if (!$ure_show_deprecated_caps && isset($deprecatedCaps[$capability['inner']])) {
+      $hidden_class = 'class="hidden"';        
+    } else {
+      $hidden_class = '';      
+    }
+    if (isset($deprecatedCaps[$capability['inner']])) {
+      $labelStyle = 'style="color:#BBBBBB;"';  
+    } else {
+      $labelStyle = '';
+    }
+    $checked = ''; $disabled = '';
+		if ($for_role) {
+			if (isset($ure_roles[$ure_currentRole]['capabilities'][$capability['inner']]) &&
+							!empty($ure_roles[$ure_currentRole]['capabilities'][$capability['inner']])) {
+				$checked = 'checked="checked"';
+			}
+		} else {
+			if (user_can($ure_userToEdit->ID, $capability['inner'])) {
+				$checked = 'checked="checked"';
+				if (!isset($ure_userToEdit->caps[$capability['inner']])) {
+					$disabled = 'disabled="disabled"';
+				}
+			}
+		}
+		$cap_id = str_replace(' ', URE_SPACE_REPLACER, $capability['inner']);    
+		echo '<input type="checkbox" name="'. $cap_id .'" id="' . $cap_id .'" value="'. $capability['inner'] .'" '. $hidden_class .' '. $checked .' '. $disabled .' '. $onclick_for_admin .' />';
+		if ( empty( $hidden_class ) ) {
+			if ( $ure_caps_readable ) {
+				$capInd = 'human';
+				$capIndAlt = 'inner';
+			} else {
+				$capInd = 'inner';
+				$capIndAlt = 'human';
+			}
+			echo '<label for="'. $cap_id .'" title="'. $capability[$capIndAlt] .'" '. $labelStyle .' > '. $capability[$capInd] .'</label> '. ure_capability_help_link($capability['inner']) .'<br/>';			
+			$printed_quant++;  
+			if ($printed_quant>=$quantInColumn) {
+				$printed_quant = 0;
+				echo '</td>
+					    <td style="vertical-align:top;">';
+			}
+		} // if ('hidden'
+  }	
+	
+}
+// end of ure_show_capabilities()
+
+
+/**
+ * Returns list of user roles, except 1st one, and bbPress assined as they are shown by WordPress and bbPress theirselves.
+ * 
+ * @param type $user WP_User from wp-includes/capabilities.php
+ * @return string
+ */
+function ure_other_user_roles($user) {
+
+	global $wp_roles;
+	
+	if ( !is_array($user->roles) || count($user->roles)<=1 ) {
+		return '';
+	}
+
+	// get bbPress assigned user role
+	if ( function_exists('bbp_filter_blog_editable_roles') ) {
+		$bb_press_role = bbp_get_user_role( $user->ID );		
+	} else {
+		$bb_press_role = '';
+	}
+
+	$roles = array();
+	foreach ($user->roles as $key=>$value) {
+		if ( !empty( $bb_press_role ) && $bb_press_role===$value ) {
+			// exclude bbPress assigned role
+			continue;
+		}
+			
+		$roles[] = $wp_roles->roles[ $value ]['name'];
+	}
+	array_shift($roles); // exclude primary role which is show by WordPress itself
+			
+	if ( count( $roles ) > 0 ) {
+		$output = implode(', ', $roles );
+	} else {
+		$output = '';
+	}
+  
+ return $output; 
+ 
+}
+// end of ure_other_user_roles()
+	
 ?>

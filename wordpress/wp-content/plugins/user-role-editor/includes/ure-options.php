@@ -19,7 +19,7 @@ $option_name = $wpdb->prefix.'user_roles';
 if (isset($_REQUEST['object'])) {
   $ure_object = $_REQUEST['object'];
 } else {
-  $ure_object = '';
+  $ure_object = 'role';
 }
 
 if (isset($_REQUEST['action'])) {
@@ -72,7 +72,7 @@ if (isset($_POST['ure_apply_to_all'])) {
 
 if (!isset($ure_roles) || !$ure_roles) {
 // get roles data from database
-  $ure_roles = ure_getUserRoles();
+  $ure_roles = ure_getUserRoles( $ure_object );
   if (!$ure_roles) {
     return;
   }
@@ -124,37 +124,39 @@ if ($ure_object=='user') {
   }  
 }
 
-if (isset($_POST['action']) && $_POST['action'] == 'update' && isset($_POST['user_role'])) {
-  $ure_currentRole = $_POST['user_role'];
-  if (!isset($ure_roles[$ure_currentRole])) {
-    $mess = __('Error: ', 'ure') . __('Role', 'ure') . ' <em>' . $ure_currentRole . '</em> ' . __('does not exist', 'ure');
-  } else {
-    $ure_currentRoleName = $ure_roles[$ure_currentRole]['name'];
-    $ure_capabilitiesToSave = array();
-    foreach ($ure_fullCapabilities as $availableCapability) {
-      $cap_id = str_replace(' ', URE_SPACE_REPLACER, $availableCapability['inner']);
-      if (isset($_POST[$cap_id])) {
-        $ure_capabilitiesToSave[$availableCapability['inner']] = true;
-      }
+if ( isset( $_POST['action'] ) && $_POST['action'] == 'update' && isset( $_POST['submit'] ) ) {
+	if ( isset( $_POST['user_role'] ) ) {
+		$ure_currentRole = $_POST['user_role'];
+		if (!isset($ure_roles[$ure_currentRole])) {
+			$mess = __('Error: ', 'ure') . __('Role', 'ure') . ' <em>' . $ure_currentRole . '</em> ' . __('does not exist', 'ure');
+		} else {
+			$ure_currentRoleName = $ure_roles[$ure_currentRole]['name'];
+		}
+	}
+  $ure_capabilitiesToSave = array();
+  foreach ($ure_fullCapabilities as $availableCapability) {
+    $cap_id = str_replace(' ', URE_SPACE_REPLACER, $availableCapability['inner']);
+    if (isset($_POST[$cap_id])) {
+      $ure_capabilitiesToSave[$availableCapability['inner']] = true;
     }
-    if ($ure_object == 'role') {  // save role changes to database
-      if (count($ure_capabilitiesToSave) > 0) {
-        if (ure_updateRoles()) {
-          if ($mess) {
-            $mess .= '<br/>';
-          }
-          $mess = __('Role', 'ure') . ' <em>' . __($ure_roles[$ure_currentRole]['name'], 'ure') . '</em> ' . __('is updated successfully', 'ure');
-        }
-      }
-    } else {
-      if (ure_updateUser($ure_userToEdit)) {
+  }
+  if ($ure_object == 'role') {  // save role changes to database
+    if (count($ure_capabilitiesToSave) > 0) {
+      if (ure_updateRoles()) {
         if ($mess) {
           $mess .= '<br/>';
         }
-        $mess = __('User', 'ure') . ' &lt;<em>' . $ure_userToEdit->display_name . '</em>&gt; ' . __('capabilities are updated successfully', 'ure');
+        $mess = __('Role', 'ure') . ' <em>' . __($ure_roles[$ure_currentRole]['name'], 'ure') . '</em> ' . __('is updated successfully', 'ure');
       }
     }
-  }
+  } else {
+    if (ure_updateUser($ure_userToEdit)) {
+      if ($mess) {
+        $mess .= '<br/>';
+      }
+      $mess = __('User', 'ure') . ' &lt;<em>' . $ure_userToEdit->display_name . '</em>&gt; ' . __('capabilities are updated successfully', 'ure');
+    }
+  }  
 }
 
 // options page display part

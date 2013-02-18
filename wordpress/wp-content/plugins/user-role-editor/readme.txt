@@ -3,7 +3,7 @@ Contributors: shinephp
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=vladimir%40shinephp%2ecom&lc=RU&item_name=ShinePHP%2ecom&item_number=User%20Role%20Editor%20WordPress%20plugin&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: user, role, editor, security, access, permission, capability
 Requires at least: 3.2
-Tested up to: 3.5
+Tested up to: 3.5.1
 Stable tag: trunk
 
 User Role Editor WordPress plugin makes the role capabilities changing easy. You can change any standard WordPress user role.
@@ -15,7 +15,8 @@ Just turn on check boxes of capabilities you wish to add to the selected role an
 Add new roles and customize its capabilities according to your needs, from scratch of as a copy of other existing role. 
 Unnecessary self-made role can be deleted if there are no users whom such role is assigned.
 Role assigned every new created user by default may be changed too.
-Capabilities could be assigned on per user basis. You can add new capabilities and remove unnecessary capabilities which could be left from uninstalled plugins.
+Capabilities could be assigned on per user basis. Multiple roles could be assigned to user simultaneously.
+You can add new capabilities and remove unnecessary capabilities which could be left from uninstalled plugins.
 Multi-site support is provided.
 
 To read more about 'User Role Editor' visit [this page](http://www.shinephp.com/user-role-editor-wordpress-plugin/) at [shinephp.com](shinephp.com).
@@ -67,18 +68,13 @@ To read more about 'User Role Editor' visit [this page](http://www.shinephp.com/
 * Polish: [TagSite](http://www.tagsite.eu), [Bartosz](www.digitalfactory.pl)
 * Russian: [Vladimir Garagulya](http://shinephp.com)
 * Serbian: [Diana](http://wpcouponshop.com)
-* Slovak: [Branco (WebHostingGeeks.com)](http://webhostinggeeks.com/blog/)
 * Spanish: [Victor Ricardo Díaz (INFOMED)](http://www.sld.cu)
 * Swedish: [Christer Dahlbacka](www.startlinks.eu), [Andréas Lundgren](http://adevade.com/)
 * Traditional Chinese (Jingxin Lai)
 * Turkish: [Muhammed YILDIRIM](http://ben.muhammed.im)
 * -----------------------------------------------------
 * translations below are included to the package, but all of them are outdated and every file needs to be updated. You are welcome!
-* Finnish: [Lauri Merisaari](http://www.viidakkorumpu.fi)
-* Japanese: Kaz, [Technolog.jp](http://technolog.jp)
-* Belorussian: [Marsis G.](http://pc.de) - needs update
-* Chinese: [Yackytsu](http://www.jackytsu.com) - needs update
-* Hungarian: [István](http://www.blacksnail.hu) - needs update
+* Finnish, Japanese, Belorussian, Chinese, Hungarian
 
 
 Dear plugin User!
@@ -88,6 +84,12 @@ Share with me new ideas about plugin further development and link to your site w
 
 
 == Changelog ==
+
+= 3.10 =
+* 04.02.2013
+* You can assign to user multiple roles simultaneously. Use user level roles and capabilities editor for that. You can click 'Capabilities' link under selected user row at users list or 'Assign Roles and Additional Capabilities' link at user profile.
+* Critical bug fix: hidden deprecated WordPress core capabilities had turned on after any update made to the role. Deprecated capabilities are not currently in use by WordPress itself. But old plugins or themes could still use them. If you use some outdated code I recommend you to check all roles, you modified with User Role Editor, and turn off unneeded deprecated capabilities there.
+* User with Administrator role is secured better from editing, deletion by user with lower capabilities.
 
 = 3.9 =
 * 07.01.2013

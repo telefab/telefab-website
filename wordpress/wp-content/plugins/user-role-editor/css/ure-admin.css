@@ -79,3 +79,7 @@ input.warning:hover, a.warning:hover {
 #ure_greetings {
   max-width: 250px;
 }
+
+.hidden {
+	display: none;
+}
