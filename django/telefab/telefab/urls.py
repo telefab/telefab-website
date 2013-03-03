@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 	(r'^connexion$', 'main.views.connection'),
 	(r'^deconnexion$', 'main.views.disconnect'),
 	(r'^profil$', 'main.views.profile'),
+	(r'^blog$', 'main.views.blog'),
 	# Events
 	(r'^calendrier/$', 'main.views.show_events'),
 	(r'^calendrier/(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})$', 'main.views.show_events'),

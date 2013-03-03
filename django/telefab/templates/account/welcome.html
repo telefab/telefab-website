@@ -10,35 +10,34 @@
 	Bienvenue
 {% endblock %}
 {% block content %}
-	{% if user.is_staff or user.get_profile.is_blog_user %}
-		<h2>Liens</h2>
+	{% if user.is_staff %}
+		<h2>Adminsitration</h2>
 		<ul>
-			{% if user.is_staff %}
-				<li><a href="{% url admin:index %}">Administration du lab</a></li>
-			{% endif %}
+			<li><a href="{% url 'admin:index' %}">Administration du lab</a></li>
 			{% if user.get_profile.is_blog_user %}
-				<li><a href="/wp-admin">Administration du blog</a></li>
+				<li><a href="{% url 'main.views.blog' %}">Administration du blog</a></li>
 			{% endif %}
 		</ul>
 	{% endif %}
 	<h2>Matériel</h2>
 	<ul>
-		<li><a href="{% url main.views.edit_loan %}">Demander un prêt</a></li>
-		<li><a href="{% url main.views.show_loans %}">Voir mes prêts en cours</a></li>
-		{% if user.get_profile.is_animator %}
-		{% endif %}
+		<li><a href="{% url 'main.views.edit_loan' %}">Demander un prêt</a></li>
+		<li><a href="{% url 'main.views.show_loans' %}">Voir mes prêts en cours</a></li>
+	</ul>
+	<h2>Documentation</h2>
+	<ul>
+		<li><a href="{% url 'main.views.blog' %}">Contribuer au blog</a></li>
 	</ul>
 	{% if user.get_profile.is_animator %}
 		<h2>Espace animateurs</h2>
 		<ul>
-			<li><a href="{% url main.views.update_place %}">{% if telefab_open %}Déclarer le Téléfab de Brest fermé{% else %}Déclarer le Téléfab de Brest ouvert{% endif %}</a></li>
-			<li><a href="{% url main.views.show_all_loans %}">Gérer les demandes de prêts</a></li>
-			<li><a href="{% url main.views.edit_event %}">Créer un évènement</a></li>
+			<li><a href="{% url 'main.views.update_place' %}">{% if telefab_open %}Déclarer le Téléfab de Brest fermé{% else %}Déclarer le Téléfab de Brest ouvert{% endif %}</a></li>
+			<li><a href="{% url 'main.views.show_all_loans' %}">Gérer les demandes de prêts</a></li>
 		</ul>
 	{% endif %}
 	<h2>Mon compte</h2>
 	<ul>
-		<li><a href="{% url main.views.profile %}">Mon profil</a></li>
-		<li><a href="{% url main.views.disconnect %}">Se déconnecter</a></li>
+		<li><a href="{% url 'main.views.profile' %}">Mon profil</a></li>
+		<li><a href="{% url 'main.views.disconnect' %}">Se déconnecter</a></li>
 	</ul>
 {% endblock %}

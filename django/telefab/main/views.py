@@ -485,6 +485,19 @@ def disconnect(request):
 	logout(request)
 	return render_to_response("account/disconnect.html", context_instance = RequestContext(request))
 
+def blog(request):
+	"""
+	Simple page to allow to log in on the blog.
+	If the user seems to be logged in, send directly
+	"""
+	# Redirect users who seem logged in
+	# to avoid plenty of useless redirections
+	# this is not trustworthy: remove if it creates problems!
+	for name in request.COOKIES:
+		if name.find("wordpress_logged_in") == 0:
+			return redirect('/wp-admin')
+	return render_to_response("account/blog.html", context_instance = RequestContext(request))
+
 @login_required
 def profile(request):
 	"""

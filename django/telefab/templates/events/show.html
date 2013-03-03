@@ -23,21 +23,21 @@
 	<div class="pager">
 		<p class="next">
 			{% if time_position == "past" %}
-				<a href="{% url main.views.show_events %}">Semaine actuelle &raquo;</a>
+				<a href="{% url 'main.views.show_events' %}">Semaine actuelle &raquo;</a>
 			{% endif %}
-			<a href="{% url main.views.show_events year=next_date.year month=next_date.month day=next_date.day %}">Semaine suivante &raquo;</a>
+			<a href="{% url 'main.views.show_events' year=next_date.year month=next_date.month day=next_date.day %}">Semaine suivante &raquo;</a>
 		</p>
 		<p class="previous">
-			<a href="{% url main.views.show_events year=previous_date.year month=previous_date.month day=previous_date.day %}">&laquo; Semaine précédente</a>
+			<a href="{% url 'main.views.show_events' year=previous_date.year month=previous_date.month day=previous_date.day %}">&laquo; Semaine précédente</a>
 			{% if time_position == "future" %}
-				<a href="{% url main.views.show_events %}">&laquo; Semaine actuelle</a>
+				<a href="{% url 'main.views.show_events' %}">&laquo; Semaine actuelle</a>
 			{% endif %}
 		</p>
 	</div>
 	<table class="calendar">
 		<!-- Days list -->
 		<tr class="days">
-			<th class="hours links"><a href="{% url main.views.ical_events %}" title="Utilisez ce lien iCal pour importer ce calendrier">iCal</a></th>
+			<th class="hours links"><a href="{% url 'main.views.ical_events' %}" title="Utilisez ce lien iCal pour importer ce calendrier">iCal</a></th>
 			{% for day_data in hours_data.0.lines.0.days %}
 				<th{% if day_data.current %} class="current"{% endif %}>
 					<span class="day">{{ day_data.day|date:"l"|capfirst }}</span>

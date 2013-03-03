@@ -9,6 +9,9 @@
 {% block page_link %}
 	Se connecter
 {% endblock %}
+{% block css %}
+	<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/persona-buttons.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
 	<p>
 		Cliquez ci-dessous pour vous connecter à l'espace "Mon lab". Si vous n'avez pas de compte, vous pourrez en créer un. Utilisez votre adresse email Télécom Bretagne si vous en avez une. 
@@ -17,9 +20,9 @@
 		L'espace "Mon lab" vous permet de réserver du matériel, contribuer au blog...
 	</p>
 	<p class="signin">
-		<a id="browserid" href="#"><img src="{% get_static_prefix %}main/img/sign_in_browserid.png" alt="Se connecter" /></a>
+		<a id="browserid" href="#" class="persona-button dark" data-site-name="Téléfab"><span>Se connecter au lab</span></a>
 	</p>
-	<form method="POST" action="{% url browserid_verify %}">
+	<form method="POST" action="{% url 'browserid_verify' %}">
 	   {% csrf_token %}
 	   {{ browserid_form.as_p }}
 	   <input type="hidden" name="next" value="{{ next }}" />
@@ -27,7 +30,4 @@
 	<p>
 		Ce site utilise <a href="http://www.mozilla.org/persona/" title="Plus d'informations sur Mozilla Persona">Mozilla Persona</a>.
 	</p>
-{% endblock %}
-{% block scripts %}
-	{{ browserid_form.media }}
 {% endblock %}

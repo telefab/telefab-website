@@ -35,7 +35,7 @@
 			Emprunteur : <strong>{{loan.borrower_display}}</strong>
 		</p>
 	{% endif %}
-	<form method="POST" action="{% if is_new %}{% url main.views.edit_loan %}{% else %}{% url main.views.edit_loan loan.id %}{% endif %}" class="niceform" autocomplete="off">
+	<form method="POST" action="{% if is_new %}{% url 'main.views.edit_loan' %}{% else %}{% url 'main.views.edit_loan' loan.id %}{% endif %}" class="niceform" autocomplete="off">
 		{% csrf_token %}
 		<input type="hidden" name="action" value="save" />
 		<p>
@@ -74,7 +74,7 @@
 						<p>
 							<label for="equipment_name1">Nom :</label>
 							<input type="text" id="equipment_name1" name="equipment_name1" class="equipment_name" value="" />
-							<span class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></span>
+							<span class="tip"><a href="{% url 'main.views.show_equipment_categories' %}" target="_blank" class="browse_equipments">Parcourir</a></span>
 						</p>
 						<p>
 							<label for="equipment_quantity1">Quantité :</label>
@@ -97,7 +97,7 @@
 		</p>
 	</form>
 	<p>
-		<a href="{% url main.views.show_loans %}">
+		<a href="{% url 'main.views.show_loans' %}">
 			Retour à la liste des prêts en cours
 		</a>
 	</p>

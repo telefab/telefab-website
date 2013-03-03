@@ -14,11 +14,11 @@
 	</p>
 	<ul class="equipment_categories">
 		<li>
-			<a class="all" href="{% url main.views.show_equipments choice=choice %}"><em>Tout</em></a>
+			<a class="all" href="{% url 'main.views.show_equipments' choice=choice %}"><em>Tout</em></a>
 		</li>
 		{% for category in categories %}
 			<li>
-				<a href="{% url main.views.show_equipments category=category.slug choice=choice %}">{{ category.name|capfirst }}</a>
+				<a href="{% url 'main.views.show_equipments' category=category.slug choice=choice %}">{{ category.name|capfirst }}</a>
 			</li>
 		{% endfor %}
 	</ul>

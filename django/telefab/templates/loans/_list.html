@@ -42,18 +42,18 @@
 						{% if not loan.cancel_time and not loan.return_time %}
 							<li>
 								{% if loan.loan_time %}
-									<a href="{% url main.views.manage_loan loan_id=loan.id action='confirm' value=0 %}">Annuler prêté</a>
+									<a href="{% url 'main.views.manage_loan' loan_id=loan.id action='confirm' value=0 %}">Annuler prêté</a>
 								{% else %}
-									<a href="{% url main.views.manage_loan loan_id=loan.id action='confirm' value=1 %}">Déclarer prêté</a>
+									<a href="{% url 'main.views.manage_loan' loan_id=loan.id action='confirm' value=1 %}">Déclarer prêté</a>
 								{% endif %}
 							</li>
 						{% endif %}
 						{% if loan.loan_time and not loan.cancel_time %}
 							<li>
 								{% if loan.return_time %}
-									<a href="{% url main.views.manage_loan loan_id=loan.id action='return' value=0 %}">Annuler rendu</a>
+									<a href="{% url 'main.views.manage_loan' loan_id=loan.id action='return' value=0 %}">Annuler rendu</a>
 								{% else %}
-									<a href="{% url main.views.manage_loan loan_id=loan.id action='return' value=1 %}">Déclarer rendu</a>
+									<a href="{% url 'main.views.manage_loan' loan_id=loan.id action='return' value=1 %}">Déclarer rendu</a>
 								{% endif %}
 							</li>
 						{% endif %}
@@ -61,16 +61,16 @@
 					{% if animator or not loan.loan_time %}
 						{% if not loan.cancel_time %}
 							<li>
-								<a href="{% url main.views.edit_loan loan.id %}">Modifier</a>
+								<a href="{% url 'main.views.edit_loan' loan.id %}">Modifier</a>
 							</li>
 						{% endif %}
 					{% endif %}
 					{% if animator or not loan.loan_time %}
 						<li>
 							{% if loan.cancel_time %}
-								<a href="{% url main.views.manage_loan loan_id=loan.id action='cancel' value=0 %}">Rétablir {% if animator %}le prêt{% else %}la demande{% endif %}</a>
+								<a href="{% url 'main.views.manage_loan' loan_id=loan.id action='cancel' value=0 %}">Rétablir {% if animator %}le prêt{% else %}la demande{% endif %}</a>
 							{% else %}
-								<a href="{% url main.views.manage_loan loan_id=loan.id action='cancel' value=1 %}">Annuler {% if animator %}le prêt{% else %}la demande{% endif %}</a>
+								<a href="{% url 'main.views.manage_loan' loan_id=loan.id action='cancel' value=1 %}">Annuler {% if animator %}le prêt{% else %}la demande{% endif %}</a>
 							{% endif %}
 						</li>
 					{% endif %}

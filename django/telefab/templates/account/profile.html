@@ -23,7 +23,7 @@
 			Avant de continuer, merci de renseigner ces informations :
 		</p>
 	{% endif %}
-	<form method="POST" class="niceform" action="{% url main.views.profile %}">
+	<form method="POST" class="niceform" action="{% url 'main.views.profile' %}">
 		{% csrf_token %}
 		{% if first_edit %}
 			<input type="hidden" name="first_edit" value="1" />

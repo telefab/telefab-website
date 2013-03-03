@@ -11,7 +11,7 @@
 {% endblock %}
 {% block content %}
 	<p>
-		<a href="{% url main.views.show_equipment_categories choice=choice %}">Retour aux types de matériel</a>
+		<a href="{% url 'main.views.show_equipment_categories' choice=choice %}">Retour aux types de matériel</a>
 	</p>
 	<p>
 		{% if category %}
@@ -70,7 +70,7 @@
 		{% endfor %}
 	</ul>
 	<p>
-		<a href="{% url main.views.show_equipment_categories choice=choice %}">Retour aux types de matériel</a>
+		<a href="{% url 'main.views.show_equipment_categories' choice=choice %}">Retour aux types de matériel</a>
 	</p>
 {% endblock %}
 {% if choice %}

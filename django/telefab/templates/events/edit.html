@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 	{% endif %}
-	<form method="POST" action="{% if is_new %}{% url main.views.edit_event %}{% else %}{% url main.views.edit_event event.id %}{% endif %}" class="niceform" autocomplete="off">
+	<form method="POST" action="{% if is_new %}{% url 'main.views.edit_event' %}{% else %}{% url 'main.views.edit_event' event.id %}{% endif %}" class="niceform" autocomplete="off">
 		{% csrf_token %}
 		<input type="hidden" name="action" value="save" />
 		<p>

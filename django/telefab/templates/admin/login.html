@@ -3,7 +3,11 @@
 {% load url from future %}
 {% load static %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />{% endblock %}
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/persona-buttons.css" rel="stylesheet">
+{% endblock %}
 
 {% block bodyclass %}login{% endblock %}
 
@@ -51,7 +55,7 @@
   </div>
 </form>
 <div class="browserid" style="text-align: center; margin-top: 10px; margin-left: -6px;">
-  <a id="browserid" href="#"><img src="{% get_static_prefix %}main/img/sign_in_browserid.png" alt="Se connecter" /></a>
+  <a id="browserid" href="#" class="persona-button dark" data-site-name="Téléfab"><span style="color: white">Se connecter au lab</span></a>
   <form method="POST" action="{% url 'browserid_verify' %}">
      {% csrf_token %}
      {{ browserid_form.as_p }}
