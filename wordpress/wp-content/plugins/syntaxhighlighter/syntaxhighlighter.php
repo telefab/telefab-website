@@ -4,7 +4,7 @@
 
 Plugin Name:  SyntaxHighlighter Evolved
 Plugin URI:   http://www.viper007bond.com/wordpress-plugins/syntaxhighlighter/
-Version:      3.1.4
+Version:      3.1.5
 Description:  Easily post syntax-highlighted code to your site without having to modify the code at all. Uses Alex Gorbatchev's <a href="http://alexgorbatchev.com/wiki/SyntaxHighlighter">SyntaxHighlighter</a>. <strong>TIP:</strong> Don't use the Visual editor if you don't want your code mangled. TinyMCE will "clean up" your HTML.
 Author:       Viper007Bond
 Author URI:   http://www.viper007bond.com/
@@ -21,7 +21,7 @@ Thanks to:
 
 class SyntaxHighlighter {
 	// All of these variables are private. Filters are provided for things that can be modified.
-	var $pluginver            = '3.1.4';  // Plugin version
+	var $pluginver            = '3.1.5';  // Plugin version
 	var $agshver              = false;    // Alex Gorbatchev's SyntaxHighlighter version (dynamically set below due to v2 vs v3)
 	var $shfolder             = false;    // Controls what subfolder to load SyntaxHighlighter from (v2 or v3)
 	var $settings             = array();  // Contains the user's settings
@@ -36,8 +36,6 @@ class SyntaxHighlighter {
 
 	// Initalize the plugin by registering the hooks
 	function __construct() {
-		global $wp_version;
-
 		if ( ! function_exists( 'esc_html' ) )
 			return;
 
@@ -50,13 +48,8 @@ class SyntaxHighlighter {
 		add_filter( 'bp_get_the_topic_post_content',      array( &$this, 'parse_shortcodes' ),                              7 ); // BuddyPress
 
 		// Into the database
-		if ( version_compare( $wp_version, '3.5.99999', '>' ) ) { // 3.6+ for http://core.trac.wordpress.org/ticket/21767
-			add_filter( 'content_save_pre',               array( &$this, 'encode_shortcode_contents_noquickedit' ),         1 ); // Posts
-			add_filter( 'pre_comment_content',            array( &$this, 'encode_shortcode_contents' ),                     1 ); // Comments
-		} else {
-			add_filter( 'content_save_pre',               array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
-			add_filter( 'pre_comment_content',            array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
-		}
+		add_filter( 'content_save_pre',                   array( &$this, 'encode_shortcode_contents_slashed_noquickedit' ), 1 ); // Posts
+		add_filter( 'pre_comment_content',                array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // Comments
 		add_filter( 'group_forum_post_text_before_save',  array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 		add_filter( 'group_forum_topic_text_before_save', array( &$this, 'encode_shortcode_contents_slashed' ),             1 ); // BuddyPress
 
@@ -403,24 +396,6 @@ class SyntaxHighlighter {
 	// HTML entity encode the contents of shortcodes. Expects slashed content.
 	function encode_shortcode_contents_slashed( $content ) {
 		return addslashes( $this->encode_shortcode_contents( stripslashes( $content ) ) );
-	}
-
-
-	// HTML entity encode the contents of shortcodes. Expects slashed content. Aborts if AJAX.
-	function encode_shortcode_contents_noquickedit( $content ) {
-
-		// In certain weird circumstances, the content gets run through "content_save_pre" twice
-		// Keep track and don't allow this filter to be run twice
-		// I couldn't easily figure out why this happens and didn't bother looking into it further as this works fine
-		if ( true == $this->content_save_pre_ran )
-			return $content;
-		$this->content_save_pre_ran = true;
-
-		// Post quick edits aren't decoded for display, so we don't need to encode them (again)
-		if ( ! empty( $_POST ) && !empty( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
-			return $content;
-
-		return $this->encode_shortcode_contents( $content );
 	}
 
 

@@ -3,8 +3,8 @@ Contributors: Marcel Bokhorst, M66B
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=AJSBB7DGNA3MJ&lc=US&item_name=BrowserID%20WordPress%20plugin&item_number=Marcel%20Bokhorst&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted
 Tags: security, admin, authentication, access, widget, login, shortcode, comment, comments, discussion, bbPress, bbPress 2.0
 Requires at least: 3.1
-Tested up to: 3.5
-Stable tag: 0.34
+Tested up to: 3.5.1
+Stable tag: 0.35
 
 Implementation of Mozilla Persona (BrowserID) for WordPress
 
@@ -116,6 +116,9 @@ Follow these steps to install the development version:
 * Click *Upload* (a link at the top)
 * Click *Choose file* and select the file you downloaded before
 * Click *Install*, then *Activate Plugin*
+
+= 0.35 =
+* Bugfix: redirect option, thanks *Lwangaman*!
 
 = 0.34 =
 * Added Italian translation by [John R. D'Orazio](http://johnromanodorazio.blogspot.it/ "John R. D'Orazio")
