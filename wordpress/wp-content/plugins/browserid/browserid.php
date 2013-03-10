@@ -3,7 +3,7 @@
 Plugin Name: Mozilla Persona
 Plugin URI: http://wordpress.org/extend/plugins/browserid/
 Description: Mozilla Persona, the safest & easiest way to sign in
-Version: 0.35
+Version: 0.36
 Author: Marcel Bokhorst
 Author URI: http://blog.bokhorst.biz/about/
 */
@@ -368,7 +368,7 @@ if (!class_exists('M66BrowserID')) {
 		// Filter login error message
 		function Login_message($message) {
 			if (isset($_REQUEST['browserid_error']))
-				$message .= '<div id="login_error"><strong>' . stripslashes($_REQUEST['browserid_error']) . '</strong></div>';
+				$message .= '<div id="login_error"><strong>' . htmlentities(stripslashes($_REQUEST['browserid_error'])) . '</strong></div>';
 			return $message;
 		}
 
