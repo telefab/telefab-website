@@ -232,6 +232,7 @@ class Loan(models.Model):
 	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", blank = True, null=True, related_name='loans')
 	borrower_name = models.CharField(verbose_name = u"nom de l'emprunteur", max_length = 100, blank = True, null=True)
 	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan")
+	comment = models.TextField(verbose_name = u"commentaire", blank = True)
 	request_time = models.DateTimeField(verbose_name = u"date de la demande", blank = True, null=True)
 	loan_time = models.DateTimeField(verbose_name = u"date du prêt", blank = True, null=True)
 	lender = models.ForeignKey(User, verbose_name = u"prêteur", blank = True, null=True, related_name='validated_loans', limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))

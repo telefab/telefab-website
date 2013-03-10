@@ -42,6 +42,10 @@
 			<label for="scheduled_return_date">Date de retour prévue :</label>
 			<input type="text" id="scheduled_return_date" name="scheduled_return_date" value="{{loan.scheduled_return_date|date:'d/m/Y'|default:''}}" />
 		</p>
+		<p>
+			<label for="comment">Commentaire (facultatif) :</label>
+			<textarea id="comment" name="comment">{{loan.comment}}</textarea>
+		</p>
 		<div class="booking_sections">
 			{% if not is_new %}
 				{% for booking in loan.bookings.all %}
@@ -52,7 +56,7 @@
 						<p>
 							<label for="equipment_name{{forloop.counter}}">Nom :</label>
 							<input type="text" id="equipment_name{{forloop.counter}}" name="equipment_name{{forloop.counter}}" class="equipment_name" value="{{booking.equipment.name}}" disabled="disabled" />
-							<span class="tip"><a href="{% url main.views.show_equipment_categories %}" target="_blank" class="browse_equipments">Parcourir</a></span>
+							<span class="tip"><a href="{% url 'main.views.show_equipment_categories' %}" target="_blank" class="browse_equipments">Parcourir</a></span>
 						</p>
 						<p>
 							<label for="equipment_quantity{{forloop.counter}}">Quantité :</label>

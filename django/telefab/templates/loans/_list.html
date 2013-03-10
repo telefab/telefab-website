@@ -4,8 +4,8 @@
 			<th>Emprunteur</th>
 		{% endif %}
 		<th>État</th>
-		<th>Matériel</th>
-		<th>Date de retour programmée</th>
+		<th>Prêt</th>
+		<th>Retour programmé</th>
 		<th>Actions</th>
 	</tr>
 	{% for loan in loans %}
@@ -32,6 +32,11 @@
 						<li>{{ booking.equipment.name }}{% if booking.quantity > 1 %} (x{{booking.quantity}}){% endif %}</li>
 					{% endfor %}
 				</ul>
+				{% if loan.comment %}
+					<p class="comment">
+						{{ loan.comment }}
+					</p>
+				{% endif %}
 			</td>
 			<td>
 				{{ loan.scheduled_return_date|date:"d/m/Y" }}

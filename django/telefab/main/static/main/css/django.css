@@ -3,6 +3,27 @@
  * for the django app
  */
 
+/* Naked pages for modal iframes */
+
+body.naked {
+	background: none;
+	padding: 0;
+}
+
+.naked #container {
+	width: 100%;
+	box-shadow: none;
+	background: none;
+}
+
+.naked #content {
+	padding: 10px;
+}
+
+.naked .entry.post {
+	padding: 0;
+}
+
 /* Context menu */
 #context_menu {
 	float: right;
@@ -20,13 +41,46 @@
 }
 
 .niceform label {
-	diplay: block;
-	float: left;
+	vertical-align: top;
+	display: inline-block;
 	width: 200px;
+	margin: 7px 0;
 }
 
-.niceform input {
-	display: block;
+.niceform input, .niceform select, .niceform textarea {
+	vertical-align: top;
+	display: inline-block;
+	width: 250px;
+	padding: 2px;
+	margin: 7px 0;
+}
+
+.niceform textarea {
+	height: 70px;
+}
+
+.niceform select {
+	width: 256px;
+}
+
+.niceform select.half_input {
+	width: 123px;
+}
+
+.niceform .half_input {
+	width: 117px;
+}
+
+.niceform .separator {
+	width: 10px;
+	margin: 7px 0;
+}
+
+.niceform .tip {
+	display: inline-block;
+	vertical-align: top;
+	line-height: 24px;
+	margin: 7px 10px;
 }
 
 .niceform .section_title {
@@ -38,15 +92,21 @@
 	font-size: 1.3em;
 	border-bottom: 1px solid rgb(200, 200, 200);
 	margin-right: 50px;
+	padding-top: 10px;
 }
 
 .niceform .link {
 	padding-bottom: 5px;
 }
 
-.niceform .submit input {
+.niceform .submit {
+	padding-bottom: 15px;
 	width: 30%;
 	margin: auto;
+}
+
+.niceform .submit input {
+	width: 100%;
 }
 
 /* Message blocks */
@@ -91,6 +151,16 @@
 	font-weight: bold;
 }
 
+/* Loans */
+
+.booking_section.edit_disabled .tip {
+	display: none;
+}
+
+.nicetable .comment {
+	font-style: italic;
+}
+
 /* Equipments */
 
 #content .equipment_categories .all em {
@@ -99,6 +169,15 @@
 
 #content .equipments p {
 	padding: 0;
+}
+
+#content .equipments li {
+	margin-bottom: 15px;
+}
+
+#content .equipments p strong {
+	display: inline-block;
+	width: 9em;
 }
 
 /* Calendar */
@@ -164,6 +243,14 @@
 	border-color: #DDDDDD #929292;
 	color: #1D1D1D;
 	padding: 0;
+}
+
+#content table.calendar td.main_place_open {
+	background-image: linear-gradient(left , green 0%, white 10%);
+	background-image: -o-linear-gradient(left , green 0%, white 10%);
+	background-image: -moz-linear-gradient(left , green 0%, white 10%);
+	background-image: -webkit-linear-gradient(left , green 0%, white 10%);
+	background-image: -ms-linear-gradient(left , green 0%, white 10%);
 }
 
 #content table.calendar .events_container {
@@ -271,6 +358,40 @@
 
 #content table.calendar .event_zone .tooltip p.animators span, #content table.calendar .event_zone .tooltip p.location span {
 	font-weight: bold;
+}
+
+#content #calendar_meaning {
+	margin-top: 20px;
+}
+
+#content #calendar_meaning p {
+	padding-bottom: 3px;
+}
+
+#content #calendar_meaning .demo {
+	padding-left: 20px;
+	margin-right: 5px;
+	border: 1px solid grey;
+}
+
+#content #calendar_meaning .opening .demo {
+	background-image: linear-gradient(left , green 0%, white 60%);
+	background-image: -o-linear-gradient(left , green 0%, white 60%);
+	background-image: -moz-linear-gradient(left , green 0%, white 60%);
+	background-image: -webkit-linear-gradient(left , green 0%, white 60%);
+	background-image: -ms-linear-gradient(left , green 0%, white 60%);
+}
+
+#content #calendar_meaning .open .demo {
+	background-color: #ABB800;
+}
+
+#content #calendar_meaning .session .demo {
+	background-color: #00ABB8;
+}
+
+#content #calendar_meaning .talk .demo {
+	background-color: #DD00EE;
 }
 
 /* Pager */

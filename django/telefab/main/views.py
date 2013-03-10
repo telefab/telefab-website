@@ -256,6 +256,8 @@ def edit_loan(request, loan_id=None):
 				saving_errors.append(u"la date de retour ne peut pas être dans le passé")
 			else:
 				loan.scheduled_return_date = scheduled_return_date
+		# Set the comment
+		loan.comment = request.POST.get('comment', '')
 		# Browse equipments
 		i = 0
 		to_save = []
