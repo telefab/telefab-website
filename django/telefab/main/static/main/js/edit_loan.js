@@ -77,9 +77,35 @@ $(function() {
 		section.hide();
 		return false;
 	})
+	// Buttons to browse the equipments list
+	$('.browse_equipments').click(function(){
+		var section = $(this).parents('.booking_section');
+		var select_dialog;
+		window.browse_equipment_select = function(name) {
+			// Function called by the iframe to select an equipment
+			// Set the name and id
+			var name_el = section.find(".equipment_name");
+			name_el.val(name);
+			check_equipment_id(name_el);
+			// Close the dialog
+			select_dialog.dialog('close');
+		}
+		// Open the iframe with equipment lists
+		select_dialog = $('<iframe />').attr('src', '/lab/choix/materiel').dialog({
+			modal: true,
+			resizable: false,
+			draggable: false,
+			title: "Sélectionner un équipement",
+			width: 800,
+			height: 600,
+			open: function (event,ui) {$(this).css("width","780px")}
+		});
+		return false;
+	});
 
 	// Clones the section sample with all the events and makes it fully ready to use as a new section
 	section_sample = sections_list.find('.booking_section').first().clone(true);
+	section_sample.removeClass('edit_disabled');
 	section_sample.find('.equipment_name').attr('disabled', false);
 	section_sample.find('.equipment_name').val('');
 	section_sample.find('.equipment_quantity').val('1');
