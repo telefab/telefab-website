@@ -407,3 +407,15 @@ body.naked {
 #content .pager .next {
 	float: right;
 }
+
+/* Mobile style */
+
+#mobile {
+	text-align: center;
+	font-size: 1.4em;
+}
+
+#place-switch {
+	margin-top: 2em;
+	font-size: 1.4em;
+}
