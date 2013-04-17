@@ -37,5 +37,7 @@ urlpatterns = patterns('',
     # Administration
     (r'^admin/', include(admin.site.urls)),
     # API
-    (r'^api/lieu', 'main.views.update_place_api')
+    (r'^api/lieu', 'main.views.update_place_api'),
+    # Mobile
+    (r'^mobile/ouverture/(?P<password>[a-zA-Z0-9]+)$', 'main.views.update_place_mobile')
 )

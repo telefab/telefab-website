@@ -467,7 +467,8 @@ def welcome(request):
 		request.session["already_welcome"] = True
 		return redirect(urlresolvers.reverse('main.views.profile') + "?first_edit=1")
 	template_data = {
-		'telefab_open': Place.get_main_place().now_open
+		'telefab_open': Place.get_main_place().now_open,
+		'api_password': API_PASSWORD
 	}
 	return render_to_response("account/welcome.html", template_data, context_instance = RequestContext(request))
 
@@ -546,6 +547,28 @@ def update_place(request):
 	else:
 		place.do_open_now(request.user)
 	return redirect(urlresolvers.reverse('main.views.welcome'))
+
+def update_place_mobile(request, password):
+	"""
+	Mobile page to update the place opening
+	"""
+	if password != API_PASSWORD:
+		raise PermissionDenied()
+	place = Place.get_main_place()
+	user = None
+	if request.user.is_authenticated():
+		user = request.user
+	if request.POST.get('action', None) == "switch":
+		if place.now_open():
+			place.do_close_now()
+		else:
+			place.do_open_now(user)
+	template_data = {
+		'place': place,
+		'api_password': API_PASSWORD
+	}
+	return render_to_response("mobile/place.html", template_data, context_instance = RequestContext(request))
+
 
 @csrf_exempt
 def update_place_api(request):
