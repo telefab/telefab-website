@@ -118,9 +118,9 @@
 		var equipment_data = [
 			{% for equipment in equipments %}
 				{
-					'id': {{equipment.id}},
-					'name': "{{equipment.name|escapejs}}",
-					'quantity': {{equipment.available_quantity}}
+					'id': {{equipment.object.id}},
+					'name': "{{equipment.object.name|escapejs}}",
+					'quantity': {{equipment.quantity}}
 				}{% if not forloop.last %},{% endif %}
 			{% endfor %}
 		];

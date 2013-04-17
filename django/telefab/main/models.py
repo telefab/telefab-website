@@ -175,14 +175,14 @@ class Equipment(models.Model):
 		"""
 		return reverse("main.views.show_equipment_categories")
 
-	def available_quantity(self):
+	def available_quantity(self, loan = None):
 		"""
 		Return the quantity not currently away in a loan.
-		Loans in editing mode are not taken into account.
+		If given, the loan is ignored
 		"""
 		available_quantity = self.quantity
 		for equipment_loan in EquipmentLoan.objects.filter(equipment = self):
-			if equipment_loan.loan.is_away() and not equipment_loan.loan.is_editing():
+			if equipment_loan.loan.is_away() and equipment_loan.loan != loan:
 				available_quantity-= equipment_loan.quantity
 		return available_quantity
 
@@ -241,10 +241,6 @@ class Loan(models.Model):
 	cancel_time = models.DateTimeField(verbose_name = u"date d'annulation", blank = True, null=True)
 	cancelled_by = models.ForeignKey(User, verbose_name = u"annulé par", blank = True, null=True, related_name='cancelled_loans')
 
-	def __init__(self, *args, **kwargs):
-		self.__is_editing = False
-		super(Loan, self).__init__(*args, **kwargs)
-
 	def __unicode__(self):
 		"""
 		String representation of the loan
@@ -260,19 +256,6 @@ class Loan(models.Model):
 		else:
 			return self.borrower_name
 	borrower_display.short_description = u"emprunteur"
-
-	def set_editing(self, is_editing):
-		"""
-		Set this loan as currently being edited: 
-		should not be counted in equipments limit 
-		"""
-		self.__is_editing = is_editing
-
-	def is_editing(self):
-		"""
-		Returns if the loan is in editing mode 
-		"""
-		return self.__is_editing
 
 	def is_waiting(self):
 		"""

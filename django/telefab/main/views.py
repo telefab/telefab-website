@@ -235,14 +235,13 @@ def edit_loan(request, loan_id=None):
 			if not request.user.get_profile().is_animator() or loan.cancel_time:
 				raise PermissionDenied()
 			is_owner = False
-		elif not loan.is_waiting():
+		elif not loan.is_waiting() and not request.user.get_profile().is_animator():
 			raise PermissionDenied()
 	else:
 		loan = Loan()
 		loan.borrower = request.user
 		loan.request_time = datetime.now()
 		is_new = True
-	loan.set_editing(True)
 	# Check if some data has been sent
 	if request.POST.get("action", None) == "save":
 		# Set the return date
@@ -298,8 +297,8 @@ def edit_loan(request, loan_id=None):
 				if booking is not None:
 					bookings_count = bookings_count + 1
 					# This booking exists: edit the quantity
-					if quantity <= 0 or quantity > booking.equipment.quantity:
-						saving_errors.append(u"il n'y a que " + str(booking.equipment.quantity) + " exemplaire(s) de " + booking.equipment.name)
+					if quantity <= 0 or quantity > booking.equipment.available_quantity(loan):
+						saving_errors.append(u"il n'y a que " + str(booking.equipment.available_quantity(loan)) + " exemplaire(s) de " + booking.equipment.name)
 						continue
 					if quantity != booking.quantity:
 						booking.quantity = quantity
@@ -327,8 +326,8 @@ def edit_loan(request, loan_id=None):
 						saving_errors.append(u"pour réserver plusieurs exemplaires d'un équipement, utilisez le champ \"quantité\"")
 						continue
 					# Check the quantity
-					if quantity <= 0 or quantity > equipment.available_quantity():
-						saving_errors.append("il n'y a que " + str(equipment.available_quantity()) + " exemplaire(s) de " + equipment.name)
+					if quantity <= 0 or quantity > equipment.available_quantity(loan):
+						saving_errors.append("il n'y a que " + str(equipment.available_quantity(loan)) + " exemplaire(s) de " + equipment.name)
 						continue
 					# Create
 					booking = EquipmentLoan(loan = loan, equipment = equipment, quantity = quantity)
@@ -363,8 +362,11 @@ def edit_loan(request, loan_id=None):
 	equipments = []
 	for equipment in all_equipments:
 		# Filter out unavailable equipments
-		if equipment.available_quantity > 0:
-			equipments.append(equipment)
+		if equipment.available_quantity(loan) > 0:
+			equipments.append({
+				'object': equipment,
+				'quantity': equipment.available_quantity(loan)
+			})
 	template_data = {
 		'loan': loan,
 		'is_new': is_new,
