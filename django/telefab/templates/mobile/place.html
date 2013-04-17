@@ -8,6 +8,6 @@
 	<form method="POST" action="{% url 'main.views.update_place_mobile' api_password %}">
 		{% csrf_token %}
 		<input type="hidden" name="action" value="switch" />
-		<input type="submit" value="Déclarer {% if place.now_open %}fermé{% else %}ouvert{% endif %}" />
+		<input type="submit" value="Déclarer {% if place.now_open %}fermé{% else %}ouvert{% endif %}" id="place-switch" />
 	</form>
 {% endblock %}
