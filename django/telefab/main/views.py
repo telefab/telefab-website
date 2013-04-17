@@ -242,6 +242,7 @@ def edit_loan(request, loan_id=None):
 		loan.borrower = request.user
 		loan.request_time = datetime.now()
 		is_new = True
+	loan.set_editing(True)
 	# Check if some data has been sent
 	if request.POST.get("action", None) == "save":
 		# Set the return date
