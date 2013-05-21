@@ -1,7 +1,5 @@
-<?php 
-global $epanelMainTabs, $themename, $shortname, $default_colorscheme, $options, $et_bg_texture_urls, $et_google_fonts, $epanel_texture_urls;
-
-$default_colorscheme = "Default";
+<?php
+global $epanelMainTabs, $themename, $shortname, $options, $et_bg_texture_urls, $et_google_fonts, $epanel_texture_urls;
 
 $epanelMainTabs = array('general','navigation','layout','ad','colorization','seo','integration','support');
 
@@ -23,14 +21,6 @@ foreach ($cats_array as $categs) {
 	$site_cats[$categs->cat_ID] = $categs->cat_name;
 	$cats_ids[] = $categs->cat_ID;
 }
-
-$et_bg_texture_urls = array('Thin Vertical Lines', 'Small Squares', 'Thick Diagonal Lines', 'Thin Diagonal Lines', 'Diamonds', 'Small Circles', 'Thick Vertical Lines', 'Thin Flourish', 'Thick Flourish', 'Pocodot', 'Checkerboard', 'Squares', 'Noise', 'Wooden', 'Stone', 'Canvas');
-
-$et_google_fonts = apply_filters( 'et_google_fonts', array('Kreon','Droid Sans','Droid Serif','Lobster','Yanone Kaffeesatz','Nobile','Crimson Text','Arvo','Tangerine','Cuprum','Cantarell','Philosopher','Josefin Sans','Dancing Script','Raleway','Bentham','Goudy Bookletter 1911','Quattrocento','Ubuntu', 'PT Sans') );
-sort($et_google_fonts);
-
-$epanel_texture_urls = $et_bg_texture_urls;
-array_unshift( $epanel_texture_urls, 'Default' );
 
 $options = array (
 
@@ -55,7 +45,7 @@ $options = array (
 
 		array( "name" => "general-1",
 			   "type" => "subcontent-start",),
-			   
+
 			array( "name" => "Logo",
 				   "id" => $shortname."_logo",
 				   "type" => "upload",
@@ -69,47 +59,47 @@ $options = array (
 				   "std" => "",
 				   "desc" => "If you would like to use your own custom favicon image click the Upload Image button."
 			),
-		
+
 			array( "name" => "Background Color",
 				   "id" => $shortname."_bgcolor",
 				   "type" => "textcolorpopup",
 				   "std" => "",
 				   "desc" => "This will enable a custom background color. Selecting the field will bring up the color picker which will allow you to choose a custom color.",),
-				   
+
 			array( "name" => "Background Texture",
 				   "id" => $shortname."_bgtexture_url",
 				   "type" => "select",
 				   "std" => "Default",
 				   "options" => $epanel_texture_urls,
 				   "desc" => "Choose a background texture from the drop down menu.",),
-				   
+
 			array( "name" => "Background Image",
 				   "id" => $shortname."_bgimage",
 				   "type" => "upload",
 				   "std" => "",
 				   "desc" => "If you would like to upload your own background image click the Upload Image button."
 			),
-							   
+
 			array( "name" => "Header Font",
 				   "id" => $shortname."_header_font",
 				   "type" => "select",
 				   "std" => "Kreon",
 				   "options" => $et_google_fonts,
 				   "desc" => "Choose a font from the drop down menu.",),
-				   
+
 			array( "name" => "Header Font Color",
 				   "id" => $shortname."_header_font_color",
 				   "type" => "textcolorpopup",
 				   "std" => "",
 				   "desc" => "This will enable a custom header font color. Selecting the field will bring up the color picker which will allow you to choose a custom color.",),
-				   
+
 			array( "name" => "Body Font",
 				   "id" => $shortname."_body_font",
 				   "type" => "select",
 				   "std" => "Droid Sans",
 				   "options" => $et_google_fonts,
 				   "desc" => "Choose a font from the drop down menu.",),
-				   
+
 			array( "name" => "Body Font Color",
 				   "id" => $shortname."_body_font_color",
 				   "type" => "textcolorpopup",
@@ -129,13 +119,13 @@ $options = array (
 				   "desc" => "By default thumbnail images are created using custom fields. However, if you would rather use the images that are already in your post for your thumbnail (and bypass using custom fields) you can activate this option. Once activcated thumbnail images will be generated automatically using the first image in your post. The image must be hosted on your own server."),
 
 			array( "type" => "clearfix",),
-			
+
 			array( "name" => "Show Twitter Icon",
                    "id" => $shortname."_show_twitter_icon",
                    "type" => "checkbox",
                    "std" => "on",
                    "desc" => "Here you can choose to display the Twitter Icon on your homepage. "),
-			
+
 			array( "name" => "Show RSS Icon",
                    "id" => $shortname."_show_rss_icon",
                    "type" => "checkbox2",
@@ -143,71 +133,79 @@ $options = array (
                    "desc" => "Here you can choose to display the RSS Icon on your homepage. "),
 
 			array( "type" => "clearfix",),
-			
+
 			array( "name" => "Show Facebook Icon",
                    "id" => $shortname."_show_facebook_icon",
                    "type" => "checkbox",
                    "std" => "on",
                    "desc" => "Here you can choose to display the Facebook Icon on your homepage. "),
-			
+
 			array( "type" => "clearfix",),
-			
+
 			array( "name" => "Twitter Profile Url",
                    "id" => $shortname."_twitter_url",
                    "std" => "#",
                    "type" => "text",
+                   "validation_type" => "url",
 				   "desc" => "Enter the URL of your Twitter Profile."),
-			
+
 			array( "name" => "RSS Icon Url",
                    "id" => $shortname."_rss_url",
                    "std" => "",
                    "type" => "text",
+                   "validation_type" => "url",
 				   "desc" => "Enter the URL of your RSS feed. "),
-				   
+
 			array( "name" => "Facebook Profile Url",
                    "id" => $shortname."_facebook_url",
                    "std" => "#",
                    "type" => "text",
+                   "validation_type" => "url",
 				   "desc" => "Enter the URL of your Facebook Profile. "),
-							   				   
+
 			array( "name" => "Number of Posts displayed on Category page",
                    "id" => $shortname."_catnum_posts",
                    "std" => "6",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "Here you can designate how many recent articles are displayed on the Category page. This option works independently from the Settings > Reading options in wp-admin."),
 
 			array( "name" => "Number of Posts displayed on Archive pages",
                    "id" => $shortname."_archivenum_posts",
                    "std" => "5",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "Here you can designate how many recent articles are displayed on the Archive pages. This option works independently from the Settings > Reading options in wp-admin."),
 
 			array( "name" => "Number of Posts displayed on Search pages",
                    "id" => $shortname."_searchnum_posts",
                    "std" => "5",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "Here you can designate how many recent articles are displayed on the Search results pages. This option works independently from the Settings > Reading options in wp-admin."),
 
 			array( "name" => "Number of Posts displayed on Tag pages",
                    "id" => $shortname."_tagnum_posts",
                    "std" => "5",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "Here you can designate how many recent articles are displayed on the Tag pages. This option works independently from the Settings > Reading options in wp-admin."),
 
 			array( "name" => "Date format",
 				   "id" => $shortname."_date_format",
 				   "std" => "M j, Y",
                    "type" => "text",
+                   "validation_type" => "nohtml",
 				   "desc" => "This option allows you to change how your dates are displayed. For more information please refer to the WordPress codex here:<a href='http://codex.wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting Date and Time</a>"),
-				   				   
+
 			array( "type" => "clearfix",),
-			
+
 			array( "name" => "Use excerpts when defined",
 				   "id" => $shortname."_use_excerpt",
 				   "type" => "checkbox",
 				   "std" => "false",
 				   "desc" => "This will enable the use of excerpts in posts or pages."),
-				   
+
 			array( "name" => "Show Control Panel",
 				   "id" => $shortname."_show_control_panel",
 				   "type" => "checkbox",
@@ -215,62 +213,70 @@ $options = array (
 				   "desc" => "Here you can choose to show the CSS Control Panel on your homepage. It will only be visible to Administrators that are logged into your Wordpress Dashboard."),
 
 			array( "type" => "clearfix",),
-			
+
 			array( "name" => "Responsive Layout",
 				   "id" => $shortname."_responsive_layout",
 				   "type" => "checkbox",
 				   "std" => "on",
 				   "desc" => "Here you can choose to use the responsive layout of the theme."),
-				   
+
 			array( "name" => "Responsive shortcodes",
 				   "id" => $shortname."_responsive_shortcodes",
 				   "type" => "checkbox2",
 				   "std" => "on",
 				   "desc" => "Enable this option to make shortcodes respond to various screen sizes"
 			),
-				   
+
 			array( "type" => "clearfix",),
+
+			array( "name" => esc_html__( "Custom CSS", $themename ),
+				   "id" => $shortname . "_custom_css",
+				   "type" => "textarea",
+				   "std" => "",
+				   "desc" => esc_html__( "Here you can add custom css to override or extend default styles.", $themename ),
+					"validation_type" => "nohtml"
+			),
 
 		array( "name" => "general-1",
 			   "type" => "subcontent-end",),
 
 		array( "name" => "general-2",
 			   "type" => "subcontent-start",),
-			   
+
 			array( "name" => "Display Content Areas",
                    "id" => $shortname."_display_blurbs",
                    "type" => "checkbox",
                    "std" => "on",
                    "desc" => "Here you can choose to display the Content Areas on the homepage. "),
-			
+
 			array( "name" => "Display Media Section",
                    "id" => $shortname."_display_media",
                    "type" => "checkbox2",
                    "std" => "on",
                    "desc" => "Here you can choose to disaply the Media Section on the homepage. "),
-			
+
 			array( "type" => "clearfix",),
-			   
+
 			array( "name" => "Display Homepage Quote",
                    "id" => $shortname."_quote",
                    "type" => "checkbox",
                    "std" => "on",
                    "desc" => "This controls the quote that appears on the homepage 3 blurbs."),
-				   				   
+
 			array( "type" => "clearfix",),
-			   
+
 			array( "name" => "Quote Line 1 Text",
                    "id" => $shortname."_quote_one",
                    "std" => 'Chameleon is an extremely versatile theme with a myriad of options and styles',
                    "type" => "text",
 				   "desc" => "Here you can define the text that appears in the homepage quote."),
-				   
+
 			array( "name" => "Quote Line 2 Text",
                    "id" => $shortname."_quote_two",
                    "std" => 'Aliquam venenatis enim in mi iaculis in tempor lectus tempor et convallis erat pellentesque',
                    "type" => "text",
 				   "desc" => "Here you can define the text that appears in the homepage quote."),
-				   
+
 			array( "name" => "Content Area 1 Page",
 				   "id" => $shortname."_home_page_1",
 				   "std" => "",
@@ -278,7 +284,7 @@ $options = array (
 				   "desc" => "Here you can select the page you would like to display in the Content Area of the homepage. ",
 				   "options" => $site_pages,
 				   'et_array_for' => 'pages'),
-				   
+
 			array( "name" => "Content Area 2 Page",
 				   "id" => $shortname."_home_page_2",
 				   "std" => "",
@@ -286,7 +292,7 @@ $options = array (
 				   "desc" => "Here you can select the page you would like to display in the Content Area of the homepage.",
 				   "options" => $site_pages,
 				   'et_array_for' => 'pages'),
-						
+
 			array( "name" => "Content Area 3 Page",
 				   "id" => $shortname."_home_page_3",
 				   "std" => "",
@@ -294,13 +300,14 @@ $options = array (
 				   "desc" => "Here you can select the page you would like to display in the Content Area of the homepage.",
 				   "options" => $site_pages,
 				   'et_array_for' => 'pages'),
-				   
+
 			array( "name" => "Number of Posts in Media bar",
                    "id" => $shortname."_posts_media",
                    "std" => "10",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "Here you can designate how many recent articles are displayed in Media bar on the homepage. "),
-				   
+
 			array( "name" => "Exclude categories from Media bar",
 				   "id" => $shortname."_exlcats_media",
 				   "type" => "checkboxes",
@@ -308,13 +315,14 @@ $options = array (
 				   "desc" => "If you would like to exlcude certain category from the list you can do so here. ",
 				   "usefor" => "categories",
 				   "options" => $cats_ids),
-				   							   
+
 			array( "name" => "Number of Recent Posts displayed on homepage",
                    "id" => $shortname."_homepage_posts",
                    "std" => "7",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "Here you can designate how many recent articles are displayed on the homepage. This option works independently from the Settings > Reading options in wp-admin."),
-				   
+
 			array( "name" => "Exclude categories from homepage recent posts",
 				   "id" => $shortname."_exlcats_recent",
 				   "type" => "checkboxes",
@@ -342,7 +350,7 @@ $options = array (
                    "desc" => "In some cases your Featured Articles will also be one of your most recent articles, in which case the article will be displayed twice on the homepage. If you would like to remove duplicate posts enable this option."),
 
 			array( "type" => "clearfix",),
-			
+
 			array( "name" => "Slider Type",
 				   "id" => $shortname."_slider_type",
 				   "type" => "select",
@@ -360,8 +368,9 @@ $options = array (
                    "id" => $shortname."_featured_num",
                    "std" => "3",
                    "type" => "text",
+                   "validation_type" => "number",
 				   "desc" => "This setting controls how menu tabs are added to the Featured Articles slider on the homepage."),
-				   
+
 			array( "name" => "Use pages",
                    "id" => $shortname."_use_pages",
                    "type" => "checkbox",
@@ -369,7 +378,7 @@ $options = array (
                    "desc" => "The homepage Featured Slider can be set up using two methods. You can populate the slider using Posts, or you can populate it using Pages. If you would like to use Pages in the Featured Slider then enable this option."),
 
 			array( "type" => "clearfix",),
-	   
+
 			array( "name" => "Include pages in the Featured Slider (if Use Pages enabled)",
 				   "id" => $shortname."_feat_pages",
 				   "type" => "checkboxes",
@@ -378,23 +387,24 @@ $options = array (
 				   "usefor" => "pages",
 				   "excludeDefault" => "true",
 				   "options" => $pages_ids),
-				   				   
+
 			array( "name" => "Automatic Slider Animation",
                    "id" => $shortname."_slider_auto",
                    "type" => "checkbox",
                    "std" => "false",
                    "desc" => "If you would like the Featured Articles slider to slide automatically, without the visitor having to click the next button, enable this option and then adjust the rotation speed below if desired."),
-				   				   
+
 			array( "type" => "clearfix",),
 
 			array( "name" => "Automatic Animation Speed (in ms)",
                    "id" => $shortname."_slider_autospeed",
                    "type" => "text",
+                   "validation_type" => "number",
 			       "std" => "7000",
 				   "desc" => "Here you can designate how fast the slider fades between each article. The higher the number the longer the pause between each rotation."),
 
 		array( "name" => "general-3",
-			   "type" => "subcontent-end",),   
+			   "type" => "subcontent-end",),
 
 	array(  "name" => "wrap-general",
 			"type" => "contenttab-wrapend",),
@@ -462,6 +472,7 @@ $options = array (
 			array( "name" => "Number of dropdown tiers shown",
             "id" => $shortname."_tiers_shown_pages",
             "type" => "text",
+            "validation_type" => "number",
             "std" => "3",
 			"desc" => "This options allows you to control how many teirs your pages dropdown menu has. Increasing the number allows for additional menu items to be shown."),
 
@@ -499,6 +510,7 @@ $options = array (
 			array( "name" => "Number of dropdown tiers shown",
             "id" => $shortname."_tiers_shown_categories",
             "type" => "text",
+            "validation_type" => "number",
             "std" => "3",
 			"desc" => "This options allows you to control how many teirs your pages dropdown menu has. Increasing the number allows for additional menu items to be shown."),
 
@@ -574,7 +586,7 @@ $options = array (
                    "type" => "checkbox",
                    "std" => "on",
                    "desc" => "By default thumbnails are placed at the beginning of your post on single post pages. If you would like to remove this initial thumbnail image to avoid repetition simply disable this option. "),
-				   
+
 			array( "name" => "Show comments on posts",
             "id" => $shortname."_show_postcomments",
             "type" => "checkbox2",
@@ -615,14 +627,14 @@ $options = array (
 				   "std" => array("author","date","categories","comments"),
 				   "desc" => "Here you can choose which items appear in the postinfo section on pages. This is the area, usually below the post title, which displays basic information about your post. The highlighted itmes shown below will appear. ",
 				   "options" => array("author","date","categories","comments")),
-				   
+
 			array( "type" => "clearfix",),
-				   
+
 			array( "name" => "Show Thumbs on Index pages",
                    "id" => $shortname."_thumbnails_index",
                    "type" => "checkbox",
                    "std" => "on",
-                   "desc" => "Enable this option to show thumbnails on Index Pages."),	   
+                   "desc" => "Enable this option to show thumbnails on Index Pages."),
 
 			array( "type" => "clearfix",),
 
@@ -669,6 +681,7 @@ $options = array (
 			array( "name" => "Child stylesheet URL",
 				   "id" => $shortname."_child_cssurl",
 				   "type" => "text",
+				   "validation_type" => "url",
 				   "std" => "",
 				   "desc" => "Input the URL to your child stylsheet here.",),
 
@@ -689,13 +702,13 @@ $options = array (
 				   "type" => "textcolorpopup",
 				   "std" => "",
 				   "desc" => "This option allows you to customize the color of a certain element of the theme. When you click inside the field a color picker will appear. Scroll to find your desired color and then click the circular submit button on the lower right to accept the value",),
-				   
+
 			array( "name" => "Menu active link color",
 				   "id" => $shortname."_color_pagelink_active",
 				   "type" => "textcolorpopup",
 				   "std" => "",
-				   "desc" => "This option allows you to customize the color of a certain element of the theme. When you click inside the field a color picker will appear. Scroll to find your desired color and then click the circular submit button on the lower right to accept the value",),	   
-				   
+				   "desc" => "This option allows you to customize the color of a certain element of the theme. When you click inside the field a color picker will appear. Scroll to find your desired color and then click the circular submit button on the lower right to accept the value",),
+
 			array( "name" => "Headings color",
 				   "id" => $shortname."_color_headings",
 				   "type" => "textcolorpopup",
@@ -778,6 +791,7 @@ $options = array (
 			array( "name" => "Homepage custom title (if enabled)",
 				   "id" => $shortname."_seo_home_titletext",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => "",
 				   "desc" => "If you have enabled custom titles you can add your custom title here. Whatever you type here will be placed between the < title >< /title > tags in header.php",),
 
@@ -790,6 +804,7 @@ $options = array (
 			array( "name" => "Homepage meta keywords (if enabled)",
 				   "id" => $shortname."_seo_home_keywordstext",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => "",
 				   "desc" => "If you have enabled meta keywords you can add your custom keywords here. Keywords should be separated by comas. For example: wordpress,themes,templates,elegant",),
 
@@ -803,6 +818,7 @@ $options = array (
 			array( "name" => "Define a character to separate BlogName and Post title",
 				   "id" => $shortname."_seo_home_separate",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => " | ",
 				   "desc" => "Here you can change which character separates your blog title and post name when using autogenerated post titles. Common values are | or -",),
 
@@ -843,18 +859,21 @@ $options = array (
 			array( "name" => "Custom field Name to be used for title",
 				   "id" => $shortname."_seo_single_field_title",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => "seo_title",
 				   "desc" => "When you define your title using custom fields you should use this value for the custom field Name. The Value of your custom field should be the custom title you would like to use.",),
 
 			array( "name" => "Custom field Name to be used for description",
 				   "id" => $shortname."_seo_single_field_description",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => "seo_description",
 				   "desc" => "When you define your meta description using custom fields you should use this value for the custom field Name. The Value of your custom field should be the custom description you would like to use.",),
 
 			array( "name" => "Custom field Name to be used for keywords",
 				   "id" => $shortname."_seo_single_field_keywords",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => "seo_keywords",
 				   "desc" => "When you define your keywords using custom fields you should use this value for the custom field Name. The Value of your custom field should be the meta keywords you would like to use, separated by comas.",),
 
@@ -868,6 +887,7 @@ $options = array (
 			array( "name" => "Define a character to separate BlogName and Post title",
 				   "id" => $shortname."_seo_single_separate",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => " | ",
 				   "desc" => "Here you can change which character separates your blog title and post name when using autogenerated post titles. Common values are | or -",),
 
@@ -901,6 +921,7 @@ $options = array (
 			array( "name" => "Define a character to separate BlogName and Post title",
 				   "id" => $shortname."_seo_index_separate",
 				   "type" => "text",
+				   "validation_type" => "nohtml",
 				   "std" => " | ",
 				   "desc" => "Here you can change which character separates your blog title and index page name when using autogenerated post titles. Common values are | or -",),
 
@@ -1044,9 +1065,10 @@ $options = array (
 			array( "name" => "Input 468x60 advertisement destination url",
 				   "id" => $shortname."_468_url",
 				   "type" => "text",
+				   "validation_type" => "url",
 				   "std" => "",
 				   "desc" => "Here you can change which character separates your blog title and index page name when using autogenerated post titles. Common values are | or -",),
-				   
+
 			array( "name" => "Input 468x60 adsense code",
 				   "id" => $shortname."_468_adsense",
 				   "type" => "textarea",
@@ -1061,24 +1083,4 @@ $options = array (
 
 //-------------------------------------------------------------------------------------//
 
-); 
-
-
-function custom_colors_css(){
-	global $shortname; ?>
-	
-	<style type="text/css">
-		body { color: #<?php echo(get_option($shortname.'_color_mainfont')); ?>; }
-		#content-area a, #content a { color: #<?php echo(get_option($shortname.'_color_mainlink')); ?>; }
-		ul#top-menu li a { color: #<?php echo(get_option($shortname.'_color_pagelink')); ?> !important; }
-		ul#top-menu > li.current_page_item > a, ul#top-menu li:hover > a, ul#top-menu > li.current-cat > a, ul#top-menu > li.current-menu-item > a { color: #<?php echo(get_option($shortname.'_color_pagelink_active')); ?> !important; }
-		h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { color: #<?php echo(get_option($shortname.'_color_headings')); ?> !important; }
-		
-		#sidebar a { color:#<?php echo(get_option($shortname.'_color_sidebar_links')); ?>; }		
-		.footer-widget { color:#<?php echo(get_option($shortname.'_footer_text')); ?> }
-		#footer a, ul#bottom-menu li a { color:#<?php echo(get_option($shortname.'_color_footerlinks')); ?> }
-	</style>
-
-<?php };
-
-?>
+);

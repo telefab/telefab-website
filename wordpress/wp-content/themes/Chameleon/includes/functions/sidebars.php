@@ -7,7 +7,7 @@ if ( function_exists('register_sidebar') ) {
 		'before_title' => '<h3 class="title">',
 		'after_title' => '</h3>',
     ));
-	
+
 	register_sidebar(array(
 		'name' => 'Footer',
 		'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
@@ -15,7 +15,7 @@ if ( function_exists('register_sidebar') ) {
 		'before_title' => '<h4 class="widgettitle">',
 		'after_title' => '</h4>',
     ));
-	
+
 	register_sidebar(array(
 		'name' => 'Homepage',
 		'before_widget' => '<div id="%1$s" class="main-widget %2$s">',
@@ -23,5 +23,5 @@ if ( function_exists('register_sidebar') ) {
 		'before_title' => '<h3 class="title">',
 		'after_title' => '</h3>',
     ));
-} 
+}
 ?>

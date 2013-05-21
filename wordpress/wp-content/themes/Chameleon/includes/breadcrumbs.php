@@ -1,8 +1,8 @@
 <div id="breadcrumbs">
-	<?php if(function_exists('bcn_display')) { bcn_display(); } 
+	<?php if(function_exists('bcn_display')) { bcn_display(); }
 		  else { ?>
-				<a href="<?php echo home_url(); ?>"><?php esc_html_e('Home','Chameleon') ?></a> <span class="raquo">&raquo;</span>
-				
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php esc_html_e('Home','Chameleon') ?></a> <span class="raquo">&raquo;</span>
+
 				<?php if( is_tag() ) { ?>
 					<?php esc_html_e('Posts Tagged ','Chameleon') ?><span class="raquo">&quot;</span><?php single_tag_title(); echo('&quot;'); ?>
 				<?php } elseif (is_day()) { ?>

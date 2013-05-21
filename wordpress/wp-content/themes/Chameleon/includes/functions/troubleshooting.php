@@ -1,19 +1,19 @@
 <span class="boldtext">1. First, have you read the readme documentation that came with your theme? </span>
-<div class="indent"><p>Each theme comes with a readme file that includes detailed installation instructions. Before continuing, please make sure that you have read through this file and followed each step correctly. You can view the readme files online at the following locations: 
-<a href="http://www.elegantthemes.com/gallery/bluesky/readme.html">Bluesky</a>, 
-<a href="http://www.elegantthemes.com/gallery/bluemist/readme.html">BlueMist</a>, 
-<a href="http://www.elegantthemes.com/gallery/simplism/readme.html">Simplism</a>, 
-<a href="http://www.elegantthemes.com/gallery/quadro/readme.html">Quadro</a>, 
-<a href="http://www.elegantthemes.com/gallery/earthlytouch/readme.html">EarthlyTouch</a>, 
-<a href="http://www.elegantthemes.com/gallery/artsee/readme.html">ArtSee</a>, 
-<a href="http://www.elegantthemes.com/gallery/tidalforce/readme.html">TidalForce</a>, 
-<a href="http://www.elegantthemes.com/gallery/wooden/readme.html">Wooden</a>, 
-<a href="http://www.elegantthemes.com/gallery/interphase/readme.html">InterPhase</a>, 
-<a href="http://www.elegantthemes.com/gallery/whoswho/readme.html">Who'sWho</a>, 
-<a href="http://www.elegantthemes.com/gallery/studioblue/readme.html">StudioBlue</a>, 
-<a href="http://www.elegantthemes.com/gallery/influx/readme.html">Influx</a>, 
-<a href="http://www.elegantthemes.com/gallery/grungemag/readme.html">GrungeMag</a>, 
-<a href="http://www.elegantthemes.com/gallery/egallery/readme.html">eGallery</a>, 
+<div class="indent"><p>Each theme comes with a readme file that includes detailed installation instructions. Before continuing, please make sure that you have read through this file and followed each step correctly. You can view the readme files online at the following locations:
+<a href="http://www.elegantthemes.com/gallery/bluesky/readme.html">Bluesky</a>,
+<a href="http://www.elegantthemes.com/gallery/bluemist/readme.html">BlueMist</a>,
+<a href="http://www.elegantthemes.com/gallery/simplism/readme.html">Simplism</a>,
+<a href="http://www.elegantthemes.com/gallery/quadro/readme.html">Quadro</a>,
+<a href="http://www.elegantthemes.com/gallery/earthlytouch/readme.html">EarthlyTouch</a>,
+<a href="http://www.elegantthemes.com/gallery/artsee/readme.html">ArtSee</a>,
+<a href="http://www.elegantthemes.com/gallery/tidalforce/readme.html">TidalForce</a>,
+<a href="http://www.elegantthemes.com/gallery/wooden/readme.html">Wooden</a>,
+<a href="http://www.elegantthemes.com/gallery/interphase/readme.html">InterPhase</a>,
+<a href="http://www.elegantthemes.com/gallery/whoswho/readme.html">Who'sWho</a>,
+<a href="http://www.elegantthemes.com/gallery/studioblue/readme.html">StudioBlue</a>,
+<a href="http://www.elegantthemes.com/gallery/influx/readme.html">Influx</a>,
+<a href="http://www.elegantthemes.com/gallery/grungemag/readme.html">GrungeMag</a>,
+<a href="http://www.elegantthemes.com/gallery/egallery/readme.html">eGallery</a>,
 <a href="http://www.elegantthemes.com/gallery/cion/readme.html">Cion</a>,
 <a href="http://www.elegantthemes.com/gallery/evid/readme.html">eVid</a>,
 <a href="http://www.elegantthemes.com/gallery/egamer/readme.html">eGamer</a>,
@@ -36,7 +36,7 @@
 <div class="indent"><p>If you are using additional plugins that did not come with the theme it is possible that one of them is interfering with the design. Unfortunately it is impossible to predict what will happen when unknown code is place into my themes, so it is always important, if you are experiencing problems, to disable all of the plugins that did not come with the theme to see if they are at fault. Try disabling each plugin one by one to find the culprit. </p></div>
 
 <span class="boldtext">4. Have you uploaded the correct theme folder to the correct theme directory? </span>
-<div class="indent"><p>When you download one of my themes and unzip it you will see a few different folders. Photoshop Files, Plugins, Theme, and, with select themes, Fonts. The &quot;theme folder&quot; that you need to upload to your server is located within the Theme folder in your ZIP file. You need to upload this folder to the correct folder on your server (wp-content/themes/). Do not upload the &quot;Theme&quot; folder, only upload the folder within the &quot;Theme&quot; folder. For example, if you are using my Studioblue theme you would want to upload the &quot;StudioBlue&quot; folder contained within the &quot;Theme&quot; folder to wp-content/themes. Do not upload StudioBlue's parent folder. Furthermore, make sure that you do not rename the &quot;StudioBlue&quot; folder. 
+<div class="indent"><p>When you download one of my themes and unzip it you will see a few different folders. Photoshop Files, Plugins, Theme, and, with select themes, Fonts. The &quot;theme folder&quot; that you need to upload to your server is located within the Theme folder in your ZIP file. You need to upload this folder to the correct folder on your server (wp-content/themes/). Do not upload the &quot;Theme&quot; folder, only upload the folder within the &quot;Theme&quot; folder. For example, if you are using my Studioblue theme you would want to upload the &quot;StudioBlue&quot; folder contained within the &quot;Theme&quot; folder to wp-content/themes. Do not upload StudioBlue's parent folder. Furthermore, make sure that you do not rename the &quot;StudioBlue&quot; folder.
 
 For more information you can also refer to this detailed video tutorial: <a href="http://www.elegantthemes.com/members-area/tutorials/uploading.php">Installing a Theme</a>. </p>
 </div>

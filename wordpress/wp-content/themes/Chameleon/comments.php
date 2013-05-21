@@ -15,29 +15,29 @@
 <div id="comment-wrap">
 
 	<?php if ( have_comments() ) : ?>
-		
+
 		<h3 id="comments"><?php comments_number(esc_html__('No Comments','Chameleon'), esc_html__('One Comment','Chameleon'), '% '.esc_html__('Comments','Chameleon') );?></h3>
-			
+
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
 			<div class="comment_navigation_top clearfix">
 				<div class="nav-previous"><?php previous_comments_link( __( '<span class="meta-nav">&larr;</span> Older Comments', 'Chameleon' ) ); ?></div>
 				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments <span class="meta-nav">&rarr;</span>', 'Chameleon' ) ); ?></div>
 			</div> <!-- .navigation -->
 		<?php endif; // check for comment navigation ?>
-	
+
 		<?php if ( ! empty($comments_by_type['comment']) ) : ?>
 			<ol class="commentlist clearfix">
 				<?php wp_list_comments( array('type'=>'comment','callback'=>'et_custom_comments_display') ); ?>
 			</ol>
 		<?php endif; ?>
-		
+
 		<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
 			<div class="comment_navigation_bottom clearfix">
 				<div class="nav-previous"><?php previous_comments_link( __( '<span class="meta-nav">&larr;</span> Older Comments', 'Chameleon' ) ); ?></div>
 				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments <span class="meta-nav">&rarr;</span>', 'Chameleon' ) ); ?></div>
 			</div> <!-- .navigation -->
 		<?php endif; // check for comment navigation ?>
-			
+
 		<?php if ( ! empty($comments_by_type['pings']) ) : ?>
 			<div id="trackbacks">
 				<h3 id="trackbacks-title"><?php esc_html_e('Trackbacks/Pingbacks','Chameleon') ?></h3>
@@ -45,16 +45,16 @@
 					<?php wp_list_comments('type=pings&callback=et_list_pings'); ?>
 				</ol>
 			</div>
-		<?php endif; ?>	
+		<?php endif; ?>
 	<?php else : // this is displayed if there are no comments so far ?>
 	   <div id="comment-section" class="nocomments">
 		  <?php if ('open' == $post->comment_status) : ?>
 			 <!-- If comments are open, but there are no comments. -->
-			 
+
 		  <?php else : // comments are closed ?>
 			 <!-- If comments are closed. -->
 				<div id="respond">
-				   
+
 				</div> <!-- end respond div -->
 		  <?php endif; ?>
 	   </div>
@@ -64,5 +64,5 @@
 	<?php else: ?>
 
 	<?php endif; // if you delete this the sky will fall on your head ?>
-	
+
 </div>

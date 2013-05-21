@@ -12,42 +12,42 @@
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? 'About Me' : esc_html( $instance['title'] ) );
 		$use_relpath = isset($instance['use_relpath']) ? $instance['use_relpath'] : false;
 		$new_window = isset($instance['new_window']) ? $instance['new_window'] : false;
-		$bannerPath[1] = empty($instance['bannerOnePath']) ? '' : esc_url($instance['bannerOnePath']);
+		$bannerPath[1] = empty($instance['bannerOnePath']) ? '' : esc_attr($instance['bannerOnePath']);
 		$bannerUrl[1] = empty($instance['bannerOneUrl']) ? '' : esc_url($instance['bannerOneUrl']);
 		$bannerTitle[1] = empty($instance['bannerOneTitle']) ? '' : esc_attr($instance['bannerOneTitle']);
 		$bannerAlt[1] = empty($instance['bannerOneAlt']) ? '' : esc_attr($instance['bannerOneAlt']);
-		
-		$bannerPath[2] = empty($instance['bannerTwoPath']) ? '' : esc_url($instance['bannerTwoPath']);
+
+		$bannerPath[2] = empty($instance['bannerTwoPath']) ? '' : esc_attr($instance['bannerTwoPath']);
 		$bannerUrl[2] = empty($instance['bannerTwoUrl']) ? '' : esc_url($instance['bannerTwoUrl']);
 		$bannerTitle[2] = empty($instance['bannerTwoTitle']) ? '' : esc_attr($instance['bannerTwoTitle']);
 		$bannerAlt[2] = empty($instance['bannerTwoAlt']) ? '' : esc_attr($instance['bannerTwoAlt']);
-		
-		$bannerPath[3] = empty($instance['bannerThreePath']) ? '' : esc_url($instance['bannerThreePath']);
+
+		$bannerPath[3] = empty($instance['bannerThreePath']) ? '' : esc_attr($instance['bannerThreePath']);
 		$bannerUrl[3] = empty($instance['bannerThreeUrl']) ? '' : esc_url($instance['bannerThreeUrl']);
 		$bannerTitle[3] = empty($instance['bannerThreeTitle']) ? '' : esc_attr($instance['bannerThreeTitle']);
 		$bannerAlt[3] = empty($instance['bannerThreeAlt']) ? '' : esc_attr($instance['bannerThreeAlt']);
-		
-		$bannerPath[4] = empty($instance['bannerFourPath']) ? '' : esc_url($instance['bannerFourPath']);
+
+		$bannerPath[4] = empty($instance['bannerFourPath']) ? '' : esc_attr($instance['bannerFourPath']);
 		$bannerUrl[4] = empty($instance['bannerFourUrl']) ? '' : esc_url($instance['bannerFourUrl']);
 		$bannerTitle[4] = empty($instance['bannerFourTitle']) ? '' : esc_attr($instance['bannerFourTitle']);
 		$bannerAlt[4] = empty($instance['bannerFourAlt']) ? '' : esc_attr($instance['bannerFourAlt']);
-		
-		$bannerPath[5] = empty($instance['bannerFivePath']) ? '' : esc_url($instance['bannerFivePath']);
+
+		$bannerPath[5] = empty($instance['bannerFivePath']) ? '' : esc_attr($instance['bannerFivePath']);
 		$bannerUrl[5] = empty($instance['bannerFiveUrl']) ? '' : esc_url($instance['bannerFiveUrl']);
 		$bannerTitle[5] = empty($instance['bannerFiveTitle']) ? '' : esc_attr($instance['bannerFiveTitle']);
 		$bannerAlt[5] = empty($instance['bannerFiveAlt']) ? '' : esc_attr($instance['bannerFiveAlt']);
-		
-		$bannerPath[6] = empty($instance['bannerSixPath']) ? '' : esc_url($instance['bannerSixPath']);
+
+		$bannerPath[6] = empty($instance['bannerSixPath']) ? '' : esc_attr($instance['bannerSixPath']);
 		$bannerUrl[6] = empty($instance['bannerSixUrl']) ? '' : esc_url($instance['bannerSixUrl']);
 		$bannerTitle[6] = empty($instance['bannerSixTitle']) ? '' : esc_attr($instance['bannerSixTitle']);
 		$bannerAlt[6] = empty($instance['bannerSixAlt']) ? '' : esc_attr($instance['bannerSixAlt']);
-		
-		$bannerPath[7] = empty($instance['bannerSevenPath']) ? '' : esc_url($instance['bannerSevenPath']);
+
+		$bannerPath[7] = empty($instance['bannerSevenPath']) ? '' : esc_attr($instance['bannerSevenPath']);
 		$bannerUrl[7] = empty($instance['bannerSevenUrl']) ? '' : esc_url($instance['bannerSevenUrl']);
 		$bannerTitle[7] = empty($instance['bannerSevenTitle']) ? '' : esc_attr($instance['bannerSevenTitle']);
 		$bannerAlt[7] = empty($instance['bannerSevenAlt']) ? '' : esc_attr($instance['bannerSevenAlt']);
-		
-		$bannerPath[8] = empty($instance['bannerEightPath']) ? '' : esc_url($instance['bannerEightPath']);
+
+		$bannerPath[8] = empty($instance['bannerEightPath']) ? '' : esc_attr($instance['bannerEightPath']);
 		$bannerUrl[8] = empty($instance['bannerEightUrl']) ? '' : esc_url($instance['bannerEightUrl']);
 		$bannerTitle[8] = empty($instance['bannerEightTitle']) ? '' : esc_attr($instance['bannerEightTitle']);
 		$bannerAlt[8] = empty($instance['bannerEightAlt']) ? '' : esc_attr($instance['bannerEightAlt']);
@@ -56,9 +56,9 @@
 
 		if ( $title )
 		echo $before_title . $title . $after_title;
-?>	
+?>
 <div class="adwrap">
-<?php $i = 1; 
+<?php $i = 1;
 while ($i <= 8):
 if ($bannerPath[$i] <> '') { ?>
 <?php if ($bannerTitle[$i] == '') $bannerTitle[$i] = "advertisement";
@@ -79,42 +79,42 @@ endwhile; ?>
 		$instance['new_window'] = 0;
 		if ( isset($new_instance['use_relpath']) ) $instance['use_relpath'] = 1;
 		if ( isset($new_instance['new_window']) ) $instance['new_window'] = 1;
-		$instance['bannerOnePath'] = esc_url($new_instance['bannerOnePath']);
+		$instance['bannerOnePath'] = esc_attr($new_instance['bannerOnePath']);
 		$instance['bannerOneUrl'] = esc_url($new_instance['bannerOneUrl']);
 		$instance['bannerOneTitle'] = esc_attr($new_instance['bannerOneTitle']);
 		$instance['bannerOneAlt'] = esc_attr($new_instance['bannerOneAlt']);
-		
-		$instance['bannerTwoPath'] = esc_url($new_instance['bannerTwoPath']);
+
+		$instance['bannerTwoPath'] = esc_attr($new_instance['bannerTwoPath']);
 		$instance['bannerTwoUrl'] = esc_url($new_instance['bannerTwoUrl']);
 		$instance['bannerTwoTitle'] = esc_attr($new_instance['bannerTwoTitle']);
 		$instance['bannerTwoAlt'] = esc_attr($new_instance['bannerTwoAlt']);
-		
-		$instance['bannerThreePath'] = esc_url($new_instance['bannerThreePath']);
+
+		$instance['bannerThreePath'] = esc_attr($new_instance['bannerThreePath']);
 		$instance['bannerThreeUrl'] = esc_url($new_instance['bannerThreeUrl']);
 		$instance['bannerThreeTitle'] = esc_attr($new_instance['bannerThreeTitle']);
 		$instance['bannerThreeAlt'] = esc_attr($new_instance['bannerThreeAlt']);
-		
-		$instance['bannerFourPath'] = esc_url($new_instance['bannerFourPath']);
+
+		$instance['bannerFourPath'] = esc_attr($new_instance['bannerFourPath']);
 		$instance['bannerFourUrl'] = esc_url($new_instance['bannerFourUrl']);
 		$instance['bannerFourTitle'] = esc_attr($new_instance['bannerFourTitle']);
 		$instance['bannerFourAlt'] = esc_attr($new_instance['bannerFourAlt']);
-		
-		$instance['bannerFivePath'] = esc_url($new_instance['bannerFivePath']);
+
+		$instance['bannerFivePath'] = esc_attr($new_instance['bannerFivePath']);
 		$instance['bannerFiveUrl'] = esc_url($new_instance['bannerFiveUrl']);
 		$instance['bannerFiveTitle'] = esc_attr($new_instance['bannerFiveTitle']);
 		$instance['bannerFiveAlt'] = esc_attr($new_instance['bannerFiveAlt']);
-		
-		$instance['bannerSixPath'] = esc_url($new_instance['bannerSixPath']);
+
+		$instance['bannerSixPath'] = esc_attr($new_instance['bannerSixPath']);
 		$instance['bannerSixUrl'] = esc_url($new_instance['bannerSixUrl']);
 		$instance['bannerSixTitle'] = esc_attr($new_instance['bannerSixTitle']);
 		$instance['bannerSixAlt'] = esc_attr($new_instance['bannerSixAlt']);
-		
-		$instance['bannerSevenPath'] = esc_url($new_instance['bannerSevenPath']);
+
+		$instance['bannerSevenPath'] = esc_attr($new_instance['bannerSevenPath']);
 		$instance['bannerSevenUrl'] = esc_url($new_instance['bannerSevenUrl']);
 		$instance['bannerSevenTitle'] = esc_attr($new_instance['bannerSevenTitle']);
 		$instance['bannerSevenAlt'] = esc_attr($new_instance['bannerSevenAlt']);
-		
-		$instance['bannerEightPath'] = esc_url($new_instance['bannerEightPath']);
+
+		$instance['bannerEightPath'] = esc_attr($new_instance['bannerEightPath']);
 		$instance['bannerEightUrl'] = esc_url($new_instance['bannerEightUrl']);
 		$instance['bannerEightTitle'] = esc_attr($new_instance['bannerEightTitle']);
 		$instance['bannerEightAlt'] = esc_attr($new_instance['bannerEightAlt']);
@@ -128,49 +128,49 @@ endwhile; ?>
 		$instance = wp_parse_args( (array) $instance, array('title'=>'Advertisement', 'use_relpath' => false, 'new_window' => true, 'bannerOnePath'=>'', 'bannerOneUrl'=>'', 'bannerOneTitle'=>'', 'bannerOneAlt'=>'', 'bannerTwoPath'=>'', 'bannerTwoUrl'=>'', 'bannerTwoTitle'=>'', 'bannerTwoAlt'=>'','bannerThreePath'=>'', 'bannerThreeUrl'=>'','bannerThreeTitle'=>'', 'bannerThreeAlt'=>'','bannerFourPath'=>'', 'bannerFourUrl'=>'','bannerFourTitle'=>'', 'bannerFourAlt'=>'','bannerFivePath'=>'', 'bannerFiveUrl'=>'','bannerFiveTitle'=>'', 'bannerFiveAlt'=>'','bannerSixPath'=>'', 'bannerSixUrl'=>'','bannerSixTitle'=>'','bannerSixAlt'=>'', 'bannerSevenPath'=>'', 'bannerSevenUrl'=>'','bannerSevenTitle'=>'','bannerSevenAlt'=>'','bannerEightPath'=>'', 'bannerEightUrl'=>'','bannerEightTitle'=>'','bannerEightAlt'=>'') );
 
 		$title = esc_html($instance['title']);
-		$bannerPath[1] = esc_url($instance['bannerOnePath']);
+		$bannerPath[1] = esc_attr($instance['bannerOnePath']);
 		$bannerUrl[1] = esc_url($instance['bannerOneUrl']);
 		$bannerTitle[1] = esc_attr($instance['bannerOneTitle']);
 		$bannerAlt[1] = esc_attr($instance['bannerOneAlt']);
-		
-		$bannerPath[2] = esc_url($instance['bannerTwoPath']);
+
+		$bannerPath[2] = esc_attr($instance['bannerTwoPath']);
 		$bannerUrl[2] = esc_url($instance['bannerTwoUrl']);
 		$bannerTitle[2] = esc_attr($instance['bannerTwoTitle']);
 		$bannerAlt[2] = esc_attr($instance['bannerTwoAlt']);
-		
-		$bannerPath[3] = esc_url($instance['bannerThreePath']);
+
+		$bannerPath[3] = esc_attr($instance['bannerThreePath']);
 		$bannerUrl[3] = esc_url($instance['bannerThreeUrl']);
 		$bannerTitle[3] = esc_attr($instance['bannerThreeTitle']);
 		$bannerAlt[3] = esc_attr($instance['bannerThreeAlt']);
-		
-		$bannerPath[4] = esc_url($instance['bannerFourPath']);
+
+		$bannerPath[4] = esc_attr($instance['bannerFourPath']);
 		$bannerUrl[4] = esc_url($instance['bannerFourUrl']);
 		$bannerTitle[4] = esc_attr($instance['bannerFourTitle']);
 		$bannerAlt[4] = esc_attr($instance['bannerFourAlt']);
-		
-		$bannerPath[5] = esc_url($instance['bannerFivePath']);
+
+		$bannerPath[5] = esc_attr($instance['bannerFivePath']);
 		$bannerUrl[5] = esc_url($instance['bannerFiveUrl']);
 		$bannerTitle[5] = esc_attr($instance['bannerFiveTitle']);
 		$bannerAlt[5] = esc_attr($instance['bannerFiveAlt']);
-		
-		$bannerPath[6] = esc_url($instance['bannerSixPath']);
+
+		$bannerPath[6] = esc_attr($instance['bannerSixPath']);
 		$bannerUrl[6] = esc_url($instance['bannerSixUrl']);
 		$bannerTitle[6] = esc_attr($instance['bannerSixTitle']);
 		$bannerAlt[6] = esc_attr($instance['bannerSixAlt']);
-		
-		$bannerPath[7] = esc_url($instance['bannerSevenPath']);
+
+		$bannerPath[7] = esc_attr($instance['bannerSevenPath']);
 		$bannerUrl[7] = esc_url($instance['bannerSevenUrl']);
 		$bannerTitle[7] = esc_attr($instance['bannerSevenTitle']);
 		$bannerAlt[7] = esc_attr($instance['bannerSevenAlt']);
-		
-		$bannerPath[8] = esc_url($instance['bannerEightPath']);
+
+		$bannerPath[8] = esc_attr($instance['bannerEightPath']);
 		$bannerUrl[8] = esc_url($instance['bannerEightUrl']);
 		$bannerTitle[8] = esc_attr($instance['bannerEightTitle']);
 		$bannerAlt[8] = esc_attr($instance['bannerEightAlt']);
 
 		# Title
 		echo '<p><label for="' . $this->get_field_id('title') . '">' . 'Title:' . '</label><input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></p>'; ?>
-		
+
 		<input class="checkbox" type="checkbox" <?php checked($instance['use_relpath'], true) ?> id="<?php echo $this->get_field_id('use_relpath'); ?>" name="<?php echo $this->get_field_name('use_relpath'); ?>" />
 		<label for="<?php echo $this->get_field_id('use_relpath'); ?>">Use Relative Image Paths</label><br />
 		<input class="checkbox" type="checkbox" <?php checked($instance['new_window'], true) ?> id="<?php echo $this->get_field_id('new_window'); ?>" name="<?php echo $this->get_field_name('new_window'); ?>" />

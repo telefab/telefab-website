@@ -75,6 +75,6 @@
 			};
 		}
 	});
-	
+
 	tinymce.PluginManager.add('et_quicktags', tinymce.plugins.etquicktags);
 })()

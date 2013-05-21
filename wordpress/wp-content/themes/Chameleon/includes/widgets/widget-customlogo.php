@@ -13,8 +13,8 @@
 		$textInfo = empty($instance['textInfo']) ? '' : $instance['textInfo'];
 
 		echo $before_widget;
-?>	
-<p id="footer-logo"><img alt="" src="<?php echo esc_url($logoImagePath); ?>" /></p>
+?>
+<p id="footer-logo"><img alt="" src="<?php echo esc_attr( $logoImagePath ); ?>" /></p>
 <p><?php echo $textInfo; ?></p>
 
 <?php
@@ -24,8 +24,8 @@
   /*Saves the settings. */
     function update($new_instance, $old_instance){
 		$instance = $old_instance;
-		$instance['logoImagePath'] = stripslashes($new_instance['logoImagePath']);
-		$instance['textInfo'] = stripslashes($new_instance['textInfo']);
+		$instance['logoImagePath'] = esc_url_raw( $new_instance['logoImagePath'] );
+		$instance['textInfo'] = current_user_can('unfiltered_html') ? $new_instance['textInfo'] : stripslashes( wp_filter_post_kses( addslashes($new_instance['textInfo']) ) );
 
 		return $instance;
 	}
@@ -37,11 +37,11 @@
 
 		$logoImagePath = $instance['logoImagePath'];
 		$textInfo = $instance['textInfo'];
-		
+
 		# Logo Image
-		echo '<p><label for="' . $this->get_field_id('logoImagePath') . '">' . 'Logo Image URL (109x33px):' . '</label><textarea cols="20" rows="2" class="widefat" id="' . $this->get_field_id('logoImagePath') . '" name="' . $this->get_field_name('logoImagePath') . '" >'. esc_url($logoImagePath) .'</textarea></p>';
+		echo '<p><label for="' . $this->get_field_id('logoImagePath') . '">' . 'Logo Image URL (109x33px):' . '</label><textarea cols="20" rows="2" class="widefat" id="' . $this->get_field_id('logoImagePath') . '" name="' . $this->get_field_name('logoImagePath') . '" >'. esc_attr( $logoImagePath ) .'</textarea></p>';
 		# Text
-		echo '<p><label for="' . $this->get_field_id('textInfo') . '">' . 'Text:' . '</label><textarea cols="20" rows="5" class="widefat" id="' . $this->get_field_id('textInfo') . '" name="' . $this->get_field_name('textInfo') . '" >'. esc_textarea($textInfo) .'</textarea></p>';
+		echo '<p><label for="' . $this->get_field_id('textInfo') . '">' . 'Text:' . '</label><textarea cols="20" rows="5" class="widefat" id="' . $this->get_field_id('textInfo') . '" name="' . $this->get_field_name('textInfo') . '" >'. esc_textarea( $textInfo ) .'</textarea></p>';
 	}
 
 }// end CustomLogoWidget class
@@ -51,5 +51,3 @@ function CustomLogoWidgetInit() {
 }
 
 add_action('widgets_init', 'CustomLogoWidgetInit');
-
-?>

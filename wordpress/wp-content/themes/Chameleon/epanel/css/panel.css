@@ -1,5 +1,5 @@
 #epanel span, #epanel applet, #epanel object, #epanel iframe,
-#epanel h1, #epanel h2, #epanel h3, #epanel h4, #epanel h5, #epanel h6, #epanel p, #epanel blockquote, 
+#epanel h1, #epanel h2, #epanel h3, #epanel h4, #epanel h5, #epanel h6, #epanel p, #epanel blockquote,
 #epanel a, #epanel abbr, #epanel acronym, #epanel address, #epanel big, #epanel cite, #epanel code,
 #epanel del, #epanel dfn, #epanel font, #epanel img, #epanel ins, #epanel kbd, #epanel q, #epanel s, #epanel samp,
 #epanel small, #epanel strike, #epanel strong, #epanel tt, #epanel var, #epanel fieldset,
@@ -38,7 +38,7 @@
 #epanel-wrapper { background: url(../images/epanel-bg.png) repeat-y; width: 737px; min-height: 528px; float: left; }
 	#epanel { background: url(../images/panel-top-bg.png) top left no-repeat; width: 737px; font-family: Arial, sans-serif; float: left; padding-bottom: 5px; }
 		#epanel a { text-decoration: none; }
-	
+
 		#epanel-sidebar { width: 180px; float: left; }
 			#epanel-logo { position: absolute; top: -38px; left: -180px;}
 			#epanel-content ul#epanel-mainmenu { float: left; position: absolute; left: -198px; top: 52px;}
@@ -56,12 +56,12 @@
 						#epanel-content ul.idTabs li a { font-size: 12px; padding-left: 18px; display: block; line-height: 35px; background: url('../images/secondary-bg.png') no-repeat top left; color: #000000; }
 							#epanel-content ul.idTabs li a span { background: url('../images/secondary-li-mark.png') no-repeat center left; padding-left: 8px; }
 						#epanel-content ul.idTabs li { padding-right: 22px; }
-						
+
 						#epanel-content ul.idTabs li.ui-tabs-selected, #epanel-content ul.idTabs li.ui-tabs-active { background: url('../images/secondary-active-bg.png') no-repeat top right; }
 							#epanel-content ul.idTabs li.ui-tabs-selected a, #epanel-content ul.idTabs li.ui-tabs-active a { font-weight: bold; color: #657783; background: url('../images/secondary-active-bg.png') no-repeat top left; }
 				/*#epanel-content .tab-content { position: relative; } */
-				
-			
+
+
 				#epanel-content .epanel-box { width: 470px; border: 1px solid #d4dee5; background: #ffffff; margin-bottom: 18px; }
 					#epanel .epanel-box div.box-title { border-bottom: 1px solid #c9d5dd; border-top: 1px solid #ffffff; background: #e1eaef url('../images/box-title-mark.png') no-repeat 11px 16px; padding: 10px 0px 10px 20px; min-height: 18px; width: 450px; float: left; }
 					#epanel .epanel-box-small-1 div.box-title, #epanel .epanel-box-small-2 div.box-title { width: 203px; }
@@ -69,10 +69,10 @@
 						#epanel .epanel-box-small-1 div.box-title h3, #epanel .epanel-box-small-2 div.box-title h3 { width: 168px; }
 					#epanel-content .epanel-box img.box-description { float: right; margin: -1px 10px 0px 0px; }
 					#epanel-content .epanel-box .box-content { padding: 22px 17px 22px 16px; /*margin-bottom: 18px;*/ clear: both; }
-					
+
 					#epanel-content .epanel-box input, #epanel-content .epanel-box select, .epanel-box textarea { border: 1px solid #d5d5d5; background: #ffffff url('../images/top-input-bg.png') repeat-x; padding: 10px 18px; font-size: 15px; color: #646464; width: 433px; -moz-border-radius: 0px; font-family: Arial, sans-serif; }
 						#epanel-content .epanel-box select { width: 434px; height: 40px; }
-						#epanel-content .epanel-box textarea { height: 145px; } 
+						#epanel-content .epanel-box textarea { height: 145px; }
 						#epanel-content .epanel-box input.usual-checkbox { border: none; background: none; padding: 0px; width: 15px; }
 						#epanel-content .epanel-box p.inputs { margin-bottom: 5px; }
 	#epanel-bottom { background: url('../images/epanel-bottom-bg.png') no-repeat; width: 737px; height: 62px; float: left; margin-bottom: 50px;  }
@@ -89,7 +89,7 @@
 				.box-desc-content p { margin: 0px; line-height: 23px; }
 					.box-desc-content .lightboxclose { position: absolute; top: 8px; right: 24px; }
 			.box-desc-bottom { background: url('../images/description-bottom.png') no-repeat; width: 394px; height: 16px;}
-		
+
 .ui-tabs-hide, .box-descr { display: none; }
 div.shadow { position: fixed; top: 0%; left: 0%; width: 100%; height: 100%; background-color: black; z-index:9500;  }
 .box-description, .lightboxclose { cursor: pointer; }
@@ -148,7 +148,7 @@ line-height:22px; }
 #epanel .colorpicker input, .colorpicker input { background-color: transparent !important;	border: 1px solid transparent !important; position: absolute !important;	font-size: 10px !important;	font-family: Arial, Helvetica, sans-serif !important; color: #898989 !important; top: 4px !important; right: 11px !important; text-align: right !important; margin: 0 !important; padding: 0 !important; height: 12px !important; background-image: none !important;
 width: 35px;}
 .colorpicker_hex { position: absolute; width: 72px; height: 22px; background: url(../images/custom_hex.png) top; left: 212px; top: 142px; }
-#epanel .colorpicker_hex input, .colorpicker_hex input { width: 39px; } 
+#epanel .colorpicker_hex input, .colorpicker_hex input { width: 39px; }
 .colorpicker_field {	height: 22px; width: 62px; background-position: top; position: absolute; }
 .colorpicker_field span { position: absolute;	width: 12px; height: 22px; overflow: hidden; top: 0; right: 0; cursor: n-resize; }
 .colorpicker_rgb_r {	background-image: url(../images/custom_rgb_r.png); top: 52px; left: 212px; }
@@ -207,7 +207,7 @@ div#epanel-ajax-saving { position: fixed; top: 35%; left: 44%; padding: 20px 40p
 	div#epanel-ajax-saving span { font-size: 20px; color: #c6c6c6; letter-spacing: -1px; margin: 6px 0px 0px 30px; float: right; }
 
 .upload_buttons { float: right; }
-	
+
 #epanel-content .epanel-box .upload_image_button, #epanel-content .epanel-box .upload_image_reset { color:#000000; float:left; font-size:11px; font-weight:bold; margin-top:10px; padding:4px; width:100px; cursor: pointer; }
 
 #epanel-content .epanel-box .upload_image_reset { margin-right: 7px; background:url("../images/top-input-bg.png") repeat-x scroll 0 0 #FFFFFF; border:1px solid #D5D5D5; padding:3px 7px 3px 8px; width:33px; color: #666666; }

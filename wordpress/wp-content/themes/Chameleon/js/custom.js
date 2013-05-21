@@ -5,15 +5,15 @@ jQuery(document).ready(function(){
 		$et_top_menu = jQuery('ul#top-menu > li > ul'),
 		et_disable_toptier = jQuery("meta[name=et_disable_toptier]").attr('content');
 
-	jQuery('ul.nav').superfish({ 
-		delay:       600,                            // one second delay on mouseout 
-		animation:   {opacity:'show',height:'show'},  // fade-in and slide-down animation 
-		speed:       'fast',                          // faster animation speed 
-		autoArrows:  true,                           // disable generation of arrow mark-up 
-		dropShadows: false                            // disable drop shadows 
+	jQuery('ul.nav').superfish({
+		delay:       600,                            // one second delay on mouseout
+		animation:   {opacity:'show',height:'show'},  // fade-in and slide-down animation
+		speed:       'fast',                          // faster animation speed
+		autoArrows:  true,                           // disable generation of arrow mark-up
+		dropShadows: false                            // disable drop shadows
 	});
 
-		
+
 	var $footer_widget = jQuery("#footer-widgets .footer-widget");
 	if ( $footer_widget.length ) {
 		$footer_widget.each(function (index, domEle) {
@@ -27,7 +27,7 @@ jQuery(document).ready(function(){
 		var $searchform = jQuery('#additional-info div#search-form'),
 			$searchinput = $searchform.find("input#searchinput"),
 			searchvalue = $searchinput.val();
-			
+
 		$searchinput.focus(function(){
 			if (jQuery(this).val() === searchvalue) jQuery(this).val("");
 		}).blur(function(){
@@ -44,8 +44,18 @@ jQuery(document).ready(function(){
 		if (jQuery(this).val() === "") jQuery(this).val( jQuery(this).next('label').text() );
 	});
 
-	$comment_form.find('input#submit').click(function(){
-		if (jQuery("input#url").val() === jQuery("input#url").next('label').text()) jQuery("input#url").val("");
+	// remove placeholder text before form submission
+	$comment_form.submit(function(){
+		$comment_form.find('input:text, textarea').each(function(index,domEle){
+			var $et_current_input = jQuery(domEle),
+				$et_comment_label = $et_current_input.siblings('label'),
+				et_comment_label_value = $et_current_input.siblings('label').text();
+
+			if ( $et_comment_label.length && $et_comment_label.is(':hidden') ) {
+				if ( $et_comment_label.text() == $et_current_input.val() )
+					$et_current_input.val( '' );
+			}
+		});
 	});
 
 
@@ -83,7 +93,7 @@ jQuery(document).ready(function(){
 			et_comment_label_value = $et_current_input.siblings('label').text();
 		if ( $et_comment_label.length ) {
 			$et_comment_label.hide();
-			if ( $et_current_input.siblings('span.required') ) { 
+			if ( $et_current_input.siblings('span.required') ) {
 				et_comment_label_value += $et_current_input.siblings('span.required').text();
 				$et_current_input.siblings('span.required').hide();
 			}
@@ -99,7 +109,4 @@ jQuery(document).ready(function(){
 		if (jQuery(this).val() === "") jQuery(this).val( et_label_text );
 	});
 
-	$comment_form.find('input#submit').click(function(){
-		if (jQuery("input#url").val() === jQuery("input#url").siblings('label').text()) jQuery("input#url").val("");
-	});
 });

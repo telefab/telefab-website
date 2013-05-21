@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chameleon 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-10 17:34+0600\n"
+"POT-Creation-Date: 2013-02-01 14:52+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Ann <anochka1985@gmail.com>\n"
 "Language-Team: Ann <anochka1985@gmail.com>\n"
@@ -52,7 +52,7 @@ msgid "Trackbacks/Pingbacks"
 msgstr "Trackbacks/Pingbacks"
 
 #: ../comments.php:63
-#: ../page-contact.php:137
+#: ../page-contact.php:144
 #: ../page-search.php:80
 msgid "Submit"
 msgstr "Absenden"
@@ -75,11 +75,11 @@ msgstr "Designed by"
 msgid "Powered by "
 msgstr "Powered by"
 
-#: ../functions.php:43
+#: ../functions.php:51
 msgid "Primary Menu"
 msgstr ""
 
-#: ../functions.php:306
+#: ../functions.php:314
 msgid "Navigation"
 msgstr ""
 
@@ -104,7 +104,7 @@ msgid "Next"
 msgstr "Weiter"
 
 #: ../page-blog.php:49
-#: ../page-contact.php:91
+#: ../page-contact.php:98
 #: ../page-full.php:35
 #: ../page-gallery.php:45
 #: ../page-login.php:42
@@ -150,13 +150,13 @@ msgid "read more"
 msgstr "mehr"
 
 #: ../page-blog.php:107
-#: ../page-contact.php:144
+#: ../page-contact.php:153
 #: ../page-full.php:36
 #: ../page-gallery.php:87
-#: ../page-login.php:59
+#: ../page-login.php:58
 #: ../page-search.php:88
 #: ../page-sitemap.php:79
-#: ../page-template-portfolio.php:171
+#: ../page-template-portfolio.php:176
 #: ../page.php:31
 msgid "Edit this page"
 msgstr "Seite bearbeiten"
@@ -181,45 +181,45 @@ msgstr ""
 msgid "Invalid Email. "
 msgstr ""
 
-#: ../page-contact.php:58
+#: ../page-contact.php:65
 msgid "Thanks for contacting us"
 msgstr ""
 
-#: ../page-contact.php:101
-#: ../page-contact.php:102
+#: ../page-contact.php:108
+#: ../page-contact.php:109
 msgid "Name"
 msgstr "Name"
 
-#: ../page-contact.php:106
-#: ../page-contact.php:107
+#: ../page-contact.php:113
+#: ../page-contact.php:114
 msgid "Email Address"
 msgstr ""
 
-#: ../page-contact.php:111
-#: ../page-contact.php:112
+#: ../page-contact.php:118
+#: ../page-contact.php:119
 msgid "Subject"
 msgstr ""
 
-#: ../page-contact.php:119
+#: ../page-contact.php:126
 msgid "Captcha: "
 msgstr ""
 
-#: ../page-contact.php:130
-#: ../page-contact.php:131
+#: ../page-contact.php:137
+#: ../page-contact.php:138
 msgid "Message"
 msgstr ""
 
-#: ../page-contact.php:136
+#: ../page-contact.php:143
 msgid "Reset"
 msgstr ""
 
 #: ../page-gallery.php:69
-#: ../page-template-portfolio.php:123
+#: ../page-template-portfolio.php:128
 msgid "Zoom in"
 msgstr ""
 
 #: ../page-gallery.php:70
-#: ../page-template-portfolio.php:124
+#: ../page-template-portfolio.php:129
 msgid "Read more"
 msgstr ""
 
@@ -229,14 +229,6 @@ msgstr ""
 
 #: ../page-login.php:49
 msgid "Password"
-msgstr ""
-
-#: ../page-login.php:53
-msgid "Not a member?"
-msgstr ""
-
-#: ../page-login.php:53
-msgid "Register today!"
 msgstr ""
 
 #: ../page-search.php:46
@@ -268,7 +260,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: ../epanel/core_functions.php:26
-#: ../epanel/core_functions.php:366
+#: ../epanel/core_functions.php:389
 msgid "Saving..."
 msgstr ""
 
@@ -284,319 +276,343 @@ msgstr ""
 msgid "Theme Options"
 msgstr ""
 
-#: ../epanel/core_functions.php:87
+#: ../epanel/core_functions.php:90
 msgid "settings saved."
 msgstr ""
 
-#: ../epanel/core_functions.php:90
+#: ../epanel/core_functions.php:93
 msgid "settings reset."
 msgstr ""
 
-#: ../epanel/core_functions.php:108
+#: ../epanel/core_functions.php:111
 msgid "General Settings"
 msgstr ""
 
-#: ../epanel/core_functions.php:114
+#: ../epanel/core_functions.php:117
 msgid "Layout Settings"
 msgstr ""
 
-#: ../epanel/core_functions.php:117
+#: ../epanel/core_functions.php:120
 msgid "Ad Management"
 msgstr ""
 
-#: ../epanel/core_functions.php:120
+#: ../epanel/core_functions.php:123
 msgid "Colorization"
 msgstr ""
 
-#: ../epanel/core_functions.php:123
+#: ../epanel/core_functions.php:126
 msgid "SEO"
 msgstr ""
 
-#: ../epanel/core_functions.php:126
+#: ../epanel/core_functions.php:129
 msgid "Integration"
 msgstr ""
 
-#: ../epanel/core_functions.php:129
+#: ../epanel/core_functions.php:132
 msgid "Support Docs"
 msgstr ""
 
-#: ../epanel/core_functions.php:196
+#: ../epanel/core_functions.php:204
 msgid "Upload Image"
 msgstr ""
 
-#: ../epanel/core_functions.php:221
+#: ../epanel/core_functions.php:229
 msgid "You don't have pages"
 msgstr ""
 
-#: ../epanel/core_functions.php:339
+#: ../epanel/core_functions.php:362
 msgid "Save changes"
 msgstr ""
 
-#: ../epanel/core_functions.php:350
+#: ../epanel/core_functions.php:373
 msgid "This will return all of the settings throughout the options page to their default values. <strong>Are you sure you want to do this?"
 msgstr ""
 
-#: ../epanel/custom_functions.php:689
+#: ../epanel/custom_functions.php:786
 msgid "Image doesn't exist"
 msgstr ""
 
-#: ../epanel/custom_functions.php:854
+#: ../epanel/custom_functions.php:975
 #, php-format
 msgid "<div class=\"updated\"><p>This is a fresh installation of %1$s theme. Don't forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This message will disappear once you have clicked the Save button within the <a href=\"%2$s\">theme's options page</a>.</p></div>"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:35
+#: ../epanel/custom_functions.php:987
+#, php-format
+msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%1$s\">View version %3$s details</a>. <em>Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member's area and <a href=\"http://www.elegantthemes.com/members-area/documentation.html#update\" target=\"_blank\">re-install it</a> in order to update it to the latest version.</em>"
+msgstr ""
+
+#: ../epanel/custom_functions.php:991
+msgid "Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member's area and <a href=\"http://www.elegantthemes.com/members-area/documentation.html#update\" target=\"_blank\">re-install it</a> in order to update it to the latest version."
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "Captcha"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "Fill"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "field"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:22
+msgid "Invalid email"
+msgstr ""
+
+#: ../epanel/page_templates/page_templates.php:37
 msgid "ET Page Template Settings"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:62
+#: ../epanel/page_templates/page_templates.php:64
 msgid "Additional settings appear here, when one of ET page templates is selected ( Page Attributes -> Template )"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:67
+#: ../epanel/page_templates/page_templates.php:69
 msgid "Full Width Page"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:72
+#: ../epanel/page_templates/page_templates.php:74
 msgid "Regenerate captcha numbers"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:76
+#: ../epanel/page_templates/page_templates.php:78
 msgid "Email To:"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:82
+#: ../epanel/page_templates/page_templates.php:84
 msgid "Blog Style mode"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:87
+#: ../epanel/page_templates/page_templates.php:89
 msgid "Hide Auto Thumbnail"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:92
+#: ../epanel/page_templates/page_templates.php:94
 msgid "Show Titles"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:97
+#: ../epanel/page_templates/page_templates.php:99
 msgid "Show Descriptions"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:102
+#: ../epanel/page_templates/page_templates.php:104
 msgid "Detect Portrait Images"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:106
+#: ../epanel/page_templates/page_templates.php:108
 msgid "Thumbnail Size:"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:107
+#: ../epanel/page_templates/page_templates.php:109
 msgid "Small"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:108
+#: ../epanel/page_templates/page_templates.php:110
 msgid "Medium"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:109
+#: ../epanel/page_templates/page_templates.php:111
 #, fuzzy
 msgid "Large"
 msgstr "Seiten"
 
-#: ../epanel/page_templates/page_templates.php:113
-#: ../epanel/page_templates/page_templates.php:118
+#: ../epanel/page_templates/page_templates.php:115
+#: ../epanel/page_templates/page_templates.php:120
 msgid "Number of posts per page:"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:123
+#: ../epanel/page_templates/page_templates.php:125
 msgid "Select blog categories:"
 msgstr ""
 
-#: ../epanel/page_templates/page_templates.php:142
+#: ../epanel/page_templates/page_templates.php:144
 msgid "Select gallery categories:"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:298
-msgid "Username:"
-msgstr ""
-
-#: ../epanel/shortcodes/shortcodes.php:299
-msgid "Password:"
-msgstr ""
-
 #: ../epanel/shortcodes/shortcodes.php:300
-msgid "Login"
+msgid "Member Login"
 msgstr ""
 
 #: ../epanel/shortcodes/shortcodes.php:303
-#, php-format
-msgid "Not a member? <a href=\"%s\">Register today!</a>"
+msgid "Username: "
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:336
+#: ../epanel/shortcodes/shortcodes.php:304
+msgid "Password: "
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:305
+msgid "Login"
+msgstr ""
+
+#: ../epanel/shortcodes/shortcodes.php:341
 msgid "Add a Tooltip Text"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:356
+#: ../epanel/shortcodes/shortcodes.php:363
 msgid "Click here to learn more"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:949
+#: ../epanel/shortcodes/shortcodes.php:971
 msgid "Caption"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:950
+#: ../epanel/shortcodes/shortcodes.php:972
 msgid "Caption goes here"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:951
+#: ../epanel/shortcodes/shortcodes.php:973
 msgid "Caption title goes here"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:955
+#: ../epanel/shortcodes/shortcodes.php:977
 msgid "State"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:957
+#: ../epanel/shortcodes/shortcodes.php:979
 msgid "Select between expanded and closed state"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:962
-#: ../epanel/shortcodes/shortcodes.php:978
-#: ../epanel/shortcodes/shortcodes.php:1007
-#: ../epanel/shortcodes/shortcodes.php:1087
+#: ../epanel/shortcodes/shortcodes.php:984
+#: ../epanel/shortcodes/shortcodes.php:1000
+#: ../epanel/shortcodes/shortcodes.php:1029
+#: ../epanel/shortcodes/shortcodes.php:1109
 #, fuzzy
 msgid "Content"
 msgstr "Kommentare"
 
-#: ../epanel/shortcodes/shortcodes.php:963
-#: ../epanel/shortcodes/shortcodes.php:979
-#: ../epanel/shortcodes/shortcodes.php:1065
-#: ../epanel/shortcodes/shortcodes.php:1088
+#: ../epanel/shortcodes/shortcodes.php:985
+#: ../epanel/shortcodes/shortcodes.php:1001
+#: ../epanel/shortcodes/shortcodes.php:1087
+#: ../epanel/shortcodes/shortcodes.php:1110
 msgid "Content goes here"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:964
-#: ../epanel/shortcodes/shortcodes.php:980
-#: ../epanel/shortcodes/shortcodes.php:1009
+#: ../epanel/shortcodes/shortcodes.php:986
+#: ../epanel/shortcodes/shortcodes.php:1002
+#: ../epanel/shortcodes/shortcodes.php:1031
 msgid "Content text or html"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:971
 #: ../epanel/shortcodes/shortcodes.php:993
+#: ../epanel/shortcodes/shortcodes.php:1015
 msgid "Type"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:973
+#: ../epanel/shortcodes/shortcodes.php:995
 msgid "Type of the box"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:987
+#: ../epanel/shortcodes/shortcodes.php:1009
 #, fuzzy
 msgid "Link"
 msgstr "in"
 
-#: ../epanel/shortcodes/shortcodes.php:989
+#: ../epanel/shortcodes/shortcodes.php:1011
 msgid "URL"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:995
+#: ../epanel/shortcodes/shortcodes.php:1017
 msgid "Choose button type"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1000
+#: ../epanel/shortcodes/shortcodes.php:1022
 msgid "Color"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1002
+#: ../epanel/shortcodes/shortcodes.php:1024
 msgid "Choose button color"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1008
+#: ../epanel/shortcodes/shortcodes.php:1030
 msgid "Link text"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1013
+#: ../epanel/shortcodes/shortcodes.php:1035
 #, fuzzy
 msgid "Icon"
 msgstr "am"
 
-#: ../epanel/shortcodes/shortcodes.php:1015
+#: ../epanel/shortcodes/shortcodes.php:1037
 msgid "Used for icon button type"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1020
+#: ../epanel/shortcodes/shortcodes.php:1042
 msgid "Open link in new window"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1022
+#: ../epanel/shortcodes/shortcodes.php:1044
 msgid "Select yes if the link should be opened in a new window"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1030
+#: ../epanel/shortcodes/shortcodes.php:1052
 msgid "Slider Type"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1032
+#: ../epanel/shortcodes/shortcodes.php:1054
 msgid "Select Slider Type here"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1037
+#: ../epanel/shortcodes/shortcodes.php:1059
 msgid "Effect"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1039
+#: ../epanel/shortcodes/shortcodes.php:1061
 msgid "Select Animation Effect"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1044
+#: ../epanel/shortcodes/shortcodes.php:1066
 msgid "Auto"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1046
+#: ../epanel/shortcodes/shortcodes.php:1068
 msgid "Choose yes if you want for automatic slider animation"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1051
+#: ../epanel/shortcodes/shortcodes.php:1073
 msgid "Auto Speed"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1053
+#: ../epanel/shortcodes/shortcodes.php:1075
 msgid "Automattic slider speed (works only if Auto is set to yes)"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1057
+#: ../epanel/shortcodes/shortcodes.php:1079
 msgid "Tab Text"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1064
+#: ../epanel/shortcodes/shortcodes.php:1086
 msgid "Tab Content"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1066
+#: ../epanel/shortcodes/shortcodes.php:1088
 msgid "Paste image url here, if you chose \"images\" slider type"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1074
+#: ../epanel/shortcodes/shortcodes.php:1096
 msgid "Image Url"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1076
+#: ../epanel/shortcodes/shortcodes.php:1098
 msgid "Author Image URL"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1080
+#: ../epanel/shortcodes/shortcodes.php:1102
 msgid "Use resizing"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1157
+#: ../epanel/shortcodes/shortcodes.php:1179
 msgid "+ Add One More Tab"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1307
+#: ../epanel/shortcodes/shortcodes.php:1329
 msgid "Image Height"
 msgstr ""
 
-#: ../epanel/shortcodes/shortcodes.php:1308
+#: ../epanel/shortcodes/shortcodes.php:1330
 msgid "Image Width"
 msgstr ""
 
@@ -618,9 +634,9 @@ msgstr "Suchresultate"
 msgid "Posts by "
 msgstr "Gepostet von"
 
-#: ../includes/entry.php:40
-#: ../includes/featured.php:62
-#: ../includes/featured.php:83
+#: ../includes/entry.php:26
+#: ../includes/featured.php:61
+#: ../includes/featured.php:82
 msgid "Read More"
 msgstr "Mehr"
 

@@ -1,11 +1,11 @@
-jQuery(document).ready(function() {	
+jQuery(document).ready(function() {
 	var $ptemplate_select = jQuery('select#page_template'),
 		$ptemplate_box = jQuery('#et_ptemplate_meta');
-		
+
 	$ptemplate_select.live('change',function(){
 		var this_value = jQuery(this).val();
 		$ptemplate_box.find('.inside > div').css('display','none');
-		
+
 		switch ( this_value ) {
 			case 'page-sitemap.php':
 				$ptemplate_box.find('.et_pt_sitemap').css('display','block')
@@ -32,6 +32,6 @@ jQuery(document).ready(function() {
                 $ptemplate_box.find('.et_pt_info').css('display','block');
 		}
 	});
-	
+
 	$ptemplate_select.trigger('change');
 });

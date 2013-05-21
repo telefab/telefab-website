@@ -1,6 +1,6 @@
 /**
  * jQuery custom checkboxes
- * 
+ *
  * Copyright (c) 2008 Khavilo Dmitry (http://widowmaker.kiev.ua/checkbox/)
  * Licensed under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php

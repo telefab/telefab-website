@@ -1,0 +1,10 @@
+<wpml-config>
+	<admin-texts>
+		<key name="chameleon_date_format"/>
+		<key name="chameleon_quote_one"/>
+		<key name="chameleon_quote_two"/>
+		<key name="chameleon_seo_home_titletext"/>
+		<key name="chameleon_seo_home_descriptiontext"/>
+		<key name="chameleon_seo_home_keywordstext"/>
+	</admin-texts>
+</wpml-config>

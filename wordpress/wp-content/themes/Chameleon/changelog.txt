@@ -1,3 +1,29 @@
+version 3.3 ( updated 03-21-2013 )
+- Fixed scrolling slider issue in iOS
+	* css/responsive.css
+	* includes/featured.php
+	* js/et_flexslider.js
+	* js/jquery.flexslider-min.js
+- Bumped version number
+	* style.css
+
+version 3.2 ( updated 03-20-2013 )
+- Fixed description at the bottom of Nivo Slider
+	* js/et_nivo.js
+- Integrated the default WordPress image system. It makes the theme work better on shared hostings and provides compatibility with plugins ( JetPack, WP Retina etc. ). Please, regenerate thumbnails after theme update ( http://wordpress.org/extend/plugins/regenerate-thumbnails/ ).
+- Full compatiblity with WPML plugin
+- Added 'Custom CSS' option to ePanel
+- Fixed 'Shortcode Slideshow Only Displays 11 Images' issue
+- Added alt attribute to the imagetab shortcode
+- Fixed update notification notice in WP-Admin
+- Fixed image issues with clean WordPress Multisite 3.5 installation
+- Added et_videolink_embed custom field ( it provides the way to use video embed code for posts in the Portfolio page template )
+- Improved ePanel functionality
+- Improvement: Contact form error notifications are translatable via localization files now
+- Code improvements
+
+Nearly all files have been updated this time. Please, make sure you update all files.
+
 version 3.1 ( updated 12-06-2012 )
 - Updated image resizing to utilize WP_Image_Editor object, available in WordPress 3.5 ( http://make.wordpress.org/core/2012/12/06/wp_image_editor-is-incoming/ )
 	* epanel/custom_functions.php
@@ -36,7 +62,7 @@ version 2.9 ( updated 10-01-2012 )
 	* page-contact.php
 - Bumped version number
 	* style.css
-	
+
 version 2.8 ( updated 9-5-2012 )
 - Updated shortcodes
 	* epanel/shortcodes folder
@@ -78,7 +104,7 @@ version 2.7 ( updated 8-12-2012 )
 	* includes/postinfo.php
 - Updated ePanel core files:
 	* epanel/core_functions.php
-	* epanel/custom_functions.php	
+	* epanel/custom_functions.php
 
 version 2.6 ( updated 6-14-2012 )
 - Fixed WP 3.4 compatibility issues
@@ -148,7 +174,7 @@ version 1.9
 
 version 1.8
 - Updated thumbnail function to better detect root folder. Thumbnails
-  must now be hosted within the same root folder as WordPress. 
+  must now be hosted within the same root folder as WordPress.
     * epanel/custom_functions.php
 
 version 1.7
@@ -167,8 +193,8 @@ version 1.5
     * js/custom.js
 
 version 1.4
-- Performed extensive performance and security enhancements. 
-    * All files were updated. 
+- Performed extensive performance and security enhancements.
+    * All files were updated.
 
 version 1.3
 - Fixed slider issue
@@ -183,4 +209,3 @@ version 1.1
 - Updated ePanel with various bug fixes
 - Changed lightbox script
     * all files should be updated
-

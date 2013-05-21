@@ -18,7 +18,7 @@ function et_custom_comments_display($comment, $args, $depth) {
 						<?php endif; ?>
 
 						<div class="comment-content"><?php comment_text() ?></div> <!-- end comment-content-->
-						<?php 
+						<?php
 							$et_comment_reply_link = get_comment_reply_link( array_merge( $args, array('reply_text' => esc_attr__('Reply','Chameleon'),'depth' => $depth, 'max_depth' => $args['max_depth'])) );
 							if ( $et_comment_reply_link ) echo '<div class="reply-container">' . $et_comment_reply_link . '</div>';
 						?>

@@ -2,7 +2,7 @@
  *
  * Zoomimage
  * Author: Stefan Petre www.eyecon.ro
- * 
+ *
  */
 (function($){
 	var EYE = window.EYE = function() {
@@ -46,6 +46,6 @@
 			}
 		})
 	}
-	
+
 	EYE.register(initLayout, 'init');
 })(jQuery);

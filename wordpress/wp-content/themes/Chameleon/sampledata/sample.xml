@@ -82,7 +82,7 @@
 		<wp:tag><wp:tag_slug>wordpress</wp:tag_slug><wp:tag_name><![CDATA[Wordpress]]></wp:tag_name></wp:tag>
 		<wp:tag><wp:tag_slug>xhtml</wp:tag_slug><wp:tag_name><![CDATA[XHTML]]></wp:tag_name></wp:tag>
 			<wp:term><wp:term_taxonomy>nav_menu</wp:term_taxonomy><wp:term_slug>pages</wp:term_slug><wp:term_parent></wp:term_parent><wp:term_name><![CDATA[Pages]]></wp:term_name></wp:term>
-	
+
 	<generator>http://wordpress.org/?v=3.0.1</generator>
 
 		<item>
@@ -90,7 +90,7 @@
 		<link>http://localhost/wp3_rc/13floor/?p=3</link>
 		<pubDate>Thu, 01 Jan 1970 00:00:00 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://localhost/wp3_rc/13floor/?p=3</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -113,7 +113,7 @@
 		<link>http://localhost/wp3_rc/13floor/?p=169</link>
 		<pubDate>Thu, 01 Jan 1970 00:00:00 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://elegantthemes.com/preview/DeepFocus/?p=169</guid>
 		<description></description>
 		<content:encoded><![CDATA[1. Button Varieties
@@ -397,7 +397,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/?p=697</link>
 		<pubDate>Thu, 01 Jan 1970 00:00:00 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://www.elegantthemes.com/preview/28/?p=697</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -420,7 +420,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/?p=722</link>
 		<pubDate>Thu, 01 Jan 1970 00:00:00 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://www.elegantthemes.com/preview/28/?p=722</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -443,7 +443,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/2006/09/28/aenean-bibendum-elementum-pede/</link>
 		<pubDate>Thu, 28 Sep 2006 19:38:13 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Blog]]></category>
 
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
@@ -518,7 +518,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2008/01/18/at-vero-eos-et-accusamus-et-iusto/</link>
 		<pubDate>Fri, 18 Jan 2008 19:28:34 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Blog]]></category>
 
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
@@ -595,7 +595,7 @@ Thanks!...]]></wp:comment_content>
 		<link>http://localhost/wp3_rc/13floor/2008/01/27/vestibulum-eu-dui-eget-diam/</link>
 		<pubDate>Sun, 27 Jan 2008 22:00:37 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Blog]]></category>
 
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
@@ -638,7 +638,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2008/07/17/urna-eget-erat-non-purus/</link>
 		<pubDate>Thu, 17 Jul 2008 08:03:24 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Blog]]></category>
 
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
@@ -882,7 +882,7 @@ its must be worthy.]]></wp:comment_content>
 		<link>http://localhost/wp3_rc/13floor/2008/08/05/etiam-placerat-ipsum-porttitor-ipsum/</link>
 		<pubDate>Tue, 05 Aug 2008 23:03:51 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Blog]]></category>
 
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
@@ -1047,7 +1047,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2008/08/05/magna-suspendisse-eleifend-at-nulla/</link>
 		<pubDate>Tue, 05 Aug 2008 23:05:04 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category domain="tag"><![CDATA[adobe photoshop]]></category>
 
 		<category domain="tag" nicename="adobe-photoshop"><![CDATA[adobe photoshop]]></category>
@@ -1240,7 +1240,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2008/08/05/nam-libero-tempore-cum-soluta-nobis-est-2/</link>
 		<pubDate>Tue, 05 Aug 2008 23:06:11 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Blog]]></category>
 
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
@@ -1439,7 +1439,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2008/09/04/hello-world-2/</link>
 		<pubDate>Thu, 04 Sep 2008 06:04:48 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category domain="tag"><![CDATA[adobe photoshop]]></category>
 
 		<category domain="tag" nicename="adobe-photoshop"><![CDATA[adobe photoshop]]></category>
@@ -1690,7 +1690,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2008/09/05/ut-sagittis-ultrices-urna-eget-erat-non-purus-varius/</link>
 		<pubDate>Fri, 05 Sep 2008 06:58:57 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category domain="tag"><![CDATA[adobe photoshop]]></category>
 
 		<category domain="tag" nicename="adobe-photoshop"><![CDATA[adobe photoshop]]></category>
@@ -2100,7 +2100,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/hello-world-3/</link>
 		<pubDate>Wed, 15 Sep 2010 05:33:46 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2153,7 +2153,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/about-2/</link>
 		<pubDate>Wed, 15 Sep 2010 05:33:46 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://elegantthemes.com/preview/DeepFocus/?page_id=2</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.]]></content:encoded>
@@ -2184,7 +2184,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/new-york-graffiti/</link>
 		<pubDate>Wed, 15 Sep 2010 05:40:12 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2265,7 +2265,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/nigh-time-cityscape/</link>
 		<pubDate>Wed, 15 Sep 2010 05:51:13 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2328,7 +2328,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/futuristic-interior/</link>
 		<pubDate>Wed, 15 Sep 2010 07:45:28 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2391,7 +2391,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-building-from-japan/</link>
 		<pubDate>Wed, 15 Sep 2010 07:46:34 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2454,7 +2454,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/modern-city-architecture/</link>
 		<pubDate>Wed, 15 Sep 2010 07:47:08 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2517,7 +2517,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/stairs-to-the-future/</link>
 		<pubDate>Wed, 15 Sep 2010 07:47:56 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2580,7 +2580,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/teleportation/</link>
 		<pubDate>Wed, 15 Sep 2010 07:48:29 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2665,7 +2665,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/beautiful-buildings/</link>
 		<pubDate>Wed, 15 Sep 2010 07:49:18 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2728,7 +2728,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/spiral-staircase/</link>
 		<pubDate>Wed, 15 Sep 2010 07:49:51 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -2791,7 +2791,7 @@ Etiam pharetra scelerisque diam. Maecenas varius augue vel urna. Vestibulum erat
 		<link>http://localhost/wp3_rc/13floor/full-width/</link>
 		<pubDate>Wed, 15 Sep 2010 08:02:28 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://elegantthemes.com/preview/DeepFocus/?page_id=164</guid>
 		<description></description>
 		<content:encoded><![CDATA[Fusce laoreet risus et dui sodales et fringilla lorem pellentesque. Nulla sagittis lobortis lorem eget vulputate. Integer malesuada facilisis nisl nec egestas. Suspendisse scelerisque tincidunt urna condimentum pretium. Phasellus id risus lorem, at consectetur tellus. Sed eget dolor lectus. Etiam vitae sapien libero. Vivamus nunc diam, pulvinar eleifend tincidunt tincidunt, tristique eget erat. Maecenas eleifend, erat ac ullamcorper varius, metus diam condimentum elit, quis sollicitudin enim nisl nec metus. Vivamus non lectus eget ipsum egestas ornare sed sit amet libero.
@@ -2834,7 +2834,7 @@ Vestibulum vel facilisis nulla. Pellentesque eget neque non augue condimentum po
 		<link>http://localhost/wp3_rc/13floor/shortcodes/</link>
 		<pubDate>Wed, 15 Sep 2010 08:03:31 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://elegantthemes.com/preview/DeepFocus/?page_id=167</guid>
 		<description></description>
 		<content:encoded><![CDATA[<h1 id="buttons" style="padding-bottom: 10px;border-bottom: 1px solid #e7e7e7;margin: 0px 0 20px 0">1. Button Varieties</h1>
@@ -3030,7 +3030,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-fairy-tale/</link>
 		<pubDate>Wed, 15 Sep 2010 08:17:33 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3093,7 +3093,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/stars-that-sparkle/</link>
 		<pubDate>Wed, 15 Sep 2010 08:19:13 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3156,7 +3156,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-loving-couple/</link>
 		<pubDate>Wed, 15 Sep 2010 08:19:43 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3219,7 +3219,7 @@ Duis ut nisl porta nulla tincidunt ullamcorper at vel erat. Curabitur malesuada,
 		<link>http://localhost/wp3_rc/13floor/who-i-am/</link>
 		<pubDate>Wed, 15 Sep 2010 08:20:47 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://elegantthemes.com/preview/DeepFocus/?page_id=233</guid>
 		<description></description>
 		<content:encoded><![CDATA[Integer egestas ultricies urna vitae molestie. Donec nec facilisis nisi. Vivamus tempor feugiat velit gravida vehicula. Donec faucibus pellentesque ipsum id varius. Ut rutrum metus sed neque ultricies a dictum ante sagittis. Proin in facilisis diam. Sed placerat imperdiet purus, id sollicitudin magna pretium sit amet.  Vivamus orci dolor, iaculis at volutpat eget.<!--more--> Fermentum vel quam. Nullam non neque urna, ut ultrices nisi. Nulla convallis aliquam tortor, a imperdiet massa aliquet vel. Cras eu ante turpis, ut ornare mauris. Maecenas orci erat, ullamcorper at semper in, sodales ac diam. Sed eu eleifend felis. Praesent fringilla, arcu id interdum egestas, ante lorem blandit leo, ac imperdiet velit sapien ac metus. Proin lectus sem, pellentesque eu consequat sed, pulvinar ut risus. Pellentesque ut rutrum mauris. Nunc id ante libero. Vestibulum luctus lectus nec neque tempor quis congue purus consequat.
@@ -3254,7 +3254,7 @@ Etiam et elit vitae lacus hendrerit pretium sed id turpis. Quisque mollis faucib
 		<link>http://localhost/wp3_rc/13floor/what-i-do/</link>
 		<pubDate>Wed, 15 Sep 2010 08:21:10 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3293,7 +3293,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-wolf-on-the-prowl/</link>
 		<pubDate>Wed, 15 Sep 2010 08:31:21 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3374,7 +3374,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/bridge-over-the-river/</link>
 		<pubDate>Wed, 15 Sep 2010 08:31:56 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3437,7 +3437,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/bamboo-shoots/</link>
 		<pubDate>Wed, 15 Sep 2010 08:34:20 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3500,7 +3500,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/calm-before-the-storm/</link>
 		<pubDate>Wed, 15 Sep 2010 08:34:55 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3563,7 +3563,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/summer-wheat/</link>
 		<pubDate>Wed, 15 Sep 2010 08:35:18 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3662,7 +3662,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/birds-of-beauty/</link>
 		<pubDate>Wed, 15 Sep 2010 08:35:27 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3725,7 +3725,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/moneys-take-a-bath/</link>
 		<pubDate>Wed, 15 Sep 2010 08:35:55 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3806,7 +3806,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/the-lonely-ladybug/</link>
 		<pubDate>Wed, 15 Sep 2010 08:37:19 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -3887,7 +3887,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/bridge-to-nowhere/</link>
 		<pubDate>Wed, 15 Sep 2010 08:37:54 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -4000,7 +4000,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/purple-haze/</link>
 		<pubDate>Wed, 15 Sep 2010 08:38:40 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -4169,7 +4169,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/the-morning-dew/</link>
 		<pubDate>Wed, 15 Sep 2010 08:39:10 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -4232,7 +4232,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/make-a-wish/</link>
 		<pubDate>Wed, 15 Sep 2010 08:39:50 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -4327,7 +4327,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/snapshot-from-japan/</link>
 		<pubDate>Wed, 15 Sep 2010 12:50:25 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4370,7 +4370,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/city-life/</link>
 		<pubDate>Wed, 15 Sep 2010 12:53:06 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4413,7 +4413,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/shortcodes/</link>
 		<pubDate>Wed, 15 Sep 2010 13:03:12 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -4456,7 +4456,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-hard-days-work/</link>
 		<pubDate>Wed, 15 Sep 2010 13:11:13 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4499,7 +4499,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/stylish-new-look/</link>
 		<pubDate>Wed, 15 Sep 2010 13:12:05 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4542,7 +4542,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/beautiful-eyes/</link>
 		<pubDate>Wed, 15 Sep 2010 13:12:35 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4585,7 +4585,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/wise-old-man/</link>
 		<pubDate>Wed, 15 Sep 2010 13:12:59 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4628,7 +4628,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/the-masked-model/</link>
 		<pubDate>Wed, 15 Sep 2010 13:13:31 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4671,7 +4671,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-stylish-stud/</link>
 		<pubDate>Wed, 15 Sep 2010 13:14:01 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4714,7 +4714,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/a-monk-walks-his-path/</link>
 		<pubDate>Wed, 15 Sep 2010 13:14:53 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Portfolio]]></category>
 
 		<category domain="category" nicename="portfolio"><![CDATA[Portfolio]]></category>
@@ -4757,7 +4757,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/young-man-in-the-city/</link>
 		<pubDate>Wed, 15 Sep 2010 13:15:24 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Featured]]></category>
 
 		<category domain="category" nicename="featured"><![CDATA[Featured]]></category>
@@ -4804,7 +4804,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/hip-young-woman/</link>
 		<pubDate>Wed, 15 Sep 2010 13:15:56 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Featured]]></category>
 
 		<category domain="category" nicename="featured"><![CDATA[Featured]]></category>
@@ -4851,7 +4851,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/09/15/umbrella-rides-the-wind/</link>
 		<pubDate>Wed, 15 Sep 2010 13:16:31 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Featured]]></category>
 
 		<category domain="category" nicename="featured"><![CDATA[Featured]]></category>
@@ -4898,7 +4898,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/2010/10/18/hello-world/</link>
 		<pubDate>Mon, 18 Oct 2010 18:15:57 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<category><![CDATA[Uncategorized]]></category>
 
 		<category domain="category" nicename="uncategorized"><![CDATA[Uncategorized]]></category>
@@ -4951,7 +4951,7 @@ Proin sed ullamcorper enim. Proin mi nisi, ultrices eget dictum a, volutpat at r
 		<link>http://localhost/wp3_rc/13floor/about/</link>
 		<pubDate>Mon, 18 Oct 2010 18:15:57 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		
+
 		<guid isPermaLink="false">http://localhost/wp3_rc/13floor/?page_id=2</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.]]></content:encoded>

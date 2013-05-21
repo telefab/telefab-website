@@ -3,16 +3,16 @@ jQuery(document).ready(function(){
 	$et_sample_color.click(function(){
 		var et_option_value = jQuery(this).attr('rel'),
 			et_theme_folder = jQuery("meta[name=et_theme_folder]").attr('content');
-		
+
 		if ( jQuery(this).hasClass('et-texture') ) {
 			var et_texture_url = et_theme_folder + '/images/body-' + et_option_value + '.png';
 			jQuery('body').css( { 'backgroundImage': 'url(' + et_texture_url + ')', 'backgroundRepeat' : 'repeat' } );
 			jQuery.cookie('et_chameleon_texture_url', et_texture_url);
-		} else { 
+		} else {
 			jQuery('body').css( 'backgroundColor', '#' + et_option_value );
 			jQuery.cookie('et_chameleon_bgcolor', et_option_value);
 		}
-		
+
 		return false;
 	});
 
@@ -55,14 +55,14 @@ jQuery(document).ready(function(){
 	jQuery('#et_control_header_font').change(function(){
 		var et_header_font_value = jQuery(this).val(),
 			et_link_tag_id = et_header_font_value.replace('+','_').toLowerCase();
-			
+
 		et_link_tag_id = et_link_tag_id.replace(' ','_');
-		
+
 		if ( !jQuery( 'link#' + et_link_tag_id ).length )
 			jQuery('head').append("<link id='" + et_link_tag_id + "' href='http://fonts.googleapis.com/css?family="+et_header_font_value.replace(/ /g,'+')+( 'Raleway' == et_header_font_value ? ':100' : '' )+"' rel='stylesheet' type='text/css' />");
-		
+
 		jQuery('head').append("<style type='text/css'>" + et_header_font_elements + " { font-family: '" + et_header_font_value.replace(/\+/g,' ') + "', Arial, sans-serif !important; }</style>");
-		
+
 		jQuery.cookie('et_chameleon_header_font', et_header_font_value);
 	});
 
@@ -85,12 +85,12 @@ jQuery(document).ready(function(){
 	jQuery('#et_control_body_font').change(function(){
 		var et_body_font_value = jQuery(this).val(),
 			et_link_tag_id = et_body_font_value.replace('+','_').toLowerCase();
-			
+
 		et_link_tag_id = et_link_tag_id.replace(' ','_');
-		
+
 		if ( !jQuery( 'link#' + et_link_tag_id ).length )
 			jQuery('head').append("<link id='" + et_link_tag_id + "' href='http://fonts.googleapis.com/css?family="+et_body_font_value.replace(/ /g,'+')+( 'Raleway' == et_body_font_value ? ':100' : '' )+"' rel='stylesheet' type='text/css' />");
-		
+
 		jQuery('head').append("<style type='text/css'>" + et_body_font_elements + " { font-family: '" + et_body_font_value.replace(/\+/g,' ') + "', Arial, sans-serif !important; }</style>");
 
 		jQuery.cookie('et_chameleon_body_font', et_body_font_value);
@@ -113,7 +113,7 @@ jQuery(document).ready(function(){
 		return false;
 	});
 
-	if ( jQuery.cookie('et_chameleon_control_panel_open') == 1 ) { 
+	if ( jQuery.cookie('et_chameleon_control_panel_open') == 1 ) {
 		$et_control_panel.animate( { left: -169 } );
 		$et_control_close.addClass('control-open');
 	}

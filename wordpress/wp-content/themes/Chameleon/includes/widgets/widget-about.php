@@ -19,7 +19,7 @@
 			echo $before_title . $title . $after_title; ?>
 		<div class="clearfix">
 			<img src="<?php echo et_new_thumb_resize( et_multisite_thumbnail($imagePath), 74, 74, '', true ); ?>" id="about-image" alt="" />
-			<?php echo( $aboutText )?>
+			<?php echo wp_kses_post( $aboutText )?>
 		</div> <!-- end about me section -->
 	<?php
 		echo $after_widget;
@@ -28,7 +28,7 @@
 	/*Saves the settings. */
     function update( $new_instance, $old_instance ){
 		$instance = $old_instance;
-		$instance['title'] = strip_tags( $new_instance['title'] );
+		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		$instance['imagePath'] = esc_url( $new_instance['imagePath'] );
 		$instance['aboutText'] = current_user_can('unfiltered_html') ? $new_instance['aboutText'] : stripslashes( wp_filter_post_kses( addslashes($new_instance['aboutText']) ) );
 

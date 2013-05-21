@@ -1,6 +1,6 @@
 <div id="category-name">
 	<div id="category-inner">
-		<?php 
+		<?php
 			$et_tagline = '';
 			if( is_tag() ) {
 				$et_page_title = esc_html__('Posts Tagged &quot;','Chameleon') . single_tag_title('',false) . '&quot;';
@@ -21,14 +21,14 @@
 				$et_page_title = esc_html__('Posts by ','Chameleon') . $curauth->nickname;
 			} elseif ( is_single() || is_page() ) {
 				$et_page_title = get_the_title();
-				if ( is_page() ) $et_tagline = get_post_meta($post->ID,'Description',true) ? get_post_meta($post->ID,'Description',true) : '';
+				if ( is_page() ) $et_tagline = get_post_meta(get_the_ID(),'Description',true) ? get_post_meta(get_the_ID(),'Description',true) : '';
 			}
 		?>
 		<h1 class="category-title"><?php echo wp_kses( $et_page_title, array( 'span' => array() ) ); ?></h1>
 		<?php if ( $et_tagline <> '' ) { ?>
 			<p class="description"><?php echo wp_kses( $et_tagline, array( 'span' => array() ) ); ?></p>
 		<?php } ?>
-		
+
 		<?php if ( is_single() ) { ?>
 			<?php get_template_part('includes/postinfo'); ?>
 		<?php } ?>
