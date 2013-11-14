@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html> 
+<html> 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>WordPress &#8250; À lire</title>
@@ -8,13 +8,13 @@
 <body>
 <h1 id="logo">
 	<a href="http://wordpress.org/"><img alt="WordPress" src="wp-admin/images/wordpress-logo.png" /></a> 
-	<br />Version 3.5
+	<br />Version 3.7
 
 </h1>
 <p style="text-align: center">Plateforme de publication sémantique personnelle</p>
 
 <h1>Préambule</h1>
-<p>Bienvenue. WordPress est un projet très spécial pour moi. Chaque développeur et contributeur ajoute quelque chose d'unique à ce projet, et ensemble nous créons quelque chose de beau, et dont je suis fier de faire partie. Nous avons passé des milliers d'heures sur le développement WordPress, et nous nous attachons tous les jours à vous faciliter la vie. Merci d'en faire une partie d'un morceau de votre monde.</p>
+<p>Bienvenue. WordPress est un projet très spécial pour moi. Chaque développeur et contributeur ajoute quelque chose d'unique à ce projet, et ensemble nous créons quelque chose de beau, et dont je suis fier de faire partie. Nous avons passé des milliers d'heures sur le développement de WordPress, et nous nous attachons tous les jours à vous faciliter la vie. Merci à vous d'en faire une partie de votre monde.</p>
 <p style="text-align: right">&#8212; Matt Mullenweg</p>
 
 <h1>Installation : la fameuse installation en 5 minutes</h1>
@@ -25,7 +25,7 @@
 	<li>Envoyez le tout sur votre hébergement via un logiciel client FTP ;</li>
 	<li>Ouvrez le fichier <span class="file"><a href="wp-admin/install.php">/wp-admin/install.php</a></span> dans votre navigateur. Celui-ci vous guidera dans la création du fichier <code>wp-config.php</code>, qui contient les détails de connexion à votre base de données ;
 		<ol>
-			<li>Si cela ne marchait pas, ne vous inquiétez pas : certains hébergeurs n'autorisent pas la création de fichier. Ouvrez le fichier <code>wp-config.php</code> avec un éditeur de texte, et sasissez-y directement les détails de connexion à votre base de données ;</li>
+			<li>Si cela ne marchait pas, ne vous inquiétez pas : certains hébergeurs n'autorisent pas la création de fichier. Ouvrez le fichier <code>wp-config.php</code> avec un éditeur de texte, et saisissez-y directement les détails de connexion à votre base de données ;</li>
 			<li>Enregistrez le fichier sous le nom <code>wp-config.php</code> et mettez-le en ligne ;</li>
 			<li>Ouvrez le fichier  <span class="file"><a href="wp-admin/install.php">wp-admin/install.php</a></span> dans votre navigateur ;</li>
 		</ol>
@@ -51,9 +51,6 @@
 	<li>Allez sur la page <code><span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a></span></code> avec votre navigateur internet.</li>
 </ol>
 
-<h2>Modification dans les thèmes</h2>
-<p>Si vous avez modifié votre thème, vous aurez probablement quelques modifications à faire</p>
-
 <h1>Migrer depuis d'autres logiciels/plates-formes</h1> 
 <p>WordPress peut <a href="http://codex.wordpress.org/Importing_Content">importer les articles en provenance de nombreux autres outils (en)</a>. Vous devez d'abord installer WordPress comme expliqué plus haut, puis utiliser <a href="wp-admin/import.php" title="Importer dans WordPress">un des importateurs</a>.</p>
 
@@ -77,16 +74,6 @@
 	 <dt><a href="http://codex.wordpress.org/IRC">Canal <abbr title="Internet Relay Chat">IRC</abbr> WordPress</a></dt>
 		<dd>Il existe un canal IRC qui est le rendez-vous des utilisateurs WordPress, et occasionnellement, propose son aide aux sujets liés au support. La page Wiki devrait vous indiquer la bonne direction.</dd>
 </dl>
-
-<h1>Interfaces <abbr title="eXtensible Markup Language">XML</abbr>-<abbr title="Remote Procedure Call">RPC</abbr> et Atom</h1>
-<p>Il vous est possible d'écrire vos articles via des outils de publication comme <a href="http://windowslivewriter.spaces.live.com/">Windows Live Writer</a>, <a href="http://illuminex.com/ecto/">Ecto</a>, <a href="http://bloggar.com/">Bloggar</a>, <a href="http://radio.userland.com">Radio Userland</a> (ce qui signifie que vous pouvez utiliser leur fonction "email-to-blog"), <a href="http://www.newzcrawler.com/">NewzCrawler</a>, et d'autres outils qui utilisent les <abbr title="application programming interface">API</abbr> de blog  :) Pour en savoir davantage, rendez-vous sur la <a href="http://codex.wordpress.org/XML-RPC_Support">page du Codex expliquant le support <abbr>XML</abbr>-<abbr>RPC</abbr> (en)</a>.</p>
-
-<h1>Publier par messagerie</h1>
-<p>Il vous est possible d'écrire directement vos articles  à partir d'un logiciel de messagerie ! Pour cela, vous devez vous rendre sur la page d'options &quot;Ecriture&quot; et indiquer les détails de votre compte <abbr title="Post Office Protocol version 3">POP3</abbr> secret. Ensuite, vous devez faire en sorte que <code>wp-mail.php</code> s'exécute périodiquement, afin qu'il parcoure votre boite aux lettres à la recherche de nouveaux articles. Vous pouvez par exemple créer une tâche <a href="http://en.wikipedia.org/wiki/Cron">cron</a>, ou si votre hébergeur ne supporte pas cette possibilité, il existe de nombreux sites proposant un service similaire de monitoring : il vous suffira d'indiquer l'adresse de votre fichier <code>wp-mail.php</code></p>
-<p>Publier devient facile : n'importe quel message envoyé à l'adresse que vous aurez précisée sera publié, le sujet du message étant le titre de l'article. Il est préférable de conserver cette adresse à l'abri des regards indiscrets. Le script <em>effacera automatiquement</em> les messages qui auront été publiés avec succès</p>
-
-<h1>Rôles d'utilisateurs</h1>
-<p>Nous avons mis en place un système de rôles très flexible dans la version 2.0. Référez-vous à la partie du codex expliquant <a href="http://codex.wordpress.org/Roles_and_Capabilities">les rôles et capacités des utilisateurs (en)</a>.</p>
 
 <h1>Pour finir</h1>
 <ul>
