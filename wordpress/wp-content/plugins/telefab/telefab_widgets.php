@@ -24,7 +24,7 @@ class PlaceOpenNow extends WP_Widget {
     		echo "<span class=\"place_closed\">fermée</span>";
     	echo ".";
     	echo "</p>";
-        echo "<p><a href=\"/lab/calendrier\">Les ouvertures prévues sont dans le calendrier</a>.</p>";
+        echo "<p><a href=\"/calendrier/\">Les ouvertures prévues sont dans le calendrier</a>.</p>";
     	echo $after_widget;
     }
  

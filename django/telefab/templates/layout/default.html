@@ -12,10 +12,10 @@
 				</a>
 				<ul class="nav sf-js-enabled" id="top-menu">
 					<li><a href="/">Accueil</a></li>
-					<li class="page_item"><a href="/blog/">Blog</a></li>
+					<li class="menu-item"><a href="/blog/" class="sf-with-ul">Blog<span class="sf-sub-indicator"> »</span></a></li>
 					<li class="page_item"><a href="/portfolio/">Portfolio</a></li>
 					<li class="page_item"><a href="/documentation/">Documentation</a></li>
-					<li class="page_item {% block menu_link_calendar %}{% endblock %}"><a href="{% url 'main.views.show_events' %}">Calendrier</a></li>
+					<li class="page_item"><a href="/calendrier/">Calendrier</a></li>
 					<li class="page_item {% block menu_link_lab %}{% endblock %}"><a href="{% url 'main.views.welcome' %}">Mon lab</a></li>
 				</ul>
 				<div id="additional-info">

@@ -17,16 +17,6 @@ class UserAdmin(AuthUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
-# Events administration
-class EventAdmin(admin.ModelAdmin):
-	model = Event
-	list_display = ('category', 'title', 'start_time', 'end_time')
-	list_filter = ('category',)
-	search_fields = ('title', 'description')
-	date_hierarchy = 'start_time'
-	filter_horizontal = ('animators',)
-admin.site.register(Event, EventAdmin)
-
 # EquipmentCategory administration
 class EquipmentCategoryAdmin(admin.ModelAdmin):
 	model = EquipmentCategory
