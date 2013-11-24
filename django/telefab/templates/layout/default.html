@@ -1,11 +1,16 @@
 {% extends "layout/naked.html" %}
 {% load static %}
+{% load browserid %}
 {% block title_ext %} | Téléfab{% endblock %}
 {% block body_class %}{% endblock %}
+{% block css %}
+	{% browserid_css %}
+{% endblock %}
 {% block default_scripts %}
-	{{ browserid_form.media }}
+	{% browserid_js %}
 {% endblock %}
 {% block header %}
+			{% browserid_info %}
 			<div class="clearfix" id="header">
 				<a href="/">
 					<img id="logo" alt="Logo Téléfab" src="/wp-content/images/telefab-logo.png">

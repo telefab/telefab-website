@@ -1,5 +1,6 @@
 {% extends "layout/default.html" %}
 {% load static %}
+{% load browserid %}
 {% block title %}
 	Connexion au blog
 {% endblock %}
@@ -9,37 +10,22 @@
 {% block page_link %}
 	Connexion au blog
 {% endblock %}
-{% block css %}
-	<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/persona-buttons.css" rel="stylesheet">
-{% endblock %}
 {% block content %}
-	{% if user.is_authenticated and not user.get_profile.is_blog_user %}
+	{% if user.is_authenticated %}
 		<p>
 			Vous n'êtes pas encore autorisé à contribuer au blog. Faites une demande par mail pour être autorisé.
 		</p>
 	{% else %}
 		<p>
 			Cliquez ci-dessous pour vous connecter à l'administration du blog.
-			{% if user.is_authenticated %}
-				Utilisez le même compte que pour le lab.
-			{% else %}
-				Utilisez votre adresse email Télécom Bretagne si vous en avez une. 
-			{% endif %}
+			Utilisez votre adresse email Télécom Bretagne si vous en avez une. 
 		</p>
-		<form style="display: none" method="POST" action="/">
-			<input type="hidden" name="browserid_assertion" id="id_assertion" />
-			<input type="hidden" name="rememberme" value="0" />
-			<input type="hidden" name="redirect_to" value="/wp-admin" />
-	 	</form>
-		<p class="signin">
-			<a href="#" class="persona-button dark" id="browserid" data-site-name="Téléfab"><span>Se connecter à l'administration du blog</span></a>
+		{% browserid_login text='Se connecter au blog' color='dark' next='/wp-admin' %}
 		</p>
-		{% if not user.is_authenticated %}
-			<p>
-				Si vous n'arrivez pas à accéder à l'administration du blog, c'est que vous n'avez pas encore été autorisé à y contribuer.
-				Faites une demande par mail pour être autorisé.
-			</p>
-		{% endif %}
+		<p>
+			Si vous n'arrivez pas à accéder à l'administration du blog, c'est que vous n'avez pas encore été autorisé à y contribuer.
+			Faites une demande par mail pour être autorisé.
+		</p>
 		<p>
 			Ce site utilise <a href="http://www.mozilla.org/persona/" title="Plus d'informations sur Mozilla Persona">Mozilla Persona</a>.
 		</p>
