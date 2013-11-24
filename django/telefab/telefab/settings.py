@@ -188,6 +188,9 @@ LOGIN_REDIRECT_URL_FAILURE = URL_ROOT + "connexion"
 # Function to guess the user id from the browserid email
 BROWSERID_USERNAME_ALGO = guess_username
 
+# Browser ID request options
+BROWSERID_REQUEST_ARGS = {'siteName': u'Téléfab'}
+
 # References to data in the DB (to create before running the website!)
 ANIMATORS_GROUP_NAME = u"Animateurs"
 MAIN_PLACE_NAME = u"Téléfab Brest"
