@@ -7,7 +7,11 @@
 {% block extrastyle %}
   {{ block.super }}
   {% browserid_css %}
-  {% browserid_js %}
+  <style>
+    a.browserid-login:link, a.browserid-login:visited {
+      color: white;
+    }
+  </style>
 {% endblock %}
 
 {% block bodyclass %}login{% endblock %}
@@ -63,4 +67,5 @@ document.getElementById('id_username').focus()
 </div>
 
 <script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.js"></script>
+{% browserid_js %}
 {% endblock %}
