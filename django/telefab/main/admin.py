@@ -57,3 +57,9 @@ admin.site.register(Place, PlaceAdmin)
 class PlaceOpeningAdmin(admin.ModelAdmin):
 	model = PlaceOpening
 admin.site.register(PlaceOpening, PlaceOpeningAdmin)
+
+# Announcement administration
+class AnnouncementAdmin(admin.ModelAdmin):
+	model = Announcement
+	list_filter = ('visible',)
+admin.site.register(Announcement, AnnouncementAdmin)

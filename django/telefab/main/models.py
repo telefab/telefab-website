@@ -294,6 +294,28 @@ class PlaceOpening(models.Model):
 		else:
 			return self.place.name + u" du " + self.start_time.astimezone(tz()).strftime(u"%d/%m/%Y %H:%M") + u" à maintenant"
 
+
+class Announcement(models.Model):
+	"""
+	Important announcements
+	"""
+	class Meta:
+		verbose_name = "annonce"
+		verbose_name_plural = "annonces"
+		ordering = ['order', '-created_at']
+
+	title = models.CharField(verbose_name = u"titre", max_length = 100)
+	description = models.TextField(verbose_name = u"description")
+	visible = models.BooleanField(verbose_name = u"visible", default = True)
+	order = models.PositiveIntegerField(verbose_name = u"ordre", default = 1)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __unicode__(self):
+		"""
+		Returns a string representation
+		"""
+		return self.title
+
 class BlogUser(models.Model):
 	"""
 	Link to the WordPress user table to add/check users
@@ -308,4 +330,3 @@ class BlogUser(models.Model):
 	user_email = models.EmailField(max_length=100)
 	user_registered = models.DateTimeField(auto_now=True)
 	display_name = models.CharField(max_length=250)
-		

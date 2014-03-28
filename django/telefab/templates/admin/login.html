@@ -2,11 +2,12 @@
 {% load i18n admin_static %}
 {% load url from future %}
 {% load static %}
+{% load browserid %}
 
 {% block extrastyle %}
-{{ block.super }}
-<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
-<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/persona-buttons.css" rel="stylesheet">
+  {{ block.super }}
+  {% browserid_css %}
+  {% browserid_js %}
 {% endblock %}
 
 {% block bodyclass %}login{% endblock %}
@@ -54,13 +55,7 @@
     <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
   </div>
 </form>
-<div class="browserid" style="text-align: center; margin-top: 10px; margin-left: -6px;">
-  <a id="browserid" href="#" class="persona-button dark" data-site-name="Téléfab"><span style="color: white">Se connecter au lab</span></a>
-  <form method="POST" action="{% url 'browserid_verify' %}">
-     {% csrf_token %}
-     {{ browserid_form.as_p }}
-  </form>
-</div>
+{% browserid_login text='Se connecter au lab' color='dark' %}
 
 <script type="text/javascript">
 document.getElementById('id_username').focus()
@@ -68,5 +63,4 @@ document.getElementById('id_username').focus()
 </div>
 
 <script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.js"></script>
-{{ browserid_form.media }}
 {% endblock %}

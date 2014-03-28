@@ -384,6 +384,25 @@ def profile(request):
 	}
 	return render_to_response("account/profile.html", template_data, context_instance = RequestContext(request))
 
+# Announcement screens
+
+def announcements(request):
+	"""
+	Page displayed on announcement screens.
+	Showing latest news and status
+	"""
+	place = Place.get_main_place()
+	announcements = Announcement.objects.filter(visible = True)
+	unique = None
+	if len(announcements) == 1:
+		unique = announcements[0]
+	template_data = {
+		'place': place,
+		'announcements': announcements,
+		'unique': unique
+	}
+	return render_to_response("announcements/show.html", template_data, context_instance = RequestContext(request))
+
 # Places
 
 @login_required

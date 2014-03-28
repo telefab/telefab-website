@@ -1,0 +1,36 @@
+{% load static %}
+<html lang="fr-FR" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Téléfab</title>
+		<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/announcements.css" rel="stylesheet">
+	</head>
+	<body class="page">
+		<h1><img src="/wp-content/images/telefab-logo.png"> actualités</h1>
+		{% if unique %}
+			<h2>{{unique.title}}</h2>
+			<div class="unique-event">
+				{{unique.description | safe}}
+			</div>
+		{% else %}
+			<h2>Évènements</h2>
+			{% for announcement in announcements %}
+				<h3 class="event">{{announcement.title}}</h3>
+				<div class="event">
+					{{announcement.description | safe}}
+				</div>
+			{% empty %}
+				<p class="">
+					Aucune annonce pour le moment.
+				</p>
+			{% endfor %}
+		{% endif %}
+		<h2>Ouvertures</h2>
+		<p>
+			Permanences les <strong>mardis</strong> de 12h30 à 14h00 et de 18h00 à 21h00.
+		</p>
+		<p class="place">
+			Le Téléfab est actuellement {% if place.now_open %}<span class="place_open">ouvert</span>{% else %}<span class="place_closed">fermé</span>{% endif %}.
+		</p>
+	</body>
+</html>
