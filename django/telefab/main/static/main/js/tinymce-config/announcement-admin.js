@@ -9,5 +9,5 @@ tinyMCE.init({
 	browser_spellcheck : true,
 	relative_urls : false,
 	remove_script_host : true,
-	height: 300
+	height: 660
 });
