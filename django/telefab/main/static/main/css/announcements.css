@@ -1,22 +1,26 @@
 body {
+	background-color: white;
 	position: relative;
 	display: block;
-	width: 650px;
-	height: 550px;
+	margin-left: 60px;
+	margin-right: 10px;
+	width: 1275px;
+	height: 740px;
 	padding: 5px;
 	font-family:'Droid Sans',Arial,Verdana,sans-serif;
-	font-size: 16px;
+	font-size: 25px;
 	color: #575757;
 }
 
 h1 {
 	margin-top: 5px;
+	margin-bottom: 10px;
 	text-align: center;
-	font-size: 2em;
+	font-size: 2.2em;
 }
 
 h1 img {
-	width: 150px;
+	width: 230px;
 	vertical-align: middle;
 	margin-top: -5px;
 }
@@ -26,6 +30,7 @@ h2 {
 	font-size: 1.2em;
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
+	padding: 2px;
 	background-color: #FAFAFA;
 }
 
