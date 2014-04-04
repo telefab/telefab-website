@@ -312,6 +312,12 @@ class Announcement(models.Model):
 	opening = models.CharField(verbose_name = u"visible si", max_length = 6, default = 'ANY', choices = (('ANY', u"Tout le temps"),('OPEN', u"Téléfab ouvert"),('CLOSED', u"Téléfab fermé")))
 	order = models.PositiveIntegerField(verbose_name = u"ordre", default = 1)
 	created_at = models.DateTimeField(auto_now_add=True)
+    
+	def get_absolute_url(self):
+		"""
+		Return the public URL to this object
+		"""
+		return reverse("main.views.show_announcements")
 
 	def __unicode__(self):
 		"""
