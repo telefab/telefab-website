@@ -62,4 +62,9 @@ admin.site.register(PlaceOpening, PlaceOpeningAdmin)
 class AnnouncementAdmin(admin.ModelAdmin):
 	model = Announcement
 	list_filter = ('visible',)
+	class Media:
+		js = (
+			'main/js/tinymce/tinymce.min.js',
+			'main/js/tinymce-config/announcement-admin.js',
+		)
 admin.site.register(Announcement, AnnouncementAdmin)
