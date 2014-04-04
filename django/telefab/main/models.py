@@ -317,7 +317,7 @@ class Announcement(models.Model):
 		"""
 		Return the public URL to this object
 		"""
-		return reverse("main.views.show_announcements")
+		return reverse("main.views.announcements")
 
 	def __unicode__(self):
 		"""
