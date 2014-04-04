@@ -7,30 +7,18 @@
 	</head>
 	<body class="page">
 		<h1><img src="/wp-content/images/telefab-logo.png"> actualités</h1>
-		{% if unique %}
-			<h2>{{unique.title}}</h2>
-			<div class="unique-event">
-				{{unique.description | safe}}
-			</div>
-		{% else %}
-			<h2>Évènements</h2>
-			{% for announcement in announcements %}
+		{% for announcement in announcements %}
+			{% if forloop.counter0 = first_event %}
+				<h2>Évènements</h2>
+			{% endif %}
+			{% if announcement.naked %}
+				{{announcement.description | safe}}
+			{% else %}
 				<h3 class="event">{{announcement.title}}</h3>
 				<div class="event">
 					{{announcement.description | safe}}
 				</div>
-			{% empty %}
-				<p class="">
-					Aucune annonce pour le moment.
-				</p>
-			{% endfor %}
-		{% endif %}
-		<h2>Ouvertures</h2>
-		<p>
-			Permanences les <strong>mardis</strong> de 12h30 à 14h00 et de 18h00 à 21h00.
-		</p>
-		<p class="place">
-			Le Téléfab est actuellement {% if place.now_open %}<span class="place_open">ouvert</span>{% else %}<span class="place_closed">fermé</span>{% endif %}.
-		</p>
+			{% endif %}
+		{% endfor %}
 	</body>
 </html>

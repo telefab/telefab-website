@@ -307,6 +307,9 @@ class Announcement(models.Model):
 	title = models.CharField(verbose_name = u"titre", max_length = 100)
 	description = models.TextField(verbose_name = u"description")
 	visible = models.BooleanField(verbose_name = u"visible", default = True)
+	naked = models.BooleanField(verbose_name = u"sans habillage", default = False)
+	permanent = models.BooleanField(verbose_name = u"permanente", default = False)
+	opening = models.CharField(verbose_name = u"visible si", max_length = 6, default = 'ANY', choices = (('ANY', u"Tout le temps"),('OPEN', u"Téléfab ouvert"),('CLOSED', u"Téléfab fermé")))
 	order = models.PositiveIntegerField(verbose_name = u"ordre", default = 1)
 	created_at = models.DateTimeField(auto_now_add=True)
 

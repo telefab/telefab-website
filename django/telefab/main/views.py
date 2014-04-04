@@ -1,4 +1,5 @@
 # This file uses the following encoding: utf-8 
+from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied
 from django.template import RequestContext, Context, Template
@@ -391,15 +392,23 @@ def announcements(request):
 	Page displayed on announcement screens.
 	Showing latest news and status
 	"""
-	place = Place.get_main_place()
-	announcements = Announcement.objects.filter(visible = True)
-	unique = None
-	if len(announcements) == 1:
-		unique = announcements[0]
+	# Select announcements that are visible, and with the right opening setting
+	current_open = 'CLOSED'
+	if Place.get_main_place().now_open():
+		current_open = 'OPEN'
+	announcements = Announcement.objects.filter(visible = True, opening__in = ('ANY', current_open))
+	# Search for the first non-naked non-permanent announcement
+	first_event = -1
+	counter = 0
+	for announcement in announcements:
+		if not announcement.naked and not announcement.permanent:
+			first_event = counter
+			break
+		counter+= 1
+	# Display
 	template_data = {
-		'place': place,
 		'announcements': announcements,
-		'unique': unique
+		'first_event': first_event
 	}
 	return render_to_response("announcements/show.html", template_data, context_instance = RequestContext(request))
 
