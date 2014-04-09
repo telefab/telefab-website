@@ -3,10 +3,12 @@ body {
 	border: 3px solid black;
 	position: relative;
 	display: block;
-	width: 920px;
-	height: 650px;
+	width: 100%;
+	height: 100%;
+	max-width: 1366px;
+	max-height: 768px;
 	font-family:'Droid Sans',Arial,Verdana,sans-serif;
-	font-size: 30px;
+	font-size: 2.5vw;
 	color: #575757;
 	margin: 0;
 	padding: 0;
@@ -19,11 +21,11 @@ h1 {
 	text-align: center;
 	font-size: 2em;
 	color: white;
-        background-color: black;
+	background-color: black;
 }
 
 h1 img {
-	width: 230px;
+	height: 1em;
 	vertical-align: middle;
 	margin-top: -5px;
 }
@@ -31,7 +33,7 @@ h1 img {
 h2 {
 	text-align: center;
 	font-size: 1.2em;
-	padding: 2px;
+	padding: 2px 70px;
 	background-color: rgb(176, 188, 0);
 	color: white;
 	margin: .5em 0;
@@ -40,17 +42,18 @@ h2 {
 h3 {
 	font-size: 1.2em;
 	color: rgb(176, 188, 0);
-	margin: .3em 50px;
+	margin: .3em 70px;
 }
 
 p {
-	margin: .2em 50px;
+	margin: .2em 70px;
 }
 
 #down {
 	display: block;
 	position: absolute;
-	bottom: 2.1em;
+	background-color: white;
+	bottom: 2.7em;
 	width: 100%;
 }
 
@@ -63,18 +66,18 @@ p {
 	text-align: center;
 	margin: 0;
 	padding-top: .2em;
-	padding-bottom: .3em;
+	padding-bottom: .4em;
 	background-color: black;
 	color: white;
-	font-size: 1.1em;
+	font-size: 1.4em;
 }
 
 .place_open {
 	font-weight: bold;
-	color: green;
+	color: rgb(176, 188, 0);
 }
 
 .place_closed {
 	font-weight: bold;
-	color: red;
+	color: rgb(230, 50, 50);
 }
