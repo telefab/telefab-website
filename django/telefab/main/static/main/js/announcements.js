@@ -13,5 +13,5 @@
 	$(window).resize(adaptFontSize);
 	adaptFontSize();
 	// Display once all is ready
-	body.fadeIn();
+	body.show();
  });

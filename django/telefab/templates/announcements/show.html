@@ -1,12 +1,11 @@
+{% extends "layout/base.html" %}
 {% load static from staticfiles %}
-<html lang="fr-FR" dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+{% block header_cont %}
 		<title>Téléfab</title>
-		<link media="screen" type="text/css" href="{% static 'main/css/announcements.css' %}" rel="stylesheet">
-	</head>
-	<!-- Hidden because javascript manages the display -->
-	<body class="page" style="display: none">
+		<link type="text/css" href="{% static 'main/css/announcements.css' %}" rel="stylesheet" />
+{% endblock %}
+{% block body_el %}style="display: none"{% endblock %}
+{% block body_cont %}
 		<h1><img src="/wp-content/images/telefab-logo.png"> actualités</h1>
 		{% for announcement in announcements %}
 			{% if forloop.counter0 = first_event %}
@@ -21,5 +20,4 @@
 		{% endfor %}
 		<script type="text/javascript" src="{% static 'main/js/jquery.js' %}"></script>
 		<script type="text/javascript" src="{% static 'main/js/announcements.js' %}"></script>
-	</body>
-</html>
+{% endblock %}
