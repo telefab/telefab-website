@@ -7,7 +7,7 @@
  	var body = $('body');
  	// Adapt the font size to the screen width
  	function adaptFontSize() {
-	 	var baseFontSize = body.width()*35/1366;
+	 	var baseFontSize = (body.width() - 800) * (35 - 25) / (1366 - 800) + 25;
 	 	body.css('fontSize', Math.floor(baseFontSize) + "px");
 	}
 	$(window).resize(adaptFontSize);
