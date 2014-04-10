@@ -5,7 +5,7 @@
 		<title>Téléfab</title>
 		<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/announcements.css" rel="stylesheet">
 	</head>
-	<body class="page">
+	<body class="page" style="font-size: 35px;">
 		<h1><img src="/wp-content/images/telefab-logo.png"> actualités</h1>
 		{% for announcement in announcements %}
 			{% if forloop.counter0 = first_event %}
