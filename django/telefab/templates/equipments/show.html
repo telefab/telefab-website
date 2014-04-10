@@ -1,5 +1,5 @@
 {% extends choice|yesno:"layout/naked.html,layout/default.html" %}
-{% load static %}
+{% load static from staticfiles %}
 {% block title %}
 	Matériel
 {% endblock %}
@@ -75,8 +75,8 @@
 {% endblock %}
 {% if choice %}
 	{% block scripts %}
-		<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery-ui.js"></script>
-		<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.ui.datepicker-fr.js"></script>
-		<script type="text/javascript" src="{% get_static_prefix %}main/js/select_equipment.js"></script>
+		<script type="text/javascript" src="{% static 'main/js/jquery-ui.js' %}"></script>
+		<script type="text/javascript" src="{% static 'main/js/jquery.ui.datepicker-fr.js' %}"></script>
+		<script type="text/javascript" src="{% static 'main/js/select_equipment.js' %}"></script>
 	{% endblock %}
 {% endif %}

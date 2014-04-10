@@ -1,5 +1,5 @@
 {% extends "layout/lab.html" %}
-{% load static %}
+{% load static from staticfiles %}
 {% block title %}
 	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
 {% endblock %}
@@ -107,12 +107,12 @@
 	</p>
 {% endblock %}
 {% block css %}
-	<link media="screen" type="text/css" href="{% get_static_prefix %}main/css/jquery-ui/jquery-ui.css" rel="stylesheet">
+	<link media="screen" type="text/css" href="{% static 'main/css/jquery-ui/jquery-ui.css' %}" rel="stylesheet">
 {% endblock %}
 {% block scripts %}
-	<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery-ui.js"></script>
-	<script type="text/javascript" src="{% get_static_prefix %}main/js/jquery.ui.datepicker-fr.js"></script>
-	<script type="text/javascript" src="{% get_static_prefix %}main/js/edit_loan.js"></script>
+	<script type="text/javascript" src="{% static 'main/js/jquery-ui.js' %}"></script>
+	<script type="text/javascript" src="{% static 'main/js/jquery.ui.datepicker-fr.js' %}"></script>
+	<script type="text/javascript" src="{% static 'main/js/edit_loan.js' %}"></script>
 	<script type="text/javascript">
 		/* Data about all equipment in javscript */
 		var equipment_data = [
