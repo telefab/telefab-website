@@ -37,6 +37,7 @@
 {% endfor %}
 {% endif %}
 
+{% browserid_info %}
 <div id="content-main">
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
