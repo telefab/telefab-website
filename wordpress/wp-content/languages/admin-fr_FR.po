@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-03-19 05:01:31+0000\n"
+"PO-Revision-Date: 2014-04-15 11:34:08+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3108,59 +3108,59 @@ msgstr "Vous n&rsquo;avez pas l&rsquo;autorisation de modifier les pages."
 msgid "You are not allowed to edit posts."
 msgstr "Vous n&rsquo;avez pas l&rsquo;autorisation de modifier les articles."
 
-#: wp-admin/includes/post.php:509
+#: wp-admin/includes/post.php:514 wp-admin/includes/upgrade.php:1275
 msgid "Auto Draft"
 msgstr "Brouillon auto"
 
-#: wp-admin/includes/post.php:598
+#: wp-admin/includes/post.php:603
 msgid "You are not allowed to create pages on this site."
 msgstr "Vous n&rsquo;avez pas l&rsquo;autorisation de créer des pages sur ce site."
 
-#: wp-admin/includes/post.php:600
+#: wp-admin/includes/post.php:605
 msgid "You are not allowed to create posts or drafts on this site."
 msgstr "Vous n&rsquo;avez pas l&rsquo;autorisation de créer des articles ou des brouillons sur ce site."
 
-#: wp-admin/includes/post.php:1126
+#: wp-admin/includes/post.php:1131
 msgid "Click to edit this part of the permalink"
 msgstr "Cliquez pour modifier cette section du permalien"
 
-#: wp-admin/includes/post.php:1128
+#: wp-admin/includes/post.php:1133
 msgid "Temporary permalink. Click to edit this part."
 msgstr "Permalien temporaire. Cliquez pour modifier cette section."
 
-#: wp-admin/includes/post.php:1132 wp-admin/includes/post.php:1160
+#: wp-admin/includes/post.php:1137 wp-admin/includes/post.php:1165
 msgid "Permalink:"
 msgstr "Permalien&nbsp;:"
 
-#: wp-admin/includes/post.php:1134
+#: wp-admin/includes/post.php:1139
 msgid "Change Permalinks"
 msgstr "Modifier les permaliens"
 
-#: wp-admin/includes/post.php:1201
+#: wp-admin/includes/post.php:1206
 msgid "Remove featured image"
 msgstr "Supprimer l&rsquo;image à la Une"
 
-#: wp-admin/includes/post.php:1323
+#: wp-admin/includes/post.php:1328
 msgid "This content is currently locked."
 msgstr "Ce contenu est actuellement vérouillé."
 
-#: wp-admin/includes/post.php:1325
+#: wp-admin/includes/post.php:1330
 msgid "If you take over, %s will be blocked from continuing to edit."
 msgstr "Si vous souhaitez vous en occuper, %s sera bloqué et ne pourra pas terminer sa modification."
 
-#: wp-admin/includes/post.php:1339
+#: wp-admin/includes/post.php:1344
 msgid "Take over"
 msgstr "Prendre la main"
 
-#: wp-admin/includes/post.php:1353
+#: wp-admin/includes/post.php:1358
 msgid "Saving revision..."
 msgstr "Enregistrement des révisions"
 
-#: wp-admin/includes/post.php:1354
+#: wp-admin/includes/post.php:1359
 msgid "Your latest changes were saved as a revision."
 msgstr "Vos dernières modifications ont été enregistrées dans une révision."
 
-#: wp-admin/includes/post.php:1440
+#: wp-admin/includes/post.php:1445
 msgid "Preview not available. Please save as a draft first."
 msgstr "Aperçu non disponible. Veuillez d&rsquo;abord enregistrer le brouillon."
 
@@ -5365,14 +5365,14 @@ msgstr "Utilisateur <a href=\"#%s\">%s</a> ajouté"
 
 #: wp-admin/includes/ajax-actions.php:1110
 #: wp-admin/includes/ajax-actions.php:1352 wp-admin/includes/post.php:194
-#: wp-admin/includes/post.php:1459 wp-admin/press-this.php:35
+#: wp-admin/includes/post.php:1464 wp-admin/press-this.php:35
 #: wp-admin/upload.php:62
 msgid "You are not allowed to edit this post."
 msgstr "Vous n&rsquo;avez pas l&rsquo;autorisation de modifier cet article."
 
 #: wp-admin/includes/ajax-actions.php:1113
 #: wp-admin/includes/ajax-actions.php:1349 wp-admin/includes/post.php:192
-#: wp-admin/includes/post.php:1456
+#: wp-admin/includes/post.php:1461
 msgid "You are not allowed to edit this page."
 msgstr "Vous n&rsquo;avez pas l&rsquo;autorisation de modifier cette page."
 
@@ -7105,7 +7105,7 @@ msgstr "SUCCÈS : WordPress a bien été mise à jour en version %s"
 
 #: wp-admin/includes/class-wp-upgrader.php:2353
 msgid "FAILED: WordPress failed to update to %s"
-msgstr "ÉCHEC : WordPress n&rsquo;a pas pu être mis à jour en version %s"
+msgstr "ÉCHEC : WordPress n&rsquo;a pas pu être mis à jour vers %s"
 
 #: wp-admin/includes/class-wp-upgrader.php:2366
 msgid "The following plugins were successfully updated:"
@@ -8386,155 +8386,156 @@ msgstr "Crédits"
 msgid "Freedoms"
 msgstr "Libertés"
 
-#: wp-admin/about.php:166
+#: wp-admin/about.php:170
 msgid "Maintenance Release"
 msgid_plural "Maintenance Releases"
 msgstr[0] "Mise à jour de maintenance"
 msgstr[1] "Mises à jour de maintenance"
 
-#: wp-admin/about.php:47 wp-admin/about.php:175
+#: wp-admin/about.php:43 wp-admin/about.php:51 wp-admin/about.php:179
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> corrige %2$s bug."
 msgstr[1] "La <strong>version %1$s</strong> corrige %2$s bugs."
 
-#: wp-admin/about.php:45 wp-admin/about.php:49 wp-admin/about.php:186
+#: wp-admin/about.php:45 wp-admin/about.php:49 wp-admin/about.php:53
+#: wp-admin/about.php:190
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "Pour plus d&rsquo;informations, consultez les <a href=\"%s\">notes de publication</a>."
 
-#: wp-admin/about.php:54
+#: wp-admin/about.php:58
 msgid "Introducing a modern new&nbsp;design"
 msgstr "Un nouveau design moderne"
 
-#: wp-admin/about.php:59
+#: wp-admin/about.php:63
 msgid "Modern aesthetic"
 msgstr "Une esthétique moderne"
 
-#: wp-admin/about.php:60
+#: wp-admin/about.php:64
 msgid "The new WordPress dashboard has a fresh, uncluttered design that embraces clarity and simplicity."
 msgstr "Le nouveau tableau de bord de WordPress propose une mise en page agréable et épurée qui fait la part belle à la clarté et la simplicité."
 
-#: wp-admin/about.php:64
+#: wp-admin/about.php:68
 msgid "Clean typography"
 msgstr "Une typographie nette"
 
-#: wp-admin/about.php:65
+#: wp-admin/about.php:69
 msgid "The Open Sans typeface provides simple, friendly text that is optimized for both desktop and mobile viewing. It&#8217;s even open source, just like WordPress."
 msgstr "La police de caractères Open Sans présente votre texte de manière simple et conviviale. Elle est optimisée tant pour les ordinateurs de bureau que pour l&rsquo;affichage mobile, et elle est open-source, tout comme WordPress."
 
-#: wp-admin/about.php:69
+#: wp-admin/about.php:73
 msgid "Refined contrast"
 msgstr "Des contrastes affinés"
 
-#: wp-admin/about.php:70
+#: wp-admin/about.php:74
 msgid "We think beautiful design should never sacrifice legibility. With superior contrast and large, comfortable type, the new design is easy to read and a pleasure to navigate."
 msgstr "Nous pensons qu&rsquo;un beau design ne devrait jamais sacrifier à la lisibilité.  Avec des contrastes larges et supérieurs et une police agréable, le nouveau design est facile à lire et un plaisir à parcourir."
 
-#: wp-admin/about.php:80
+#: wp-admin/about.php:84
 msgid "WordPress on every&nbsp;device"
 msgstr "WordPress sur tous&nbsp;les&nbsp;terminaux"
 
-#: wp-admin/about.php:81
+#: wp-admin/about.php:85
 msgid "We all access the internet in different ways. Smartphone, tablet, notebook, desktop &mdash; no matter what you use, WordPress will adapt and you&#8217;ll feel right at home."
 msgstr "Nous accédons tous à Internet de différentes manières. Téléphones mobiles, tablettes, ordinateurs portables ou de bureau &mdash; quel que soit votre usage, WordPress s&rsquo;y adaptera et vous vous sentirez chez vous."
 
-#: wp-admin/about.php:82
+#: wp-admin/about.php:86
 msgid "High definition at high&nbsp;speed"
 msgstr "Haute définition à haute&nbsp;vitesse"
 
-#: wp-admin/about.php:83
+#: wp-admin/about.php:87
 msgid "WordPress is sharper than ever with new vector-based icons that scale to your screen. By ditching pixels, pages load significantly faster, too."
 msgstr "WordPress est plus classe que jamais avec ses nouvelles icônes vectorielles qui s&rsquo;adaptent à votre écran. En éliminant les pixels, nous avons également amélioré le temps de chargement de la page."
 
-#: wp-admin/about.php:102
+#: wp-admin/about.php:106
 msgid "Pick a color"
 msgstr "Choisissez une couleur"
 
-#: wp-admin/about.php:103
+#: wp-admin/about.php:107
 msgid "We&#8217;ve included eight color schemes so you can pick your favorite. Choose from any of them below to change it instantly."
 msgstr "Nous avons ajouté 8 jeux de couleurs afin que vous trouviez votre préféré. Choisissez-en un ci-dessous pour l&rsquo;appliquer immédiatement."
 
-#: wp-admin/about.php:108
+#: wp-admin/about.php:112
 msgid "To change your color scheme later, just <a href=\"%1$s\">visit your profile</a>."
 msgstr "Vous pourrez changer le jeu de couleurs à n&rsquo;importe quel moment en vous rendant sur <a href=\"%1$s\">votre profil</a>."
 
-#: wp-admin/about.php:119
+#: wp-admin/about.php:123
 msgid "Refined theme management"
 msgstr "Une gestion des thèmes affinée"
 
-#: wp-admin/about.php:120
+#: wp-admin/about.php:124
 msgid "The new themes screen lets you survey your themes at a glance. Or want more information? Click to discover more. Then sit back and use your keyboard&#8217;s navigation arrows to flip through every theme you&#8217;ve got."
 msgstr "Le nouvel écran des thèmes vous permet d&rsquo;inspecter tous vos thèmes d&rsquo;un coup d&rsquo;œil. Mais peut-être voulez-vous plus d&rsquo;information&nbsp;? Cliquez pour en apprendre plus, puis naviguez tranquillement d&rsquo;un thème à l&rsquo;autre à l&rsquo;aide de votre clavier."
 
-#: wp-admin/about.php:121
+#: wp-admin/about.php:125
 msgid "Smoother widget experience"
 msgstr "Une utilisation plus souple des widgets"
 
-#: wp-admin/about.php:122
+#: wp-admin/about.php:126
 msgid "Drag-drag-drag. Scroll-scroll-scroll. Widget management can be complicated. With the new design, we&#8217;ve worked to streamline the widgets&nbsp;screen."
 msgstr "Glisser-déposer, glisser-déposer, glisser-déposer. Faire défiler, faire défiler, faire défiler. La gestion des widgets peut s&rsquo;avérer laborieuse. Avec le nouveau design, nous avons rationalisé l&rsquo;écran des widgets."
 
-#: wp-admin/about.php:123
+#: wp-admin/about.php:127
 msgid "Have a large monitor? Multiple widget areas stack side-by-side to use the available space. Using a tablet? Just tap a widget to add it."
 msgstr "Vous avez un grand moniteur&nbsp;? Les nombreuses zones de widgets se placent les unes à côté des autres pour utiliser tout l&rsquo;espace disponible. Vous utilisez une tablette&nbsp;? Touchez simplement un widget pour l&rsquo;ajouter."
 
-#: wp-admin/about.php:134
+#: wp-admin/about.php:138
 msgid "Twenty Fourteen, a sleek new magazine&nbsp;theme"
 msgstr "Twenty Fourteen, un superbe nouveau thème&nbsp;\"magazine\""
 
-#: wp-admin/about.php:139
+#: wp-admin/about.php:143
 msgid "Turn your blog into a&nbsp;magazine"
 msgstr "Transformez votre blog en&nbsp;un&nbsp;magazine"
 
-#: wp-admin/about.php:140
+#: wp-admin/about.php:144
 msgid "Create a beautiful magazine-style site with WordPress and Twenty Fourteen. Choose a grid or a slider to display featured content on your homepage. Customize your site with three widget areas or change your layout with two page templates."
 msgstr "Créez un magnifique site de style magazine avec WordPress et Twenty Fourteen. Choisissez d&rsquo;afficher votre contenu mis en avant dans une grille ou un diaporama sur votre page d&rsquo;accueil. Personnalisez votre site avec trois zones de widgets, ou modifiez votre mise en page grâce à deux modèles de pages."
 
-#: wp-admin/about.php:141
+#: wp-admin/about.php:145
 msgid "With a striking design that does not compromise our trademark simplicity, Twenty Fourteen is our most intrepid default theme yet."
 msgstr "Avec une nouvelle conception remarquable qui ne remet pas en question notre simplicité légendaire, Twenty Fourteen est notre thème par défaut le plus intrépide à ce jour."
 
-#: wp-admin/about.php:151
+#: wp-admin/about.php:155
 msgid "Return to Updates"
 msgstr "Retourner aux mises à jour"
 
-#: wp-admin/about.php:151
+#: wp-admin/about.php:155
 msgid "Return to Dashboard &rarr; Updates"
 msgstr "Retourner aux mises à jour"
 
-#: wp-admin/about.php:155
+#: wp-admin/about.php:159
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Aller sur l&rsquo;accueil"
 
-#: wp-admin/about.php:155
+#: wp-admin/about.php:159
 msgid "Go to Dashboard"
 msgstr "Aller sur le tableau de bord"
 
-#: wp-admin/about.php:167
+#: wp-admin/about.php:171
 msgid "Security Release"
 msgid_plural "Security Releases"
 msgstr[0] "Mise à jour de sécurité"
 msgstr[1] "Mises à jour de sécurité"
 
-#: wp-admin/about.php:42 wp-admin/about.php:168
+#: wp-admin/about.php:42 wp-admin/about.php:172
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] "Mise à jour de maintenance et de sécurité"
 msgstr[1] "Mises à jour de maintenance et de sécurité"
 
-#: wp-admin/about.php:171
+#: wp-admin/about.php:175
 msgid "<strong>Version %1$s</strong> addressed a security issue."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
 msgstr[0] "La <strong>version %1$s</strong> corrige une vulnérabilité de sécurité."
 msgstr[1] "La <strong>version %1$s</strong> corrige plusieurs vulnérabilités de sécurité."
 
-#: wp-admin/about.php:179
+#: wp-admin/about.php:183
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> s&rsquo;occupe d&rsquo;un problème de sécurité et corrige %2$s bug."
 msgstr[1] "<strong>Version %1$s</strong> s&rsquo;occupe d&rsquo;un problème de sécurité et corrige %2$s bugs."
 
-#: wp-admin/about.php:43 wp-admin/about.php:183
+#: wp-admin/about.php:47 wp-admin/about.php:187
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "La <strong>version %1$s</strong> s&rsquo;occupe de quelques problèmes de sécurité et corrige %2$s bug."
@@ -8678,7 +8679,7 @@ msgid "Oops, no comment with this ID."
 msgstr "Oups, aucun commentaire avec cet ID."
 
 #: wp-admin/comment.php:68 wp-admin/comment.php:221
-#: wp-admin/includes/post.php:1283
+#: wp-admin/includes/post.php:1288
 msgid "Go back"
 msgstr "Retour"
 
