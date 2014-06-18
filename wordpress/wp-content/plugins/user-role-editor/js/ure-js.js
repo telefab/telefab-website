@@ -107,9 +107,9 @@ jQuery("#ure_add_role").button({
           }
       });    
       $('.ui-dialog-buttonpane button:contains("Add Role")').attr("id", "dialog-add-role-button");
-      $('#dialog-add_role-button').html(ui_button_text(ure_data.add_role));
-      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "dialog-cancel-button");
-      $('#dialog-cancel-button').html(ui_button_text(ure_data.cancel));
+      $('#dialog-add-role-button').html(ui_button_text(ure_data.add_role));
+      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "add-role-dialog-cancel-button");
+      $('#add-role-dialog-cancel-button').html(ui_button_text(ure_data.cancel));
     });
   });
   
@@ -137,7 +137,7 @@ jQuery("#ure_add_role").button({
             $.ure_postGo(ure_data.page_url,
                     {action: 'delete-role', user_role_id: user_role_id, ure_nonce: ure_data.wp_nonce});
           },
-          'Cancel': function() {
+          Cancel: function() {
             $(this).dialog('close');
           }
         }
@@ -145,8 +145,8 @@ jQuery("#ure_add_role").button({
       // translate buttons caption
       $('.ui-dialog-buttonpane button:contains("Delete Role")').attr("id", "dialog-delete-button");
       $('#dialog-delete-button').html(ui_button_text(ure_data.delete_role));
-      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "dialog-cancel-button");
-      $('#dialog-cancel-button').html(ui_button_text(ure_data.cancel));
+      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "delete-role-dialog-cancel-button");
+      $('#delete-role-dialog-cancel-button').html(ui_button_text(ure_data.cancel));
     });
   });
   
@@ -182,15 +182,15 @@ jQuery("#ure_add_role").button({
               $.ure_postGo( ure_data.page_url, 
                            { action: 'add-new-capability', capability_id: capability_id, ure_nonce: ure_data.wp_nonce} );
             },
-            'Cancel': function() {
+            Cancel: function() {
                 $(this).dialog('close');
             }
           }
       });    
       $('.ui-dialog-buttonpane button:contains("Add Capability")').attr("id", "dialog-add-capability-button");
-      $('#dialog-add_capability-button').html(ui_button_text(ure_data.add_capability));
-      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "dialog-cancel-button");
-      $('#dialog-cancel-button').html(ui_button_text(ure_data.cancel));
+      $('#dialog-add-capability-button').html(ui_button_text(ure_data.add_capability));
+      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "add-capability-dialog-cancel-button");
+      $('#add-capability-dialog-cancel-button').html(ui_button_text(ure_data.cancel));
     });    
   });
   
@@ -219,7 +219,7 @@ jQuery("#ure_add_role").button({
             $.ure_postGo(ure_data.page_url,
                     {action: 'delete-user-capability', user_capability_id: user_capability_id, ure_nonce: ure_data.wp_nonce});
           },
-          'Cancel': function() {
+          Cancel: function() {
             $(this).dialog('close');
           }
         }
@@ -227,8 +227,8 @@ jQuery("#ure_add_role").button({
       // translate buttons caption
       $('.ui-dialog-buttonpane button:contains("Delete Capability")').attr("id", "dialog-delete-capability-button");
       $('#dialog-delete-capability-button').html(ui_button_text(ure_data.delete_capability));
-      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "dialog-cancel-button");
-      $('#dialog-cancel-button').html(ui_button_text(ure_data.cancel));
+      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "delete-capability-dialog-cancel-button");
+      $('#delete-capability-dialog-cancel-button').html(ui_button_text(ure_data.cancel));
     });    
   });
   
@@ -253,7 +253,7 @@ jQuery("#ure_add_role").button({
             $.ure_postGo(ure_data.page_url,
                     {action: 'change-default-role', user_role_id: user_role_id, ure_nonce: ure_data.wp_nonce});
           },
-          'Cancel': function() {
+          Cancel: function() {
             $(this).dialog('close');
           }
         }
@@ -261,8 +261,8 @@ jQuery("#ure_add_role").button({
       // translate buttons caption
       $('.ui-dialog-buttonpane button:contains("Set New Default Role")').attr("id", "dialog-default-role-button");
       $('#dialog-default-role-button').html(ui_button_text(ure_data.set_new_default_role));
-      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "dialog-cancel-button");
-      $('#dialog-cancel-button').html(ui_button_text(ure_data.cancel));
+      $('.ui-dialog-buttonpane button:contains("Cancel")').attr("id", "default-role-dialog-cancel-button");
+      $('#default-role-dialog-cancel-button').html(ui_button_text(ure_data.cancel));
     });
   });
   

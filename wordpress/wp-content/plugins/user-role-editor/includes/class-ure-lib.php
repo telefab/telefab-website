@@ -232,10 +232,9 @@ class Ure_Lib extends Garvs_WP_Lib {
 
         <div class="has-sidebar" >
             <form id="ure_form" method="post" action="<?php echo URE_WP_ADMIN_URL . URE_PARENT.'?page=users-'.URE_PLUGIN_FILE;?>" >			
-                <div id="ure_form_controls">				
+                <div id="ure_form_controls">
 <?php
                     wp_nonce_field('user-role-editor', 'ure_nonce');
-                    settings_fields('ure-options');
                     if ($this->ure_object == 'user') {
                         require_once(URE_PLUGIN_DIR . 'includes/ure-user-edit.php');
                     } else {
@@ -244,6 +243,7 @@ class Ure_Lib extends Garvs_WP_Lib {
                         require_once(URE_PLUGIN_DIR . 'includes/ure-role-edit.php');
                     }
 ?>
+                    <input type="hidden" name="action" value="update" />
                 </div>      
             </form>		      
 <?php	
@@ -577,8 +577,7 @@ class Ure_Lib extends Garvs_WP_Lib {
      * @param int $user_id
      * @return boolean true 
      */
-    public function user_is_admin($user_id = false) 
-    {
+    public function user_is_admin($user_id = false) {
         global $current_user;
 
         $ure_key_capability = $this->get_key_capability();
@@ -588,33 +587,6 @@ class Ure_Lib extends Garvs_WP_Lib {
         $result = user_can($user_id, $ure_key_capability);
         
         return $result;
-/*        
- // Checks if user is superadmin under multi-site environment or has administrator role for the standalone WP
-        if (!$user_id) {
-            if (empty($current_user) && function_exists('get_currentuserinfo')) {
-                get_currentuserinfo();
-            }
-            $user_id = !empty($current_user) ? $current_user->ID : 0;
-        }
-
-        if (!$user_id) {
-            return false;
-        }
-
-        $user = new WP_User($user_id);
-
-        $simple_admin = $this->has_administrator_role($user_id);
-
-        if ($this->multisite) {
-            $super_admins = get_super_admins();
-            $super_admin = is_array($super_admins) && in_array($user->user_login, $super_admins);
-        } else {
-            $super_admin = false;
-        }
-
-        return $simple_admin || $super_admin;
- * 
- */
     }
     // end of user_is_admin()
 
@@ -823,7 +795,7 @@ class Ure_Lib extends Garvs_WP_Lib {
             }
             
             // check if user with such role exists
-            $query = "SELECT meta_value
+            $query = "SELECT DISTINCT meta_value
                 FROM $table_name
                 WHERE meta_key='$meta_key' AND meta_value like '%$key%'";
             $roles_used = $wpdb->get_results($query);
@@ -2228,7 +2200,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 ?>		  
             <h2>User Role Editor</h2>         
             
-            <strong>Version:</strong> <?php echo URE_VERSION; ?><br/><br/>
+            <strong><?php esc_html_e('Version:', 'ure');?></strong> <?php echo URE_VERSION; ?><br/><br/>
             <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/vladimir.png'; ?>);" target="_blank" href="http://www.shinephp.com/"><?php _e("Author's website", 'ure'); ?></a><br/>
             <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/user-role-editor-icon.png'; ?>);" target="_blank" href="http://role-editor.com"><?php _e('Plugin webpage', 'ure'); ?></a><br/>
             <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/user-role-editor-icon.png'; ?>);" target="_blank" href="http://role-editor.com/download-plugin"><?php _e('Plugin download', 'ure'); ?></a><br/>
@@ -2362,11 +2334,14 @@ class Ure_Lib extends Garvs_WP_Lib {
     
     
     // returns true if current user has $capability assigned through the roles or directly
-    // returns true if current user has role with name equal $capability
+    // returns true if current user has role with name equal $cap
     public function user_has_capability($user, $cap) {
 
         global $wp_roles;
 
+        if (!is_object($user) || empty($user->ID)) {
+            return false;
+        }
         if (is_multisite() && is_super_admin($user->ID)) {
             return true;
         }
@@ -2443,5 +2418,14 @@ class Ure_Lib extends Garvs_WP_Lib {
         
     }
     // end of get_users_without_role()
+    
+    
+    public function get_current_role() {
+        
+        return $this->current_role;
+        
+    }
+    // end of get_current_role()
+    
 }
 // end of URE_Lib class

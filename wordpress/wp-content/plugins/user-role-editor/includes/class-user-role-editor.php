@@ -181,7 +181,7 @@ class User_Role_Editor {
       wp_register_script( 'ure-users-js', plugins_url( '/js/ure-users.js', URE_PLUGIN_FULL_PATH ) );
       wp_enqueue_script ( 'ure-users-js' );      
       wp_localize_script( 'ure-users-js', 'ure_users_data', array(
-        'wp_nonce' => wp_create_nonce('user-role-editor-users'),
+        'wp_nonce' => wp_create_nonce('user-role-editor'),
         'move_from_no_role_title' => esc_html__('Change role for users without role', 'ure'),
         'no_rights_caption' => esc_html__('No rights', 'ure'),  
         'provide_new_role_caption' => esc_html__('Provide new role', 'ure')
@@ -596,7 +596,7 @@ class User_Role_Editor {
     protected function get_settings_action() {
 
         $action = 'show';
-        $update_buttons = array('ure_settings_update', 'ure_settings_ms_update', 'ure_default_roles_update');
+        $update_buttons = array('ure_settings_update', 'ure_addons_settings_update', 'ure_settings_ms_update', 'ure_default_roles_update');
         foreach($update_buttons as $update_button) {
             if (!isset($_POST[$update_button])) {
                 continue;
@@ -613,7 +613,9 @@ class User_Role_Editor {
     }
     // end of get_settings_action()
 
-    
+    /**
+     * Update General Options tab
+     */
     protected function update_general_options() {
         if (defined('URE_SHOW_ADMIN_ROLE') && (URE_SHOW_ADMIN_ROLE == 1)) {
             $show_admin_role = 1;
@@ -626,14 +628,9 @@ class User_Role_Editor {
         $this->lib->put_option('ure_caps_readable', $caps_readable);
 
         $show_deprecated_caps = $this->lib->get_request_var('show_deprecated_caps', 'checkbox');
-        $this->lib->put_option('ure_show_deprecated_caps', $show_deprecated_caps);
-
-        if (!$this->lib->multisite) {
-            $count_users_without_role = $this->lib->get_request_var('count_users_without_role', 'checkbox');
-            $this->lib->put_option('count_users_without_role', $count_users_without_role);
-        }
+        $this->lib->put_option('ure_show_deprecated_caps', $show_deprecated_caps);       
         
-        do_action('ure_settings_update');
+        do_action('ure_settings_update1');
 
         $this->lib->flush_options();
         $this->lib->show_message(esc_html__('User Role Editor options are updated', 'ure'));
@@ -641,6 +638,23 @@ class User_Role_Editor {
     }
     // end of update_general_options()
 
+    
+    /**
+     * Update Additional Modules Options tab
+     */
+    protected function update_addons_options() {
+        
+        if (!$this->lib->multisite) {
+            $count_users_without_role = $this->lib->get_request_var('count_users_without_role', 'checkbox');
+            $this->lib->put_option('count_users_without_role', $count_users_without_role);
+        }
+        do_action('ure_settings_update2');
+        
+        $this->lib->flush_options();
+        $this->lib->show_message(esc_html__('User Role Editor options are updated', 'ure'));
+    }
+    // end of update_addons_options()
+    
     
     protected function update_default_roles() {
         global $wp_roles;    
@@ -695,6 +709,9 @@ class User_Role_Editor {
         switch ($action) {
             case 'ure_settings_update':
                 $this->update_general_options();
+                break;
+            case 'ure_addons_settings_update':
+                $this->update_addons_options();
                 break;
             case 'ure_settings_ms_update':
                 $this->update_multisite_options();
@@ -778,22 +795,22 @@ class User_Role_Editor {
 		
 	}
 
-	/**
-	 *  execute on plugin activation
-	 */
-	function setup() {
-		
-		$this->convert_option('ure_caps_readable');				
-		$this->convert_option('ure_show_deprecated_caps');
-		$this->convert_option('ure_hide_pro_banner');		
-		$this->lib->flush_options();
-		
-		$this->lib->make_roles_backup();
-  
-	}
-	// end of setup()
+/**
+ *  execute on plugin activation
+ */
+function setup() {
 
- 
+    $this->convert_option('ure_caps_readable');
+    $this->convert_option('ure_show_deprecated_caps');
+    $this->convert_option('ure_hide_pro_banner');
+    $this->lib->flush_options();
+
+    $this->lib->make_roles_backup();
+
+    do_action('ure_activation');
+}
+// end of setup()
+
  /**
   * Load plugin javascript stuff
   * 
@@ -812,7 +829,7 @@ class User_Role_Editor {
     wp_register_script( 'ure-js', plugins_url( '/js/ure-js.js', URE_PLUGIN_FULL_PATH ) );
     wp_enqueue_script ( 'ure-js' );
     wp_localize_script( 'ure-js', 'ure_data', array(
-        'wp_nonce' => wp_create_nonce('user-role-editor'),          
+        'wp_nonce' => wp_create_nonce('user-role-editor'),
         'page_url' => URE_WP_ADMIN_URL . URE_PARENT .'?page=users-'.URE_PLUGIN_FILE,  
         'is_multisite' => is_multisite() ? 1 : 0,  
         'select_all' => esc_html__('Select All', 'ure'),
@@ -969,7 +986,7 @@ class User_Role_Editor {
         $ajax_processor->dispatch();
         
     }
-    // end of ure_ajax_process()
+    // end of ure_ajax()
     
 
     // execute on plugin deactivation

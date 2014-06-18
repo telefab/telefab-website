@@ -19,15 +19,16 @@
     <div id="ure_tabs" style="clear: left;">
         <ul>
             <li><a href="#ure_tabs-1"><?php esc_html_e('General', 'ure');?></a></li>
-            <li><a href="#ure_tabs-2"><?php esc_html_e('Default Roles', 'ure');?></a></li>
+            <li><a href="#ure_tabs-2"><?php esc_html_e('Additional Modules', 'ure');?></a></li>
+            <li><a href="#ure_tabs-3"><?php esc_html_e('Default Roles', 'ure');?></a></li>
 <?php
     if ($this->lib->multisite) {
 ?>
-            <li><a href="#ure_tabs-3"><?php esc_html_e('Multisite', 'ure');?></a></li>
+            <li><a href="#ure_tabs-4"><?php esc_html_e('Multisite', 'ure');?></a></li>
 <?php            
     }
 ?>
-            <li><a href="#ure_tabs-4"><?php esc_html_e('About', 'ure');?></a></li>
+            <li><a href="#ure_tabs-5"><?php esc_html_e('About', 'ure');?></a></li>
         </ul>
     <div id="ure_tabs-1">
     <div id="ure-settings-form">
@@ -59,19 +60,7 @@
                     </td>
                 </tr>   
 <?php
-if (!$this->lib->multisite) {
-?>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="count_users_without_role" id="count_users_without_role" value="1" 
-                               <?php echo ($count_users_without_role == 1) ? 'checked="checked"' : ''; ?> /> 
-                        <label for="count_users_without_role"><?php esc_html_e('Count users without role', 'ure'); ?></label></td>
-                    <td>                        
-                    </td>
-                </tr>
-<?php      
-}
-    do_action('ure_settings_show');
+    do_action('ure_settings_show1');
 ?>
             </table>
     <?php wp_nonce_field('user-role-editor'); ?>   
@@ -85,7 +74,38 @@ if (!$this->lib->multisite) {
     </div> <!-- ure_tabs-1 -->
     
     <div id="ure_tabs-2">
-        <form method="post" action="<?php echo $link; ?>?page=settings-<?php echo URE_PLUGIN_FILE; ?>" >
+        <form name="ure_additional_modules" method="post" action="<?php echo $link; ?>?page=settings-<?php echo URE_PLUGIN_FILE; ?>" >
+            <table id="ure_addons">
+<?php
+if (!$this->lib->multisite) {
+?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="count_users_without_role" id="count_users_without_role" value="1" 
+                               <?php echo ($count_users_without_role == 1) ? 'checked="checked"' : ''; ?> /> 
+                        <label for="count_users_without_role"><?php esc_html_e('Count users without role', 'ure'); ?></label></td>
+                    <td>                        
+                    </td>
+                </tr>
+<?php      
+}
+?>
+                
+<?php                
+    do_action('ure_settings_show2');
+?>
+            </table>    
+<?php wp_nonce_field('user-role-editor'); ?>   
+            <input type="hidden" name="ure_tab_idx" value="1" />
+            <p class="submit">
+                <input type="submit" class="button-primary" name="ure_addons_settings_update" value="<?php _e('Save', 'ure') ?>" />
+                
+        </form>    
+    </div>    
+    
+    
+    <div id="ure_tabs-3">
+        <form name="ure_default_roles" method="post" action="<?php echo $link; ?>?page=settings-<?php echo URE_PLUGIN_FILE; ?>" >
 <?php 
     if (!$this->lib->multisite) {
         esc_html_e('Primary default role: ', 'ure');
@@ -106,17 +126,17 @@ if (!$this->lib->multisite) {
 ?>
         <hr>
         <?php wp_nonce_field('user-role-editor'); ?>   
-            <input type="hidden" name="ure_tab_idx" value="1" />
+            <input type="hidden" name="ure_tab_idx" value="2" />
             <p class="submit">
                 <input type="submit" class="button-primary" name="ure_default_roles_update" value="<?php _e('Save', 'ure') ?>" />
             </p>
         </form>      
-    </div> <!-- ure_tabs-2 -->   
+    </div> <!-- ure_tabs-3 -->   
     
 <?php
     if ($this->lib->multisite) {
 ?>
-    <div id="ure_tabs-3">
+    <div id="ure_tabs-4">
         <div id="ure-settings-form-ms">
             <form name="ure_settings_ms" method="post" action="<?php echo $link; ?>?page=settings-<?php echo URE_PLUGIN_FILE; ?>" >
                 <table id="ure_settings_ms">
@@ -135,19 +155,19 @@ if (!$this->lib->multisite) {
 ?>                    
                 </table>
 <?php wp_nonce_field('user-role-editor'); ?>   
-                <input type="hidden" name="ure_tab_idx" value="2" />
+                <input type="hidden" name="ure_tab_idx" value="3" />
             <p class="submit">
                 <input type="submit" class="button-primary" name="ure_settings_ms_update" value="<?php _e('Save', 'ure') ?>" />
             </p>                  
             </form>
         </div>   <!-- ure-settings-form-ms --> 
-    </div>  <!-- ure_tabs-3 -->
+    </div>  <!-- ure_tabs-4 -->
 <?php
     }
 ?>
-        <div id="ure_tabs-4">
+        <div id="ure_tabs-5">
             <?php $this->lib->about(); ?>
-        </div> <!-- ure_tabs-4 -->
+        </div> <!-- ure_tabs-5 -->
     </div> <!-- ure_tabs -->
 </div>
 <script>
