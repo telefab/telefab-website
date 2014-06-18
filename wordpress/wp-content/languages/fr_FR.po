@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Development package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-04-16 14:27:40+0000\n"
+"PO-Revision-Date: 2014-04-30 16:45:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -35,15 +35,15 @@ msgstr "Si vous souhaitez utiliser du contenu riche en provenance de Microsoft W
 
 #: wp-includes/class-wp-customize-control.php:856
 msgid "While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header size of <strong>%s &times; %s</strong> pixels."
-msgstr "Bien que PrestaShop vous laisse recadrer vos images comme bon vous semble après avoir cliqué sur <strong>Ajouter</strong>, il est recommandé d&rsquo;utiliser une taille de <strong>%s &times; %s</strong> pixels pour l&rsquo;en-tête."
+msgstr "Bien que WordPress vous laisse recadrer vos images comme bon vous semble après avoir cliqué sur <strong>Ajouter</strong>, il est recommandé d&rsquo;utiliser une taille de <strong>%s &times; %s</strong> pixels pour l&rsquo;en-tête."
 
 #: wp-includes/class-wp-customize-control.php:858
 msgid "While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header width of <strong>%s</strong> pixels."
-msgstr "Bien que PrestaShop vous laisse recadrer vos images comme bon vous semble après avoir cliqué sur <strong>Ajouter</strong>, il est recommandé d&rsquo;utiliser une largeur de <strong>%s</strong> pixels pour l&rsquo;en-tête."
+msgstr "Bien que WordPress vous laisse recadrer vos images comme bon vous semble après avoir cliqué sur <strong>Ajouter</strong>, il est recommandé d&rsquo;utiliser une largeur de <strong>%s</strong> pixels pour l&rsquo;en-tête."
 
 #: wp-includes/class-wp-customize-control.php:860
 msgid "While you can crop images to your liking after clicking <strong>Add new</strong>, your theme recommends a header height of <strong>%s</strong> pixels."
-msgstr "Bien que PrestaShop vous laisse recadrer vos images comme bon vous semble après avoir cliqué sur <strong>Ajouter</strong>, il est recommandé d&rsquo;utiliser une hauteur de <strong>%s</strong> pixels pour l&rsquo;en-tête."
+msgstr "Bien que WordPress vous laisse recadrer vos images comme bon vous semble après avoir cliqué sur <strong>Ajouter</strong>, il est recommandé d&rsquo;utiliser une hauteur de <strong>%s</strong> pixels pour l&rsquo;en-tête."
 
 #: wp-includes/class-wp-editor.php:959
 #: wp-includes/js/tinymce/wp-mce-help.php:16
@@ -766,7 +766,7 @@ msgstr "http://www.wordpress-fr.net/support"
 
 #: wp-includes/admin-bar.php:154
 msgid "https://wordpress.org/support/forum/requests-and-feedback"
-msgstr "https://wordpress.org/support/forum/requests-and-feedback (en anglais)"
+msgstr "https://wordpress.org/support/forum/requests-and-feedback"
 
 #: wp-includes/class-wp-customize-control.php:777
 msgid "Randomize uploaded headers"
@@ -1183,7 +1183,7 @@ msgstr "Lecture/Pause"
 
 #: wp-includes/script-loader.php:319
 msgid "Mute Toggle"
-msgstr "Inverser le son"
+msgstr "Couper le son"
 
 #: wp-includes/script-loader.php:321
 msgid "Turn off Fullscreen"
@@ -3704,7 +3704,7 @@ msgstr "Ce fichier est trop gros. La taille des fichiers doit être inférieure 
 
 #: wp-includes/locale.php:177
 msgid "number_format_decimal_point"
-msgstr ",&nbsp;"
+msgstr ","
 
 #: wp-includes/comment-template.php:2079
 msgid "Your email address will not be published."
@@ -5057,7 +5057,7 @@ msgstr " "
 
 #: wp-includes/locale.php:173
 msgid "number_format_thousands_sep"
-msgstr "&nbsp;"
+msgstr " "
 
 #: wp-includes/class-wp-image-editor-imagick.php:198
 msgid "Could not read image size"
