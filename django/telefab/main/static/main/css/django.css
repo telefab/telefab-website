@@ -205,7 +205,7 @@ body.naked {
 	height: 80px;
 	line-height: 80px;
 	padding-left: 85px;
-	background-image: url("/lab/static/main/img/logo-tb.gif");
+	background-image: url("../img/logo-tb.gif");
 	background-repeat: no-repeat;
 	background-position: left center;
 }
