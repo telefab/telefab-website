@@ -1,25 +1,20 @@
 {% extends "layout/lab.html" %}
 {% load static from staticfiles %}
 {% block title %}
-	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
+	Déclaration de prêt
 {% endblock %}
 {% block page_title %}
-	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
+	Déclaration de prêt
 {% endblock %}
 {% block lab_link %}
-	{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}
+	Déclaration de prêt
 {% endblock %}
 {% block content %}
-	<h2>{% if is_new %}Demande de prêt{% else %}Prêt{% endif %}</h2>
-	{% if is_new %}
-		<p>
-			Pour emprunter du matériel, merci de faire une demande ci-dessous.
-		</p>
-	{% endif %}
+	<h2>Déclaration de prêt</h2>
 	{% if saving_errors %}
 		<div class="msg_error">
 			<p>
-				L'enregistrement a échoué car la demande de prêt n'était pas valide :
+				L'enregistrement a échoué car la déclaration de prêt n'était pas valide :
 			</p>
 			<ul>
 				{% for error in saving_errors %}
@@ -30,14 +25,17 @@
 			</ul>
 		</div>
 	{% endif %}
-	{% if not is_owner %}
-		<p>
-			Emprunteur : <strong>{{loan.borrower_display}}</strong>
-		</p>
-	{% endif %}
 	<form method="POST" action="{% if is_new %}{% url 'main.views.edit_loan' %}{% else %}{% url 'main.views.edit_loan' loan.id %}{% endif %}" class="niceform" autocomplete="off">
 		{% csrf_token %}
 		<input type="hidden" name="action" value="save" />
+		<p>
+			<label for="borrower_username">Emprunteur :</label>
+			<input type="text" id="borrower_username" name="borrower_username" value="{{loan.borrower.username}}" />
+		</p>
+		<p>
+			<label for="borrower_email">Courrier électronique :</label>
+			<input type="email" id="borrower_email" name="borrower_email" value="{{loan.borrower.email}}" disabled="disabled" />
+		</p>
 		<p>
 			<label for="scheduled_return_date">Date de retour prévue :</label>
 			<input type="text" id="scheduled_return_date" name="scheduled_return_date" value="{{loan.scheduled_return_date|date:'d/m/Y'|default:''}}" />
@@ -101,7 +99,7 @@
 		</p>
 	</form>
 	<p>
-		<a href="{% url 'main.views.show_loans' %}">
+		<a href="{% url 'main.views.show_all_loans' %}">
 			Retour à la liste des prêts en cours
 		</a>
 	</p>
@@ -121,6 +119,16 @@
 					'id': {{equipment.object.id}},
 					'name': "{{equipment.object.name|escapejs}}",
 					'quantity': {{equipment.quantity}}
+				}{% if not forloop.last %},{% endif %}
+			{% endfor %}
+		];
+		/* Data about all users in javscript */
+		var user_data = [
+			{% for user in users %}
+				{
+					'id': "{{user.username|escapejs}}",
+					'name': "{{user.get_profile|escapejs}}",
+					'email': "{{user.email|escapejs}}"
 				}{% if not forloop.last %},{% endif %}
 			{% endfor %}
 		];

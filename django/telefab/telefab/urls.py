@@ -1,14 +1,18 @@
 from django.conf.urls import patterns, include
 
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 admin.autodiscover()
+# Replace the default admin login page by the site login page
+admin.site.login = login_required(admin.site.login)
 
 urlpatterns = patterns('',
 	# Account
-	(r'^browserid/', include('django_browserid.urls')),
 	(r'^$', 'main.views.welcome'),
 	(r'^connexion$', 'main.views.connection'),
-	(r'^deconnexion$', 'main.views.disconnect'),
+	(r'^connexion_locale$', 'main.views.local_connection'),
+	(r'^connexion_cas$', 'main.views.cas_connection'),
+	(r'^deconnexion$', 'main.views.logout'),
 	(r'^profil$', 'main.views.profile'),
 	(r'^blog$', 'main.views.blog'),
 	# Equipments

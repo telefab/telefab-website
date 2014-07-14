@@ -1,5 +1,5 @@
 {% extends "layout/default.html" %}
-{% load browserid %}
+{% load static from staticfiles %}
 {% block title %}
 	Se connecter
 {% endblock %}
@@ -11,10 +11,15 @@
 {% endblock %}
 {% block content %}
 	<p>
-		Cliquez ci-dessous pour vous connecter à l'espace "Mon lab". Si vous n'avez pas de compte, vous pourrez en créer un. Utilisez votre adresse email Télécom Bretagne si vous en avez une. 
+		<strong>L'espace "Mon lab" vous permet de gérer vos emprunts de matériel, contribuer au blog...</strong>
 	</p>
 	<p>
-		L'espace "Mon lab" vous permet de réserver du matériel, contribuer au blog...
+		Cliquez ci-dessous pour vous connecter à l'espace "Mon lab" :
 	</p>
-	{% browserid_login text='Se connecter au lab' color='dark' %}
+	<p>
+		<a href="{% url 'main.views.cas_connection' %}?next={{next}}" id="cas_link">Se connecter par Télécom Bretagne (CAS)</a>
+	</p>
+	<p>
+		<em>Si vous n'avez pas de compte à Télécom Bretagne, <a href="{% url 'main.views.local_connection' %}?next={{next}}">cliquez ici</a>.</em>
+	</p>
 {% endblock %}

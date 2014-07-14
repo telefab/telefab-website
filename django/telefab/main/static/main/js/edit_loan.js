@@ -8,13 +8,20 @@ $(function() {
 	var section_sample = null; 
 	var sections_counter = sections_list.find('.booking_section').length;
 
-
 	// Equipment names list for autocomplete
 	var equipment_names = [];
 	for (var i = 0; i < equipment_data.length; i++)
 		equipment_names[i] = {
 			"label": equipment_data[i].name + " (" + equipment_data[i].quantity + ")",
 			"value": equipment_data[i].name,
+		}
+
+	// Users list for autocomplete
+	var user_names = [];
+	for (var i = 0; i < user_data.length; i++)
+		user_names[i] = {
+			"label": user_data[i].id + " (" + user_data[i].name + ")",
+			"value": user_data[i].id
 		}
 
 	// Function to get equipment data from a booking section, or null if not known
@@ -50,6 +57,23 @@ $(function() {
 			'autoFocus': true,
 			'change': function() {check_equipment_id(element)}
 		});
+	}
+
+	// Refresh the display depending on the selected user
+	function refreshUser() {
+		var email_el = $("#borrower_email");
+		var username = $("#borrower_username").val();
+		for (var i = 0; i < user_data.length; i++) {
+			if (user_data[i].id == username) {
+				// Found the existing user
+				email_el.val(user_data[i].email);
+				email_el.prop('disabled', true);
+				return;
+			}
+		}
+		// No existing user
+		email_el.val("@telecom-bretagne.eu");
+		email_el.prop('disabled', false);
 	}
 
 	// Button to add some equipment
@@ -115,8 +139,33 @@ $(function() {
 	// Adds autocomplete to existing elements
 	add_autocomplete(sections_list.find('.equipment_name'));
 
+	// Adds autocomplete to user selection
+	$("#borrower_username").autocomplete({
+		'source': user_names,
+		'autoFocus': true,
+		'change': refreshUser,
+		'close': refreshUser,
+	});
+	$("#borrower_username").keyup(refreshUser);
+
 	// Check the whole form on submit
 	$('form').submit(function() {
+		// Check the email if the user does not exist
+		var username = $("#borrower_username").val();
+		var email = $("#borrower_email").val();
+		for (var i = 0; i < user_data.length; i++) {
+			if (user_data[i].id == username) {
+				if (! email.match(/^[^@]+@[^@]+$/)) {
+				$('<p />').text("Merci d'indiquer un courrier électronique valide pour le nouvel utilisateur.").dialog({
+					modal: true,
+					resizable: false,
+					draggable: false,
+					title: "Erreur"
+				});
+				return false;
+				}
+			}
+		}
 		// Check the return date
 		var date = $('#scheduled_return_date').datepicker('getDate');
 		if (date == null) {

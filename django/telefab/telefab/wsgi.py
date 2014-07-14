@@ -23,6 +23,13 @@ sys.path.append(GLOBAL_ROOT)
 # Set the telefab settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "telefab.settings")
 
+# Workaround for a bug in the openssl implementation
+# when connecting to a site that forces SSLv3
+# Required for CAS authentication
+import ssl
+from functools import partial
+ssl.wrap_socket = partial(ssl.wrap_socket, ssl_version=ssl.PROTOCOL_SSLv3)
+
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.

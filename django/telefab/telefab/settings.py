@@ -2,7 +2,6 @@
 # Django settings for telefab project.
 
 from local_settings import *
-from browserid_settings import guess_username
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -96,8 +95,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_cas.middleware.CASMiddleware',
 )
 
 ROOT_URLCONF = 'telefab.urls'
@@ -114,7 +112,7 @@ TEMPLATE_DIRS = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django_browserid',
+    'django_cas',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -125,7 +123,7 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'django_browserid.auth.BrowserIDBackend',
+    'django_cas.backends.CASBackend',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -151,17 +149,36 @@ LOGGING = {
         }
     },
     'handlers': {
-        'file': {
+        'file_error': {
             'level': 'ERROR',
-            'filters': ['require_debug_false'],
             'class': 'logging.FileHandler',
             'filename': GLOBAL_ROOT + 'log/errors.log',
+        },
+        'file_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': GLOBAL_ROOT + 'log/debug.log',
         }
     },
     'loggers': {
         'django.request': {
-            'handlers': ['file'],
+            'handlers': ['file_error'],
             'level': 'ERROR',
+            'propagate': True,
+        },
+        'django_cas.backends': {
+            'handlers': ['file_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['file_debug'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django_cas.backends': {
+            'handlers': ['file_debug'],
+            'level': 'DEBUG',
             'propagate': True,
         },
     }
@@ -187,8 +204,11 @@ LOGIN_REDIRECT_URL = URL_ROOT
 # Path to redirect to on unsuccessful login attempt.
 LOGIN_REDIRECT_URL_FAILURE = URL_ROOT + "connexion"
 
-# Function to guess the user id from the browserid email
-BROWSERID_USERNAME_ALGO = guess_username
+# URL of the Telecom Bretagne CAS server
+CAS_SERVER_URL = "https://login.telecom-bretagne.eu/cas/"
+
+# Create users in database automatically
+CAS_AUTO_CREATE_USERS = True
 
 # Browser ID request options
 BROWSERID_REQUEST_ARGS = {'siteName': u'Téléfab'}

@@ -1,18 +1,23 @@
 # This file uses the following encoding: utf-8 
 from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.template import RequestContext, Context, Template
 from django.http import HttpResponse, Http404
 from django.core import urlresolvers
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import auth
+from urlparse import urljoin
+from urllib import urlencode
 from models import *
+from forms import *
 from datetime import date, datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django_cas.views import login as cas_login
 from telefab.local_settings import WEBSITE_CONFIG, API_PASSWORD
-from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME
+from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME, URL_ROOT, CAS_SERVER_URL
 import math
 
 @login_required
@@ -82,24 +87,18 @@ def edit_loan(request, loan_id=None):
 	"""
 	Allows users to edit a loan or create one
 	"""
+	# Only animators
+	if not request.user.get_profile().is_animator():
+		raise PermissionDenied()
 	# Get the loan to edit or create a new loan
 	loan = None
 	is_new = False
-	is_owner = True
 	saving_errors = []
 	if loan_id is not None:
 		loan = get_object_or_404(Loan, pk=loan_id)
-		# Check that the user can edit this loan
-		if loan.borrower != request.user:
-			if not request.user.get_profile().is_animator() or loan.cancel_time:
-				raise PermissionDenied()
-			is_owner = False
-		elif not loan.is_waiting() and not request.user.get_profile().is_animator():
-			raise PermissionDenied()
 	else:
 		loan = Loan()
-		loan.borrower = request.user
-		loan.request_time = datetime.now()
+		loan.loan_time = datetime.now()
 		is_new = True
 	# Check if some data has been sent
 	if request.POST.get("action", None) == "save":
@@ -195,27 +194,35 @@ def edit_loan(request, loan_id=None):
 		# Check that there is at least 1 booking
 		if bookings_count == 0:
 			saving_errors.append(u"au moins un équipement doit être réservé")
+		# Check data about the borrower
+		borrower = None
+		username = request.POST.get("borrower_username", None)
+		if username is None:
+			saving_errors.append("Merci d'indiquer le nom d'utilisateur de l'emprunteur")
+		try:
+			borrower = User.objects.get(username = username)
+		except User.DoesNotExist:
+			email = request.POST.get("borrower_email", None)
+			if email is None:
+				saving_errors.append("Merci d'indiquer l'adresse électronique de l'emprunteur")
+			borrower = User(username = username, email = email)
+			borrower.set_unusable_password()
+			try:
+				borrower.full_clean()
+			except ValidationError as e:
+				saving_errors.append("L'adresse électronique de l'emprunteur est invalide (" + str(e) + ")")
+		# Save all if no error
 		if not saving_errors:
-			# Save all if no error
+			borrower.save()
+			loan.borrower_id = borrower.id
 			loan.save()
 			for booking in to_delete:
 				booking.delete()
 			for booking in to_save:
 				booking.loan_id = loan.id
 				booking.save()
-			if is_new:
-				# Send an email to all animators about the new request
-				body = unicode(request.user.get_profile()) + u" a fait une demande de matériel au Téléfab (retour prévu le " + unicode(loan.scheduled_return_date.strftime("%d/%m/%Y")) + u") :\n"
-				for booking in loan.bookings.all():
-					body = body + u"* " + unicode(booking.equipment)
-					if booking.quantity > 1:
-						body = body + u" (" + unicode(booking.quantity) + u")"
-					body = body + "\n"
-				body = body + u"\nPour voir toutes les demandes, allez ici : " + unicode(SITE_URL + urlresolvers.reverse('main.views.show_all_loans'))
-				for animator in UserProfile.get_animators():
-					send_mail(u"[Téléfab] Demande de matériel : " + unicode(request.user.get_profile()), body, EMAIL_FROM, [animator.email])
 			# Redirect
-			return redirect(urlresolvers.reverse('main.views.show_loans'))
+			return redirect(urlresolvers.reverse('main.views.show_all_loans'))
 	# Render
 	all_equipments = Equipment.objects.filter(quantity__gt = 0)
 	equipments = []
@@ -226,11 +233,12 @@ def edit_loan(request, loan_id=None):
 				'object': equipment,
 				'quantity': equipment.available_quantity(loan)
 			})
+	users = User.objects.all()
 	template_data = {
 		'loan': loan,
 		'is_new': is_new,
-		'is_owner': is_owner,
 		'equipments': equipments,
+		'users': users,
 		'saving_errors': saving_errors
 	}
 	return render_to_response("loans/edit.html", template_data, context_instance = RequestContext(request))
@@ -242,8 +250,8 @@ def show_loans(request):
 	"""
 	# Loans finished less than 7 days ago
 	last_time = datetime.now() - timedelta(days=7)
-	loans = request.user.loans.filter(cancel_time = None, return_time = None).order_by('-request_time')
-	old_loans = request.user.loans.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))).order_by('-request_time')
+	loans = request.user.loans.filter(cancel_time = None, return_time = None).order_by('-loan_time')
+	old_loans = request.user.loans.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).order_by('-loan_time')
 	template_data = {
 		'loans': loans,
 		'old_loans': old_loans
@@ -260,8 +268,8 @@ def show_all_loans(request):
 		raise PermissionDenied()
 	# Loans finished less than 7 days ago
 	last_time = datetime.now() - timedelta(days=7)
-	loans = Loan.objects.filter(cancel_time = None, return_time = None).order_by('-request_time')
-	old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))).order_by('-request_time')
+	loans = Loan.objects.filter(cancel_time = None, return_time = None).order_by('-loan_time')
+	old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).order_by('-loan_time')
 	template_data = {
 		'loans': loans,
 		'old_loans': old_loans,
@@ -275,11 +283,12 @@ def manage_loan(request, loan_id, action, value):
 	Allows animators to manage loans: cancel or confirm
 	"""
 	# Only animators
+	if not request.user.get_profile().is_animator():
+		raise PermissionDenied()
+	# Detect action
 	loan = get_object_or_404(Loan, pk=loan_id)
 	if action == "cancel":
 		# Manage the cancel status
-		if (loan.borrower != request.user or loan.loan_time) and not request.user.get_profile().is_animator():
-			raise PermissionDenied()
 		if value == "1":
 			loan.cancel_time = datetime.now()
 			loan.cancelled_by = request.user
@@ -287,32 +296,14 @@ def manage_loan(request, loan_id, action, value):
 			loan.cancel_time = None
 	elif action =="return":
 		# Manage the return status
-		if not request.user.get_profile().is_animator():
-			raise PermissionDenied()
-		if loan.cancel_time or not loan.loan_time:
-			raise PermissionDenied()
 		if value == "1":
 			loan.return_time = datetime.now()
 		else:
 			loan.return_time = None
-	elif action == "confirm":
-		# Manage the confirm status
-		if not request.user.get_profile().is_animator():
-			raise PermissionDenied()
-		if loan.cancel_time:
-			raise PermissionDenied()
-		if value == "1":
-			loan.loan_time = datetime.now()
-			loan.lender = request.user
-		else:
-			loan.loan_time = None
 	else:
 		raise Http404()
 	loan.save()
-	if request.user.get_profile().is_animator():
-		return redirect(urlresolvers.reverse('main.views.show_all_loans'))
-	else:
-		return redirect(urlresolvers.reverse('main.views.show_loans'))
+	return redirect(urlresolvers.reverse('main.views.show_all_loans'))
 
 # Account
 
@@ -322,7 +313,7 @@ def welcome(request):
 	Welcome page of the lab
 	"""
 	# If the user has not filled its profile: ask (only once)
-	if (not request.user.first_name or not request.user.last_name) and not request.session.get("already_welcome", False):
+	if (not request.user.first_name or not request.user.last_name or not request.user.email) and not request.session.get("already_welcome", False):
 		request.session["already_welcome"] = True
 		return redirect(urlresolvers.reverse('main.views.profile') + "?first_edit=1")
 	template_data = {
@@ -333,7 +324,7 @@ def welcome(request):
 
 def connection(request):
 	"""
-	Allows to register or log in
+	Default page to log in
 	"""
 	if request.user.is_authenticated():
 		return redirect(urlresolvers.reverse('main.views.welcome'))
@@ -343,43 +334,93 @@ def connection(request):
 		}
 		return render_to_response("account/connection.html", template_data, context_instance = RequestContext(request))
 
-def disconnect(request):
+def local_connection(request):
 	"""
-	Log the user out
+	Allows to log in locally
 	"""
-	logout(request)
-	return render_to_response("account/disconnect.html", context_instance = RequestContext(request))
+	error = False
+	if request.user.is_authenticated():
+		return redirect(urlresolvers.reverse('main.views.welcome'))
+	# Remember the login method
+	request.session['auth_method'] = 'local'
+	if request.method == 'POST':
+		user = auth.authenticate(username=request.REQUEST.get('username'), password=request.REQUEST.get('password'))
+		if user is not None and user.is_active:
+			auth.login(request, user)
+			return redirect(urlresolvers.reverse('main.views.welcome'))
+		else:
+			error = True
+	template_data = {
+		'error': error,
+		'next': request.REQUEST.get('next', '')
+	}
+	return render_to_response("account/local_connection.html", template_data, context_instance = RequestContext(request))
 
+def cas_connection(request):
+	"""
+	Allows to log in using CAS
+	"""
+	if request.user.is_authenticated():
+		return redirect(urlresolvers.reverse('main.views.welcome'))
+	# Remember the login method
+	request.session['auth_method'] = 'CAS'
+	return cas_login(request)
+
+@login_required
+def logout(request):
+	"""
+	Log out from CAS and locally
+	"""
+	auth_method = request.session.get('auth_method', None)
+	# Forget the login method
+	try:
+		del request.session['auth_method']
+	except KeyError:
+		pass
+	auth.logout(request)
+	# Log out from CAS if needed
+	if auth_method == 'CAS':
+		return redirect(urljoin(CAS_SERVER_URL, 'logout') + '?' + urlencode({'service': SITE_URL + URL_ROOT}))
+	else:
+		return redirect(SITE_URL + URL_ROOT)
+
+@login_required
 def blog(request):
 	"""
-	Simple page to allow to log in on the blog.
-	If the user seems to be logged in, send directly
+	Redirect to the right blog login page
 	"""
-	if request.user.is_authenticated() and request.user.get_profile().is_blog_user():
-		# Persona logged in users will be detected and managed by wordpress
-		return redirect('/wp-admin')
-	return render_to_response("account/blog.html", context_instance = RequestContext(request))
+	if request.session.get('auth_method', None) == 'CAS':
+		# Persons logged in through CAS will have their WP account created automatically
+		return redirect('/wp-login.php')
+	else:
+		# Locally logged in users will have to log in manually to WordPress
+		return redirect('/wp-login.php?wp')
 
 @login_required
 def profile(request):
 	"""
 	Modify the user profile
 	"""
+	just_saved = False
 	# Did the user get sent here automatically at login?
 	first_edit = request.REQUEST.get('first_edit', False)
 	# Get data if any
-	first_name = request.POST.get('first_name', None)
-	last_name = request.POST.get('last_name', None)
-	just_saved = False
-	if first_name is not None and last_name is not None :
-		request.user.first_name = first_name
-		request.user.last_name = last_name
-		request.user.save()
-		just_saved = True
-		if first_edit:
-			# Go home if first time
-			return redirect(urlresolvers.reverse('main.views.welcome'))
+	if request.method == 'POST':
+		form = ProfileForm(request.POST, instance = request.user)
+		if form.is_valid():
+			form.save()
+			just_saved = True
+			if first_edit:
+				# Go home if first time
+				return redirect(urlresolvers.reverse('main.views.welcome'))
+	else:
+		initial = {}
+		if not request.user.email:
+			initial['email'] = '@telecom-bretagne.eu'
+		form = ProfileForm(instance = request.user, initial = initial)
+
 	template_data = {
+		'form': form,
 		'first_edit': first_edit,
 		'just_saved': just_saved
 	}

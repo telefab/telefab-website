@@ -1,9 +1,8 @@
 {% extends "layout/default.html" %}
-{% load browserid %}
 {% block menu_link_lab %}current-menu-item{% endblock %}
 {% block page_link %}
 	<a href="{% url 'main.views.welcome' %}">Mon lab</a> <span class="raquo">»</span> {% block lab_link %}{% endblock %}
 {% endblock %}
 {% block context_menu %}
-	{{ user.get_profile }} {% browserid_logout text='Se déconnecter' %}
+	{{ user.get_profile }} <a href="{% url 'main.views.logout' %}">Se déconnecter</a>
 {% endblock %}

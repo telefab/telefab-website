@@ -111,14 +111,14 @@ body.naked {
 
 /* Message blocks */
 
-.msg_confirm, .msg_error {
+.msg_confirm, .msg_error, .niceform .errorlist {
 	margin: 20px;
 	padding: 5px;
 	border-style: solid;
 	border-width: 1px;
 }
 
-.msg_confirm p, .msg_confirm ul, .msg_error p, .msg_error ul {
+.msg_confirm p, .msg_confirm ul, .msg_error p, .msg_error ul, .niceform .errorlist li {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-top: 0;
@@ -130,8 +130,12 @@ body.naked {
 }
 
 
-.msg_error {
+.msg_error, .niceform .errorlist {
 	border-color: red;
+}
+
+.niceform .errorlist li {
+	list-style-type: none;
 }
 
 /* Tables */
@@ -192,6 +196,18 @@ body.naked {
 
 #content .pager .next {
 	float: right;
+}
+
+/* Authentication */
+
+#cas_link {
+	display: block;
+	height: 80px;
+	line-height: 80px;
+	padding-left: 85px;
+	background-image: url("/lab/static/main/img/logo-tb.gif");
+	background-repeat: no-repeat;
+	background-position: left center;
 }
 
 /* Mobile style */

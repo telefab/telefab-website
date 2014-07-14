@@ -27,14 +27,7 @@
 		{% if first_edit %}
 			<input type="hidden" name="first_edit" value="1" />
 		{% endif %}
-		<p>
-			<label for="first_name">Prénom :</label>
-			<input type="text" name="first_name" id="first_name" value="{{user.first_name}}" />
-		</p>
-		<p>
-			<label for="last_name">Nom :</label>
-			<input type="text" name="last_name" id="last_name" value="{{user.last_name}}" />
-		</p>
+		{{ form.as_p }}
 		<p class="submit">
 			<input type="submit" value="Enregistrer" />
 		</p>

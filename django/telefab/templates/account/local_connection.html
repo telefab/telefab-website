@@ -1,0 +1,38 @@
+{% extends "layout/default.html" %}
+{% load static from staticfiles %}
+{% block title %}
+	Connexion locale
+{% endblock %}
+{% block page_title %}
+	Connexion locale
+{% endblock %}
+{% block page_link %}
+	Connexion locale
+{% endblock %}
+{% block content %}
+	<p>
+		Vous n'avez pas de compte à Télécom Bretagne. Vous pouvez vous connecter avec le nom d'utilisateur et le mot de passe que nous vous avons fournis. Si vous n'en avez pas, contactez nous.
+	</p>
+	<form class="niceform" method="post" action="{% url 'main.views.local_connection' %}">
+		{% csrf_token %}
+		{% if error %}
+			<div class="msg_error">
+				<p>
+					Le nom d'utilisateur ou le mot de passe est invalide.
+				</p>
+			</div>
+		{% endif %}
+		<p>
+			<label for="id_username">Nom d'utilisateur :</label>
+			<input type="text" name="username" id="id_username"> 
+		</p>
+		<p>
+			<label for="id_password">Mot de passe :</label>
+			<input type="password" name="password" id="id_password"> 
+		</p>
+		<p>
+			<input type="hidden" name="next" value="{{ next }}">
+			<input type="submit" value="Se connecter">
+		</p>
+	</form>
+{% endblock %}

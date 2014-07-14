@@ -10,14 +10,18 @@
 {% endblock %}
 {% block content %}
 	<h2>Prêts en cours</h2>
-	{% include "loans/_list.html" with loans=loans animator=animator only %}
 	{% if not animator %}
 		<p>
+			Vous êtes responsable du matériel prêté. Rendez le matériel directement à un animateur du Téléfab.
+		</p>
+	{% else %}
+		<p>
 			<a href="{% url 'main.views.edit_loan' %}">
-				Faire une demande de prêt
+				Déclarer un prêt
 			</a>
 		</p>
 	{% endif %}
+	{% include "loans/_list.html" with loans=loans animator=animator only %}
 	<h2>Anciens prêts (visibles 7 jours)</h2>
 	{% include "loans/_list.html" with loans=old_loans animator=animator only %}
 {% endblock %}
