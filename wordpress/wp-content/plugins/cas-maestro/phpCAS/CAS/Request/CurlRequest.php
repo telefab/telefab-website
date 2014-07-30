@@ -129,6 +129,12 @@ implements CAS_Request_RequestInterface
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         }
 
+        /**
+         * Fix by Tristan:
+         * for an OpenSSL bug: force SSLv3
+         */
+        curl_setopt($ch, CURLOPT_SSLVERSION, 3);
+
         /*********************************************************
          * Configure curl to capture our output.
         *********************************************************/
