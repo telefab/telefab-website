@@ -2760,7 +2760,6 @@ class CAS_Client
 
         // open and read the URL
         if ( !$this->_readURL($validate_url, $headers, $text_response, $err_msg) ) {
-            var_dump($err_msg);
             phpCAS::trace('could not open URL \''.$validate_url.'\' to validate ('.$err_msg.')');
             throw new CAS_AuthenticationException(
                 $this, 'Ticket not validated', $validate_url,

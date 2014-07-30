@@ -3,7 +3,7 @@
 Plugin Name: CAS Maestro
 Plugin URL: http://nme.ist.utl.pt
 Description: CAS plugin with LDAP integration
-Version: 1.1.2
+Version: 1.1.3
 Author: NME - Núcleo de Multimédia e E-Learning.
 Author URI: http://nme.ist.utl.pt
 Text Domain: CAS_Maestro
@@ -49,6 +49,8 @@ class CAS_Maestro {
 	public $current_page_hook;
 
 	public $bypass_cas = false;
+
+	public $change_users_capability;
 	/*--------------------------------------------*
 	 * Constructor
 	 *--------------------------------------------*/
@@ -99,14 +101,16 @@ class CAS_Maestro {
  		$this->settings = get_option('wpCAS_settings',$this->network_settings);
  		$this->phpcas_path = get_option('wpCAS_phpCAS_path',CAS_MAESTRO_PLUGIN_PATH.'phpCAS/CAS.php');
  		$this->allowed_users = get_option('wpCAS_allowed_users',array());	
+ 		$this->change_users_capability = 'edit_posts';
 
  		if(!isset($_SESSION))
 			session_start();
 
  		$this->bypass_cas = defined('WPCAS_BYPASS') || isset($_GET['wp']) || isset($_GET['checkemail']) ||
  			(isset($_SESSION['not_using_CAS']) && $_SESSION['not_using_CAS'] == true);
-		
-		$this->init(!$this->bypass_cas);
+
+ 		$this->init(!$this->bypass_cas);
+
 	} 
  
 
@@ -418,23 +422,38 @@ class CAS_Maestro {
 	}
 
 	function register_menus() {
-		switch($this->settings['cas_menu_location']) {
-			case 'sidebar':
-				$settings_page = add_menu_page(__('CAS Maestro Settings', "CAS_Maestro"), 
-					__('CAS Maestro', "CAS_Maestro"), 
-					'manage_options', 
-					'wpcas_settings', 
-					array(&$this,'admin_interface'),
-					'',
-					214);
-				break;
-			case 'settings':
-			default:
-				$settings_page = add_options_page(__('CAS Maestro', "CAS_Maestro"), 
-					__('CAS Maestro', "CAS_Maestro"), 8, 
-					'wpcas_settings', 
-					array(&$this,'admin_interface'));
-				break;
+		// If you wanna change the capability to edit authorized users, filter on this hook.
+ 		$this->change_users_capability = apply_filters('cas_maestro_change_users_capability', 
+ 			$this->change_users_capability);
+
+		if( current_user_can( 'manage_options' ) ) {
+			switch($this->settings['cas_menu_location']) {
+				case 'sidebar':
+						$settings_page = add_menu_page(__('CAS Maestro Settings', "CAS_Maestro"), 
+							__('CAS Maestro', "CAS_Maestro"), 
+							'manage_options', 
+							'wpcas_settings', 
+							array(&$this,'admin_interface'),
+							'',
+							214);
+					break;
+				case 'settings':
+				default:
+					$settings_page = add_options_page(__('CAS Maestro', "CAS_Maestro"), 
+						__('CAS Maestro', "CAS_Maestro"), 8, 
+						'wpcas_settings', 
+						array(&$this,'admin_interface'));
+					break;
+			}
+		} else if( !current_user_can( 'manage_options' )  
+			&& current_user_can( $this->change_users_capability ) ) {
+			$settings_page = add_menu_page(__('CAS Maestro Settings', "CAS_Maestro"), 
+							__('CAS Maestro', "CAS_Maestro"), 
+							$this->change_users_capability, 
+							'wpcas_settings', 
+							array(&$this,'admin_interface'),
+							'',
+							214);
 		}
 		add_action( "load-{$settings_page}", array(&$this, 'onLoad_settings_page') );
 	}
@@ -442,15 +461,18 @@ class CAS_Maestro {
 	function add_meta_boxes() {
 		//Metabox General Settings
 		foreach($this->settings_hook as $settings_hook) {
-			add_meta_box(
-				'wpcas_general_settings',
-				__( 'General Settings', 'CAS_Maestro'),
-				array(&$this, 'meta_box_render'),
-				$settings_hook,
-				'main',
-				'high',
-				array( 'metabox' => 'general' )
-			);
+
+			if(current_user_can('manage_options')) 
+				add_meta_box(
+					'wpcas_general_settings',
+					__( 'General Settings', 'CAS_Maestro'),
+					array(&$this, 'meta_box_render'),
+					$settings_hook,
+					'main',
+					'high',
+					array( 'metabox' => 'general' )
+				);
+
 			//Metabox registration settings
 			add_meta_box(
 				'wpcas_registration',
@@ -461,27 +483,30 @@ class CAS_Maestro {
 				'high',
 				array( 'metabox' => 'registration' )
 			);
+
 			//Metabox mailing settings
-			add_meta_box(
-				'wpcas_mailing',
-				__( 'Mailing', 'CAS_Maestro'),
-				array(&$this, 'meta_box_render'),
-				$settings_hook,
-				'main',
-				'high',
-				array( 'metabox' => 'mail' )
-			);
+			if(current_user_can('manage_options')) 
+				add_meta_box(
+					'wpcas_mailing',
+					__( 'Mailing', 'CAS_Maestro'),
+					array(&$this, 'meta_box_render'),
+					$settings_hook,
+					'main',
+					'high',
+					array( 'metabox' => 'mail' )
+				);
 
 			//SIDE META BOXES
-			add_meta_box(
-				'wpcas_pdates',
-				__( 'Important note', 'CAS_Maestro'),
-				array(&$this, 'meta_box_render'),
-				$settings_hook,
-				'side',
-				'high',
-				array( 'metabox' => 'help_metabox' )
-			);
+			if(current_user_can('manage_options')) 
+				add_meta_box(
+					'wpcas_pdates',
+					__( 'Important note', 'CAS_Maestro'),
+					array(&$this, 'meta_box_render'),
+					$settings_hook,
+					'side',
+					'high',
+					array( 'metabox' => 'help_metabox' )
+				);
 
 			add_meta_box(
 				'wpcas_u1dates',
@@ -552,56 +577,63 @@ class CAS_Maestro {
 	}
 
 	function save_settings() {
-
-		$optionarray_update = array (
-			//CAS Settings				
-			'cas_version' => $_POST['cas_version'],
-			'server_hostname' => $_POST['server_hostname'],
-			'server_port' => $_POST['server_port'],
-			'server_path' => $_POST['server_path'],
-			//LDAP Settings
-	    	'ldap_protocol'=>$_POST['ldap_protocol'],
-	    	'ldap_server'=>$_POST['ldap_server'],
-	    	'ldap_port'=>$_POST['ldap_port'],
-	    	'ldap_username_rdn'=>$_POST['ldap_username_rdn'],
-	    	'ldap_password'=>$_POST['ldap_password'],
-	    	'ldap_basedn'=>$_POST['ldap_basedn'],
-	    	'e-mail_registration' => $_POST['e-mail_registration'],
-	    	'full_name' => $_POST['full_name'],
-	    	//Mailing Settings
-			'global_sender' => $_POST['global_sender'],
-			'welcome_mail' => array(
-			    	'send_user'=> (bool)$_POST['welcome_send_user'],
-			    	'send_global'=>(bool)$_POST['welcome_send_global'],
-			    	'subject'=>$_POST['welcome_subject'],
-			    	'user_body'=>$_POST['welcome_user_body'],
-			    	'global_body' => $_POST['welcome_global_body'],
-			    ),
-			//Waiting for access email
-		    'wait_mail' => array(
-		    		'send_user'=> (bool)$_POST['wait_send_user'],
-		    		'send_global'=>(bool)$_POST['wait_send_global'],
-		    		'subject'=>$_POST['wait_subject'],
-		    		'user_body'=>$_POST['wait_user_body'],
-		    		'global_body' => $_POST['wait_global_body'],
-		    	),
-			'new_user' => $_POST['new_user'],
-			'email_suffix' => $_POST['email_suffix'],
-			//Global settings
-			'cas_menu_location' => $_POST['admin_menu'],
-		);
-
-		$mandatory_fields = array(
-			'server_hostname',
-			'server_port'
+		if(current_user_can('manage_options')) {
+			$optionarray_update = array (
+				//CAS Settings				
+				'cas_version' => $_POST['cas_version'],
+				'server_hostname' => $_POST['server_hostname'],
+				'server_port' => $_POST['server_port'],
+				'server_path' => $_POST['server_path'],
+				//LDAP Settings
+		    	'ldap_protocol'=>$_POST['ldap_protocol'],
+		    	'ldap_server'=>$_POST['ldap_server'],
+		    	'ldap_port'=>$_POST['ldap_port'],
+		    	'ldap_username_rdn'=>$_POST['ldap_username_rdn'],
+		    	'ldap_password'=>$_POST['ldap_password'],
+		    	'ldap_basedn'=>$_POST['ldap_basedn'],
+		    	'e-mail_registration' => $_POST['e-mail_registration'],
+		    	'full_name' => $_POST['full_name'],
+		    	//Mailing Settings
+				'global_sender' => $_POST['global_sender'],
+				'welcome_mail' => array(
+				    	'send_user'=> (bool)$_POST['welcome_send_user'],
+				    	'send_global'=>(bool)$_POST['welcome_send_global'],
+				    	'subject'=>$_POST['welcome_subject'],
+				    	'user_body'=>$_POST['welcome_user_body'],
+				    	'global_body' => $_POST['welcome_global_body'],
+				    ),
+				//Waiting for access email
+			    'wait_mail' => array(
+			    		'send_user'=> (bool)$_POST['wait_send_user'],
+			    		'send_global'=>(bool)$_POST['wait_send_global'],
+			    		'subject'=>$_POST['wait_subject'],
+			    		'user_body'=>$_POST['wait_user_body'],
+			    		'global_body' => $_POST['wait_global_body'],
+			    	),
+				'new_user' => $_POST['new_user'],
+				'email_suffix' => $_POST['email_suffix'],
+				//Global settings
+				'cas_menu_location' => $_POST['admin_menu'],
 			);
-		if($optionarray_update['e-mail_registration'] == 3) { 
-			//If LDAP is selected
-			$new_mandatory = array(
-				'ldap_server',
-				'ldap_basedn',
+
+			$mandatory_fields = array(
+				'server_hostname',
+				'server_port'
 				);
-			$mandatory_fields = array_merge($new_mandatory,$mandatory_fields);
+			if($optionarray_update['e-mail_registration'] == 3) { 
+				//If LDAP is selected
+				$new_mandatory = array(
+					'ldap_server',
+					'ldap_basedn',
+					);
+				$mandatory_fields = array_merge($new_mandatory,$mandatory_fields);
+			}
+
+			//Create an update array without empty fields
+			$updated_array = $optionarray_update;
+			
+			$this->settings = array_merge($this->settings,$updated_array);	
+			update_option('wpCAS_settings',$this->settings);
 		}
 
 		//Allowed users to register processing
@@ -613,14 +645,10 @@ class CAS_Maestro {
 				$allowed_users[$username] = $_POST['role'][$i];
 			}
 
-		//Create an update array without empty fields
-		$updated_array = $optionarray_update;
 
 		$this->allowed_users = $allowed_users;
-		$this->settings = array_merge($this->settings,$updated_array);	
 
 		update_option('wpCAS_allowed_users',$this->allowed_users);
-		update_option('wpCAS_settings',$this->settings);
 
 		//Check for empty fields to output error message
 		global $output_error;

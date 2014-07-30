@@ -17,6 +17,7 @@ foreach($raw_roles as $role => $value) {
 
   <h2><?php _e("User registration", 'CAS_Maestro'); ?></h2>
   <div>
+ <?php if(current_user_can('manage_options')): ?>
     <div class="main_content">
       <div>
         <p><?php _e("In order to register a new user an email address is required. In case you don’t want to set the email address manually, please chose from the options below.", 'CAS_Maestro'); ?></p>
@@ -57,10 +58,10 @@ foreach($raw_roles as $role => $value) {
             </tr>
           </table>
           <div class='availability_result' id='ldap_availability_result'></div>
-
       </div>
     </div>
-    <div class="sidebar">
+<?php endif; ?>
+    <div <?php echo (current_user_can('manage_options') ? 'class="sidebar"' : '') ?>>
       <p><?php _e("The option to register all users, allows all users to be added to the system with subscriber profile, with no exception.", 'CAS_Maestro'); ?></p>
       <p><input name="new_user" type="checkbox" id="new_user_inp" value="1" <?php checked('1', $this->settings['new_user']); ?> /><label for="new_user_inp"><?php _e("Register all users?", 'CAS_Maestro'); ?></label></p>
     </div>

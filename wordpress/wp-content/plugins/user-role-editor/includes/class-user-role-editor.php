@@ -16,11 +16,19 @@ class User_Role_Editor {
     // URE's key capability
     public $key_capability = 'not allowed';
 	
+    // URE pages hook suffixes
+    protected $ure_hook_suffixes = null;
+    
     /**
      * class constructor
      */
-    function __construct($library) 
-    {
+    function __construct($library) {
+
+        if (class_exists('User_Role_Editor_Pro')) {
+         $this->ure_hook_suffixes = array('settings_page_settings-user-role-editor-pro', 'users_page_users-user-role-editor-pro');         
+        } else {
+         $this->ure_hook_suffixes = array('settings_page_settings-user-role-editor', 'users_page_users-user-role-editor');
+        }
         
         // activation action
         register_activation_hook(URE_PLUGIN_FULL_PATH, array($this, 'setup'));
@@ -170,6 +178,8 @@ class User_Role_Editor {
       wp_enqueue_style('ure-admin-css', URE_PLUGIN_URL . 'css/ure-admin.css', array(), false, 'screen');
       
   }
+  // end of add_css_to_users_page()
+  
   
   public function add_js_to_users_page() {
   
@@ -795,35 +805,62 @@ class User_Role_Editor {
 		
 	}
 
+	/**
+	 *  execute on plugin activation
+	 */
+	function setup() {
+		
+		$this->convert_option('ure_caps_readable');				
+		$this->convert_option('ure_show_deprecated_caps');
+		$this->convert_option('ure_hide_pro_banner');		
+		$this->lib->flush_options();
+		
+		$this->lib->make_roles_backup();
+
+		do_action('ure_activation');
+  
+	}
+	// end of setup()
+
+ 
+    /**
+     * Unload WP TechGoStore theme JS and CSS to exclude compatibility issues with URE
+     */
+    protected function unload_techgostore($hook_suffix) {
+                
+        if (!defined('THEME_SLUG') || THEME_SLUG!=='techgo_') {
+            return;
+        }  
+        
+        if ( !in_array($hook_suffix, $this->ure_hook_suffixes) && !in_array($hook_suffix, array('users.php', 'profile.php')) ) {
+            return;
+        }
+        wp_deregister_script('jqueryform');
+        wp_deregister_script('tab');
+        wp_deregister_script('shortcode_js');
+        wp_deregister_script('fancybox_js');
+        wp_deregister_script('bootstrap-colorpicker');
+        wp_deregister_script('logo_upload');
+        wp_deregister_script('js_wd_menu_backend');
+        
+        wp_deregister_style('config_css');
+        wp_deregister_style('fancybox_css');
+        wp_deregister_style('colorpicker');
+        wp_deregister_style('font-awesome');
+        wp_deregister_style('css_wd_menu_backend');
+    }
+
+// end of unload_techgostore()
+
 /**
- *  execute on plugin activation
- */
-function setup() {
-
-    $this->convert_option('ure_caps_readable');
-    $this->convert_option('ure_show_deprecated_caps');
-    $this->convert_option('ure_hide_pro_banner');
-    $this->lib->flush_options();
-
-    $this->lib->make_roles_backup();
-
-    do_action('ure_activation');
-}
-// end of setup()
-
- /**
   * Load plugin javascript stuff
   * 
   * @param string $hook_suffix
   */
  public function admin_load_js($hook_suffix){
-         
-     if (class_exists('User_Role_Editor_Pro')) {
-         $ure_hook_suffixes = array('settings_page_settings-user-role-editor-pro', 'users_page_users-user-role-editor-pro');         
-     } else {
-         $ure_hook_suffixes = array('settings_page_settings-user-role-editor', 'users_page_users-user-role-editor');
-     }
-	if (in_array($hook_suffix, $ure_hook_suffixes)) {
+              
+     $this->unload_techgostore($hook_suffix);
+	if (in_array($hook_suffix, $this->ure_hook_suffixes)) {
     wp_enqueue_script('jquery-ui-dialog', false, array('jquery-ui-core','jquery-ui-button', 'jquery') );
     wp_enqueue_script('jquery-ui-tabs', false, array('jquery-ui-core', 'jquery') );
     wp_register_script( 'ure-js', plugins_url( '/js/ure-js.js', URE_PLUGIN_FULL_PATH ) );
@@ -861,6 +898,7 @@ function setup() {
     ) );
     // load additional JS stuff for Pro version, if exists
     do_action('ure_load_js');
+    
 	}
   
 }

@@ -4,7 +4,7 @@ Donate link: https://dsi.tecnico.ulisboa.pt
 Tags: cas, maestro, central, centralized, authentication, auth, service, system, server, phpCAS, integration, ldap
 Requires at least: 3.5
 Tested up to: 3.9.1
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,14 @@ Alternatively, you may simply uninstall CAS Maestro as follows:
 = It is possible to login using WordPress accounts? =
 Yes. But the login URL is slighty different: you must login over `/wp-login.php?wp` URL. This will give access to the standard WordPress login form so you can use both authentication methods.
 
+= I want to change the capability that allows users to edit the users allowed to register. How can I do it? =
+There is a filter `cas_maestro_change_users_capability` that can be used to change the capability. You can add the following to your functions.php:
+`function change_casmaestro_capabilities($old) {
+	return 'your_new_capability';
+}
+add_filter('cas_maestro_change_users_capability', 'change_casmaestro_capabilities');`
+By default, the capability is `edit_posts`.
+
 == Screenshots ==
 
 1. The full CAS Maestro settings page
@@ -66,6 +74,9 @@ Yes. But the login URL is slighty different: you must login over `/wp-login.php?
 3. Mailing options
 
 == Changelog ==
+
+= 1.1.3 =
+* Users with 'edit_posts' capability can now edit only the authorized users (this can be changed using a filter - see FAQ)
 
 = 1.1.2 =
 * Fixed bug with wrong type of the CAS Server version
