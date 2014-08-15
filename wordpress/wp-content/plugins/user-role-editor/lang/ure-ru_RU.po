@@ -278,7 +278,7 @@ msgstr "Другие роли"
 
 #: ../includes/class-user-role-editor.php:904
 msgid "Edit"
-msgstr "Редактор"
+msgstr "Изменить"
 
 #: ../includes/ure-role-edit.php:17
 msgid "Select Role and change its capabilities:"

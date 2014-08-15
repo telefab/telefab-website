@@ -83,6 +83,11 @@ Share with me new ideas about plugin further development and link to your site w
 
 
 == Changelog ==
+= 4.14.4 =
+* 08.08.2014
+* Missed "manage_sites" user capability was added to the list of built-in WordPress capabilities managed by User Role Editor.
+* Russian translation was updated.
+
 = 4.14.3 =
 * 25.07.2014
 * Integer "1" as default capability value for new added empty role was excluded for the better compatibility with WordPress core. Boolean "true" is used instead as WordPress itself does.

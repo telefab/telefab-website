@@ -883,7 +883,8 @@ class Ure_Lib extends Garvs_WP_Lib {
         $caps['delete_users'] = 1;
         $caps['create_users'] = 1;
         if ($this->multisite) {
-            $caps['manage_network'] = 1;        
+            $caps['manage_network'] = 1;
+            $caps['manage_sites'] = 1;
             $caps['manage_network_users'] = 1;
             $caps['manage_network_themes'] = 1;
             $caps['manage_network_plugins'] = 1;

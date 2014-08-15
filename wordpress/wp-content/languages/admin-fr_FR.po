@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-04-16 14:28:21+0000\n"
+"PO-Revision-Date: 2014-07-10 06:21:04+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -243,7 +243,7 @@ msgid ""
 "--The WordPress Team\n"
 "https://wordpress.org/\n"
 msgstr ""
-"Votre nouveau site WordPress a bien été installé à l'adress :\n"
+"Votre nouveau site WordPress a bien été installé à l'adresse :\n"
 "\n"
 "%1$s\n"
 "\n"
@@ -254,7 +254,7 @@ msgstr ""
 "\n"
 "Nous espérons que vous aimerez votre nouveau site ! Merci à vous !\n"
 "\n"
-"--L'équipe WordPress\n"
+"-- L'équipe WordPress\n"
 "https://wordpress.org/\n"
 
 #: wp-admin/index.php:57
@@ -412,7 +412,7 @@ msgstr "Si une mise à jour est disponible, vous verrez une notification appara�
 
 #: wp-admin/update-core.php:472
 msgid "<strong>WordPress</strong> &mdash; Updating your WordPress installation is a simple one-click procedure: just <strong>click on the &#8220;Update Now&#8221; button</strong> when you are notified that a new version is available."
-msgstr "<strong>WordPress</strong> &mdash; La mise à jour de votre installation WordPress tient en une simple procédure&nbsp;: <strong>cliquez sur le bouton \"Mettre à jour\" quand vous êtes notifié(e) qu&rsquo;une nouvelle version est disponible."
+msgstr "<strong>WordPress</strong> &mdash; La mise à jour de votre installation WordPress tient en une simple procédure&nbsp;: <strong>cliquez sur le bouton \"Mettre à jour\"</strong> quand vous êtes notifié(e) qu&rsquo;une nouvelle version est disponible."
 
 #: wp-admin/update-core.php:472
 msgid "In most cases, WordPress will automatically apply maintenance and security updates in the background for you."
@@ -428,7 +428,7 @@ msgstr "Sur cet écran, vous pouvez faire la mise à jour vers la dernière vers
 
 #: wp-admin/update-core.php:473
 msgid "<strong>Themes and Plugins</strong> &mdash; To update individual themes or plugins from this screen, use the checkboxes to make your selection, then <strong>click on the appropriate &#8220;Update&#8221; button</strong>. To update all of your themes or plugins at once, you can check the box at the top of the section to select all before clicking the update button."
-msgstr "<strong>Thèmes et extensions</strong> &mdash; Pour mettre à jour les thèmes et extensions individuellement depuis cet écran, utilisez les cases à jour pour faire votre sélection, puis <strong>cliquez sur le bouton \"Mettre à jour\" approprié</strongs>. Pour mettre à jour tous les thèmes et toutes les extensions d&rsquo;un coup, vous pouvez cocher la case en haut de la section pour tout sélectionner avant de cliquer sur le boutons de mise à jour."
+msgstr "<strong>Thèmes et extensions</strong> &mdash; Pour mettre à jour les thèmes et extensions individuellement depuis cet écran, utilisez les cases à jour pour faire votre sélection, puis <strong>cliquez sur le bouton \"Mettre à jour\" approprié</strong>. Pour mettre à jour tous les thèmes et toutes les extensions d&rsquo;un coup, vous pouvez cocher la case en haut de la section pour tout sélectionner avant de cliquer sur le boutons de mise à jour."
 
 #: wp-admin/about.php:25
 msgid "Welcome to WordPress&nbsp;%s"
@@ -1978,7 +1978,7 @@ msgstr "Visibilité pour les moteurs de recherche"
 
 #: wp-admin/options-reading.php:148
 msgid "Allow search engines to index this site"
-msgstr "Autoiser les moteurs de recherche à indexer ce site"
+msgstr "Autoriser les moteurs de recherche à indexer ce site"
 
 #: wp-admin/options-reading.php:150 wp-admin/options-reading.php:170
 msgid "Discourage search engines from indexing this site"
