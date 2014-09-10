@@ -15,8 +15,8 @@ DATABASES = {
     }
 }
 
-# Django apps root directory
-GLOBAL_ROOT = '/home/tristan/Developpement/Web/telefab-website/django/'
+# Django app root directory
+GLOBAL_ROOT = '/home/tristan/Developpement/Web/telefab-website/django/telefab/'
 
 # Site root URL
 URL_ROOT = '/lab/'

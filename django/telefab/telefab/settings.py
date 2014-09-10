@@ -132,7 +132,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
-    'django_browserid.context_processors.browserid',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -192,7 +191,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Site-specific settings
 
-# URL used by browserid
+# Global URL (used by CAS)
 SITE_URL = WEBSITE_CONFIG['protocol'] + "://" + WEBSITE_CONFIG['host']
 
 # URL to log in

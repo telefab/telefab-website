@@ -13,13 +13,8 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os, sys
-from telefab.local_settings import GLOBAL_ROOT
+import os
 
-# Add the library directory to the path
-sys.path.append(GLOBAL_ROOT + "../lib")
-# Add the application directory to the path
-sys.path.append(GLOBAL_ROOT)
 # Set the telefab settings
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "telefab.settings")
 
