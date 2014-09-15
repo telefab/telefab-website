@@ -163,6 +163,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 <script language="javascript" type="text/javascript">
 
   var ure_current_role = '<?php echo $this->current_role; ?>';
+  var ure_current_role_name  = '<?php echo $this->current_role_name; ?>';
 
 </script>
 
@@ -175,6 +176,15 @@ class Ure_Lib extends Garvs_WP_Lib {
     <div class="ure-input"><input type="text" name="user_role_name" id="user_role_name" size="25"/></div>
     <div class="ure-label"><?php esc_html_e('Make copy of: ', 'ure'); ?></div>
     <div class="ure-input"><?php echo $this->role_to_copy_html; ?></div>        
+  </form>
+</div>
+
+<div id="ure_rename_role_dialog" class="ure-modal-dialog" style="padding: 10px;">
+  <form id="ure_rename_role_form" name="ure_rename_role_form" method="POST">
+    <div class="ure-label"><?php esc_html_e('Role name (ID): ', 'ure'); ?></div>
+    <div class="ure-input"><input type="text" name="ren_user_role_id" id="ren_user_role_id" size="25" disabled /></div>
+    <div class="ure-label"><?php esc_html_e('Display Role Name: ', 'ure'); ?></div>
+    <div class="ure-input"><input type="text" name="ren_user_role_name" id="ren_user_role_name" size="25"/></div>    
   </form>
 </div>
 
@@ -408,6 +418,9 @@ class Ure_Lib extends Garvs_WP_Lib {
             } else if ($action == 'add-new-role') {
                 // process new role create request
                 $this->notification = $this->add_new_role();
+            } else if ($action == 'rename-role') {
+                // process rename role request
+                $this->notification = $this->rename_role();    
             } else if ($action == 'delete-role') {
                 $this->notification = $this->delete_role();
             } else if ($action == 'change-default-role') {
@@ -885,6 +898,7 @@ class Ure_Lib extends Garvs_WP_Lib {
         if ($this->multisite) {
             $caps['manage_network'] = 1;
             $caps['manage_sites'] = 1;
+            $caps['create_sites'] = 1;
             $caps['manage_network_users'] = 1;
             $caps['manage_network_themes'] = 1;
             $caps['manage_network_plugins'] = 1;
@@ -1173,12 +1187,13 @@ class Ure_Lib extends Garvs_WP_Lib {
             if (!$this->multisite || $super_admin || $add_del_role_for_simple_admin) { // restrict single site admin
 ?>
                <hr />               
-               <button id="ure_add_role" class="ure_toolbar_button">Add New Role</button>   
+               <button id="ure_add_role" class="ure_toolbar_button">Add Role</button>
+               <button id="ure_rename_role" class="ure_toolbar_button">Rename Role</button>   
 <?php
             }   // restrict single site admin
             if (!$this->multisite || $super_admin || !$caps_access_restrict_for_simple_admin) { // restrict single site admin
 ?>
-               <button id="ure_add_capability" class="ure_toolbar_button">Add New Capability</button>
+               <button id="ure_add_capability" class="ure_toolbar_button">Add Capability</button>
 <?php
             }   // restrict single site admin
             
@@ -1744,6 +1759,61 @@ class Ure_Lib extends Garvs_WP_Lib {
         return $mess;
     }
     // end of new_role_create()            
+    
+    
+    /**
+     * process rename role request
+     * 
+     * @global WP_Roles $wp_roles
+     * 
+     * @return string   - message about operation result
+     * 
+     */
+    protected function rename_role() {
+
+        global $wp_roles;
+
+        $mess = '';
+        $user_role_id = filter_input(INPUT_POST, 'user_role_id', FILTER_SANITIZE_STRING);
+        if (empty($user_role_id)) {
+            return esc_html__('Error: Role ID is empty!', 'ure');
+        }
+        $user_role_id = utf8_decode($user_role_id);
+        // sanitize user input for security
+        $match = array();
+        $valid_name = preg_match('/[A-Za-z0-9_\-]*/', $user_role_id, $match);
+        if (!$valid_name || ($valid_name && ($match[0] != $user_role_id))) { // some non-alphanumeric charactes found!
+            return esc_html__('Error: Role ID must contain latin characters, digits, hyphens or underscore only!', 'ure');
+        }
+        $numeric_name = preg_match('/[0-9]*/', $user_role_id, $match);
+        if ($numeric_name && ($match[0] == $user_role_id)) { // numeric name discovered
+            return esc_html__('Error: WordPress does not support numeric Role name (ID). Add latin characters to it.', 'ure');
+        }
+
+        $new_role_name = filter_input(INPUT_POST, 'user_role_name', FILTER_SANITIZE_STRING);
+        if (!empty($new_role_name)) {
+            $new_role_name = sanitize_text_field($new_role_name);
+        } else {
+            return esc_html__('Error: Empty role display name is not allowed.', 'ure');
+        }
+
+        if (!isset($wp_roles)) {
+            $wp_roles = new WP_Roles();
+        }
+        if (!isset($wp_roles->roles[$user_role_id])) {
+            return sprintf('Error! ' . esc_html__('Role %s does not exists', 'ure'), $user_role_id);
+        }                
+        $this->current_role = $user_role_id;
+        $this->current_role_name = $new_role_name;
+
+        $old_role_name = $wp_roles->roles[$user_role_id]['name'];
+        $wp_roles->roles[$user_role_id]['name'] = $new_role_name;
+        update_option( $wp_roles->role_key, $wp_roles->roles );
+        $mess = sprintf(esc_html__('Role %s is renamed to %s successfully', 'ure'), $old_role_name, $new_role_name);
+        
+        return $mess;
+    }
+    // end of rename_role()
 
     
     /**
@@ -2201,9 +2271,9 @@ class Ure_Lib extends Garvs_WP_Lib {
             
             <strong><?php esc_html_e('Version:', 'ure');?></strong> <?php echo URE_VERSION; ?><br/><br/>
             <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/vladimir.png'; ?>);" target="_blank" href="http://www.shinephp.com/"><?php _e("Author's website", 'ure'); ?></a><br/>
-            <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/user-role-editor-icon.png'; ?>);" target="_blank" href="http://role-editor.com"><?php _e('Plugin webpage', 'ure'); ?></a><br/>
-            <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/user-role-editor-icon.png'; ?>);" target="_blank" href="http://role-editor.com/download-plugin"><?php _e('Plugin download', 'ure'); ?></a><br/>
-            <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/changelog-icon.png'; ?>);" target="_blank" href="http://role-editor.com/changelog"><?php _e('Changelog', 'ure'); ?></a><br/>
+            <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/user-role-editor-icon.png'; ?>);" target="_blank" href="https://www.role-editor.com"><?php _e('Plugin webpage', 'ure'); ?></a><br/>
+            <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/user-role-editor-icon.png'; ?>);" target="_blank" href="https://www.role-editor.com/download-plugin"><?php _e('Plugin download', 'ure'); ?></a><br/>
+            <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/changelog-icon.png'; ?>);" target="_blank" href="https://www.role-editor.com/changelog"><?php _e('Changelog', 'ure'); ?></a><br/>
             <a class="ure_rsb_link" style="background-image:url(<?php echo URE_PLUGIN_URL . 'images/faq-icon.png'; ?>);" target="_blank" href="http://www.shinephp.com/user-role-editor-wordpress-plugin/#faq"><?php _e('FAQ', 'ure'); ?></a><br/>
             <hr />
                 <div style="text-align: center;">
@@ -2409,7 +2479,7 @@ class Ure_Lib extends Garvs_WP_Lib {
         $query = "select ID from {$wpdb->users} users
                     where not exists (select user_id from {$wpdb->usermeta}
                                           where user_id=users.ID and meta_key='{$blog_prefix}capabilities') or
-                          exists (select user_id from wp_usermeta 
+                          exists (select user_id from {$wpdb->usermeta}
                                     where user_id=users.ID and meta_key='{$blog_prefix}capabilities' and meta_value='a:0:{}')                ;";
         $users = $wpdb->get_col($query);
         

@@ -2,8 +2,8 @@
 /*
  * main class of User Role Editor WordPress plugin
  * Author: Vladimir Garagulya
- * Author email: vladimir@shinephp.com
- * Author URI: http://shinephp.com
+ * Author email: support@role-editor.com
+ * Author URI: https://www.role-editor.com
  * License: GPL v2+
  * 
 */
@@ -93,7 +93,7 @@ class User_Role_Editor {
     // by other users with 'edit_users' capability
     if (!$this->lib->user_is_admin($user_id)) {
       // Exclude administrator role from edit list.
-      add_filter('editable_roles', array($this, 'exclude_admin_role' ) );      
+      add_filter('editable_roles', array($this, 'exclude_admin_role' ) );
       // prohibit any actions with user who has Administrator role
       add_filter('user_has_cap', array($this, 'not_edit_admin' ), 10, 3);
       // exclude users with 'Administrator' role from users list
@@ -149,7 +149,7 @@ class User_Role_Editor {
       $query = "select count(ID) from {$wpdb->users} users
                     where not exists (select user_id from {$wpdb->usermeta}
                                           where user_id=users.ID and meta_key='{$blog_prefix}capabilities') or
-                          exists (select user_id from wp_usermeta 
+                          exists (select user_id from {$wpdb->usermeta}
                                     where user_id=users.ID and meta_key='{$blog_prefix}capabilities' and meta_value='a:0:{}')                ;";
       $users_count = $wpdb->get_var($query);
       if ($users_count>0) {
@@ -875,10 +875,12 @@ class User_Role_Editor {
         'update' => esc_html__('Update', 'ure'),
         'confirm_submit' => esc_html__('Please confirm permissions update', 'ure'),
         'add_new_role_title' => esc_html__('Add New Role', 'ure'),
+        'rename_role_title' => esc_html__('Rename Role', 'ure'),
         'role_name_required' => esc_html__(' Role name (ID) can not be empty!', 'ure'),  
         'role_name_valid_chars' => esc_html__(' Role name (ID) must contain latin characters, digits, hyphens or underscore only!', 'ure'), 
         'numeric_role_name_prohibited' => esc_html__(' WordPress does not support numeric Role name (ID). Add latin characters to it.', 'ure'), 
         'add_role' => esc_html__('Add Role', 'ure'),
+        'rename_role' => esc_html__('Rename Role', 'ure'),
         'delete_role' => esc_html__('Delete Role', 'ure'),
         'cancel' =>  esc_html__('Cancel', 'ure'),  
         'add_capability' => esc_html__('Add Capability', 'ure'),

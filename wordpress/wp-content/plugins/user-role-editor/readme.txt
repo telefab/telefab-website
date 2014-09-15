@@ -29,6 +29,7 @@ Buy [Pro version](htpp://role-editor.com).
 Pro version includes extra modules:
 <ul>
 <li>Block selected admin menu items for role.</li>
+<li>Block selected widgets under "Appearance" menu for role.</li>
 <li>"Export/Import" module. You can export user roles to the local file and import them then to any WordPress site or other sites of the multi-site WordPress network.</li> 
 <li>Roles and Users permissions management via Network Admin  for multisite configuration. One click Synchronization to the whole network.</li>
 <li>Per posts/pages users access management to post/page editing functionality.</li>
@@ -83,6 +84,15 @@ Share with me new ideas about plugin further development and link to your site w
 
 
 == Changelog ==
+= 4.16 =
+* 11.09.2014
+* "create_sites" user capability was added to the list of built-in WordPress user capabilities for WordPress multisite. It does not exist by default. But it is used to control "Add New" button at the "Sites" page under WordPress multisite network admin.
+* bug fix: WordPress database prefix value was not used in 2 SQL queries related to the "count users without role" module - updated.
+
+= 4.15 =
+* 08.09.2014
+* Rename role button was added to the URE toolbar. It allows to change user role display name (role ID is always the same). Be careful and double think before rename some built-in WordPress role.
+
 = 4.14.4 =
 * 08.08.2014
 * Missed "manage_sites" user capability was added to the list of built-in WordPress capabilities managed by User Role Editor.
