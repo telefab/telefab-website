@@ -17,7 +17,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 	public $notification = '';   // notification message to show on page
 	public $apply_to_all = 0; 
 	public $user_to_check = array();  // cached list of user IDs, who has Administrator role     	 
-  
+   
 	protected $capabilities_to_save = null; 
 	protected $current_role = '';
 	protected $wp_default_role = '';
@@ -43,12 +43,21 @@ class Ure_Lib extends Garvs_WP_Lib {
      */
     public function __construct($options_id) {
                                            
-        parent::__construct($options_id);                
-         
+        parent::__construct($options_id);                        
         
     }
     // end of __construct()
-        
+
+    
+    /**
+     * Is this the Pro version?
+     * @return boolean
+     */ 
+    public function is_pro() {
+        return false;
+    }
+    // end of is_pro()
+    
     
     /**
      * get options for User Role Editor plugin
@@ -59,17 +68,26 @@ class Ure_Lib extends Garvs_WP_Lib {
         
         global $wpdb;
 
+        if ($this->multisite) { 
+            if ( ! function_exists( 'is_plugin_active_for_network' ) ) {    // Be sure the function is defined before trying to use it
+                require_once( ABSPATH . '/wp-admin/includes/plugin.php' );                
+            }
+            $this->active_for_network = is_plugin_active_for_network(URE_PLUGIN_BASE_NAME);
+        }
         $current_blog = $wpdb->blogid;
-        if ($this->multisite && $current_blog!=$this->main_blog_id) {            
-            switch_to_blog($this->main_blog_id);  // in order to get URE options from the main blog
+        if ($this->multisite && $current_blog!=$this->main_blog_id) {   
+            if ($this->active_for_network) {   // plugin is active for whole network, so get URE options from the main blog
+                switch_to_blog($this->main_blog_id);  
+            }
         }
         
         $this->options_id = $options_id;
         $this->options = get_option($options_id);
         
         if ($this->multisite && $current_blog!=$this->main_blog_id) {
-            // return back to the current blog
-            restore_current_blog();
+            if ($this->active_for_network) {   // plugin is active for whole network, so return back to the current blog
+                restore_current_blog();
+            }
         }
 
     }
@@ -83,9 +101,9 @@ class Ure_Lib extends Garvs_WP_Lib {
 
         global $wpdb;
         
-        if ($this->multisite) {
-            $current_blog = $wpdb->blogid;
-            if ($current_blog!==$this->main_blog_id) {
+        $current_blog = $wpdb->blogid;
+        if ($this->multisite && $current_blog!==$this->main_blog_id) {
+            if ($this->active_for_network) {   // plugin is active for whole network, so get URE options from the main blog
                 switch_to_blog($this->main_blog_id);  // in order to save URE options to the main blog
             }
         }
@@ -93,8 +111,9 @@ class Ure_Lib extends Garvs_WP_Lib {
         update_option($this->options_id, $this->options);
         
         if ($this->multisite && $current_blog!==$this->main_blog_id) {            
-            // return back to the current blog
-            restore_current_blog();
+            if ($this->active_for_network) {   // plugin is active for whole network, so return back to the current blog
+                restore_current_blog();
+            }
         }
         
     }
@@ -150,7 +169,7 @@ class Ure_Lib extends Garvs_WP_Lib {
     
     protected function advertisement() {
 
-        if (!class_exists('User_Role_Editor_Pro')) {
+        if (!$this->is_pro()) {
             $this->advert = new ure_Advertisement();
             $this->advert->display();
         }
@@ -271,7 +290,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 
 	// content of User Role Editor Pro advertisement slot - for direct call
 	protected function advertise_pro_version() {
-		if (class_exists('User_Role_Editor_Pro')) {
+		if ($this->is_pro()) {
 			return;
 		}
 ?>		
@@ -295,7 +314,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 <?php		
 		
 	}
-	// end of user_role_editor()
+	// end of advertise_pro_version()
 	
 	
     // validate information about user we intend to edit
@@ -523,7 +542,7 @@ class Ure_Lib extends Garvs_WP_Lib {
 
         $this->init_full_capabilities();
 
-        if (!class_exists('User_Role_Editor_Pro')) {
+        if (!$this->is_pro()) {
             require_once(URE_PLUGIN_DIR . 'includes/class-advertisement.php');
         }
         
@@ -1021,7 +1040,7 @@ class Ure_Lib extends Garvs_WP_Lib {
      */
     protected function block_cap_for_single_admin($capability, $ignore_super_admin=false) {
         
-        if (!class_exists('User_Role_Editor_Pro')) {    // this functionality is for the Pro version only.
+        if (!$this->is_pro()) {    // this functionality is for the Pro version only.
             return false;
         }
         
@@ -1315,7 +1334,7 @@ class Ure_Lib extends Garvs_WP_Lib {
         // end of switch
         if (!empty($url)) {
             $link = '<a href="' . $url . '" title="read about ' . $capability . ' user capability" target="new"><img src="' . 
-                    URE_PLUGIN_URL . '/images/help.png" alt="' . esc_html__('Help', 'ure') . '" /></a>';
+                    URE_PLUGIN_URL . 'images/help.png" alt="' . esc_html__('Help', 'ure') . '" /></a>';
         } else {
             $link = '';
         }
@@ -2262,7 +2281,7 @@ class Ure_Lib extends Garvs_WP_Lib {
     
     
     public function about() {
-        if (class_exists('User_Role_Editor_Pro')) {
+        if ($this->is_pro()) {
             return;
         }
 

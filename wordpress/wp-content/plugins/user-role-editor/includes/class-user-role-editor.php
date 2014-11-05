@@ -11,6 +11,7 @@
 class User_Role_Editor {
     // common code staff, including options data processor
     protected $lib = null;
+    
     // plugin's Settings page reference, we've got it from add_options_pages() call
     protected $setting_page_hook = null;
     // URE's key capability
@@ -24,7 +25,9 @@ class User_Role_Editor {
      */
     function __construct($library) {
 
-        if (class_exists('User_Role_Editor_Pro')) {
+        // get plugin specific library object
+        $this->lib = $library;        
+        if ($this->lib->is_pro()) {
          $this->ure_hook_suffixes = array('settings_page_settings-user-role-editor-pro', 'users_page_users-user-role-editor-pro');         
         } else {
          $this->ure_hook_suffixes = array('settings_page_settings-user-role-editor', 'users_page_users-user-role-editor');
@@ -35,10 +38,7 @@ class User_Role_Editor {
 
         // deactivation action
         register_deactivation_hook(URE_PLUGIN_FULL_PATH, array($this, 'cleanup'));
-
-        // get plugin specific library object
-        $this->lib = $library;
-		
+        		
         // Who may use this plugin
         $this->key_capability = $this->lib->get_key_capability();
         
@@ -67,7 +67,7 @@ class User_Role_Editor {
 
 
         // add a Settings link in the installed plugins page
-        add_filter('plugin_action_links', array($this, 'plugin_action_links'), 10, 2);
+        add_filter('plugin_action_links_'. URE_PLUGIN_BASE_NAME, array($this, 'plugin_action_links'), 10, 1);
 
         add_filter('plugin_row_meta', array($this, 'plugin_row_meta'), 10, 2);
         
@@ -75,7 +75,7 @@ class User_Role_Editor {
     // end of __construct()
 
     
-    /**
+  /**
    * Plugin initialization
    * 
    */
@@ -356,24 +356,23 @@ class User_Role_Editor {
      * @global wpdb $wpdb
      * @param  type $user_query
      */
-    public function exclude_administrators($user_query) 
-    {
+    public function exclude_administrators($user_query) {
 
         global $wpdb;
 
-		$result = false;
-		$links_to_block = array('profile.php', 'users.php');
-		foreach ( $links_to_block as $key => $value ) {
-			$result = stripos($_SERVER['REQUEST_URI'], $value);
-			if ( $result !== false ) {
-				break;
-			}
-		}
+        $result = false;
+        $links_to_block = array('profile.php', 'users.php');
+        foreach ($links_to_block as $key => $value) {
+            $result = stripos($_SERVER['REQUEST_URI'], $value);
+            if ($result !== false) {
+                break;
+            }
+        }
 
-		if ( $result===false ) {	// block the user edit stuff only
-			return;
-		}
-				
+        if ($result === false) { // block the user edit stuff only
+            return;
+        }
+
         // get user_id of users with 'Administrator' role  
         $tableName = (!$this->lib->multisite && defined('CUSTOM_USER_META_TABLE')) ? CUSTOM_USER_META_TABLE : $wpdb->usermeta;
         $meta_key = $wpdb->prefix . 'capabilities';
@@ -388,8 +387,8 @@ class User_Role_Editor {
         }
     }
     // end of exclude_administrators()
-	
-    
+
+
     /*
      * Exclude view of users with Administrator role
      * 
@@ -412,22 +411,22 @@ class User_Role_Editor {
    * @param type $user
    * @return string
    */
-  public function user_row($actions, $user) 
-  {
+    public function user_row($actions, $user) {
 
-    global $pagenow, $current_user;
+        global $pagenow, $current_user;
 
-    if ($pagenow == 'users.php') {				
-		if ($current_user->has_cap($this->key_capability)) {
-          $actions['capabilities'] = '<a href="' . 
-                  wp_nonce_url("users.php?page=users-".URE_PLUGIN_FILE."&object=user&amp;user_id={$user->ID}", "ure_user_{$user->ID}") . 
-                  '">' . esc_html__('Capabilities', 'ure') . '</a>';
-        }      
+        if ($pagenow == 'users.php') {
+            if ($current_user->has_cap($this->key_capability)) {
+                $actions['capabilities'] = '<a href="' .
+                        wp_nonce_url("users.php?page=users-" . URE_PLUGIN_FILE . "&object=user&amp;user_id={$user->ID}", "ure_user_{$user->ID}") .
+                        '">' . esc_html__('Capabilities', 'ure') . '</a>';
+            }
+        }
+
+        return $actions;
     }
 
-    return $actions;
-  }
-  // end of user_row()
+    // end of user_row()
 
   
     /**
@@ -503,24 +502,20 @@ class User_Role_Editor {
     }
     // end of ure_load_translation()
 
+    
     /**
-     * Modify plugin actions link
+     * Modify plugin action links
      * 
      * @param array $links
-     * @param string $file
      * @return array
      */
-    public function plugin_action_links($links, $file) 
-    {
+    public function plugin_action_links($links) {
 
-        if ($file == plugin_basename(dirname(URE_PLUGIN_FULL_PATH).'/'.URE_PLUGIN_FILE)) {
-            $settings_link = "<a href='options-general.php?page=settings-".URE_PLUGIN_FILE."'>" . esc_html__('Settings', 'ure') . "</a>";
-            array_unshift($links, $settings_link);
-        }
+        $settings_link = "<a href='options-general.php?page=settings-" . URE_PLUGIN_FILE . "'>" . esc_html__('Settings', 'ure') . "</a>";
+        array_unshift($links, $settings_link);
 
         return $links;
     }
-
     // end of plugin_action_links()
 
 
@@ -548,10 +543,29 @@ class User_Role_Editor {
         }
         $screen_help = new Ure_Screen_Help();
         $screen->add_help_tab( array(
-            'id'	=> 'overview',
-            'title'	=> esc_html__('Overview'),
-            'content'	=> $screen_help->get_settings_help('overview')
+            'id'	=> 'general',
+            'title'	=> esc_html__('General'),
+            'content'	=> $screen_help->get_settings_help('general')
             ));
+        if ($this->lib->is_pro() || !$this->lib->multisite) {
+            $screen->add_help_tab( array(
+                'id'	=> 'additional_modules',
+                'title'	=> esc_html__('Additional Modules'),
+                'content'	=> $screen_help->get_settings_help('additional_modules')
+                ));
+        }
+        $screen->add_help_tab( array(
+            'id'	=> 'default_roles',
+            'title'	=> esc_html__('Default Roles'),
+            'content'	=> $screen_help->get_settings_help('default_roles')
+            ));
+        if ($this->lib->multisite) {
+            $screen->add_help_tab( array(
+                'id'	=> 'multisite',
+                'title'	=> esc_html__('Multisite'),
+                'content'	=> $screen_help->get_settings_help('multisite')
+                ));
+        }
     }
     // end of settings_screen_configure()
     
@@ -570,7 +584,7 @@ class User_Role_Editor {
             add_action("admin_print_styles-$ure_page", array($this, 'admin_css_action'));
         }
 
-        if (!$this->lib->multisite) {
+        if ( !$this->lib->multisite || ($this->lib->multisite && !$this->lib->active_for_network) ) {
             $this->settings_page_hook = add_options_page(
                     $translated_title,
                     $translated_title,
@@ -755,11 +769,15 @@ class User_Role_Editor {
                 
         do_action('ure_settings_load');        
 
-        if ($this->lib->multisite) {
+        if ($this->lib->multisite && is_network_admin()) {
             $link = 'settings.php';
         } else {
             $link = 'options-general.php';
         }
+        
+        $license_key_only = $this->lib->multisite && is_network_admin() && !$this->lib->active_for_network;
+
+        
         require_once(URE_PLUGIN_DIR . 'includes/settings-template.php');
     }
     // end of settings()
