@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Administration package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-09-04 13:04:49+0000\n"
+"PO-Revision-Date: 2014-10-04 17:49:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,7 +52,7 @@ msgstr "Travailler avec les médias intégrés n&rsquo;a jamais été aussi simp
 
 #: wp-admin/about.php:85
 msgid "Paste in a YouTube URL on a new line, and watch it magically become an embedded video. Now try it with a tweet. Oh yeah &#8212; embedding has become a visual experience. The editor shows a true preview of your embedded content, saving you time and giving you confidence."
-msgstr "Collez une adresse YouTube sur une nouvelle ligne et voyez une vidéo intégrée apparaître comme par magie. Maintenant, essayez avec un tweet. Génial&nbsp;! L&#8217;intégration de médias est devenue plus visuelle que jamaos. L&#8217;éditeur présente un véritable aperçu de votre contenu intégré, vous faisant ainsi gagner du temps et vous redonnant confiance en ce que vous faites."
+msgstr "Collez une adresse YouTube sur une nouvelle ligne et voyez une vidéo intégrée apparaître comme par magie. Maintenant, essayez avec un tweet. Génial&nbsp;! L&#8217;intégration de médias est devenue plus visuelle que jamais. L&#8217;éditeur présente un véritable aperçu de votre contenu intégré, vous faisant ainsi gagner du temps et vous redonnant confiance en ce que vous faites."
 
 #: wp-admin/about.php:86
 msgid "We&#8217;ve expanded the services supported by default, too &#8212; you can embed videos from CollegeHumor, playlists from YouTube, and talks from TED. <a href=\"http://codex.wordpress.org/Embeds\">Check out all of the embeds</a> that WordPress supports."
