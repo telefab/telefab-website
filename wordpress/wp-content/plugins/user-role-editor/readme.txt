@@ -3,12 +3,12 @@ Contributors: shinephp
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=vladimir%40shinephp%2ecom&lc=RU&item_name=ShinePHP%2ecom&item_number=User%20Role%20Editor%20WordPress%20plugin&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: user, role, editor, security, access, permission, capability
 Requires at least: 3.5
-Tested up to: 4.0
+Tested up to: 4.0.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-User Role Editor WordPress plugin makes the role capabilities changing easy. You can change any WordPress user role.
+User Role Editor WordPress plugin makes user roles and capabilities changing easy. Edit/add/delete WordPress user roles and capabilities.
 
 == Description ==
 
@@ -85,13 +85,17 @@ Some translations may be outdated. If you have better translation for some phras
 
 
 == Changelog ==
+= 4.17.3 =
+* 23.11.2014
+* French and Turkish translation were updated. Thanks to [Transifex](https://www.transifex.com) translation team.
+
 = 4.17.2 =
 * 21.10.2014
 * Notice: "Undefined property: Ure_Lib::$pro in .../class-user-role-editor.php on line 550" was fixed.
 * Settings help screen text was updated.
 * Russian translation was updated.
 * Hungarian translation was updated. Thanks to Németh Balázs.
-* French and Turkish translation are updated. Thanks to [Transifex](https://www.transifex.com) translation team.
+* French and Turkish translation were updated. Thanks to [Transifex](https://www.transifex.com) translation team.
 
 
 = 4.17.1 =

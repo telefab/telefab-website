@@ -6,14 +6,14 @@ msgstr ""
 "Project-Id-Version: User Role Editor\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-10-21 10:21+0700\n"
-"PO-Revision-Date: 2014-10-21 10:28+0700\n"
-"Last-Translator: Vladimir Garagulya <support@role-editor.com>\n"
+"PO-Revision-Date: 2014-11-23 08:21+0400\n"
+"Last-Translator: Abdullah Pazarbasi <mail@abdullahpazarbasi.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/user-"
 "role-editor/language/tr_TR/)\n"
-"Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr_TR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-Basepath: .\n"
@@ -486,7 +486,7 @@ msgstr "Tema düzenleme"
 
 #: ../includes/class-ure-lib.php:1959
 msgid "Activate plugins"
-msgstr "Eklenti etkilileştirme"
+msgstr "Eklenti etkinleştirme"
 
 #: ../includes/class-ure-lib.php:1960
 msgid "Edit plugins"
@@ -530,19 +530,19 @@ msgstr "Süzülmemiş html"
 
 #: ../includes/class-ure-lib.php:1970
 msgid "Edit posts"
-msgstr "Gönderi düzenleme"
+msgstr "Yazı düzenleme"
 
 #: ../includes/class-ure-lib.php:1971
 msgid "Edit others posts"
-msgstr "Başkalarının gönderilerini düzenleme"
+msgstr "Başkalarının yazılarını düzenleme"
 
 #: ../includes/class-ure-lib.php:1972
 msgid "Edit published posts"
-msgstr "Yayımdaki gönderileri düzenleme"
+msgstr "Yayımdaki yazıları düzenleme"
 
 #: ../includes/class-ure-lib.php:1973
 msgid "Publish posts"
-msgstr "Gönderi yayımlama"
+msgstr "Yazı yayımlama"
 
 #: ../includes/class-ure-lib.php:1974
 msgid "Edit pages"
@@ -622,39 +622,39 @@ msgstr "Yayımdaki sayfaları silme"
 
 #: ../includes/class-ure-lib.php:1993
 msgid "Delete posts"
-msgstr "Gönderi silme"
+msgstr "Yazı silme"
 
 #: ../includes/class-ure-lib.php:1994
 msgid "Delete others posts"
-msgstr "Başkalarının gönderilerini silme"
+msgstr "Başkalarının yazılarını silme"
 
 #: ../includes/class-ure-lib.php:1995
 msgid "Delete published posts"
-msgstr "Yayımdaki gönderileri silme"
+msgstr "Yayımdaki yazıları silme"
 
 #: ../includes/class-ure-lib.php:1996
 msgid "Delete private posts"
-msgstr "Özel gönderileri silme"
+msgstr "Kişisel yazıları silme"
 
 #: ../includes/class-ure-lib.php:1997
 msgid "Edit private posts"
-msgstr "Özel gönderileri düzenleme"
+msgstr "Kişisel yazıları düzenleme"
 
 #: ../includes/class-ure-lib.php:1998
 msgid "Read private posts"
-msgstr "Özel gönderileri okuma"
+msgstr "Kişisel yazıları okuma"
 
 #: ../includes/class-ure-lib.php:1999
 msgid "Delete private pages"
-msgstr "Özel gönderileri silme"
+msgstr "Kişisel sayfaları silme"
 
 #: ../includes/class-ure-lib.php:2000
 msgid "Edit private pages"
-msgstr "Özel sayfaları düzenleme"
+msgstr "Kişisel sayfaları düzenleme"
 
 #: ../includes/class-ure-lib.php:2001
 msgid "Read private pages"
-msgstr "Özel sayfaları okuma"
+msgstr "Kişisel sayfaları okuma"
 
 #: ../includes/class-ure-lib.php:2002
 msgid "Delete users"
@@ -754,7 +754,7 @@ msgstr "Sürüm:"
 
 #: ../includes/class-ure-lib.php:2292
 msgid "Author's website"
-msgstr "Yazar'ın web sitesi"
+msgstr "Yazarın web sitesi"
 
 #: ../includes/class-ure-lib.php:2293
 msgid "Plugin webpage"
@@ -766,7 +766,7 @@ msgstr "Eklenti indirme"
 
 #: ../includes/class-ure-lib.php:2296
 msgid "FAQ"
-msgstr "SSS"
+msgstr "S.S.S."
 
 #: ../includes/class-ure-lib.php:2344
 msgid "None"
@@ -818,7 +818,7 @@ msgid ""
 msgstr ""
 "otomatik olarak \"edit_others_post\" gibi teknik biçimdeki kabiliyet "
 "isimlerini dahili kullanım için daha kullanıcı dostu biçime dönüştürür, "
-"mesela \"Başkalarının gönderilerini düzenleme\"."
+"mesela \"Başkalarının yazılarını düzenleme\"."
 
 #: ../includes/class-ure-screen-help.php:22
 msgid ""
@@ -838,10 +838,13 @@ msgid ""
 "assign all of them an empty role \"No rights\", in order to look on the "
 "users list with role \"No rights\" at the separate tab then."
 msgstr ""
+"Rolsüz birkaç kullanıcıyı \"Kullanıcılar\" sayfasında gösterin. Modül "
+"onların hepsini \"Haksız\" isimli boş bir role atanmasına, daha sonra ayrı "
+"bir sekmede herhangi hakkı olmayan kullanıcıları görebilmek için izin verir."
 
 #: ../includes/class-ure-screen-help.php:59
 msgid "Other default roles for new registered user"
-msgstr ""
+msgstr "Yeni kayıtlı kullanıcılar için diğer varsayılan roller"
 
 #: ../includes/class-ure-screen-help.php:60
 msgid ""
@@ -850,10 +853,16 @@ msgid ""
 "account that other default roles should exist at the site, in order to be "
 "assigned to the new registered users."
 msgstr ""
+"Aşağıdan yeni kullanıcılara birincil rollerine ilaveten otomatik olarak "
+"atanması için roller seçin. Çoklu site ortamları için unutulmaması gereken: "
+"take into account that other default roles should exist at the site, in "
+"order to be assigned to the new registered users."
 
 #: ../includes/class-ure-screen-help.php:78
 msgid "Allow non super-admininstrators to create, edit and delete users"
 msgstr ""
+"Süper yönetici olmayanların kullanıcı oluşturma, düzenleme ve silmelerine "
+"izin ver"
 
 #: ../includes/class-ure-screen-help.php:79
 msgid ""
@@ -861,6 +870,6 @@ msgid ""
 "multi-site by default. Turn this option on in order to remove this "
 "limitation."
 msgstr ""
-
-#~ msgid "select roles below"
-#~ msgstr "aşağıdaki rollerden seçin"
+"Süper yönetici WordPress çoklu site yapısında varsayılan olarak "
+"kullanıcıları yalnızca oluşturur, düzenler ve siler. Bu kısıtlamayı "
+"kaldırmak için bu seçeneği açık yapın."
