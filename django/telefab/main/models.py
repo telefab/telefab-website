@@ -5,9 +5,10 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.utils.timezone import get_default_timezone as tz
 from telefab.local_settings import WEBSITE_CONFIG
-from telefab.settings import ANIMATORS_GROUP_NAME, MAIN_PLACE_NAME
+from telefab.settings import ANIMATORS_GROUP_NAME, MAIN_PLACE_NAME, EMAIL_FROM
 from django.core.urlresolvers import reverse
-from datetime import datetime
+from datetime import datetime, date
+from django.core.mail import send_mail
 from django_cas.models import Tgt
 
 class UserProfile(models.Model):
@@ -18,7 +19,7 @@ class UserProfile(models.Model):
 		verbose_name = u"profil"
 		verbose_name_plural = u"profils"
 	
-	user = models.ForeignKey(User, verbose_name = u"utilisateur", unique = True)
+	user = models.OneToOneField(User, verbose_name = u"utilisateur", related_name = 'profile')
 	description = models.TextField(verbose_name = u"description", blank = True)
 	
 	def __unicode__(self):
@@ -153,7 +154,7 @@ class Loan(models.Model):
 		"""
 		String representation of the loan
 		"""
-		return u"Emprunt par " + unicode(self.borrower.get_profile())
+		return u"Emprunt par " + unicode(self.borrower.profile)
 
 	def is_away(self):
 		"""
@@ -178,6 +179,29 @@ class Loan(models.Model):
 		return self.cancel_time is not None
 	is_cancelled.boolean = True
 	is_cancelled.short_description = u"annulé"
+
+	def is_late(self):
+		"""
+		Should the loan already be returned and is it not reurned?
+		"""
+		return self.is_away() and self.scheduled_return_date < date.today()
+
+	def send_reminder(self):
+		"""
+		Send an email to the borrower about this loan
+		"""
+		message = u"Bonjour " + unicode(self.borrower.profile) + u",\n" + u"voici le matériel que vous avez emprunté au Téléfab :\n"
+		for equipment in self.equipments.all():
+			message+= u" * " + unicode(equipment) + u" (x" + unicode(equipment.quantity) + ")\n"
+		if self.comment:
+			message+= u"avec le commentaire : \"" + self.comment + u"\"\n"
+		message+= u"\nLe matériel doit être rendu le " + self.scheduled_return_date.strftime("%d/%m/%Y") + u".\n" + u"Pour cela, merci de prendre rendez-vous avec un animateur du Téléfab en répondant à ce courriel. " + u"Il est aussi possible de prolonger le prêt si nécessaire.\n\n" + u"À bientôt,\n" + u"Le Téléfab"
+		title = ""
+		if self.is_late():
+			title = u"Téléfab : matériel prêté à rendre"
+		else:
+			title = u"Téléfab : emprunt de matériel"
+		send_mail(title, message, EMAIL_FROM, [self.borrower.email])
 
 
 class EquipmentLoan(models.Model):

@@ -3,9 +3,8 @@ from django.db.models import Q
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.template import RequestContext, Context, Template
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseForbidden
 from django.core import urlresolvers
-from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import auth
 from urlparse import urljoin
@@ -26,7 +25,7 @@ def edit_event(request, event_id=None):
 	Create or edit an event
 	"""
 	# Only animators allowed
-	if not request.user.get_profile().is_animator():
+	if not request.user.profile.is_animator():
 		raise PermissionDenied()
 	# Get the event to edit or create a new event
 	event = None
@@ -88,7 +87,7 @@ def edit_loan(request, loan_id=None):
 	Allows users to edit a loan or create one
 	"""
 	# Only animators
-	if not request.user.get_profile().is_animator():
+	if not request.user.profile.is_animator():
 		raise PermissionDenied()
 	# Get the loan to edit or create a new loan
 	loan = None
@@ -221,6 +220,9 @@ def edit_loan(request, loan_id=None):
 			for booking in to_save:
 				booking.loan_id = loan.id
 				booking.save()
+			# Send an email for new loans
+			if is_new and borrower.email:
+				loan.send_reminder()
 			# Redirect
 			return redirect(urlresolvers.reverse('main.views.show_all_loans'))
 	# Render
@@ -264,7 +266,7 @@ def show_all_loans(request):
 	Show all loans to animators
 	"""
 	# Only animators
-	if not request.user.get_profile().is_animator():
+	if not request.user.profile.is_animator():
 		raise PermissionDenied()
 	# Loans finished less than 7 days ago
 	last_time = datetime.now() - timedelta(days=7)
@@ -283,7 +285,7 @@ def manage_loan(request, loan_id, action, value):
 	Allows animators to manage loans: cancel or confirm
 	"""
 	# Only animators
-	if not request.user.get_profile().is_animator():
+	if not request.user.profile.is_animator():
 		raise PermissionDenied()
 	# Detect action
 	loan = get_object_or_404(Loan, pk=loan_id)
@@ -294,14 +296,14 @@ def manage_loan(request, loan_id, action, value):
 			loan.cancelled_by = request.user
 		else:
 			loan.cancel_time = None
-	elif action =="return":
+	elif action == "return":
 		# Manage the return status
 		if value == "1":
 			loan.return_time = datetime.now()
 		else:
 			loan.return_time = None
 	else:
-		raise Http404()
+		return HttpResponseNotFound()
 	loan.save()
 	return redirect(urlresolvers.reverse('main.views.show_all_loans'))
 
@@ -462,7 +464,7 @@ def update_place(request):
 	This is quite dirty for now (only the main place is supported)
 	"""
 	# Only animators
-	if not request.user.get_profile().is_animator():
+	if not request.user.profile.is_animator():
 		raise PermissionDenied()
 	# Update the place
 	place = Place.get_main_place()
