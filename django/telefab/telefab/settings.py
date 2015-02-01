@@ -5,15 +5,6 @@ from local_settings import *
 
 TEMPLATE_DEBUG = DEBUG
 
-if DEBUG:
-    # Email backend for debug: file
-    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = GLOBAL_ROOT + 'log/messages'
-else:
-    # Email backend: local SMTP
-    EMAIL_HOST = 'localhost'
-    EMAIL_PORT = 25
-
 # Email to send from
 EMAIL_FROM = 'contact@' + WEBSITE_CONFIG['host']
 

@@ -15,6 +15,10 @@ DATABASES = {
     }
 }
 
+# Email backend for debug: file
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = GLOBAL_ROOT + 'log/messages'
+
 # Django app root directory
 GLOBAL_ROOT = '/home/tristan/Developpement/Web/telefab-website/django/telefab/'
 
