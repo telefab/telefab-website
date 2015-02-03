@@ -191,11 +191,15 @@ class Loan(models.Model):
 		Send an email to the borrower about this loan
 		"""
 		message = u"Bonjour " + unicode(self.borrower.profile) + u",\n" + u"voici le matériel que vous avez emprunté au Téléfab :\n"
-		for equipment in self.equipments.all():
-			message+= u" * " + unicode(equipment) + u" (x" + unicode(equipment.quantity) + ")\n"
+		for booking in self.bookings.all():
+			message+= u" * " + unicode(booking.equipment.name) + u" (x" + unicode(booking.quantity) + ")\n"
 		if self.comment:
 			message+= u"avec le commentaire : \"" + self.comment + u"\"\n"
-		message+= u"\nLe matériel doit être rendu le " + self.scheduled_return_date.strftime("%d/%m/%Y") + u".\n" + u"Pour cela, merci de prendre rendez-vous avec un animateur du Téléfab en répondant à ce courriel. " + u"Il est aussi possible de prolonger le prêt si nécessaire.\n\n" + u"À bientôt,\n" + u"Le Téléfab"
+		if self.is_late():
+			message+= u"\nLe matériel aurait dû être rendu le " + self.scheduled_return_date.strftime("%d/%m/%Y") + u".\n"
+		else:
+			message+= u"\nLe matériel doit être rendu le " + self.scheduled_return_date.strftime("%d/%m/%Y") + u".\n"	
+		message+= u"Pour cela, merci de prendre rendez-vous avec un animateur du Téléfab en répondant à ce courriel. " + u"Il est aussi possible de prolonger le prêt si nécessaire.\n\n" + u"À bientôt,\n" + u"Le Téléfab"
 		title = ""
 		if self.is_late():
 			title = u"Téléfab : matériel prêté à rendre"
