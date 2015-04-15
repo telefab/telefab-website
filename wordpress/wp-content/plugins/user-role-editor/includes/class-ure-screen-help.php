@@ -9,7 +9,7 @@ class URE_Screen_Help {
     
     protected function get_general_tab() {
     
-        $text = '<h2>User Role Editor Options page help</h2>
+        $text = '<h2>'. esc_html__('User Role Editor Options page help', 'ure') .'</h2>
             <p>
             <ul>
             <li><strong>' . esc_html__('Show Administrator role at User Role Editor', 'ure').'</strong> - ' .
@@ -21,7 +21,11 @@ class URE_Screen_Help {
             <li><strong>' . esc_html__('Show deprecated capabilities','ure').'</strong> - '.
                 esc_html__('Capabilities like "level_0", "level_1" are deprecated and are not used by WordPress. '
                         . 'They are left at the user roles for the compatibility purpose with the old themes and plugins code. '
-                        . 'Turning on this option will show those deprecated capabilities.', 'ure') . '</li>';
+                        . 'Turning on this option will show those deprecated capabilities.', 'ure') . '</li>
+            <li><strong>' . esc_html__('Edit user capabilities','ure').'</strong> - '.
+                esc_html__('If turned off - capabilities section of selected user is shown in readonly mode. '
+                        . 'Administrator can not assign capabilities to the user directly. '
+                        . 'He should make it using roles only.', 'ure') . '</li>';
 
         $text = apply_filters('ure_get_settings_general_tab_help', $text);
         $text .='
@@ -34,7 +38,7 @@ class URE_Screen_Help {
 
 
     protected function get_additional_modules_tab() {
-        $text = '<h2>User Role Editor Options page help</h2>
+        $text = '<h2>'. esc_html__('User Role Editor Options page help', 'ure') .'</h2>
             <p>
             <ul>';
         if (!is_multisite()) {
@@ -53,7 +57,7 @@ class URE_Screen_Help {
 
     
     protected function get_default_roles_tab() {
-        $text = '<h2>User Role Editor Options page help</h2>
+        $text = '<h2>'. esc_html__('User Role Editor Options page help', 'ure') .'</h2>
             <p>
             <ul>
             <li><strong>' . esc_html__('Other default roles for new registered user', 'ure').'</strong> - ' .
@@ -72,7 +76,7 @@ class URE_Screen_Help {
     
     
     protected function get_multisite_tab() {
-        $text = '<h2>User Role Editor Options page help</h2>
+        $text = '<h2>'. esc_html__('User Role Editor Options page help', 'ure') .'</h2>
             <p>
             <ul>
                 <li><strong>' . esc_html__('Allow non super-admininstrators to create, edit and delete users', 'ure').'</strong> - ' .
@@ -113,7 +117,6 @@ class URE_Screen_Help {
         return $text;
     }
     // end of get_settings_help()
-
     
 }
 // end of URE_Screen_Help
