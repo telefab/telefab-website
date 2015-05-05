@@ -9,7 +9,7 @@
 <body>
 <h1 id="logo">
 	<a href="https://wordpress.org/"><img alt="WordPress" src="wp-admin/images/wordpress-logo.png" /></a> 
-	<br />Version 4.1.1
+	<br />Version 4.2.1
 
 </h1>
 <p style="text-align: center">Plateforme de publication sémantique personnelle</p>
@@ -31,7 +31,7 @@
 			<li>Ouvrez le fichier  <span class="file"><a href="wp-admin/install.php">wp-admin/install.php</a></span> dans votre navigateur ;</li>
 		</ol>
 	</li>
-	<li>Une fois le fichier de configuration correctement rempli, l'installateur met en place les tables nécessaires à votre blog. Si vous obtenez une erreur, vérifiez le contenu du fichier <span class="file"><code>wp-config.php</code></span>, et réessayez. Si cela échoue encore une fois, rendez-vous sur les <a href="http://www.WordPress-fr.net/support/">forums d'entraide</a> et soyez le plus précis possible dans vos explications. Si tout se passe bien, passez à l'étape suivante ;</li>
+	<li>Une fois le fichier de configuration correctement rempli, l'installateur met en place les tables nécessaires à votre blog. Si vous obtenez une erreur, vérifiez le contenu du fichier <span class="file"><code>wp-config.php</code></span>, et réessayez. Si cela échoue encore une fois, rendez-vous sur les <a href="http://www.wordpress-fr.net/support/">forums d'entraide</a> et soyez le plus précis possible dans vos explications. Si tout se passe bien, passez à l'étape suivante ;</li>
 	<li><strong>Si vous n'avez pas précisé de mot de passe, notez bien celui qui vous est donné.</strong> Si vous n'avez pas précisé d'identifiant utilisateur, ce sera <code>admin</code> ;</li>
 	<li>Une fois l'installation terminée, le script d'installation vous renverra vers la <a href="wp-login.php">page de connexion</a>. Connectez-vous avec l'identifiant et le mot de passe précisés (ou générés) durant l'installation. Si le mot de passe a été généré pour vous, cliquez sur "Profil" pour le modifier.</li>
 </ol>
@@ -53,7 +53,7 @@
 </ol>
 
 <h1>Migrer depuis d'autres logiciels/plates-formes</h1> 
-<p>WordPress peut <a href="http://codex.wordpress.org/Importing_Content">importer les articles en provenance de nombreux autres outils (en)</a>. Vous devez d'abord installer WordPress comme expliqué plus haut, puis utiliser <a href="wp-admin/import.php" title="Importer dans WordPress">un des importateurs</a>.</p>
+<p>WordPress peut <a href="https://codex.wordpress.org/Importing_Content">importer les articles en provenance de nombreux autres outils (en)</a>. Vous devez d'abord installer WordPress comme expliqué plus haut, puis utiliser <a href="wp-admin/import.php" title="Importer dans WordPress">un des importateurs</a>.</p>
 
 <h1>Prérequis fonctionnels</h1> 
 <ul>
@@ -61,25 +61,33 @@
 	<li><a href="http://www.mysql.com/">MySQL</a> version <strong>5.0</strong> ou plus.</li>
 </ul>
 
+<h1>Recommandations</h1> 
+<ul>
+	<li><a href="http://php.net/">PHP</a> version <strong>5.4</strong> ou plus ;</li>
+	<li><a href="http://www.mysql.com/">MySQL</a> version <strong>5.5</strong> ou plus.</li>
+	<li>Le module <a href="http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html">mod_rewrite</a> d'Apache.</li>
+  <li>Un lien vers <a href="https://wordpress.org/">wordpress.org</a> sure votre site.</li>
+</ul>
+
 <h1>Ressources en ligne</h1>
 <p>Si vous vous posez des questions dont les réponses ne figurent pas sur ce document, vous disposez de nombreuses ressources en ligne :</p>
 <dl>
-	<dt><a href="http://codex.wordpress.org/">Le Codex WordPress</a></dt>
+	<dt><a href="https://codex.wordpress.org/">Le Codex WordPress</a></dt>
 		<dd>Le Codex est l'encyclopédie liée à tout le fonctionnement de WordPress. Il s'agit de la source d'informations la plus complète qui soit.</dd>
 	<dt><a href="https://wordpress.org/blog/">Le blog de WordPress</a></dt>
 		<dd>C'est ici que vous trouverez les dernières informations, les annonces et les nouveautés de WordPress. Les derniers articles de ce blog sont affichés dans le Tableau de Bord de WordPress par défaut.</dd>
-	 <dt><a href="http://planet.wordpress.org/">Planète WordPress</a></dt>
+	 <dt><a href="https://planet.wordpress.org/">Planète WordPress</a></dt>
 		<dd>La Planète WordPress est un agrégateur de news qui distille les articles de plusieurs blogs WordPress à travers le web.</dd>
 	<dt><a href="http://wordpress-fr.net/support/">Support WordPress Francophone</a></dt>
 		<dd>Si vous avez cherché partout et que malgré cela vous n'avez trouvé aucune réponse, les forums sont très actifs et son immense communauté sera prête à vous aider. Pour un traitement efficace de votre problème, faites en sorte d'utiliser, lors de la création de votre sujet, un titre et une description aussi pertinents et clairs que possible.</dd>
-	 <dt><a href="http://codex.wordpress.org/IRC">Canal <abbr title="Internet Relay Chat">IRC</abbr> WordPress</a></dt>
+	 <dt><a href="https://codex.wordpress.org/IRC">Canal <abbr title="Internet Relay Chat">IRC</abbr> WordPress</a></dt>
 		<dd>Il existe un canal IRC qui est le rendez-vous des utilisateurs WordPress, et occasionnellement, propose son aide aux sujets liés au support. La page Wiki devrait vous indiquer la bonne direction.</dd>
 </dl>
 
 <h1>Pour finir</h1>
 <ul>
 	<li>Si vous avez des suggestions, des idées, des commentaires ou si vous avez trouvé un bug (oups !), venez nous rejoindre sur les <a href="https://wordpress.org/support/">forums anglophones</a>.</li>
-	<li>WordPress possède une <abbr title="Application Programming Interface">API</abbr> d'extension robuste, qui permet d'étendre les possibilités de son code de manière simple. Si vous êtes un développeur intéressé par son utilisation, rendez-vous sur la <a href="http://codex.wordpress.org/Plugin_API">documentation des extensions sur le Codex</a>. Vous ne devriez pas avoir à modifier une partie du code original.</li>
+	<li>WordPress possède une <abbr title="Application Programming Interface">API</abbr> d'extension robuste, qui permet d'étendre les possibilités de son code de manière simple. Si vous êtes un développeur intéressé par son utilisation, rendez-vous sur la <a href="https://codex.wordpress.org/Plugin_API">documentation des extensions sur le Codex</a>. Vous ne devriez pas avoir à modifier une partie du code original.</li>
 </ul>
 
 <h1>Faites connaître WordPress !</h1>
