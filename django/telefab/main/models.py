@@ -73,7 +73,8 @@ class Equipment(models.Model):
 	location = models.CharField(verbose_name = u"emplacement", max_length = 100, blank = True)
 	link = models.URLField(verbose_name = u"lien", blank = True)
 	datasheet = models.FileField(verbose_name = u"datasheet", upload_to = "datasheet", blank = True, null = True)
-	
+	image = models.ImageField(verbose_name = u"photo", upload_to = "equipmentpic", blank = True, null = True)
+
 	def __unicode__(self):
 		"""
 		Returns a string representation
@@ -93,7 +94,7 @@ class Equipment(models.Model):
 		"""
 		available_quantity = self.quantity
 		for equipment_loan in EquipmentLoan.objects.filter(equipment = self):
-			if equipment_loan.loan.is_away() and equipment_loan.loan != loan:
+			if equipment_loan.loan.is_away() and equipment_loan.loan != loan and equipment_loan.loan.panier != 1: # on ne veut pas que l'équipement des paniers fasse baisser la quantité disponible.
 				available_quantity-= equipment_loan.quantity
 		return available_quantity
 
@@ -141,7 +142,7 @@ class Loan(models.Model):
 		verbose_name_plural = u"prêts"
 
 	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", related_name='loans')
-	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan")
+	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan", blank = True, null=True) # On a rajouté blank = True, null=True (groupe 20)
 	comment = models.TextField(verbose_name = u"commentaire", blank = True)
 	loan_time = models.DateTimeField(verbose_name = u"date du prêt", blank = True, null=True)
 	lender = models.ForeignKey(User, verbose_name = u"prêteur", blank = True, null=True, related_name='validated_loans', limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
@@ -149,6 +150,7 @@ class Loan(models.Model):
 	return_time = models.DateTimeField(verbose_name = u"date de retour", blank = True, null=True)
 	cancel_time = models.DateTimeField(verbose_name = u"date d'annulation", blank = True, null=True)
 	cancelled_by = models.ForeignKey(User, verbose_name = u"annulé par", blank = True, null=True, related_name='cancelled_loans')
+	panier = models.PositiveIntegerField(verbose_name = u"panier", default = 0)
 
 	def __unicode__(self):
 		"""
