@@ -1,0 +1,40 @@
+{% extends "layout/default.html" %}
+{% load static from staticfiles %}
+{% block title %}
+	{{equipment.name}}
+{% endblock %}
+{% block page_title %}
+	{{equipment.name}}
+{% endblock %}
+{% block page_link %}
+	Matériel
+{% endblock %}
+{% block content %}
+
+	{% if error == 1 %}
+		<div class="msg_error">
+		<p>La quantité renseignée est non valide : <br/> Vous avez demandé à emprunter <strong>{{quantity}}</strong> exemplaires de cet équipment et il ne reste que <strong>{{available_quantity}}</strong> exemplaires <br/> Veuillez réessayer avec une autre quantité</p>
+		</div>
+	{% endif %}
+	{% if error == 2 %}
+		<div class="msg_error">
+		<p>La quantité renseignée est non valide : <br/> Vous avez demandé à emprunter <strong>{{quantity}}</strong> exemplaires de cet équipment, vous en avez déjà <strong>{{quantity_total}}</strong> exemplaires dans votre panier<br/> Vous souhaitez donc emprunter <strong>{{quantity|add:quantity_total}}</strong> alors qu'il n'en reste que <strong>{{available_quantity}}</strong>  <br/> Veuillez réessayer avec une autre quantité</p>
+		</div>
+	{% endif %}
+
+	<strong>Voulez-vous emprunter cet objet ?</strong><br/>
+	<form method="POST" action="{% url 'main.views.access_panier' equipment.id %}" class="niceform" autocomplete="off">
+	{% csrf_token %}
+	<strong>Quantité à emprunter : </strong><input type="text" name="quantity">
+	<input type="hidden" name="available_quantity" value="{{equipment.available_quantity}}" >	
+	<input type="submit" value="Ajouter au panier" />
+	</form>
+
+	<strong>Description : </strong> {{equipment.description}} <br/>
+	<strong>Emplacement : </strong> {{equipment.location}} <br/>
+	<strong>Lien : </strong> <a href="{{equipment.link}}"> {{equipment.link}} </a> <br/>
+	<strong>Quantité restante :</strong> {{equipment.available_quantity}} <br/>
+	{% if equipment.image %}
+		<img src="{{equipment.image.url}}" > <br/>
+	{% endif %}
+{% endblock %}

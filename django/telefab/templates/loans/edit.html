@@ -1,15 +1,44 @@
 {% extends "layout/lab.html" %}
 {% load static from staticfiles %}
+
+
 {% block title %}
-	Déclaration de prêt
+	{% if panier == 1 %}
+ 		Modification de panier 
+	{% endif %}
+	{% if panier == 0 %} 
+		Déclaration de prêt 
+	{% endif %}
 {% endblock %}
 {% block page_title %}
-	Déclaration de prêt
+	{% if panier == 1 %} Modification de panier {% endif %}
+	{% if panier == 0 %} Déclaration de prêt {% endif %}
 {% endblock %}
 {% block lab_link %}
-	Déclaration de prêt
+	{% if panier == 1 %} Modification de panier {% endif %}
+	{% if panier == 0 %} Déclaration de prêt {% endif %}
 {% endblock %}
 {% block content %}
+	{% if panier == 1 %}
+	<h2>Modification de panier</h2>
+	{% if saving_errors %}
+		<div class="msg_error">
+			<p>
+				L'enregistrement a échoué car la déclaration de prêt n'était pas valide :
+			</p>
+			<ul>
+				{% for error in saving_errors %}
+					<li>
+						{{error}}{% if forloop.last %}.{% else %} ;{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
+	<form method="POST" action="{% if is_new %}{% url 'main.views.edit' panier=1 %}{% else %}{% url 'main.views.edit' loan.id 1 %}{% endif %}" class="niceform" autocomplete="off">
+	{% endif %}
+
+	{% if panier == 0 %}
 	<h2>Déclaration de prêt</h2>
 	{% if saving_errors %}
 		<div class="msg_error">
@@ -25,7 +54,9 @@
 			</ul>
 		</div>
 	{% endif %}
-	<form method="POST" action="{% if is_new %}{% url 'main.views.edit_loan' %}{% else %}{% url 'main.views.edit_loan' loan.id %}{% endif %}" class="niceform" autocomplete="off">
+	<form method="POST" action="{% if is_new %}{% url 'main.views.edit' panier=0 %}{% else %}{% url 'main.views.edit' loan.id 0 %}{% endif %}" class="niceform" autocomplete="off">
+	{% endif %}
+
 		{% csrf_token %}
 		<input type="hidden" name="action" value="save" />
 		<p>
@@ -41,7 +72,7 @@
 			<input type="text" id="scheduled_return_date" name="scheduled_return_date" value="{{loan.scheduled_return_date|date:'d/m/Y'|default:''}}" />
 		</p>
 		<p>
-			<label for="comment">Commentaire (facultatif) :</label>
+			<label for="comment">Commentaire :</label>
 			<textarea id="comment" name="comment">{{loan.comment}}</textarea>
 		</p>
 		<div class="booking_sections">
@@ -99,9 +130,14 @@
 		</p>
 	</form>
 	<p>
-		<a href="{% url 'main.views.show_all_loans' %}">
-			Retour à la liste des prêts en cours
-		</a>
+		{% if panier == 1 %}
+			<a href="{% url 'main.views.show_panier' %}">
+			Retour à la liste des paniers en cours</a>
+		{% endif %}
+		{% if panier == 0 %}
+			<a href="{% url 'main.views.show_all_loans' %}">
+			Retour à la liste des prêts en cours</a>
+		{% endif %}
 	</p>
 {% endblock %}
 {% block css %}
@@ -110,7 +146,7 @@
 {% block scripts %}
 	<script type="text/javascript" src="{% static 'main/js/jquery-ui.js' %}"></script>
 	<script type="text/javascript" src="{% static 'main/js/jquery.ui.datepicker-fr.js' %}"></script>
-	<script type="text/javascript" src="{% static 'main/js/edit_loan.js' %}"></script>
+	<script type="text/javascript" src="{% static 'main/js/edit.js' %}"></script>
 	<script type="text/javascript">
 		/* Data about all equipment in javscript */
 		var equipment_data = [

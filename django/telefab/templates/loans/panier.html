@@ -1,0 +1,43 @@
+{% extends "layout/default.html" %}
+{% load static from staticfiles %}
+{% block title %}
+	Mon panier
+{% endblock %}
+{% block page_title %}
+	Mon panier
+{% endblock %}
+{% block page_link %}
+	Matériel
+{% endblock %}
+{% block content %}
+	<h2>Etat du panier</h2>
+
+	{% if error == 1 %}
+		<div class="msg_error">
+		<p>La date de retour renseignée est non valide !</p>
+		</div>
+	{% endif %}
+	{% include "loans/_listpanier.html" with loans=loans animator=animator only %}
+	<a href="{% url 'main.views.show_equipment_categories' choice=False %}"> <li> Retourner à la liste du matériel </li> </a><br/><br/>
+
+	{% if error < 2 %}
+		<h2>Soumettre le panier</h2>
+	
+Pour terminer le panier et le soumettre à validation par un administrateur, veuillez remplir les champs suivants : <br/>
+
+	<form method="POST" action="{% url 'main.views.soumettre_panier' %}" class="niceform" autocomplete="off">
+	{% csrf_token %}
+	<p>
+		<label for="scheduled_return_date">Date de retour prévue (aaaa-mm-jj):</label>
+			<input type="text" id="scheduled_return_date" name="scheduled_return_date" value="{{loan.scheduled_return_date|date:'d/m/Y'|default:''}}" />
+		</p>
+	<p>
+		<label for="comment">Commentaire :</label>
+		<textarea id="comment" name="comment">{{loan.comment}}</textarea>
+	</p>
+	<p class="submit">
+		<input type="submit" value="Soumettre le panier" />
+	</p>
+	</form>
+	 {% endif %}
+{% endblock %}
