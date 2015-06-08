@@ -12,13 +12,16 @@
 	<h2>Outils</h2>
 	<ul>
 		<li><a href="{% url 'main.views.show_loans' %}">Voir mes prêts en cours</a></li>
+		<li><a href="{% url 'main.views.my_panier' %}">Voir mon panier</a></li>
 		<li><a href="{% url 'main.views.blog' %}">Contribuer au blog</a></li>
+		<li><a href="{% url 'main.views.show_equipment_categories' choice=False %}">  Retourner à la liste du matériel </li> </a>
 	</ul>
 	{% if user.get_profile.is_animator %}
 		<h2>Animateurs</h2>
 		<ul>
-			<li><a href="{% url 'main.views.edit_loan' %}">Déclarer un prêt</a></li>
+			<li><a href="{% url 'main.views.edit' %}">Déclarer un prêt</a></li>
 			<li><a href="{% url 'main.views.show_all_loans' %}">Gérer les prêts</a></li>
+			<li><a href="{% url 'main.views.show_panier' %}">Gérer les paniers</a></li>
 			<li><a href="{% url 'main.views.update_place' %}">{% if telefab_open %}Déclarer le Téléfab de Brest fermé{% else %}Déclarer le Téléfab de Brest ouvert{% endif %}</a> (<a href="{% url 'main.views.update_place_mobile' api_password %}">version mobile</a>)</li>
 		</ul>
 	{% endif %}

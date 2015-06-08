@@ -1,0 +1,44 @@
+<table class="nicetable">
+	<tr>
+		{% if animator %}
+			<th>Emprunteur</th>
+		{% endif %}
+		<th>État</th>
+		<th>Prêt</th>
+		<th>Vider le panier</th>
+		{% if animator %}
+			<th>Actions</th>
+		{% endif %}
+	</tr>
+	{% for loan in loans %}
+		<tr>
+			{% if animator %}
+				<td>
+					{{loan.borrower.get_profile}}
+				</td>
+			{% endif %}
+			<td>
+					Panier
+			</td>
+			<td>
+				<ul>
+					{% for booking in loan.bookings.all %}
+						<li>{{ booking.equipment.name }}{% if booking.quantity > 1 %} (x{{booking.quantity}}){% endif %}</li>
+					{% endfor %}
+				</ul>
+				{% if loan.comment %}
+					<p class="comment">
+						{{ loan.comment }}
+					</p>
+				{% endif %}
+			</td>
+			<td>
+				<a href="{% url 'main.views.delete_panier' %}"> Vider le panier </a> <!-- Vider le panier </a> bouton pour annuler le panier -->
+			</td>
+		</tr>
+	{% empty %}
+		<tr>
+			<td colspan="5">Aucun panier</td>
+		</tr>
+	{% endfor %}
+</table>

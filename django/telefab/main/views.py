@@ -79,12 +79,230 @@ def show_equipments(request, category=None, choice=False):
 	}
 	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
 
-# Equipment loans
+
+def show_equipment_sheet(request, equipment_id):
+	
+	equipment=get_object_or_404(Equipment, id=equipment_id)
+	
+	template_data = {
+		'equipment': equipment,
+		'error': 0
+	}
+	return render_to_response("equipments/sheet.html", template_data, context_instance = RequestContext(request))
+
+# Rajouté par le groupe 20
+
+def my_panier(request):
+		loans = request.user.loans.filter(cancel_time = None, return_time = None, panier=1)
+		error=0
+		if len(loans)==0:
+			error=2
+		template_data = {
+		'error' : error,
+		'loans': loans,
+		}
+		return render_to_response("loans/panier.html", template_data, context_instance = RequestContext(request))
+
+def access_panier(request, equipment_id):
+
+	equipment=get_object_or_404(Equipment, id=equipment_id)
+
+	a=int(request.POST.get("available_quantity"))
+	b=int(request.POST.get("quantity"))
+
+	if b > a or b<=0: # Vérifie que la quantité demandée est inférieure à la quantité disponible de l'équipment et est positive
+		template_data = {
+		'quantity': request.POST.get("quantity"),
+		'available_quantity': equipment.available_quantity,
+		'equipment': equipment,
+		'error': 1
+		}
+		return render_to_response("equipments/sheet.html", template_data, context_instance = RequestContext(request))
+
+	else:
+		if request.user.is_authenticated(): # La personne accède à son panier si elle est identifiée
+			
+			if Loan.objects.filter(borrower_id = request.user.id ,panier = 1, cancel_time= None): # si le panier existe déjà, on y ajoute du matériel
+
+				emprunt = Loan.objects.filter(borrower_id = request.user.id ,panier = 1, cancel_time = None).get()
+				equipment_emprunt = EquipmentLoan.objects.filter(loan = emprunt)
+				flag=0
+				
+				# la boucle sert à vérifier si un l'équipment demandé est déjà dans le panier
+				for equipment_ in equipment_emprunt: # equipment_ est un objet de type "equipmentloan"
+					if equipment_.equipment.id == equipment.id:
+						if (equipment_.quantity + b) > a: # on vérifie si la quantité dans le panier + celle demandée et supérieure à la quantité disponible
+							template_data = {
+							'quantity': b,
+							'quantity_total': equipment_.quantity,
+							'available_quantity': equipment.available_quantity,
+							'equipment': equipment,
+							'error': 2
+							}
+							return render_to_response("equipments/sheet.html", template_data, context_instance = RequestContext(request))
+						else: # s'il n'y a pas d'erreur on modifie convenablement le panier
+							equipment_.quantity = equipment_.quantity + b
+							flag=1
+							equipment_.save()
+				if flag ==0: # si on a déjà modifié le panier, on ne veut pas le remodifier (flag=1)
+					emprunt_equipment = EquipmentLoan()
+					emprunt_equipment.equipment = equipment
+					emprunt_equipment.loan = emprunt
+					emprunt_equipment.quantity = request.POST.get("quantity")
+					emprunt_equipment.save()
+		
+			else: # si le panier n'existe pas, on le crée
+				emprunt = Loan()
+				emprunt.borrower_id = request.user.id
+				emprunt.loan_time= datetime.now()
+				emprunt.panier = 1
+				emprunt.save()
+				# puis on remplit le panier
+				emprunt_equipment = EquipmentLoan()
+				emprunt_equipment.equipment = equipment
+				emprunt_equipment.loan = emprunt
+				#emprunt_equipment.loan = Loan.objects.get(borrower_id= request.user.id ,panier = 1)
+				emprunt_equipment.quantity = request.POST.get("quantity")
+				emprunt_equipment.save()
+
+
+			loans = request.user.loans.filter(cancel_time = None, return_time = None, panier=1).order_by('-loan_time')
+			template_data = {
+			'error' : 0,
+			'loans': loans,
+			}
+			return render_to_response("loans/panier.html", template_data, context_instance = RequestContext(request))
+
+		else: # si la personne n'est pas authentifiée elle doit se connecter
+			template_data = {
+			'next': request.REQUEST.get('next', ''),
+			}
+			return render_to_response("account/connection.html", template_data, context_instance = RequestContext(request))
+
+def delete_panier(request):
+	# ce bout de code permet d'annuler un panier en gardant dans la BD que le panier a été annulé et non pas en faisant emprunt.delete()
+	emprunt=get_object_or_404(Loan, borrower_id = request.user.id ,panier=1, cancel_time = None)
+	emprunt.cancel_time = datetime.now()
+	emprunt.cancelled_by = request.user
+	emprunt.save()
+	template_data = {
+	}
+	return render_to_response("loans/panierempty.html", template_data, context_instance = RequestContext(request))
 
 @login_required
-def edit_loan(request, loan_id=None):
+def show_panier(request): # Montre les paniers en cours aux administrateurs
+	# Only animators
+	if not request.user.profile.is_animator():
+		raise PermissionDenied()
+
+	last_time = datetime.now() - timedelta(days=7)
+	loans = Loan.objects.filter(cancel_time = None, return_time = None, panier="1").exclude(scheduled_return_date = None).order_by('-loan_time')
+	old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).filter(panier="1", cancelled_by = request.user).order_by('-loan_time')
+
+	template_data = {
+	'loans': loans,
+	'animator': True,
+	'old_loans': old_loans,
+	'error': 0
+	}
+	return render_to_response("loans/show_panier.html", template_data, context_instance = RequestContext(request))
+
+@login_required
+def manage_panier(request, loan_id, action, value):
 	"""
-	Allows users to edit a loan or create one
+	Allows animators to manage panier: cancel or confirm
+	"""
+	# Only animators
+	if not request.user.profile.is_animator():
+		raise PermissionDenied()
+	# Detect action
+	loan = get_object_or_404(Loan, pk=loan_id)
+	if action == "cancel":
+		# Manage the cancel status
+		if value == "1":
+			loan.cancel_time = datetime.now()
+			loan.cancelled_by = request.user
+		else:
+			loan.cancel_time = None
+	elif action == "valid":
+		# Transforme un panier en emprunt après avoir vérifié les quantité demandés.
+			emprunt = Loan.objects.filter(id = loan_id).get()
+			equipment_emprunt = EquipmentLoan.objects.filter(loan = emprunt)
+			for equipment_ in equipment_emprunt: # equipment_ est un objet de type "equipmentloan"
+				if equipment_.equipment.available_quantity() < equipment_.quantity: # Vérifie que la quantité demandée dans le panier est bien disponible : si on rentre dans le if, il y a eu une erreur
+					
+					# Ces données sont nécessaires pour réafficher la même page avec un message d'erreur en cas de problème dans les quantités demandées
+					last_time = datetime.now() - timedelta(days=7)
+					loans = Loan.objects.filter(cancel_time = None, return_time = None, panier="1").exclude(scheduled_return_date = None).order_by('-loan_time')
+					old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).filter(panier="1", cancelled_by = request.user).order_by('-loan_time')
+
+					template_data = {
+					'loans': loans,
+					'animator': True,
+					'old_loans': old_loans,
+					'error': 1,
+					'equipment': equipment_.equipment
+					}
+					return render_to_response("loans/show_panier.html", template_data, context_instance = RequestContext(request))
+			loan.panier = 0
+			loan.lender = request.user
+	else:
+		return HttpResponseNotFound()
+	loan.save()
+	return redirect(urlresolvers.reverse('main.views.show_panier'))
+
+def soumettre_panier(request):
+	now = datetime.now()
+	date = request.POST.get("scheduled_return_date")
+
+	# On vérifie ici si la date rensiengnée pour l'emprunt est valide
+	error = 1
+	if int(len(request.POST.get("scheduled_return_date")))==10: # 10 caractères dans aaaa-mm-jj
+		if request.POST.get("scheduled_return_date")[4:5]=="-" and request.POST.get("scheduled_return_date")[7:8]=="-":# on regarde la syntaxe
+			if int(request.POST.get("scheduled_return_date")[0:4]) >= now.year and int(request.POST.get("scheduled_return_date")[0:4]) <= now.year+3: #on bloque à 3 ans
+				if 1 <= int(request.POST.get("scheduled_return_date")[5:7]) and int(request.POST.get("scheduled_return_date")[5:7]) <= 12:#mois compris entre 1 et 12
+					if 1 <= int(request.POST.get("scheduled_return_date")[8:10]) and int(request.POST.get("scheduled_return_date")[8:10]) <= 31: #jour compris entre 1 et 31
+						if now.year < int(request.POST.get("scheduled_return_date")[0:4]):# on ne regarde pas les mois et les jours, il s'agit de l'an prochain
+							error = 0
+						else:
+							if now.month < int(request.POST.get("scheduled_return_date")[5:7]): #on ne regarde pas les jours il s'agit du mois prochain
+								error = 0
+							else:
+								if now.day < int(request.POST.get("scheduled_return_date")[8:10]):
+									error = 0
+			
+	#renvoi error = 1 si la date est fausse et error = 0 si elle est bonne
+	if error == 1:
+		loans = request.user.loans.filter(cancel_time = None, return_time = None, panier=1).order_by('-loan_time')
+		template_data = {
+		'loans': loans,
+		'nom': request.user.username,
+		'error' : 1
+		}
+		return render_to_response("loans/panier.html", template_data, context_instance = RequestContext(request))
+	if error == 0:
+		emprunt = Loan.objects.get(borrower_id= request.user.id ,panier = 1, cancel_time = None)
+		emprunt.scheduled_return_date = request.POST.get("scheduled_return_date")
+		emprunt.comment = request.POST.get("comment")
+		emprunt.save()
+		template_data = {}
+
+		# Déconnecte l'utilisateur
+		auth_method = request.session.get('auth_method', None)
+		# Forget the login method
+		try:
+			del request.session['auth_method']
+		except KeyError:
+			pass
+		auth.logout(request)
+		# Log out from CAS if needed
+		return render_to_response("loans/panier_soumis.html", template_data, context_instance = RequestContext(request))
+	
+
+@login_required
+def edit(request, loan_id=None, panier=1): # Modifie les paniers et les prets suivant la valeur de "panier" reçue
+	"""
+	Allows users to edit a panier
 	"""
 	# Only animators
 	if not request.user.profile.is_animator():
@@ -224,7 +442,10 @@ def edit_loan(request, loan_id=None):
 			if is_new and borrower.email:
 				loan.send_reminder()
 			# Redirect
-			return redirect(urlresolvers.reverse('main.views.show_all_loans'))
+			if int(panier) == 1:
+				return redirect(urlresolvers.reverse('main.views.show_panier'))
+			elif int(panier) ==0:
+				return redirect(urlresolvers.reverse('main.views.show_all_loans'))
 	# Render
 	all_equipments = Equipment.objects.filter(quantity__gt = 0)
 	equipments = []
@@ -241,16 +462,21 @@ def edit_loan(request, loan_id=None):
 		'is_new': is_new,
 		'equipments': equipments,
 		'users': users,
-		'saving_errors': saving_errors
+		'saving_errors': saving_errors,
+		'panier': int(panier),
 	}
 	return render_to_response("loans/edit.html", template_data, context_instance = RequestContext(request))
+
+# Fin du rajout
+
+# Equipment loans
 
 @login_required
 def show_loans(request):
 	"""
 	Show all the current loans of an user
 	"""
-	# Loans finished less than 7 days ago
+	# Loans finished less than 7 days ago, MODIF GROUPE 20 : on affiche que ceux avec panier!=1, les emprunts réalisés, pas les paniers non validés
 	last_time = datetime.now() - timedelta(days=7)
 	loans = request.user.loans.filter(cancel_time = None, return_time = None).order_by('-loan_time')
 	old_loans = request.user.loans.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).order_by('-loan_time')
@@ -270,8 +496,8 @@ def show_all_loans(request):
 		raise PermissionDenied()
 	# Loans finished less than 7 days ago
 	last_time = datetime.now() - timedelta(days=7)
-	loans = Loan.objects.filter(cancel_time = None, return_time = None).order_by('-loan_time')
-	old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).order_by('-loan_time')
+	loans = Loan.objects.filter(cancel_time = None, return_time = None).exclude(panier="1").order_by('-loan_time') # exclude(panier="1") pour ne pas afficher les paniers, n'affiche pas les emprunts ayant panier = NULL.
+	old_loans = Loan.objects.filter((Q(cancel_time = None) & Q(return_time__gte = last_time)) | (Q(return_time = None) & Q(cancel_time__gte = last_time))| (Q(return_time__gte = last_time) & Q(cancel_time__gte = last_time))).exclude(panier="1").order_by('-loan_time')
 	template_data = {
 		'loans': loans,
 		'old_loans': old_loans,
@@ -516,3 +742,6 @@ def update_place_api(request):
 	else:
 		return HttpResponse("CLOSED", content_type="text/plain")
 	return HttpResponse("OK", content_type="text/plain")
+
+
+
