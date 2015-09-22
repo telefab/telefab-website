@@ -54,13 +54,13 @@ Template Name: Contact Page
 
 		$et_site_name = is_multisite() ? $current_site->site_name : get_bloginfo('name');
 
-		$contact_name 	= sanitize_text_field( $_POST['et_contact_name'] );
+		$contact_name 	= stripslashes( sanitize_text_field( $_POST['et_contact_name'] ) );
 		$contact_email 	= sanitize_email( $_POST['et_contact_email'] );
 
 		$headers  = 'From: ' . $contact_name . ' <' . $contact_email . '>' . "\r\n";
 		$headers .= 'Reply-To: ' . $contact_name . ' <' . $contact_email . '>';
 
-		wp_mail( apply_filters( 'et_contact_page_email_to', $et_email_to ), sprintf( '[%s] ' . sanitize_text_field( $_POST['et_contact_subject'] ), $et_site_name ), wp_strip_all_tags( $_POST['et_contact_message'] ), apply_filters( 'et_contact_page_headers', $headers, $contact_name, $contact_email ) );
+		wp_mail( apply_filters( 'et_contact_page_email_to', $et_email_to ), sprintf( '[%s] ' . stripslashes( sanitize_text_field( $_POST['et_contact_subject'] ) ), $et_site_name ), stripslashes( wp_strip_all_tags( $_POST['et_contact_message'] ) ), apply_filters( 'et_contact_page_headers', $headers, $contact_name, $contact_email ) );
 
 		$et_error_message = '<p>' . esc_html__('Thanks for contacting us','Chameleon') . '</p>';
 	}

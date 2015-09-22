@@ -176,10 +176,8 @@ function et_load_chameleon_scripts(){
 	if ( $et_slider_type == 'nivo' )
 		wp_enqueue_script('jquery_nivo', $template_dir . '/js/jquery.nivo.slider.pack.js', array('jquery'), '1.0', true);
 
-	if ( $et_slider_type == 'flexslider' ){
-		wp_enqueue_script('fitvids', $template_dir . '/js/jquery.fitvids.js', array('jquery'), '1.0', true);
+	if ( $et_slider_type == 'flexslider' )
 		wp_enqueue_script('flexslider', $template_dir . '/js/jquery.flexslider-min.js', array('jquery'), '1.0', true);
-	}
 
 	wp_enqueue_script($et_slider_type . '_script', $template_dir . '/js/et_'.$et_slider_type.'.js', array('jquery'), '1.0', true);
 

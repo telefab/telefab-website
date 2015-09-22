@@ -1,3 +1,84 @@
+version 3.9.1 ( updated 08-18-2015 )
+- Fixed issue with WordPress 4.3 that caused shortened post titles and excerpts to not be truncated correctly
+	* epanel/custom_functions.php
+- Fixed WP_Widget class constructor warning message
+	* includes/widgets/widget-about.php
+	* includes/widgets/widget-ads.php
+	* includes/widgets/widget-adsense.php
+	* includes/widgets/widget-customlogo.php
+	* includes/widgets/widget-fromblog.php
+- Bumped version number
+	* style.css
+
+version 3.9 ( updated 04-23-2015 )
+- Added minor security hardening
+	* epanel/custom_functions.php
+- Improved compatibility with WordPress 4.2
+	* includes/functions/sidebars.php
+- Bumped version number
+	* style.css
+
+version 3.8 ( updated 02-25-2014 )
+- Fixed the issue with slashes added to Name, Subject and Message fields in the contact form
+	* page-contact.php
+- Fixed the issue with resizing of images that have the x symbol between width and height values in the filename
+- Fixed the issue with .jpeg images and uppercase extensions in cached files
+- The theme doesn't strip slashes from custom css now, when saving the option to the database
+- Removed buzz shortcode ( Google retired Buzz )
+- Fixed ePanel SEO home options not appearing on static front page
+- Better compatibility with WordPress SEO and All In One SEO Pack plugins. ePanel SEO is disabled if these plugins are active now.
+	* epanel/core_functions.php
+	* epanel/custom_functions.php
+	* epanel/shortcodes/shortcodes.php
+- Corrected rss url
+- Removed duplicate rss and atom feeds
+	* header.php
+- Bumped version number
+	* style.css
+
+version 3.7 ( updated 12-23-2013 )
+- Now you can update Elegant Themes in the Dashboard: https://www.elegantthemes.com/members-area/documentation.html#updater
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 3.6 ( updated 09-13-2013 )
+- Fixed main menu issues in IE7
+	* header.php
+	* js/et_flexslider.js
+	* style.css
+- Updated description for some options
+	* epanel/options_chameleon.php
+- Fixed Tabs shortcode layout issues with the slide effect
+	* epanel/shortcodes/css/shortcodes.css
+	* epanel/shortcodes/shortcodes.php
+- Bumped version number
+	* style.css
+
+version 3.5 ( updated 08-02-2013 )
+- Fixed separate_comments function notice
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 3.4 ( updated 06-26-2013 )
+- Fixed Post/Page Editor Word Count Problem
+- Fixed issue with left tabs shortcode
+- Fixed tooltip glitch
+- Fixed issue with span in pricing table
+- Fixed get_current_theme warning message.
+- Fixed the issue with Fancybox videos not working on second launch in WordPress 3.6
+- Added shortcodes names to shortcode_atts() to enable filtering
+
+List of modified files:
+* epanel/custom_functions.php
+* epanel/page_templates/js/et-ptemplates-frontend.js
+* epanel/page_templates/js/fancybox/jquery.fancybox-1.3.4.pack.js
+* epanel/shortcodes/css/shortcodes.css
+* epanel/shortcodes/js/et_shortcodes_frontend.js
+* epanel/shortcodes/js/et_shortcodes_frontend.dev.js
+* epanel/shortcodes/shortcodes.php
+
 version 3.3 ( updated 03-21-2013 )
 - Fixed scrolling slider issue in iOS
 	* css/responsive.css

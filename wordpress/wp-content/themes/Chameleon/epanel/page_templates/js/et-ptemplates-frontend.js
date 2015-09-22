@@ -29,6 +29,8 @@ jQuery(document).ready(function() {
 			var $this_frame 	= jQuery( '#fancybox-wrap' ).find( 'iframe' ),
 				this_frame_src 	= $this_frame.attr( 'src' );
 
+			$this_frame.data( 'et_video_embed', $this_frame.attr( 'src' ) );
+
 			// if we removed autoplay previously, let's add it back
 			if ( jQuery( currentOpts.href ).find( 'iframe' ).hasClass( 'et_autoplay_removed' ) )
 				$this_frame.attr( 'src', this_frame_src + '&autoplay=1' );
@@ -37,7 +39,10 @@ jQuery(document).ready(function() {
 			if ( currentOpts.type == 'image' ) return;
 
 			var $this_frame = jQuery( currentOpts.href ).find( 'iframe.et_autoplay_removed' ),
-				this_frame_src;
+				this_frame_src,
+				$frame = jQuery( currentOpts.href ).find( 'iframe' );
+
+			$frame.attr( 'src', $frame.data( 'et_video_embed' ) )
 
 			if ( $this_frame.length ) {
 				// delete autoplay after closing the fancybox window to prevent videos from playing in background

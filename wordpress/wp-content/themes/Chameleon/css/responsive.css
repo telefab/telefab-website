@@ -80,6 +80,8 @@ ul#top-menu ul { display: none; }
 
 .wp-caption { max-width: 96%; padding: 8px; }
 
+embed, iframe, object, video { max-width: 100%; }
+
 @media only screen and ( min-width: 768px ) and ( max-width: 960px ) {
 	.featured-description { height: 137px; top: 25px; }
 	#category-name { width: 100%; }

@@ -306,7 +306,7 @@ $options = array (
                    "std" => "10",
                    "type" => "text",
                    "validation_type" => "number",
-				   "desc" => "Here you can designate how many recent articles are displayed in Media bar on the homepage. "),
+				   "desc" => "Here you can designate how many posts are displayed in Media bar on the homepage. Note that thumbnails in the Media Bar will not link to posts."),
 
 			array( "name" => "Exclude categories from Media bar",
 				   "id" => $shortname."_exlcats_media",

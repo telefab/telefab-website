@@ -212,11 +212,13 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 									<?php foreach ( $value['options'] as $option_key=>$option ) { ?>
 										<?php
 											$et_select_active = '';
-											$et_use_option_values = isset( $value['et_array_for'] ) && in_array( $value['et_array_for'], array( 'pages', 'categories' ) ) ? true : false;
+											$et_use_option_values =
+											( isset( $value['et_array_for'] ) && in_array( $value['et_array_for'], array( 'pages', 'categories' ) ) ) ||
+											( isset( $value['et_save_values'] ) && $value['et_save_values'] ) ? true : false;
 
 											$et_option_db_value = et_get_option($value['id']);
 
-											if ( ( $et_use_option_values && is_numeric( $et_option_db_value ) && ( $et_option_db_value == $option_key ) ) || ( stripslashes( $et_option_db_value ) == trim( stripslashes( $option ) ) ) || ( ! $et_option_db_value && isset( $value['std'] ) && stripslashes( $option ) == stripslashes( $value['std'] ) ) )
+											if ( ( $et_use_option_values && ( $et_option_db_value == $option_key ) ) || ( stripslashes( $et_option_db_value ) == trim( stripslashes( $option ) ) ) || ( ! $et_option_db_value && isset( $value['std'] ) && stripslashes( $option ) == stripslashes( $value['std'] ) ) )
 												$et_select_active = ' selected="selected"';
 										?>
 										<option<?php if ( $et_use_option_values ) echo ' value="' . esc_attr( $option_key ) . '"'; ?> <?php echo $et_select_active; ?>><?php echo esc_html( trim( $option ) ); ?></option>
@@ -370,7 +372,7 @@ if ( ! function_exists( 'et_build_epanel' ) ){
 			<div style="clear: both;"></div>
 			<div style="position: relative;">
 				<div class="defaults-hover">
-					<?php _e( 'This will return all of the settings throughout the options page to their default values. <strong>Are you sure you want to do this?', $themename ); ?></strong>
+					<?php _e( 'This will return all of the settings throughout the options page to their default values. <strong>Are you sure you want to do this?</strong>', $themename ); ?>
 					<div class="clearfix"></div>
 					<form method="post">
 						<?php wp_nonce_field( 'et-nojs-reset_epanel', '_wpnonce_reset' ); ?>
@@ -404,7 +406,7 @@ function et_epanel_save_callback() {
 
 if ( ! function_exists( 'epanel_save_data' ) ){
 	function epanel_save_data( $source ){
-		global $options;
+		global $options, $shortname;
 
 		if ( !current_user_can('switch_themes') )
 			die('-1');
@@ -472,8 +474,14 @@ if ( ! function_exists( 'epanel_save_data' ) ){
 
 								if ( isset( $value['validation_type'] ) ) {
 									// html is not allowed
-									if ( 'nohtml' == $value['validation_type'] )
-										et_update_option( $value['id'], wp_strip_all_tags( stripslashes( $_POST[$value['id']] ) ) );
+									if ( 'nohtml' == $value['validation_type'] ) {
+										if ( $value['id'] === ( $shortname . '_custom_css' ) ) {
+											// don't strip slashes from custom css, it should be possible to use \ for icon fonts
+											et_update_option( $value['id'], wp_strip_all_tags( $_POST[$value['id']] ) );
+										} else {
+											et_update_option( $value['id'], wp_strip_all_tags( stripslashes( $_POST[$value['id']] ) ) );
+										}
+									}
 								} else {
 									if ( current_user_can( 'unfiltered_html' ) )
 										et_update_option( $value['id'], stripslashes( $_POST[$value['id']] ) );

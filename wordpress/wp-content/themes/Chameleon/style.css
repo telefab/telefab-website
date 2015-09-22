@@ -1,7 +1,7 @@
 /*
 Theme Name: Chameleon
 Theme URI: http://www.elegantthemes.com/gallery/
-Version: 3.3
+Version: 3.9.1
 Description: 2 Column theme from Elegant Themes
 Author: Elegant Themes
 Author URI: http://www.elegantthemes.com
@@ -457,3 +457,8 @@ h3#reply-title small { display: block; }
 	.js #featured .slide, .js #featured-modest .slide { display: none; }
 
 .service .thumb a { display: block; }
+
+#featured .flex-direction-nav li a { z-index: 99; }
+
+#ie7 #header { position: relative; z-index: 2; }
+#ie7 .flex-container, #ie7 #category-name, #ie7 #content-area { position: relative; z-index: 1; }

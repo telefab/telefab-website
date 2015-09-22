@@ -91,7 +91,7 @@
 								$titletext = get_the_title();
 								$thumbnail = get_thumbnail($width,$height,'multi-media-image',$titletext,$titletext,true,'Media');
 								$thumb = $thumbnail["thumb"];
-								$et_medialink = get_permalink(get_the_ID());
+								$et_medialink = get_post_meta(get_the_ID(),'et_medialink',true) ? get_post_meta(get_the_ID(),'et_medialink',true) : '';
 								$et_videolink = get_post_meta(get_the_ID(),'et_videolink',true) ? get_post_meta(get_the_ID(),'et_videolink',true) : '';
 								$et_media_description = get_post_meta(get_the_ID(),'et_media_description',true) ? get_post_meta(get_the_ID(),'et_media_description',true) : truncate_post(90,false);
 							?>

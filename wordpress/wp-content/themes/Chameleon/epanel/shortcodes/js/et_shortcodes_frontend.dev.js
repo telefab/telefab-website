@@ -295,9 +295,9 @@ jQuery(document).ready(function($){
 	$et_tooltip = $('.et-tooltip');
 	$et_tooltip.live('mouseover mouseout', function(event){
 		if (event.type == 'mouseover') {
-			$(this).find('.et-tooltip-box').animate({ opacity: 'show', bottom: '25px' }, 300);
+			$(this).find('.et-tooltip-box').stop(true,true).animate({ opacity: 'show', bottom: '25px' }, 300);
 		} else {
-			$(this).find('.et-tooltip-box').animate({ opacity: 'hide', bottom: '35px' }, 300);
+			$(this).find('.et-tooltip-box').delay(200).animate({ opacity: 'hide', bottom: '35px' }, 300);
 		}
 	});
 	// learn more

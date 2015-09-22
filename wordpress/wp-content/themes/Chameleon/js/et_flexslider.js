@@ -7,8 +7,6 @@ jQuery(window).load(function($){
 		et_container_width = jQuery('#container').width(),
 		$cloned_nav;
 
-	jQuery(".entry, .et_pt_blogentry").fitVids();
-
 	if ( $featured.length ){
 		et_slider_settings = {
 
@@ -26,35 +24,37 @@ jQuery(window).load(function($){
 		$featured.flexslider( et_slider_settings );
 	}
 
-	$et_nav.clone().attr('id','mobile_menu').removeClass().appendTo( $et_mobile_nav_button );
-	$cloned_nav = $et_mobile_nav_button.find('> ul');
+	if ( ! jQuery('html#ie7').length ) {
+		$et_nav.clone().attr('id','mobile_menu').removeClass().appendTo( $et_mobile_nav_button );
+		$cloned_nav = $et_mobile_nav_button.find('> ul');
 
-	$et_mobile_nav_button.click( function(){
-		if ( jQuery(this).hasClass('closed') ){
-			jQuery(this).removeClass( 'closed' ).addClass( 'opened' );
-			$cloned_nav.slideDown( 500 );
-		} else {
-			jQuery(this).removeClass( 'opened' ).addClass( 'closed' );
-			$cloned_nav.slideUp( 500 );
-		}
-		return false;
-	} );
+		$et_mobile_nav_button.click( function(){
+			if ( jQuery(this).hasClass('closed') ){
+				jQuery(this).removeClass( 'closed' ).addClass( 'opened' );
+				$cloned_nav.slideDown( 500 );
+			} else {
+				jQuery(this).removeClass( 'opened' ).addClass( 'closed' );
+				$cloned_nav.slideUp( 500 );
+			}
+			return false;
+		} );
 
-	$et_mobile_nav_button.find('a').click( function(event){
-		event.stopPropagation();
-	} );
+		$et_mobile_nav_button.find('a').click( function(event){
+			event.stopPropagation();
+		} );
 
-	jQuery(window).resize( function(){
-		if ( et_container_width != jQuery('#container').width() ) {
-			et_container_width = jQuery('#container').width();
+		jQuery(window).resize( function(){
+			if ( et_container_width != jQuery('#container').width() ) {
+				et_container_width = jQuery('#container').width();
 
-			et_mobile_navigation_fix();
-			et_footer_widgets_fix();
-		}
-	});
+				et_mobile_navigation_fix();
+				et_footer_widgets_fix();
+			}
+		});
 
-	et_mobile_navigation_fix();
-	et_footer_widgets_fix();
+		et_mobile_navigation_fix();
+		et_footer_widgets_fix();
+	}
 
 	function et_mobile_navigation_fix(){
 		var et_left;

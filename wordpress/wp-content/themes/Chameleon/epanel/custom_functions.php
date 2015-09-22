@@ -118,16 +118,6 @@ function et_browser_body_class($classes) {
 	return $classes;
 }
 
-// Tells wp_trim_words() function to use characters instead of words
-function et_wp_trim_words_to_characters( $default_translated_text, $original_text, $context ) {
-	if ( 'words' == $original_text && 'word count: words or characters?' == $context ) {
-		return 'characters';
-	}
-
-    return $default_translated_text;
-}
-add_filter( 'gettext_with_context', 'et_wp_trim_words_to_characters', 20, 3 );
-
 /*this function allows for the auto-creation of post excerpts*/
 if ( ! function_exists( 'truncate_post' ) ){
 	function truncate_post( $amount, $echo = true, $post = '' ) {
@@ -160,7 +150,8 @@ if ( ! function_exists( 'truncate_post' ) ){
 			}
 
 			// trim text to a certain number of characters, also remove spaces from the end of a string ( space counts as a character )
-			$truncate = rtrim( wp_trim_words( $truncate, $amount, '' ) );
+
+			$truncate = rtrim( et_wp_trim_words( $truncate, $amount, '' ) );
 
 			// remove the last word to make sure we display all words correctly
 			if ( '' != $echo_out ) {
@@ -179,6 +170,30 @@ if ( ! function_exists( 'truncate_post' ) ){
 	}
 }
 
+if ( ! function_exists( 'et_wp_trim_words' ) ){
+	function et_wp_trim_words( $text, $num_words = 55, $more = null ) {
+		if ( null === $more )
+			$more = __( '&hellip;' );
+		$original_text = $text;
+		$text = wp_strip_all_tags( $text );
+
+		$text = trim( preg_replace( "/[\n\r\t ]+/", ' ', $text ), ' ' );
+		preg_match_all( '/./u', $text, $words_array );
+		$words_array = array_slice( $words_array[0], 0, $num_words + 1 );
+		$sep = '';
+
+		if ( count( $words_array ) > $num_words ) {
+			array_pop( $words_array );
+			$text = implode( $sep, $words_array );
+			$text = $text . $more;
+		} else {
+			$text = implode( $sep, $words_array );
+		}
+
+		return $text;
+	}
+}
+
 /*this function truncates titles to create preview excerpts*/
 if ( ! function_exists( 'truncate_title' ) ){
 	function truncate_title( $amount, $echo = true, $post = '' ) {
@@ -188,7 +203,7 @@ if ( ! function_exists( 'truncate_title' ) ){
 		if ( strlen( $truncate ) <= $amount ) $echo_out = '';
 		else $echo_out = '...';
 
-		$truncate = wp_trim_words( $truncate, $amount, '' );
+		$truncate = et_wp_trim_words( $truncate, $amount, '' );
 
 		if ( '' != $echo_out ) $truncate .= $echo_out;
 
@@ -526,14 +541,15 @@ if ( ! function_exists( 'get_categname' ) ){
 }
 
 /*this function gets category id by its name*/
-if ( ! function_exists( 'get_catId' ) ){
-	function get_catId( $cat_name )
+if ( ! function_exists( 'get_catId' ) ) {
+	function get_catId( $cat_name, $taxonomy = 'category' )
 	{
 		$cat_name_id = is_numeric( $cat_name ) ? (int) $cat_name : (int) get_cat_ID( html_entity_decode( $cat_name, ENT_QUOTES ) );
 
 		// wpml compatibility
-		if ( function_exists( 'icl_object_id' ) )
-			$cat_name_id = (int) icl_object_id( $cat_name_id, 'category', true );
+		if ( function_exists( 'icl_object_id' ) ) {
+			$cat_name_id = (int) icl_object_id( $cat_name_id, $taxonomy, true );
+		}
 
 		return $cat_name_id;
 	}
@@ -582,100 +598,215 @@ if ( ! function_exists( 'et_generate_wpml_ids' ) ){
 	}
 }
 
+if ( ! function_exists( 'elegant_is_blog_posts_page' ) ){
+	function elegant_is_blog_posts_page() {
+		/**
+		 * Returns true if static page is set in WP-Admin / Settings / Reading
+		 * and Posts page is displayed
+		 */
+
+		static $et_is_blog_posts_cached = null;
+
+		if ( null === $et_is_blog_posts_cached ) {
+			$et_is_blog_posts_cached = (bool) is_home() && 0 !== intval( get_option( 'page_for_posts', '0' ) );
+		}
+
+		return $et_is_blog_posts_cached;
+	}
+}
+
 /*this function controls the meta titles display*/
 if ( ! function_exists( 'elegant_titles' ) ){
 	function elegant_titles() {
-		global $shortname;
+		global $shortname, $themename;
+
+		$custom_title = '';
 
 		$sitename = get_bloginfo('name');
 		$site_description = get_bloginfo('description');
 
 		#if the title is being displayed on the homepage
-		if (is_home() || is_front_page()) {
-			if (et_get_option($shortname.'_seo_home_title') == 'on') echo et_get_option($shortname.'_seo_home_titletext');
-			else {
+		if ( ( is_home() || is_front_page() ) && ! elegant_is_blog_posts_page() ) {
+			if ( 'on' === et_get_option( $shortname . '_seo_home_title' ) ) {
+				$custom_title = et_get_option( $shortname . '_seo_home_titletext' );
+			} else {
 				$seo_home_type = et_get_option( $shortname . '_seo_home_type' );
-				$seo_home_separate = et_get_option($shortname.'_seo_home_separate');
+				$seo_home_separate = et_get_option( $shortname . '_seo_home_separate' );
 
-				if ( $seo_home_type == 'BlogName | Blog description' ) echo $sitename . esc_html( $seo_home_separate ) . $site_description;
-				if ( $seo_home_type == 'Blog description | BlogName') echo $site_description . esc_html( $seo_home_separate ) . $sitename;
-				if ( $seo_home_type == 'BlogName only') echo $sitename;
+				if ( $seo_home_type == 'BlogName | Blog description' ) {
+					$custom_title = $sitename . esc_html( $seo_home_separate ) . $site_description;
+				}
+				if ( $seo_home_type == 'Blog description | BlogName') {
+					$custom_title = $site_description . esc_html( $seo_home_separate ) . $sitename;
+				}
+				if ( $seo_home_type == 'BlogName only') {
+					$custom_title = $sitename;
+				}
 			}
 		}
+
 		#if the title is being displayed on single posts/pages
-		if ( ( is_single() || is_page() ) && ! is_front_page() ) {
+		if ( ( ( is_single() || is_page() ) && ! is_front_page() ) || elegant_is_blog_posts_page() ) {
 			global $wp_query;
-			$postid = $wp_query->post->ID;
+			$postid = elegant_is_blog_posts_page() ? intval( get_option( 'page_for_posts' ) ) : $wp_query->post->ID;
 			$key = et_get_option($shortname.'_seo_single_field_title');
 			$exists3 = get_post_meta($postid, ''.$key.'', true);
-					if (et_get_option($shortname.'_seo_single_title') == 'on' && $exists3 !== '' ) echo $exists3;
-					else {
-						$seo_single_type = et_get_option($shortname.'_seo_single_type');
-						$seo_single_separate = et_get_option($shortname.'_seo_single_separate');
-						if ( $seo_single_type == 'BlogName | Post title' ) echo $sitename . esc_html( $seo_single_separate ) . wp_title('',false,'');
-						if ( $seo_single_type == 'Post title | BlogName' ) echo wp_title('',false,'') . esc_html( $seo_single_separate ) . $sitename;
-						if ( $seo_single_type == 'Post title only' ) echo wp_title('',false,'');
-					}
 
+			if ( 'on' === et_get_option( $shortname . '_seo_single_title' ) && '' !== $exists3 ) {
+				$custom_title = $exists3;
+			} else {
+				$seo_single_type = et_get_option( $shortname . '_seo_single_type' );
+				$seo_single_separate = et_get_option( $shortname . '_seo_single_separate' );
+				$page_title = single_post_title( '', false );
+
+				if ( $seo_single_type == 'BlogName | Post title' ) {
+					$custom_title = $sitename . esc_html( $seo_single_separate ) . $page_title;
+				}
+
+				if ( $seo_single_type == 'Post title | BlogName' ) {
+					$custom_title = $page_title . esc_html( $seo_single_separate ) . $sitename;
+				}
+
+				if ( $seo_single_type == 'Post title only' ) {
+					$custom_title = $page_title;
+				}
+			}
 		}
+
 		#if the title is being displayed on index pages (categories/archives/search results)
-		if (is_category() || is_archive() || is_search()) {
-			$seo_index_type = et_get_option($shortname.'_seo_index_type');
-			$seo_index_separate = et_get_option($shortname.'_seo_index_separate');
-			if ( $seo_index_type == 'BlogName | Category name' ) echo $sitename . esc_html( $seo_index_separate ) . wp_title('',false,'');
-			if ( $seo_index_type == 'Category name | BlogName') echo wp_title('',false,'') . esc_html( $seo_index_separate ) . $sitename;
-			if ( $seo_index_type == 'Category name only') echo wp_title('',false,'');
+		if ( is_category() || is_archive() || is_search() || is_404() ) {
+			$page_title = '';
+
+			$seo_index_type = et_get_option( $shortname . '_seo_index_type' );
+			$seo_index_separate = et_get_option( $shortname . '_seo_index_separate' );
+
+			if ( is_category() || is_tag() || is_tax() ) {
+				$page_title = single_term_title( '', false );
+			} else if ( is_post_type_archive() ) {
+				$page_title = post_type_archive_title( '', false );
+			} else if ( is_author() ) {
+				$page_title = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
+			} else if ( is_date() ) {
+				$page_title = __( 'Archives', $themename );
+			} else if ( is_search() ) {
+				$page_title = sprintf( __( 'Search results for "%s"', $themename ), esc_attr( get_search_query() ) );
+			} else if ( is_404() ) {
+				$page_title = __( '404 Not Found', $themename );
+			}
+
+			if ( $seo_index_type == 'BlogName | Category name' ) {
+				$custom_title = $sitename . esc_html( $seo_index_separate ) . $page_title;
+			}
+
+			if ( $seo_index_type == 'Category name | BlogName') {
+				$custom_title = $page_title . esc_html( $seo_index_separate ) . $sitename;
+			}
+
+			if ( $seo_index_type == 'Category name only') {
+				$custom_title = $page_title;
+			}
 		}
+
+		// Improves compatibility with SEO plugins
+		echo apply_filters( 'wp_title', wp_strip_all_tags( $custom_title ) );
 	}
 }
 
 /*this function controls the meta description display*/
 if ( ! function_exists( 'elegant_description' ) ){
 	function elegant_description() {
-		global $shortname;
+		// Don't use ePanel SEO if WordPress SEO or All In One SEO Pack plugins are active
+		if ( class_exists( 'WPSEO_Frontend' ) || class_exists( 'All_in_One_SEO_Pack' ) ) {
+			return;
+		}
+
+		global $shortname, $themename;
 
 		#homepage descriptions
-		if ( is_home() && et_get_option($shortname.'_seo_home_description') == 'on' ) echo '<meta name="description" content="' . esc_attr( et_get_option($shortname.'_seo_home_descriptiontext') ) .'" />';
+		if ( et_get_option($shortname.'_seo_home_description') == 'on' && ( ( is_home() || is_front_page() ) && ! elegant_is_blog_posts_page() ) ) {
+			echo '<meta name="description" content="' . esc_attr( et_get_option($shortname.'_seo_home_descriptiontext') ) .'" />';
+		}
 
 		#single page descriptions
-		global $wp_query;
-		if ( isset($wp_query->post->ID) ) $postid = $wp_query->post->ID;
-		$key2 = et_get_option($shortname.'_seo_single_field_description');
-		if ( isset($postid) ) $exists = get_post_meta($postid, ''.$key2.'', true);
-		if (et_get_option($shortname.'_seo_single_description') == 'on' && $exists !== '') {
-			if (is_single() || is_page()) echo '<meta name="description" content="' . esc_attr( $exists ) . '" />';
+		if ( et_get_option($shortname.'_seo_single_description') == 'on' && ( is_single() || is_page() || elegant_is_blog_posts_page() ) ) {
+			global $wp_query;
+
+			if ( isset($wp_query->post->ID) || elegant_is_blog_posts_page() ) {
+				$postid = elegant_is_blog_posts_page() ? intval( get_option( 'page_for_posts' ) ) : $wp_query->post->ID;
+			}
+
+			$key2 = et_get_option($shortname.'_seo_single_field_description');
+
+			if ( isset($postid) ) $exists = get_post_meta($postid, ''.$key2.'', true);
+
+			if ( $exists !== '' ) {
+				echo '<meta name="description" content="' . esc_attr( $exists ) . '" />';
+			}
 		}
 
 		#index descriptions
-		remove_filter('term_description','wpautop');
-		$cat = get_query_var('cat');
-		$exists2 = category_description($cat);
-
 		$seo_index_description = et_get_option($shortname.'_seo_index_description');
+		if ( $seo_index_description == 'on' ) {
+			$description_added = false;
 
-		if ($exists2 !== '' && $seo_index_description == 'on') {
-			if (is_category()) echo '<meta name="description" content="'. esc_attr( $exists2 ) .'" />';
+			if ( is_category() ) {
+				remove_filter( 'term_description', 'wpautop' );
+				$cat = get_query_var( 'cat' );
+				$exists2 = category_description( $cat );
+
+				if ( $exists2 !== '' ) {
+					echo '<meta name="description" content="' . esc_attr( $exists2 ) . '" />';
+					$description_added = true;
+				}
+			}
+
+			if ( is_archive() && ! $description_added ) {
+				printf( '<meta name="description" content="%1$s" />',
+					esc_attr( sprintf( __( 'Currently viewing archives from %1$s', $themename ),
+						wp_title( '', false, '' )
+					) )
+				);
+
+				$description_added = true;
+			}
+
+			if ( is_search() && ! $description_added ) {
+				echo '<meta name="description" content="' . esc_attr( wp_title('',false,'') ) . '" />';
+				$description_added = true;
+			}
 		}
-		if (is_archive() && $seo_index_description == 'on') echo '<meta name="description" content="Currently viewing archives from'. esc_attr( wp_title('',false,'') ) .'" />';
-		if (is_search() && $seo_index_description == 'on') echo '<meta name="description" content="'. esc_attr( wp_title('',false,'') ) .'" />';
 	}
 }
 
 /*this function controls the meta keywords display*/
 if ( ! function_exists( 'elegant_keywords' ) ){
 	function elegant_keywords() {
+		// Don't use ePanel SEO if WordPress SEO or All In One SEO Pack plugins are active
+		if ( class_exists( 'WPSEO_Frontend' ) || class_exists( 'All_in_One_SEO_Pack' ) ) {
+			return;
+		}
+
 		global $shortname;
 
 		#homepage keywords
-		if (is_home() && et_get_option($shortname.'_seo_home_keywords') == 'on') echo '<meta name="keywords" content="'.esc_attr( et_get_option($shortname.'_seo_home_keywordstext') ).'" />';
+		if ( et_get_option($shortname.'_seo_home_keywords') == 'on' && ( ( is_home() || is_front_page() ) && ! elegant_is_blog_posts_page() ) ) {
+			echo '<meta name="keywords" content="' . esc_attr( et_get_option($shortname.'_seo_home_keywordstext') ) . '" />';
+		}
 
 		#single page keywords
-		global $wp_query;
-		if (isset($wp_query->post->ID)) $postid = $wp_query->post->ID;
-		$key3 = et_get_option($shortname.'_seo_single_field_keywords');
-		if (isset($postid)) $exists4 = get_post_meta($postid, ''.$key3.'', true);
-		if (isset($exists4) && $exists4 !== '' && et_get_option($shortname.'_seo_single_keywords') == 'on') {
-			if (is_single() || is_page()) echo '<meta name="keywords" content="' . esc_attr( $exists4 ) . '" />';
+		if ( et_get_option($shortname.'_seo_single_keywords') == 'on' ) {
+			global $wp_query;
+			if ( isset( $wp_query->post->ID ) || elegant_is_blog_posts_page() ) {
+				$postid = elegant_is_blog_posts_page() ? intval( get_option( 'page_for_posts' ) ) : $wp_query->post->ID;
+			}
+
+			$key3 = et_get_option($shortname.'_seo_single_field_keywords');
+
+			if (isset($postid)) $exists4 = get_post_meta($postid, ''.$key3.'', true);
+
+			if ( isset($exists4) && $exists4 !== '' ) {
+				if ( is_single() || is_page() || elegant_is_blog_posts_page() ) echo '<meta name="keywords" content="' . esc_attr( $exists4 ) . '" />';
+			}
 		}
 	}
 }
@@ -683,21 +814,34 @@ if ( ! function_exists( 'elegant_keywords' ) ){
 /*this function controls canonical urls*/
 if ( ! function_exists( 'elegant_canonical' ) ){
 	function elegant_canonical() {
+		// Don't use ePanel SEO if WordPress SEO or All In One SEO Pack plugins are active
+		if ( class_exists( 'WPSEO_Frontend' ) || class_exists( 'All_in_One_SEO_Pack' ) ) {
+			return;
+		}
+
 		global $shortname;
 
 		#homepage urls
-		if (is_home() && et_get_option($shortname.'_seo_home_canonical') == 'on') echo '<link rel="canonical" href="'. esc_url( home_url() ).'" />';
+		if ( et_get_option($shortname.'_seo_home_canonical') == 'on' && is_home() && ! elegant_is_blog_posts_page() ) {
+			echo '<link rel="canonical" href="'. esc_url( home_url() ).'" />';
+		}
 
 		#single page urls
-		global $wp_query;
-		if (isset($wp_query->post->ID)) $postid = $wp_query->post->ID;
-		if (et_get_option($shortname.'_seo_single_canonical') == 'on') {
-			if (is_single() || is_page()) echo '<link rel="canonical" href="'.esc_url( get_permalink() ).'" />';
+		if ( et_get_option($shortname.'_seo_single_canonical') == 'on' ) {
+			global $wp_query;
+			if ( isset( $wp_query->post->ID ) || elegant_is_blog_posts_page() ) {
+				$postid = elegant_is_blog_posts_page() ? intval( get_option( 'page_for_posts' ) ) : $wp_query->post->ID;
+			}
+
+			if ( ( is_single() || is_page() || elegant_is_blog_posts_page() ) && ! is_front_page() ) {
+				echo '<link rel="canonical" href="' . esc_url( get_permalink( $postid ) ) . '" />';
+			}
 		}
 
 		#index page urls
-		if (et_get_option($shortname.'_seo_index_canonical') == 'on') {
-			if (is_archive() || is_category() || is_search()) echo '<link rel="canonical" href="'. esc_url( get_permalink() ).'" />';
+		if ( et_get_option($shortname.'_seo_index_canonical') == 'on' ) {
+			$current_page_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			if ( is_archive() || is_category() || is_search() ) echo '<link rel="canonical" href="'. esc_url( $current_page_url ).'" />';
 		}
 	}
 }
@@ -771,6 +915,13 @@ function et_update_uploads_dir( $upload_path ){
 
 if ( ! function_exists( 'et_resize_image' ) ){
 	function et_resize_image( $thumb, $new_width, $new_height, $crop ){
+		/*
+		 * Fixes the issue with x symbol between width and height values in the filename.
+		 * For instance, sports-400x400.jpg file results in 'image not found' in getimagesize() function.
+		 */
+		$thumb = str_replace( '%26%23215%3B', 'x', rawurlencode( $thumb ) );
+		$thumb = rawurldecode( $thumb );
+
 		if ( is_ssl() ) $thumb = preg_replace( '#^http://#', 'https://', $thumb );
 		$info = pathinfo($thumb);
 		$ext = $info['extension'];
@@ -787,6 +938,13 @@ if ( ! function_exists( 'et_resize_image' ) ){
 			$site_uri = site_url();
 			restore_current_blog();
 		}
+
+		/*
+		 * If we're dealing with an external image ( might be the result of Grab the first image function ),
+		 * return original image url
+		 */
+		if ( false === strpos( $thumb, $site_uri ) )
+			return $thumb;
 
 		if ( 'jpeg' == $ext ) {
 			$ext = 'jpg';
@@ -817,12 +975,12 @@ if ( ! function_exists( 'et_resize_image' ) ){
 
 		#prepend image filesize to be able to use images with the same filename
 		$suffix = $add_to_suffix . $suffix;
-		$destfilename_attributes = '-' . $suffix . '.' . $ext;
+		$destfilename_attributes = '-' . $suffix . '.' . strtolower( $ext );
 
 		$checkfilename = ( '' != $destination_dir && null !== $destination_dir ) ? path_join( $destination_dir, $name ) : path_join( dirname( $localfile ), $name );
 		$checkfilename .= $destfilename_attributes;
 
-		if ( $is_jpeg ) $checkfilename = preg_replace( '#.jpeg$#', '.jpg', $checkfilename );
+		if ( $is_jpeg ) $checkfilename = preg_replace( '#.jpg$#', '.jpeg', $checkfilename );
 
 		$uploads_dir = wp_upload_dir();
 		$uploads_dir['basedir'] = preg_replace( '#\/\/#', '/', $uploads_dir['basedir'] );
@@ -979,7 +1137,14 @@ function et_check_themes_updates( $update_transient ){
 add_filter('site_transient_update_themes', 'et_add_themes_to_update_notification');
 function et_add_themes_to_update_notification( $update_transient ){
 	$et_update_themes = get_site_transient( 'et_update_themes' );
+
 	if ( !is_object($et_update_themes) || !isset($et_update_themes->response) ) return $update_transient;
+
+	// Fix for warning messages on Dashboard / Updates page
+	if ( ! is_object( $update_transient ) ) {
+		$update_transient = new stdClass();
+	}
+
 	$update_transient->response = array_merge(!empty($update_transient->response) ? $update_transient->response : array(), $et_update_themes->response);
 
 	return $update_transient;
@@ -1009,7 +1174,7 @@ function et_comment_count( $count ) {
 	if ( ! is_admin() ) {
 		global $id;
 		$get_comments = get_comments( array('post_id' => $id, 'status' => 'approve') );
-		$comments_by_type = &separate_comments($get_comments);
+		$comments_by_type = separate_comments($get_comments);
 		return count($comments_by_type['comment']);
 	} else {
 		return $count;
@@ -1026,7 +1191,7 @@ if ( ! function_exists( 'et_theme_epanel_reminder' ) ){
 		global $shortname, $themename, $current_screen;
 
 		if ( false === et_get_option( $shortname . '_logo' ) && 'appearance_page_core_functions' != $current_screen->id ){
-			printf( __('<div class="updated"><p>This is a fresh installation of %1$s theme. Don\'t forget to go to <a href="%2$s">ePanel</a> to set it up. This message will disappear once you have clicked the Save button within the <a href="%2$s">theme\'s options page</a>.</p></div>',$themename), get_current_theme(), admin_url( 'themes.php?page=core_functions.php' ) );
+			printf( __('<div class="updated"><p>This is a fresh installation of %1$s theme. Don\'t forget to go to <a href="%2$s">ePanel</a> to set it up. This message will disappear once you have clicked the Save button within the <a href="%2$s">theme\'s options page</a>.</p></div>',$themename), wp_get_theme(), admin_url( 'themes.php?page=core_functions.php' ) );
 		}
 	}
 }
@@ -1038,11 +1203,11 @@ function et_admin_update_theme_message( $default_translated_text, $original_text
 	$updates_page_message = 'Update package not available.';
 
     if ( is_admin() && $original_text === $theme_page_message ) {
-        return __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member\'s area and <a href="http://www.elegantthemes.com/members-area/documentation.html#update" target="_blank">re-install it</a> in order to update it to the latest version.</em>', $themename );
+        return __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%1$s">View version %3$s details</a>. <em>Before you can update your Elegant Themes, you must first install the <a href="https://www.elegantthemes.com/members-area/documentation.html#updater" target="_blank">Elegant Updater Plugin</a> to authenticate your subscription.</em>', $themename );
     }
 
 	if ( is_admin() && $original_text === $updates_page_message ){
-		return __( 'Auto-updates are not available for this theme. If this is an Elegant Themes theme, then you must re-download the theme from the member\'s area and <a href="http://www.elegantthemes.com/members-area/documentation.html#update" target="_blank">re-install it</a> in order to update it to the latest version.', $themename );
+		return __( 'Before you can update your Elegant Themes, you must first install the <a href="https://www.elegantthemes.com/members-area/documentation.html#updater" target="_blank">Elegant Updater Plugin</a> to authenticate your subscription.', $themename );
 	}
 
     return $default_translated_text;
@@ -1097,6 +1262,502 @@ function et_add_custom_css() {
 
 	if ( false === $custom_css || '' == $custom_css ) return;
 
-	echo '<style type="text/css" id="et-custom-css">' . "\n" . $custom_css . "\n" . '</style>';
+	/**
+	 * The theme doesn't strip slashes from custom css, when saving to the database,
+	 * so it does that before outputting the code on front-end
+	 */
+	echo '<style type="text/css" id="et-custom-css">' . "\n" . stripslashes( $custom_css ) . "\n" . '</style>';
 }
 add_action( 'wp_head', 'et_add_custom_css', 100 );
+
+if ( ! function_exists( 'et_get_google_fonts' ) ) :
+/**
+ * Returns the list of popular google fonts
+ *
+ */
+function et_get_google_fonts() {
+	$google_fonts = array(
+		'Open Sans' => array(
+			'styles' 		=> '300italic,400italic,600italic,700italic,800italic,400,300,600,700,800',
+			'character_set' => 'latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic',
+			'type'			=> 'sans-serif',
+		),
+		'Oswald' => array(
+			'styles' 		=> '400,300,700',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'Droid Sans' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin',
+			'type'			=> 'sans-serif',
+		),
+		'Lato' => array(
+			'styles' 		=> '400,100,100italic,300,300italic,400italic,700,700italic,900,900italic',
+			'character_set' => 'latin',
+			'type'			=> 'sans-serif',
+		),
+		'Open Sans Condensed' => array(
+			'styles' 		=> '300,300italic,700',
+			'character_set' => 'latin,cyrillic-ext,latin-ext,greek-ext,greek,vietnamese,cyrillic',
+			'type'			=> 'sans-serif',
+		),
+		'PT Sans' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin,latin-ext,cyrillic',
+			'type'			=> 'sans-serif',
+		),
+		'Ubuntu' => array(
+			'styles' 		=> '400,300,300italic,400italic,500,500italic,700,700italic',
+			'character_set' => 'latin,cyrillic-ext,cyrillic,greek-ext,greek,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'PT Sans Narrow' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin,latin-ext,cyrillic',
+			'type'			=> 'sans-serif',
+		),
+		'Yanone Kaffeesatz' => array(
+			'styles' 		=> '400,200,300,700',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'Roboto Condensed' => array(
+			'styles' 		=> '400,300,300italic,400italic,700,700italic',
+			'character_set' => 'latin,cyrillic-ext,latin-ext,greek-ext,cyrillic,greek,vietnamese',
+			'type'			=> 'sans-serif',
+		),
+		'Source Sans Pro' => array(
+			'styles' 		=> '400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'Nunito' => array(
+			'styles' 		=> '400,300,700',
+			'character_set' => 'latin',
+			'type'			=> 'sans-serif',
+		),
+		'Francois One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'Roboto' => array(
+			'styles' 		=> '400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic',
+			'character_set' => 'latin,cyrillic-ext,latin-ext,cyrillic,greek-ext,greek,vietnamese',
+			'type'			=> 'sans-serif',
+		),
+		'Raleway' => array(
+			'styles' 		=> '400,100,200,300,600,500,700,800,900',
+			'character_set' => 'latin',
+			'type'			=> 'sans-serif',
+		),
+		'Arimo' => array(
+			'styles' 		=> '400,400italic,700italic,700',
+			'character_set' => 'latin,cyrillic-ext,latin-ext,greek-ext,cyrillic,greek,vietnamese',
+			'type'			=> 'sans-serif',
+		),
+		'Cuprum' => array(
+			'styles' 		=> '400,400italic,700italic,700',
+			'character_set' => 'latin,latin-ext,cyrillic',
+			'type'			=> 'sans-serif',
+		),
+		'Play' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin,cyrillic-ext,cyrillic,greek-ext,greek,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'Dosis' => array(
+			'styles' 		=> '400,200,300,500,600,700,800',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'sans-serif',
+		),
+		'Abel' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'sans-serif',
+		),
+		'Droid Serif' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Arvo' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Lora' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Rokkitt' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'PT Serif' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin,cyrillic',
+			'type'			=> 'serif',
+		),
+		'Bitter' => array(
+			'styles' 		=> '400,400italic,700',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Merriweather' => array(
+			'styles' 		=> '400,300,900,700',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Vollkorn' => array(
+			'styles' 		=> '400,400italic,700italic,700',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Cantata One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Kreon' => array(
+			'styles' 		=> '400,300,700',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Josefin Slab' => array(
+			'styles' 		=> '400,100,100italic,300,300italic,400italic,600,700,700italic,600italic',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Playfair Display' => array(
+			'styles' 		=> '400,400italic,700,700italic,900italic,900',
+			'character_set' => 'latin,latin-ext,cyrillic',
+			'type'			=> 'serif',
+		),
+		'Bree Serif' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Crimson Text' => array(
+			'styles' 		=> '400,400italic,600,600italic,700,700italic',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Old Standard TT' => array(
+			'styles' 		=> '400,400italic,700',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Sanchez' => array(
+			'styles' 		=> '400,400italic',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Crete Round' => array(
+			'styles' 		=> '400,400italic',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Cardo' => array(
+			'styles' 		=> '400,400italic,700',
+			'character_set' => 'latin,greek-ext,greek,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Noticia Text' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin,vietnamese,latin-ext',
+			'type'			=> 'serif',
+		),
+		'Judson' => array(
+			'styles' 		=> '400,400italic,700',
+			'character_set' => 'latin',
+			'type'			=> 'serif',
+		),
+		'Lobster' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,cyrillic-ext,latin-ext,cyrillic',
+			'type'			=> 'cursive',
+		),
+		'Unkempt' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Changa One' => array(
+			'styles' 		=> '400,400italic',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Special Elite' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Chewy' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Comfortaa' => array(
+			'styles' 		=> '400,300,700',
+			'character_set' => 'latin,cyrillic-ext,greek,latin-ext,cyrillic',
+			'type'			=> 'cursive',
+		),
+		'Boogaloo' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Fredoka One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Luckiest Guy' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Cherry Cream Soda' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Lobster Two' => array(
+			'styles' 		=> '400,400italic,700,700italic',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Righteous' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'cursive',
+		),
+		'Squada One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Black Ops One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'cursive',
+		),
+		'Happy Monkey' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'cursive',
+		),
+		'Passion One' => array(
+			'styles' 		=> '400,700,900',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'cursive',
+		),
+		'Nova Square' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Metamorphous' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext',
+			'type'			=> 'cursive',
+		),
+		'Poiret One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,latin-ext,cyrillic',
+			'type'			=> 'cursive',
+		),
+		'Bevan' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Shadows Into Light' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'The Girl Next Door' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Coming Soon' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Dancing Script' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Pacifico' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Crafty Girls' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Calligraffitti' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Rock Salt' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Amatic SC' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Leckerli One' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Tangerine' => array(
+			'styles' 		=> '400,700',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Reenie Beanie' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Satisfy' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Gloria Hallelujah' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Permanent Marker' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Covered By Your Grace' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Walter Turncoat' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Patrick Hand' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin,vietnamese,latin-ext',
+			'type'			=> 'cursive',
+		),
+		'Schoolbell' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+		'Indie Flower' => array(
+			'styles' 		=> '400',
+			'character_set' => 'latin',
+			'type'			=> 'cursive',
+		),
+	);
+
+	return apply_filters( 'et_google_fonts', $google_fonts );
+}
+endif;
+
+if ( ! function_exists( 'et_get_websafe_font_stack' ) ) :
+/**
+ * Determines a websafe font stack, using font type
+ *
+ */
+function et_get_websafe_font_stack( $type = 'sans-serif' ) {
+	$font_stack = '';
+
+	switch ( $type ) {
+		case 'sans-serif':
+			$font_stack = 'Helvetica, Arial, Lucida, sans-serif';
+			break;
+		case 'serif':
+			$font_stack = 'Georgia, "Times New Roman", serif';
+			break;
+		case 'cursive':
+			$font_stack = 'cursive';
+			break;
+	}
+
+	return $font_stack;
+}
+endif;
+
+if ( ! function_exists( 'et_gf_attach_font' ) ) :
+/**
+ * Attaches Google Font to given css elements
+ *
+ */
+function et_gf_attach_font( $et_gf_font_name, $elements ) {
+	$google_fonts = et_get_google_fonts();
+
+	printf( '%s { font-family: \'%s\', %s; }',
+		esc_html( $elements ),
+		esc_html( $et_gf_font_name ),
+		et_get_websafe_font_stack( $google_fonts[$et_gf_font_name]['type'] )
+	);
+}
+endif;
+
+if ( ! function_exists( 'et_gf_enqueue_fonts' ) ) :
+/**
+ * Enqueues Google Fonts
+ *
+ */
+function et_gf_enqueue_fonts( $et_gf_font_names ) {
+	global $shortname;
+
+	if ( ! is_array( $et_gf_font_names ) || empty( $et_gf_font_names ) ) return;
+
+	$google_fonts = et_get_google_fonts();
+	$protocol = is_ssl() ? 'https' : 'http';
+
+	foreach ( $et_gf_font_names as $et_gf_font_name ) {
+		$google_font_character_set = $google_fonts[$et_gf_font_name]['character_set'];
+
+		// By default, only latin and latin-ext subsets are loaded, all available subsets can be enabled in ePanel
+		if ( 'false' == et_get_option( "{$shortname}_gf_enable_all_character_sets", 'false' ) ) {
+			$latin_ext = '';
+			if ( false !== strpos( $google_fonts[$et_gf_font_name]['character_set'], 'latin-ext' ) )
+				$latin_ext = ',latin-ext';
+
+			$google_font_character_set = "latin{$latin_ext}";
+		}
+
+		$query_args = array(
+			'family' => sprintf( '%s:%s',
+				str_replace( ' ', '+', $et_gf_font_name ),
+				apply_filters( 'et_gf_set_styles', $google_fonts[$et_gf_font_name]['styles'], $et_gf_font_name )
+			),
+			'subset' => apply_filters( 'et_gf_set_character_set', $google_font_character_set, $et_gf_font_name ),
+		);
+
+		$et_gf_font_name_slug = strtolower( str_replace( ' ', '-', $et_gf_font_name ) );
+		wp_enqueue_style( 'et-gf-' . $et_gf_font_name_slug, esc_url( add_query_arg( $query_args, "$protocol://fonts.googleapis.com/css" ) ), array(), null );
+	}
+}
+endif;
