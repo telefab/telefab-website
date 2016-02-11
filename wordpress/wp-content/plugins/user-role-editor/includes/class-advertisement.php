@@ -17,10 +17,11 @@ class ure_Advertisement {
 		$used = array(-1);
 		$index = $this->rand_unique( $used );		
 		$this->slots[$index] = $this->admin_menu_editor();
-		
 		$used[] = $index;
+    
 		$index = $this->rand_unique( $used );
-		$this->slots[$index] = $this->manage_wp();
+		$this->slots[$index] = $this->wp_esignature();
+  $used[] = $index;
 				
 	}
 	// end of __construct
@@ -58,15 +59,15 @@ class ure_Advertisement {
 		return $output;
 	}
 	// end of admin_menu_editor()
-	
-	
-	// content of Manage WP advertisement slot
-	private function manage_wp() {
+	 
+ 
+ // content of WP eSignature advertisement slot
+	private function wp_esignature() {
 	
 		$output = '
 			<div style="text-align: center;">
-			<a title="ManageWP" href="http://managewp.com/?utm_source=user_role_editor&utm_medium=Banner&utm_content=mwp250_2&utm_campaign=Plugins" target="_new" >
-				<img width="250" height="250" alt="ManageWP" src="'. URE_PLUGIN_URL .'images/mwp250_2.png">
+			<a title="WP E-Signature" href="https://www.approveme.me/?utm_source=role-editor&utm_medium=250x250&utm_term=get%20contracts%20signed%205x%20faster%20with%20wordpress&utm_content=v1&utm_campaign=role-editor" target="_new" >
+				<img width="250" height="250" alt="WP E-Signature" src="'. URE_PLUGIN_URL .'images/wp-esignature.png">
 			</a>                        
 		</div>  
 			';

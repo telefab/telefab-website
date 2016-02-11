@@ -31,15 +31,13 @@ class URE_User_Other_Roles {
             add_action( 'admin_enqueue_scripts', array($this, 'load_js' ) );
             add_action( 'edit_user_profile', array($this, 'edit_user_profile_html'), 10, 1 );
             add_action( 'user_new_form', array($this, 'user_new_form'), 10, 1 );
-            add_filter( 'manage_users_columns', array($this, 'user_role_column'), 10, 1 );
-            add_filter( 'manage_users_custom_column', array($this, 'user_role_row'), 10, 3 );
             add_action( 'profile_update', array($this, 'update'), 10 );
         }
         if ($this->lib->multisite) {          
             add_action( 'wpmu_activate_user', array($this, 'add_other_roles'), 10, 1 );
-        } else {
-            add_action( 'user_register', array($this, 'add_other_roles'), 10, 1 );
-        }    
+        }
+        add_action( 'user_register', array($this, 'add_other_roles'), 10, 1 );
+            
     }
     // end of set_hooks()
     
@@ -79,8 +77,8 @@ class URE_User_Other_Roles {
         wp_enqueue_script('ure-user-profile-other-roles');
         wp_localize_script('ure-user-profile-other-roles', 'ure_data_user_profile_other_roles', array(
             'wp_nonce' => wp_create_nonce('user-role-editor'),
-            'other_roles' => esc_html__('Other Roles', 'ure'),
-            'select_roles' => esc_html__('Select additional roles for this user', 'ure')
+            'other_roles' => esc_html__('Other Roles', 'user-role-editor'),
+            'select_roles' => esc_html__('Select additional roles for this user', 'user-role-editor')
         ));
     }
     // end of load_js()
@@ -159,14 +157,14 @@ class URE_User_Other_Roles {
 ?>
           <tr>
               <th>
-                  <?php esc_html_e('Capabilities', 'ure'); ?>
+                  <?php esc_html_e('Capabilities', 'user-role-editor'); ?>
               </th>    
               <td>
 <?php 
                 echo $user_caps .'<br/>'; 
       if ($this->lib->user_is_admin($current_user->ID)) {
             echo '<a href="' . wp_nonce_url("users.php?page=users-".URE_PLUGIN_FILE."&object=user&amp;user_id={$user->ID}", "ure_user_{$user->ID}") . '">' . 
-                 esc_html__('Edit', 'ure') . '</a>';
+                 esc_html__('Edit', 'user-role-editor') . '</a>';
       }                      
 ?>
               </td>
@@ -180,7 +178,7 @@ class URE_User_Other_Roles {
 ?>
         <table class="form-table">
         		<tr>
-        			<th scope="row"><?php esc_html_e('Other Roles', 'ure'); ?></th>
+        			<th scope="row"><?php esc_html_e('Other Roles', 'user-role-editor'); ?></th>
         			<td>
 <?php
             $this->roles_select_html($user);            
@@ -211,8 +209,12 @@ class URE_User_Other_Roles {
         if (!$this->lib->is_user_profile_extention_allowed()) {  
             return;
         }
+        $show = apply_filters('ure_show_additional_capabilities_section', true);
+        if (empty($show)) {
+            return;
+        }
 ?>
-        <h3><?php esc_html_e('Additional Capabilities', 'ure'); ?></h3>
+        <h3><?php esc_html_e('Additional Capabilities', 'user-role-editor'); ?></h3>
 <?php
         $this->display($user, 'user-edit');
     }
@@ -220,6 +222,11 @@ class URE_User_Other_Roles {
 
     
     public function user_new_form($context) {
+        $show = apply_filters('ure_show_additional_capabilities_section', true);
+        if (empty($show)) {
+            return;
+        }
+        
         $user = new WP_User();
 ?>
         <table>
@@ -231,47 +238,7 @@ class URE_User_Other_Roles {
     }
     // end of edit_user_profile_html()
     
-
-    /**
-     *  add 'Other Roles' column to WordPress users list table
-     * 
-     * @param array $columns WordPress users list table columns list
-     * @return array
-     */
-    public function user_role_column($columns = array()) {
-
-        $columns['ure_roles'] = esc_html__('Other Roles', 'ure');
-
-        return $columns;
-    }
-    // end of user_role_column()
-
     
-    /**
-     * Return user's roles list for display in the WordPress Users list table
-     *
-     * @param string $retval
-     * @param string $column_name
-     * @param int $user_id
-     *
-     * @return string all user roles
-     */
-    public function user_role_row($retval = '', $column_name = '', $user_id = 0) {
-
-        // Only looking for User Role Editor other user roles column
-        if ('ure_roles' == $column_name) {
-            $user = get_userdata($user_id);
-            // Get the users roles
-            $roles = $this->get_roles_array($user);
-            $retval = $this->lib->roles_text($roles);
-        }
-
-        // Pass retval through
-        return $retval;
-    }
-    // end of user_role_row()
-    
-
     // save additional user roles when user profile is updated, as WordPress itself doesn't know about them
     public function update($user_id) {
 
@@ -314,7 +281,9 @@ class URE_User_Other_Roles {
             return;
         }
         foreach ($other_default_roles as $role) {
-            $user->add_role($role);
+            if (!isset($user->caps[$role])) {
+                $user->add_role($role);
+            }
         }
     }
 
