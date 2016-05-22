@@ -60,7 +60,7 @@ function get_series_posts( $ser_ID = array(), $referral = false, $display = fals
 		$posts_in_series = get_series_order($series_post, 0, $ser, FALSE, $is_unpub_template);
 		if ( 'widget' == $referral ) {
 			if ($serieswidg_title != false)
-				$result .= '<h4>' . __($serieswidg_title, 'organize-series') . '</h4>';
+				$result .= '<h4>' . __( $serieswidg_title, 'organize-series') . '</h4>';
 			$result .= '<ul>';
 		}
 
@@ -749,7 +749,7 @@ function series_description($series_id = 0) {
 	global $orgseries;
 	if ( !$series_id ) {
 		$ser_var = get_query_var(SERIES_QUERYVAR);
-		$ser_var = term_exists( $ser_var, SERIES_QUERYVAR );
+		$ser_var = term_exists( $ser_var, 'series' );
 		if ( !empty($ser_var) )
 			$series_id = $ser_var['term_id'];
 	}
@@ -801,13 +801,37 @@ function series_post_title($post_ID, $linked=TRUE, $short_title = false) {
  * @return bool true if displayed page is a series.
 */
 function is_series( $slug = '' ) {
-	global $wp_query, $orgseries;
-	$series = get_query_var(SERIES_QUERYVAR);
+	global $wp_query;
 
-	if ( (!is_null($series) && ($series != '')) || (isset($wp_query->is_series) && $wp_query->is_series ))
-		return true;
-	else
-		return false;
+	if ( $wp_query instanceof WP_Query ) {
+		$series = get_query_var( SERIES_QUERYVAR );
+	} else {
+		$series	= null;
+	}
+
+	$has_series_query_var = ! empty( $series ) || ( isset( $wp_query->is_series ) && $wp_query->is_series );
+
+	//if slug is not provided then just return result of $has_series_query_var, otherwise check for if this page is specific
+	//series slug.
+	if ( ! empty( $slug ) ) {
+		if ( $has_series_query_var && ! empty( $series ) ) {
+			if ( $series == $slug ) {
+				return true;
+			}
+			
+			//query_var may not be a slug but may be an id.
+			if ( is_numeric( $series ) ) {
+				$series_object = get_term_by( 'id', $series, 'series' );
+				if ( $series_object ) {
+					return true;
+				}
+			}
+		}
+
+		$has_series_query_var = false;
+	}
+	
+	return $has_series_query_var;
 }
 
 /**

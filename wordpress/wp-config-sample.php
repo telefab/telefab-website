@@ -76,6 +76,11 @@ $table_prefix  = 'wp_';
  * Il est fortemment recommandé que les développeurs d'extensions et
  * de thèmes se servent de WP_DEBUG dans leur environnement de
  * développement.
+ *
+ * Pour plus d'information sur les autres constantes qui peuvent être utilisées
+ * pour le déboguage, rendez-vous sur le Codex.
+ * 
+ * @link https://codex.wordpress.org/Debugging_in_WordPress 
  */
 define('WP_DEBUG', false);
 

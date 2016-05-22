@@ -8,7 +8,7 @@
  * 
  */
 
-class ure_Advertisement {
+class URE_Advertisement {
 	
 	private $slots = array(0=>'', 1=>'', 2=>'');
 				

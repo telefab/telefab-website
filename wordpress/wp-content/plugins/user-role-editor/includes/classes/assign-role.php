@@ -61,9 +61,13 @@ class URE_Assign_Role {
         
         global $wpdb;
     
-        $where = $this->get_where_condition();
-        $query = "select count(ID) from {$wpdb->users} users {$where}";
-        $users_quant = $wpdb->get_var($query);
+        $users_quant = get_transient('ure_users_without_role');
+        if (empty($users_quant)) {
+            $where = $this->get_where_condition();
+            $query = "select count(ID) from {$wpdb->users} users {$where}";
+            $users_quant = $wpdb->get_var($query);
+            set_transient('ure_users_without_role', $users_quant, 15);
+        }
         
         return $users_quant;
     }
@@ -75,8 +79,6 @@ class URE_Assign_Role {
         global $wpdb;
         
         $top_limit = self::MAX_USERS_TO_PROCESS;
-        $id = get_current_blog_id();
-        $blog_prefix = $wpdb->get_blog_prefix($id);
         $where = $this->get_where_condition();
         $query = "select ID from {$wpdb->users} users
                     {$where}

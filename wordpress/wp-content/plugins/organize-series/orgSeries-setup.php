@@ -13,7 +13,6 @@ class orgSeries {
 
 	var $settings;
 	var $version = ORG_SERIES_VERSION;
-	var $org_domain = 'organize-series';
 
 	//__constructor
 	public function __construct() {
@@ -34,7 +33,7 @@ class orgSeries {
 		add_action('init', array(&$this, 'maybe_fix_upgrade'));
 		add_filter('rewrite_rules_array', array(&$this,'seriestoc_rewrite_rules'));
 		//add_action('init', array($this, 'rewrite_rules'));
-		add_action('parse_query', array(&$this, 'seriestoc_parsequery'));
+		add_action('parse_query', array( $this, 'seriestoc_parsequery') );
 		add_filter('query_vars', array(&$this,'orgSeries_add_queryvars'));
 		add_action('template_redirect', array(&$this,'orgSeries_toc_template')); //setsup the seriestoc url
 
@@ -297,8 +296,7 @@ class orgSeries {
 		return $the_rules;
 	}
 
-	function seriestoc_parsequery() {
-		global $wp_query;
+	function seriestoc_parsequery( WP_Query $wp_query ) {
 		$settings = $this->settings;
 		if ( $settings['series_toc_url'] == $settings['series_custom_base'] ) {
 			$series_toc_qv = $settings['series_toc_url'].'-toc';
