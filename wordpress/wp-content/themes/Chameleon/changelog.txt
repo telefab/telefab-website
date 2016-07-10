@@ -1,3 +1,51 @@
+version 3.9.5 ( updated 06-20-2016 )
+- Fixed some inconsistencies with ePanel integration
+	* epanel/core_functions.php
+	* epanel/custom_functions.php
+- Fixed the issue when videos, not working in Media Bar
+	* home.php
+- Bumped version number
+	* style.css
+
+version 3.9.4 ( updated 05-06-2016 )
+- Updated ePanel styles
+	* epanel/
+	* core/
+- Replaced outdated Fancybox with Magnific Popup plugin
+	* includes/page_templates/js/magnific_popup/
+	* includes/page_templates/js/magnific_popup/et-ptemplates-frontend.js
+	* page-template-portfolio.php
+- Added 404.php template
+	* 404.php
+- Fixed the php error when all social networks disabled
+	* header.php
+- Fixed the issue with incorrectly closed <a> tag in home.php
+	* home.php
+- Upgraded Superfish plugin to the latest version
+	* includes/scripts.php
+	* js/superfish.js
+	* js/superfish.min.js
+	* style.css
+- Bumped version number
+	* style.css
+
+version 3.9.3 ( updated 12-12-2015 )
+- Fixed the issue with SEO titles, not working in ePanel
+	* epanel/custom_functions.php
+- Fixed the issue with a site title, appended to breadcrumbs
+	* includes/breadcrumbs.php
+- Bumped version number
+	* style.css
+
+version 3.9.2 ( updated 10-23-2015 )
+- Fixed the issue with deprecated wp_title function in WordPress 4.4
+	* header.php
+	* functions.php
+	* epanel/custom_functions.php
+	* includes/breadcrumbs.php
+- Bumped version number
+	* style.css
+
 version 3.9.1 ( updated 08-18-2015 )
 - Fixed issue with WordPress 4.3 that caused shortened post titles and excerpts to not be truncated correctly
 	* epanel/custom_functions.php

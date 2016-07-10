@@ -69,7 +69,7 @@
 				<h3 class="title"><?php esc_html_e('Multi Media Bar','Chameleon'); ?></h3>
 				<div id="et-multi-media" class="clearfix">
 					<a id="left-multi-media" href="#"><?php esc_html_e('Previous','Chameleon'); ?></a>
-					<a id="right-multi-media" href="#"<?php esc_html_e('Next','Chameleon'); ?>></a>
+					<a id="right-multi-media" href="#"><?php esc_html_e('Next','Chameleon'); ?></a>
 					<div id="media-slides">
 						<?php
 							$args=array(
@@ -109,7 +109,7 @@
 												$et_videos_output .= '<div id="'. esc_attr( $et_video_id ) .'">' . apply_filters( 'the_content', $wp_embed->shortcode( '', esc_url( $et_videolink ) ) ) . '</div>';
 											?>
 
-											<a href="<?php echo esc_url( '#' . $et_video_id ); ?>" class="et-video fancybox" title="<?php echo esc_attr( $titletext ); ?>">
+											<a href="<?php echo esc_url( '#' . $et_video_id ); ?>" class="et-video fancybox mfp-iframe" title="<?php echo esc_attr( $titletext ); ?>">
 										<?php } else { ?>
 											<a href="<?php echo esc_attr($thumbnail["fullpath"]); ?>" rel="media" class="fancybox" title="<?php echo esc_attr($titletext); ?>">
 										<?php } ?>

@@ -13,7 +13,6 @@
 <!--<![endif]-->
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-<title><?php elegant_titles(); ?></title>
 <?php elegant_description(); ?>
 <?php elegant_keywords(); ?>
 <?php elegant_canonical(); ?>
@@ -78,6 +77,7 @@
 			<div id="additional-info">
 				<div id="et-social-icons">
 					<?php
+						$social_icons = array();
 						$et_rss_url = get_option('chameleon_rss_url') <> '' ? get_option('chameleon_rss_url') : get_bloginfo('rss2_url');
 						if ( get_option('chameleon_show_twitter_icon') == 'on' ) $social_icons['twitter'] = array('image' => get_template_directory_uri() . '/images/twitter.png', 'url' => get_option('chameleon_twitter_url'), 'alt' => 'Twitter' );
 						if ( get_option('chameleon_show_rss_icon') == 'on' ) $social_icons['rss'] = array('image' => get_template_directory_uri() . '/images/rss.png', 'url' => $et_rss_url, 'alt' => 'Rss' );

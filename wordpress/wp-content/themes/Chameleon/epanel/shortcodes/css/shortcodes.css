@@ -280,5 +280,5 @@ a.big-button, a.small-button, a.icon-button { cursor: pointer; }
 * html .clearfix             { zoom: 1; } /* IE6 */
 *:first-child+html .clearfix { zoom: 1; } /* IE7 */
 
-.last { margin-right: 0px !important; clear:right; }
+.et_column_last { margin-right: 0px !important; clear:right; }
 .clear { clear:both; }
