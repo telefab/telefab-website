@@ -30,6 +30,22 @@ class URE_Protect_Admin {
     // end of __construct()
     
 
+    // apply protection to the user edit pages only
+    protected function is_protection_applicable() {
+        $result = false;
+        $links_to_block = array('profile.php', 'users.php', 'user-new.php');
+        foreach ($links_to_block as $key => $value) {
+            $result = stripos($_SERVER['REQUEST_URI'], $value);
+            if ($result !== false) {
+                break;
+            }
+        }
+        
+        return $result;
+    }
+    // end of is_protection_applicable()
+    
+    
     /**
      * exclude administrator role from the roles list
      * 
@@ -38,7 +54,7 @@ class URE_Protect_Admin {
      */
     public function exclude_admin_role($roles) {
 
-        if (isset($roles['administrator'])) {
+        if ($this->is_protection_applicable() && isset($roles['administrator'])) {
             unset($roles['administrator']);
         }
 
@@ -135,17 +151,8 @@ class URE_Protect_Admin {
     public function exclude_administrators($user_query) {
 
         global $wpdb;
-
-        $result = false;
-        $links_to_block = array('profile.php', 'users.php');
-        foreach ($links_to_block as $key => $value) {
-            $result = stripos($_SERVER['REQUEST_URI'], $value);
-            if ($result !== false) {
-                break;
-            }
-        }
-
-        if ($result === false) { // block the user edit stuff only
+        
+        if (!$this->is_protection_applicable()) { // block the user edit stuff only
             return;
         }
 

@@ -3,8 +3,8 @@ Contributors: shinephp
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=vladimir%40shinephp%2ecom&lc=RU&item_name=ShinePHP%2ecom&item_number=User%20Role%20Editor%20WordPress%20plugin&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: user, role, editor, security, access, permission, capability
 Requires at least: 4.0
-Tested up to: 4.5.1
-Stable tag: 4.25.2
+Tested up to: 4.6.1
+Stable tag: 4.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,8 +23,6 @@ Multi-site support is provided.
 
 To read more about 'User Role Editor' visit [this page](http://www.shinephp.com/user-role-editor-wordpress-plugin/) at [shinephp.com](http://shinephp.com)
 
-Short demo about 1st steps with User Role Editor:
-https://www.youtube.com/watch?v=UmMtOmWGGxY
 
 Do you need more functionality with quality support in the real time? Do you wish to remove advertisements from User Role Editor pages? 
 [Buy Pro version](https://www.role-editor.com). 
@@ -32,6 +30,7 @@ Do you need more functionality with quality support in the real time? Do you wis
 <ul>
 <li>Block selected admin menu items for role.</li>
 <li>Block selected widgets under "Appearance" menu for role.</li>
+<li>Show widgets at front-end for selected roles.</li>
 <li>Block selected meta boxes (dashboard, posts, pages, custom post types) for role.</li>
 <li>"Export/Import" module. You can export user roles to the local file and import them then to any WordPress site or other sites of the multi-site WordPress network.</li> 
 <li>Roles and Users permissions management via Network Admin  for multisite configuration. One click Synchronization to the whole network.</li>
@@ -76,6 +75,44 @@ If you wish to check available translations or help with plugin translation to y
 https://translate.wordpress.org/projects/wp-plugins/user-role-editor/
 
 == Changelog ==
+= [4.28] 20.10.2016 =
+* New: WooCommerce plugin user capabilities (if exist) are grouped separately.
+* Update: Temporally raised permissions flag is taken into account when checking, if user has a superadmin privileges. WordPress is_super_admin() function was replaced with custom wrapper to define if current user is a real superadmin or just a local admin with the temporally raised (add/edit users pages) permissions.
+
+= [4.27.2] 15.09.2016 =
+* Update: There was a conflict with plugins which use a '|' character at the custom user capabilities: e.g. 'Nginx Helper | Config' from "Nginx Helper' plugin.
+* Fix: PHP notice was removed: Undefined property: URE_Role_View::$multisite in wp-content/plugins/user-role-editor/includes/classes/view.php on line 143
+* Fix: WordPress multisite: Settings link under the URE plugin at the plugins list leads to the network admin now, not to the the single site settings page, which does not exist.
+* Fix: WordPress multisite: conflict with "Visual Composer" plugin was resolved: single site administrators could now use Visual Composer editor.
+* Fix: WordPress multisite: changed role name was not replicated to other sites when user clicked "Update" with "Apply to All Sites" option turned ON.
+
+= [4.27.1] 22.08.2016 =
+* Update: There was a conflict with plugins which use a '/' character at the custom user capabilities: e.g. vc_access_rules_backend_editor/disabled_ce_editor from Visual Composer.
+* Update: add/delete, escape, validate user capability code extracted from URE_Lib to the separate URE_Capability class
+
+= [4.27] 18.08.2016 =
+* New: Total/Granted counters were added to the capabilities groups titles.
+* New: "Columns" drop-down menu allows to change capabilities section layout to 1, 2 or 3 columns.
+* New: Capabilities section is limited in height and has independent scrollbar.
+* Update: User Role Editor page markup was updated to use more available space on page.
+* Update: URE_Ajax_Processor class allows to differentiate required user permissions according to action submitted by user.
+* Fix: CSS updated to exclude text overlapping at capabilities groups section when custom post type name is not fitted into 1 line.
+* Fix: required JavaScript files were not loaded at "Network Admin->Settings->User Role Editor" page.
+
+= [4.26.3] 25.07.2016 =
+* Fix: Selecting a sub-group/list of caps does make the ure_select_all_caps checkbox select all within that group, but checking that box when at the "All" top-level group did not work.
+* Fix: Notice: Undefined property: URE_Role_View::$apply_to_all
+
+= [4.26.1] 14.07.2016 =
+* Fix: some bugs, like 'undefined property' notices, etc.
+
+= [4.26] 14.07.2016 =
+* New: User capabilities were groupd by functionality for more convenience.
+* Update: URE_KEY_CAPABILITY constant was changed from 'ure_edit_roles' to 'ure_manage_options'. To make possible for non-admin users access to the User Role Editor without access to the 'administrator' role and users with 'administrator' role.
+* Update: User receives full access to User Role Editor under WordPress multisite if he has 'manage_network_plugins' capability instead of 'manager_network_users' as earlier. This allows to give user ability to edit network users without giving him access to the User Role Editor.
+* Update: Multisite: use WordPress's global $current_site->blog_id to define main blog ID instead of selecting the 1st one from the sorted list of blogs.
+* Update: use WP transients at URE_Lib::_get_post_types() to reduce response time.
+* Update: various internal optimizations.
 
 = [4.25.2] 03.05.2016 =
 * Update: Enhanced inner processing of available custom post types list.
