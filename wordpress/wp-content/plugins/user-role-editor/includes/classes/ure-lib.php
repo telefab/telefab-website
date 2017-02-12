@@ -32,6 +32,8 @@ class Ure_Lib extends URE_Base_Lib {
     protected $advert = null;
     protected $role_additional_options = null;
     protected $bbpress = null; // reference to the URE_bbPress class instance
+    protected $key_capability = ''; // Key user capability for get full access to the User Role Editor
+    protected $settings_capability = ''; // User capability for access to User Role Editor Settings
     
     // when allow_edit_users_to_not_super_admin option is turned ON, we set this property to true 
     // when we raise single site admin permissions up to the superadmin for the 'Add new user' new-user.php page
@@ -78,8 +80,8 @@ class Ure_Lib extends URE_Base_Lib {
         
         $ure_version = $this->get_option('ure_version', '0');
         if (version_compare( $ure_version, URE_VERSION, '<' ) ) {
-            // for upgrade to 4.18 and higher from older versions
-            $this->init_ure_caps();
+            // put version upgrade stuff here
+            
             $this->put_option('ure_version', URE_VERSION, true);
         }
         
@@ -128,52 +130,7 @@ class Ure_Lib extends URE_Base_Lib {
         
     }
     // end of set_raised_permissions()
-    
-    
-    public function get_ure_caps() {
         
-        $ure_caps = array(
-            'ure_edit_roles' => 1,
-            'ure_create_roles' => 1,
-            'ure_delete_roles' => 1,
-            'ure_create_capabilities' => 1,
-            'ure_delete_capabilities' => 1,
-            'ure_manage_options' => 1,
-            'ure_reset_roles' => 1
-        );        
-        
-        return $ure_caps;
-    }
-    // end of get_ure_caps()
-    
-                    
-    public function init_ure_caps() {
-        global $wp_roles;
-        
-        if (!isset($wp_roles)) {
-            $wp_roles = new WP_Roles();
-        }
-        
-        if (!isset($wp_roles->roles['administrator'])) {
-            return;
-        }
-        
-        // Do not turn on URE caps for local administrator by default under multisite, as there is a superadmin.
-        $turn_on = !$this->multisite;   
-        
-        $old_use_db = $wp_roles->use_db;
-        $wp_roles->use_db = true;
-        $administrator = $wp_roles->role_objects['administrator'];
-        $ure_caps = $this->get_ure_caps();
-        foreach(array_keys($ure_caps) as $cap) {
-            if (!$administrator->has_cap($cap)) {
-                $administrator->add_cap($cap, $turn_on);
-            }
-        }
-        $wp_roles->use_db = $old_use_db;        
-    }
-    // end of init_ure_caps()
-    
         
     /**
      * get options for User Role Editor plugin
@@ -241,50 +198,7 @@ class Ure_Lib extends URE_Base_Lib {
         return $this->main_blog_id;
         
     }
-    
-
-    /**
-     * return key capability to have access to User Role Editor Plugin
-     * 
-     * @return string
-     */
-    public function get_key_capability() {
-        
-        if (!$this->multisite) {
-            $key_capability = URE_KEY_CAPABILITY;
-        } else {
-            $enable_simple_admin_for_multisite = $this->get_option('enable_simple_admin_for_multisite', 0);
-            if ( (defined('URE_ENABLE_SIMPLE_ADMIN_FOR_MULTISITE') && URE_ENABLE_SIMPLE_ADMIN_FOR_MULTISITE == 1) || 
-                 $enable_simple_admin_for_multisite) {
-                $key_capability = URE_KEY_CAPABILITY;
-            } else {
-                $key_capability = 'manage_network_plugins';
-            }
-        }
-                
-        return $key_capability;
-    }
-    // end of get_key_capability()
-
-    
-    public function get_settings_capability() {
-        
-        if (!$this->multisite) {
-                $settings_access = 'ure_manage_options';
-        } else {
-            $enable_simple_admin_for_multisite = $this->get_option('enable_simple_admin_for_multisite', 0);
-            if ( (defined('URE_ENABLE_SIMPLE_ADMIN_FOR_MULTISITE') && URE_ENABLE_SIMPLE_ADMIN_FOR_MULTISITE == 1) || 
-                 $enable_simple_admin_for_multisite) {
-                $settings_access = 'ure_manage_options';
-            } else {
-                $settings_access = $this->get_key_capability();
-            }
-        }
-        
-        return $settings_access;
-    }
-    // end of get_settings_capability()
-    
+            
 
     /**
      *  return front-end according to the context - role or user editor
@@ -303,20 +217,8 @@ class Ure_Lib extends URE_Base_Lib {
     // end of editor()
     
     
-    private function get_ure_container_width() {
-        
-        $width = ($this->ure_object == 'user') ? 1300 : 1150;
-        if ($this->is_pro()) {
-            $width -= 200;
-        }
-        
-        return $width;
-    }
-    // end of get_ure_container_width()
-    
-
     protected function show_editor() {
-        //$container_width = $this->get_ure_container_width();
+
         $this->show_message($this->notification);
         if ($this->ure_object == 'user') {
             $view = new URE_User_View();
@@ -678,7 +580,7 @@ class Ure_Lib extends URE_Base_Lib {
     public function user_is_admin($user_id = false) {
         global $current_user;
 
-        $ure_key_capability = $this->get_key_capability();
+        $ure_key_capability = URE_Own_Capabilities::get_key_capability();
         if (empty($user_id)) {                    
             $user_id = $current_user->ID;
         }
@@ -936,7 +838,7 @@ class Ure_Lib extends URE_Base_Lib {
         }
 
         $caps_to_exclude = $this->get_built_in_wp_caps();
-        $ure_caps = $this->get_ure_caps();
+        $ure_caps = URE_Own_Capabilities::get_caps();
         $caps_to_exclude = array_merge($caps_to_exclude, $ure_caps);
 
         $caps_to_remove = array();
@@ -997,85 +899,6 @@ class Ure_Lib extends URE_Base_Lib {
     // end of block_cap_for_single_admin()
     
     
-    /**
-     * return link to the capability according its name in $capability parameter
-     * 
-     * @param string $capability
-     * @return string 
-     */
-    protected function capability_help_link($capability) {
-
-        if (empty($capability)) {
-            return '';
-        }
-
-        switch ($capability) {
-            case 'activate_plugins':
-                $url = 'http://www.shinephp.com/activate_plugins-wordpress-capability/';
-                break;
-            case 'add_users':
-                $url = 'http://www.shinephp.com/add_users-wordpress-user-capability/';
-                break;
-            case 'create_users':
-                $url = 'http://www.shinephp.com/create_users-wordpress-user-capability/';
-                break;
-            case 'delete_others_pages':
-            case 'delete_others_posts':
-            case 'delete_pages':
-            case 'delete_posts':
-            case 'delete_protected_pages':
-            case 'delete_protected_posts':
-            case 'delete_published_pages':
-            case 'delete_published_posts':
-                $url = 'http://www.shinephp.com/delete-posts-and-pages-wordpress-user-capabilities-set/';
-                break;
-            case 'delete_plugins':
-                $url = 'http://www.shinephp.com/delete_plugins-wordpress-user-capability/';
-                break;
-            case 'delete_themes':
-                $url = 'http://www.shinephp.com/delete_themes-wordpress-user-capability/';
-                break;
-            case 'delete_users':
-                $url = 'http://www.shinephp.com/delete_users-wordpress-user-capability/';
-                break;
-            case 'edit_dashboard':
-                $url = 'http://www.shinephp.com/edit_dashboard-wordpress-capability/';
-                break;
-            case 'edit_files':
-                $url = 'http://www.shinephp.com/edit_files-wordpress-user-capability/';
-                break;
-            case 'edit_plugins':
-                $url = 'http://www.shinephp.com/edit_plugins-wordpress-user-capability';
-                break;
-            case 'moderate_comments':
-                $url = 'http://www.shinephp.com/moderate_comments-wordpress-user-capability/';
-                break;
-            case 'read':
-                $url = 'http://shinephp.com/wordpress-read-capability/';
-                break;
-            case 'update_core':
-                $url = 'http://www.shinephp.com/update_core-capability-for-wordpress-user/';
-                break;
-            case 'ure_edit_roles':
-                $url = 'https://www.role-editor.com/user-role-editor-4-18-new-permissions/';
-                break;
-            default:
-                $url = '';
-        }
-        // end of switch
-        if (!empty($url)) {
-            $link = '<a href="' . $url . '" title="' . esc_html__('read about', 'user-role-editor') .' '. $capability .' '. 
-                    esc_html__('user capability', 'user-role-editor') .'" target="new"><img src="' . 
-                    URE_PLUGIN_URL . 'images/help.png" alt="' . esc_html__('Help', 'user-role-editor') . '" /></a>';
-        } else {
-            $link = '';
-        }
-
-        return $link;
-    }
-    // end of capability_help_link()
-    
-
     /**
      *  Go through all users and if user has non-existing role lower him to Subscriber role
      * 
@@ -1336,11 +1159,12 @@ class Ure_Lib extends URE_Base_Lib {
      * 
      */
     protected function add_ure_caps() {
-        $key_capability = $this->get_key_capability();
-        if (!current_user_can($key_capability)) {
+        
+        $key_cap = URE_Own_Capabilities::get_key_capability();
+        if (!current_user_can($key_cap)) {
             return;
         }
-        $ure_caps = $this->get_ure_caps();
+        $ure_caps = URE_Own_Capabilities::get_caps();
         foreach(array_keys($ure_caps) as $cap) {
             $this->add_capability_to_full_caps_list($cap);
         }
@@ -1402,7 +1226,7 @@ class Ure_Lib extends URE_Base_Lib {
         }
               
         $this->wp_roles_reinit();
-        $this->init_ure_caps();
+        URE_Own_Capabilities::init_caps();
         if ($this->is_full_network_synch() || $this->apply_to_all) {
             $this->current_role = '';
             $this->direct_network_roles_update();
@@ -1444,7 +1268,7 @@ class Ure_Lib extends URE_Base_Lib {
             return false;
         }
         
-        $key_capability = $this->get_key_capability();
+        $key_capability = URE_Own_Capabilities::get_key_capability();
         $user_is_ure_admin = current_user_can($key_capability);
         if (!$user_is_ure_admin) {
             if (in_array($this->current_role, $current_user->roles)) {
@@ -1976,7 +1800,7 @@ class Ure_Lib extends URE_Base_Lib {
             __('Export', 'user-role-editor');
         }
     }
-    // end of ure_TranslationData()
+    // end of translation_data()
 
     
     /**
@@ -2203,15 +2027,18 @@ class Ure_Lib extends URE_Base_Lib {
     
     
     /**
-     * Wrapper for WordPress capabilities.php is_super_admin(). 
      * Returns true if user has a real super administrator permissions
-     * It takes into account $this->raised_permissions value, in order do not count a user with temporally raised permissions a real superadmin
+     * It takes into account $this->raised_permissions value, in order do not count a user with temporally raised permissions 
+     * of a real superadmin under WP Multisite
+     * For WP Singlesite superadmin is a user with 'administrator' role only in opposite the WordPress's is_super_admin(),
+     * which counts any user with 'delete_users' capability as a superadmin.
+     * 
      * @param int $user_id
      * @global WP_User $current_user
      * @return boolean
      */
     public function is_super_admin($user_id = false) {
-        
+                
         if (empty($user_id)) {
             $user = wp_get_current_user();
             $user_id = $user->ID;
@@ -2222,17 +2049,15 @@ class Ure_Lib extends URE_Base_Lib {
             return false;
         }
         
-        if ($this->multisite && $this->raised_permissions) {
-            return false;
+        if ($this->multisite && !$this->raised_permissions && is_super_admin($user_id)) {
+            return true;
         }
         
         if (!$this->multisite && $this->user_has_capability($user, 'administrator')) {
             return true;
-        }
-                
-        $result = is_super_admin($user_id);
+        }                
         
-        return $result;
+        return false;
     }
     // end of is_super_admin()
     
@@ -2362,5 +2187,26 @@ class Ure_Lib extends URE_Base_Lib {
         return $page_url;
     }
     // end of get_ure_page_url()
+    
+
+    /**
+     * Compare if current URL path is equal to the required one
+     * if $path is empty, then just check if URL leads to wp-admin
+     * @param string $path
+     * @return boolean
+     */
+    public function is_right_admin_path($path='') {
+        $result = true;
+        $admin_url = admin_url($path);   
+        $parsed = parse_url($admin_url);
+        $full_path = $parsed['path'];
+        if ( stripos($_SERVER['REQUEST_URI'], $full_path)===false ) {
+            $result = false;
+        }
+        
+        return $result;
+    }
+    // end of is_right_admin_path()
+
 }
 // end of URE_Lib class

@@ -52,7 +52,7 @@ class User_Role_Editor {
         register_deactivation_hook(URE_PLUGIN_FULL_PATH, array($this, 'cleanup'));
         		
         // Who can use this plugin
-        $this->key_capability = $this->lib->get_key_capability();
+        $this->key_capability = URE_Own_Capabilities::get_key_capability();
                 
         // Process URE's internal tasks queue
         $task_queue = URE_Task_Queue::get_instance();
@@ -201,8 +201,8 @@ class User_Role_Editor {
   
   
   public function move_users_from_no_role_button() {
-                  
-      if ( stripos($_SERVER['REQUEST_URI'], 'wp-admin/users.php')===false ) {
+      
+      if (!$this->lib->is_right_admin_path('users.php')) {      
             return;
       }
       
@@ -223,12 +223,13 @@ class User_Role_Editor {
   
   
   public function add_css_to_users_page() {
-      if ( stripos($_SERVER['REQUEST_URI'], 'wp-admin/users.php')===false ) {
-            return;
-      }
+      
       if (isset($_GET['page'])) {
           return;
       }
+      if (!$this->lib->is_right_admin_path('users.php')) {
+          return;
+      }                  
 
       wp_enqueue_style('wp-jquery-ui-dialog');
       wp_enqueue_style('ure-admin-css', URE_PLUGIN_URL . 'css/ure-admin.css', array(), false, 'screen');
@@ -239,12 +240,12 @@ class User_Role_Editor {
   
   public function add_js_to_users_page() {
   
-      if ( stripos($_SERVER['REQUEST_URI'], 'wp-admin/users.php')===false ) {
-            return;
-      }      
       if (isset($_GET['page'])) {
           return;
       }
+      if (!$this->lib->is_right_admin_path('users.php')) {
+          return;
+      }             
       
       wp_enqueue_script('jquery-ui-dialog', false, array('jquery-ui-core','jquery-ui-button', 'jquery') );
       wp_register_script( 'ure-users-js', plugins_url( '/js/ure-users.js', URE_PLUGIN_FULL_PATH ) );
@@ -536,7 +537,7 @@ class User_Role_Editor {
         $multisite = $this->lib->get('multisite');
         $active_for_network = $this->lib->get('active_for_network');
         if ( !$multisite || ($multisite && !$active_for_network) ) {
-            $settings_capability = $this->lib->get_settings_capability();
+            $settings_capability = URE_Own_Capabilities::get_settings_capability();
             $this->settings_page_hook = add_options_page(
                     $translated_title,
                     $translated_title,
@@ -685,7 +686,7 @@ class User_Role_Editor {
     
 
     public function settings() {
-        $settings_capability = $this->lib->get_settings_capability();
+        $settings_capability = URE_Own_Capabilities::get_settings_capability();
         if (!current_user_can($settings_capability)) {
             wp_die(esc_html__( 'You do not have sufficient permissions to manage options for User Role Editor.', 'user-role-editor' ));
         }
@@ -776,7 +777,7 @@ class User_Role_Editor {
     function setup() {
 
         $this->lib->make_roles_backup();
-        $this->lib->init_ure_caps();
+        URE_Own_Capabilities::init_caps();
         
         $task_queue = URE_Task_Queue::get_instance();
         $task_queue->add('on_activation');
@@ -796,6 +797,7 @@ class User_Role_Editor {
         wp_enqueue_script('ure-js');
         wp_localize_script('ure-js', 'ure_data', array(
             'wp_nonce' => wp_create_nonce('user-role-editor'),
+            'network_admin' => is_network_admin() ? 1 : 0,
             'page_url' => $page_url,
             'is_multisite' => is_multisite() ? 1 : 0,
             'confirm_role_update' => $confirm_role_update ? 1 : 0,

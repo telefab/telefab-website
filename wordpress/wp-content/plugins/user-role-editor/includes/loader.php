@@ -11,6 +11,7 @@
 require_once(URE_PLUGIN_DIR .'includes/define-constants.php');
 require_once(URE_PLUGIN_DIR .'includes/misc-support-stuff.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/task-queue.php');
+require_once(URE_PLUGIN_DIR .'includes/classes/own-capabilities.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/bbpress.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/assign-role.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/user-other-roles.php');

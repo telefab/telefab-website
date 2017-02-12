@@ -54,7 +54,7 @@ class URE_Woocommerce_Capabilities {
     /**
      * Returns full list of WooCommerce plugin user capabilities
      */
-    public static function get() {
+    public static function get_caps_groups() {
         
         $caps = array(
             'manage_woocommerce'=>array('custom', 'woocommerce', 'woocommerce_core'),

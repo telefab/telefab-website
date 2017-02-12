@@ -77,7 +77,7 @@ function ure_move_users_from_no_role() {
             }
         },
         error: function(XMLHttpRequest, textStatus, exception) {
-            alert("Ajax failure\n" + errortext);
+            alert("Ajax failure\n" + XMLHttpRequest.statusText);
         },
         async: true
     });

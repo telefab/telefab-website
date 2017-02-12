@@ -14,13 +14,13 @@ class URE_Role_View extends URE_View {
     private $role_to_copy_html = '';
     private $role_select_html = '';
     private $role_delete_html = '';
-    private $capability_remove_html = '';
     
     
     public function __construct() {        
         
         parent::__construct();
         $this->lib = URE_Lib::get_instance();        
+        $this->caps_to_remove = $this->lib->get_caps_to_remove();
         
     }
     // end of __construct()
@@ -44,7 +44,7 @@ class URE_Role_View extends URE_View {
         $wp_default_role = $this->lib->get('wp_default_role');
         $this->role_default_html = '<select id="default_user_role" name="default_user_role" '. $select_style .'>';
         foreach ($roles as $key => $value) {
-            $selected = $this->lib->option_selected($key, $wp_default_role);
+            $selected = selected($key, $wp_default_role, false);
             $disabled = ($key==='administrator' && $caps_access_restrict_for_simple_admin && !$this->lib->is_super_admin()) ? 'disabled' : '';
             if ($show_admin_role || $key != 'administrator') {
                 $translated_name = esc_html__($value['name'], 'user-role-editor');  // get translation from URE language file, if exists
@@ -65,7 +65,7 @@ class URE_Role_View extends URE_View {
         
         global $current_user;
         
-        $key_capability = $this->lib->get_key_capability();
+        $key_capability = URE_Own_Capabilities::get_key_capability();
         $user_is_ure_admin = current_user_can($key_capability);
         $role_to_skip = ($user_is_ure_admin) ? '':$current_user->roles[0];
         
@@ -80,7 +80,7 @@ class URE_Role_View extends URE_View {
             if ($key===$role_to_skip) { //  skip role of current user if he does not have full access to URE
                 continue;
             }            
-            $selected1 = $this->lib->option_selected($key, $current_role);
+            $selected1 = selected($key, $current_role, false);
             $disabled = ($key==='administrator' && $caps_access_restrict_for_simple_admin && !$this->lib->is_super_admin()) ? 'disabled' : '';
             if ($show_admin_role || $key != 'administrator') {
                 $translated_name = esc_html__($value['name'], 'user-role-editor');  // get translation from URE language file, if exists
@@ -119,22 +119,62 @@ class URE_Role_View extends URE_View {
      * 
      * @return string
      **/
-    protected function caps_to_remove_prepare_html() {
-        
-        $caps_to_remove = $this->lib->get_caps_to_remove();
-        if (!empty($caps_to_remove) && is_array($caps_to_remove) && count($caps_to_remove) > 0) {
-            $html = '<select id="remove_user_capability" name="remove_user_capability" width="200" style="width: 200px">';
-            foreach (array_keys($caps_to_remove) as $key) {
-                $html .= '<option value="' . $key . '">' . $key . '</option>';
-            }
-            $html .= '</select>';
-        } else {
-            $html = '';
+    public static function caps_to_remove_html() {
+        global $wp_roles;
+                
+        $lib = URE_Lib::get_instance();        
+        $caps_to_remove = $lib->get_caps_to_remove();
+                
+        if (empty($caps_to_remove) || !is_array($caps_to_remove) && count($caps_to_remove)==0) {
+            return '';
         }
+        
+        $caps = array_keys($caps_to_remove);
+        asort($caps);
+        $network_admin = filter_input(INPUT_POST, 'network_admin', FILTER_SANITIZE_NUMBER_INT);
+        $current_role = filter_input(INPUT_POST, 'current_role', FILTER_SANITIZE_STRING);
+        if (!isset($wp_roles->roles[$current_role])) {
+            $current_role = '';
+        }
+        ob_start();
+?>        
+    <form name="ure_remove_caps_form" id="ure_remove_caps_form" method="POST"
+      action="<?php echo URE_WP_ADMIN_URL . ($network_admin ? 'network/':'') . URE_PARENT .'?page=users-'.URE_PLUGIN_FILE;?>" >
+        <table id="ure_remove_caps_table">    
+            <tr>
+                <th>
+                    <input type="checkbox" id="ure_remove_caps_select_all">
+                </th>
+                <th></th>
+            </tr>
+<?php
+        foreach($caps as $cap_id) {
+                $cap_id_esc = 'rm_'.URE_Capability::escape($cap_id);
+?>                            
+            <tr>
+                <td>
+                    <input type="checkbox" name="<?php echo $cap_id_esc;?>" id="<?php echo $cap_id_esc;?>" class="ure-cb-column" 
+                           value="<?php echo $cap_id;?>"/>
+                </td>
+                <td>
+                    <label for="<?php echo $cap_id_esc;?>"><?php echo $cap_id; ?></label>
+                </td>
+            </tr>    
+<?php
+        }   // foreach($caps...)
+?>
+        </table>    
+        <input type="hidden" name="action" id="action" value="delete-user-capability" />
+        <input type="hidden" name="user_role" id="ure_role" value="<?php echo $current_role;?>" />
+        <?php wp_nonce_field('user-role-editor', 'ure_nonce'); ?>
+    </form>
+<?php        
+        $html = ob_get_contents();
+        ob_end_clean();        
 
-        $this->capability_remove_html = $html;
+        return $html;
     }
-    // end of caps_to_remove_prepare_html()
+    // end of caps_to_remove_html()
 
     
     public function role_edit_prepare_html($select_width=200) {
@@ -145,7 +185,7 @@ class URE_Role_View extends URE_View {
             $this->role_default_prepare_html($select_width);
         }        
         $this->role_delete_prepare_html();                
-        $this->caps_to_remove_prepare_html();
+
     }
     // end of role_edit_prepare_html()
 
@@ -204,8 +244,7 @@ if ($multisite && !is_network_admin()) {
 
 <div id="ure_delete_capability_dialog" class="ure-modal-dialog">
   <div style="padding:10px;">
-    <div class="ure-label"><?php esc_html_e('Delete:', 'user-role-editor');?></div>
-    <div class="ure-input"><?php echo $this->capability_remove_html; ?></div>
+    <div class="ure-input"></div>
   </div>  
 </div>
 
@@ -278,7 +317,8 @@ if ($multisite && !is_network_admin()) {
             } // restrict single site admin
             
             if (!$multisite || $super_admin || !$caps_access_restrict_for_simple_admin) { // restrict single site admin            
-                if (!empty($this->capability_remove_html) && current_user_can('ure_delete_capabilities')) {
+                if (!empty($this->caps_to_remove) && is_array($this->caps_to_remove) && count($this->caps_to_remove)>0 && 
+                    current_user_can('ure_delete_capabilities')) {
 ?>
                    <button id="ure_delete_capability" class="ure_toolbar_button">Delete Capability</button>
 <?php
@@ -355,7 +395,7 @@ if ($multisite && !is_network_admin()) {
 ?>
             <div style="float: right; margin-left:10px; margin-right: 20px; <?php echo $fontColor; ?>" id="ure_apply_to_all_div">
                 <input type="checkbox" name="ure_apply_to_all" id="ure_apply_to_all" value="1" 
-                       <?php echo $checked; ?> title="<?php echo $hint; ?>" onclick="ure_applyToAllOnClick(this)"/>
+                       <?php echo $checked; ?> title="<?php echo $hint; ?>" onclick="ure_apply_to_all_on_click(this)"/>
                 <label for="ure_apply_to_all" title="<?php echo $hint; ?>"><?php esc_html_e('Apply to All Sites', 'user-role-editor'); ?></label>
             </div>
 <?php

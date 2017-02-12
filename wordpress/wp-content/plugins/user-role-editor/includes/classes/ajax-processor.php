@@ -46,7 +46,7 @@ class URE_Ajax_Processor {
             die;
         }
         
-        $key_capability = $this->lib->get_key_capability();
+        $key_capability = URE_Own_Capabilities::get_key_capability();
         if (!current_user_can($key_capability)) {
             echo json_encode(array('result'=>'error', 'message'=>'URE: Insufficient permissions'));
             die;
@@ -54,6 +54,16 @@ class URE_Ajax_Processor {
         
     }
     // end of ajax_check_permissions()
+    
+    
+    protected function get_caps_to_remove() {
+    
+        $html = URE_Role_View::caps_to_remove_html();
+        $answer = array('result'=>'success', 'html'=>$html, 'message'=>'success');
+        
+        return $answer;
+    }
+    // end of get_caps_to_remove()
     
                 
     protected function get_users_without_role() {
@@ -89,6 +99,9 @@ class URE_Ajax_Processor {
     
     protected function _dispatch() {
         switch ($this->action) {
+            case 'get_caps_to_remove':
+                $answer = $this->get_caps_to_remove();
+                break;
             case 'get_users_without_role':
                 $answer = $this->get_users_without_role();
                 break;

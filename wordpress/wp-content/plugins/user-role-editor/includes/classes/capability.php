@@ -86,49 +86,105 @@ class URE_Capability {
     
     
     /**
+     * Extract capabilities selected from deletion from the $_POST global
+     * 
+     * @return array
+     */
+    private static function get_caps_for_deletion_from_post($caps_allowed_to_remove) {
+    
+        $caps = array();
+        foreach($_POST as $key=>$value) {
+            if (substr($key, 0, 3)!=='rm_') {
+                continue;
+            }
+            if (!isset($caps_allowed_to_remove[$value])) {
+                continue;
+            }
+            $caps[] = $value;
+        }
+        
+        return $caps;
+    }
+    // end of get_caps_for_deletion_from_post()
+    
+    
+        
+    private static function revoke_caps_from_user($user_id, $caps) {
+        $user = get_user_to_edit($user_id);
+        foreach($caps as $cap_id) {
+            if (isset($user->caps[$cap_id])) {
+                $user->remove_cap($cap_id);
+            }
+        }
+    }
+    // end of revoke_caps_from_user()
+    
+    
+    private static function revoke_caps_from_role($wp_role, $caps) {
+        foreach($caps as $cap_id) {
+            if ($wp_role->has_cap($cap_id)) {
+                $wp_role->remove_cap($cap_id);
+            }
+        }
+    }
+    // end of revoke_caps_from_role()
+    
+    
+    private static function revoke_caps($caps) {
+        global $wpdb, $wp_roles;
+        
+        // remove caps from users
+        $users_ids = $wpdb->get_col("SELECT $wpdb->users.ID FROM $wpdb->users");
+        foreach ($users_ids as $user_id) {
+            self::revoke_caps_from_user($user_id, $caps);
+        }
+
+        // remove caps from roles
+        foreach ($wp_roles->role_objects as $wp_role) {
+            self::revoke_caps_from_role($wp_role, $caps);            
+        }        
+    }
+    // end of revoke_caps()
+    
+            
+    /**
      * Delete capability
      * 
      * @global wpdb $wpdb
      * @global WP_Roles $wp_roles
      * @return string - information message
      */
-    public static function delete() {
-        global $wpdb, $wp_roles;
-
+    public static function delete() {        
+        
+        if (!isset($_POST['action']) || $_POST['action']!='delete-user-capability') {
+            return 'Wrong Request';
+        }
         
         if (!current_user_can('ure_delete_capabilities')) {
             return esc_html__('Insufficient permissions to work with User Role Editor','user-role-editor');
         }
-        
-        if (!isset($_POST['user_capability_id']) || empty($_POST['user_capability_id'])) {
-            return 'Wrong Request';
-        }
-        
+                        
         $lib = URE_Lib::get_instance();
-        $mess = '';        
-        $capability_id = $_POST['user_capability_id'];
-        $caps_to_remove = $lib->get_caps_to_remove();
-        if (!is_array($caps_to_remove) || count($caps_to_remove) == 0 || !isset($caps_to_remove[$capability_id])) {
-            return sprintf(esc_html__('Error! You do not have permission to delete this capability: %s!', 'user-role-editor'), $capability_id);
+        $mess = '';                
+        $caps_allowed_to_remove = $lib->get_caps_to_remove();
+        if (!is_array($caps_allowed_to_remove) || count($caps_allowed_to_remove) == 0) {
+            return esc_html__('There are no capabilities available for deletion!', 'user-role-editor');
+        }
+        
+        $capabilities = self::get_caps_for_deletion_from_post($caps_allowed_to_remove);
+        if (empty($capabilities)) {
+            return esc_html__('There are no capabilities available for deletion!', 'user-role-editor');
         }
 
-        // process users
-        $usersId = $wpdb->get_col("SELECT $wpdb->users.ID FROM $wpdb->users");
-        foreach ($usersId as $user_id) {
-            $user = get_user_to_edit($user_id);
-            if ($user->has_cap($capability_id)) {
-                $user->remove_cap($capability_id);
-            }
+        self::revoke_caps($capabilities);        
+        
+        if (count($capabilities)==1) {
+            $mess = sprintf(esc_html__('Capability %s was removed successfully', 'user-role-editor'), $capabilities[0]);
+        } else {
+            $short_list_str = $lib->get_short_list_str($capabilities);
+            $mess = count($capabilities) .' '. esc_html__('capabilities were removed successfully', 'user-role-editor') .': '. 
+                    $short_list_str;
         }
-
-        // process roles
-        foreach ($wp_roles->role_objects as $wp_role) {
-            if ($wp_role->has_cap($capability_id)) {
-                $wp_role->remove_cap($capability_id);
-            }
-        }
-
-        $mess = sprintf(esc_html__('Capability %s was removed successfully', 'user-role-editor'), $capability_id);        
 
         return $mess;
     }

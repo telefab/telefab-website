@@ -70,6 +70,14 @@ class URE_Capabilities_Groups_Manager {
     // end of add_custom_post_types()
     
     
+    private function add_ure_group() {
+        
+        $this->groups['user_role_editor'] = array('caption'=>esc_html__('User Role Editor', 'user-role-editor'), 'parent'=>'custom', 'level'=>3);
+        
+    }
+    // end of get_ure_group()
+    
+    
     private function add_woocommerce_groups() {
         
         $full_caps = $this->lib->get('full_capabilities');
@@ -116,7 +124,9 @@ class URE_Capabilities_Groups_Manager {
         
         $this->add_custom_post_types();                                
         $this->groups['custom'] = array('caption'=>esc_html__('Custom capabilities', 'user-role-editor'), 'parent'=>'all', 'level'=>1);
+        $this->add_ure_group();
         $this->add_woocommerce_groups();
+        
         $this->groups = apply_filters('ure_capabilities_groups_tree', $this->groups);        
         
         return $this->groups;
@@ -306,10 +316,18 @@ class URE_Capabilities_Groups_Manager {
     
     private function get_groups_for_custom_cap($cap_id) {
         
-        $wc_caps = URE_Woocommerce_Capabilities::get();
-        if (isset($wc_caps[$cap_id])) {
-            $groups1 = $wc_caps[$cap_id];
+        $ure_caps = URE_Own_Capabilities::get_caps_groups();
+        if (isset($ure_caps[$cap_id])) {
+            $groups1 = $ure_caps[$cap_id];
         }
+        
+        if (empty($groups1)) {
+            $wc_caps = URE_Woocommerce_Capabilities::get_caps_groups();
+            if (isset($wc_caps[$cap_id])) {
+                $groups1 = $wc_caps[$cap_id];
+            }
+        }
+        
         if (isset($this->cpt_caps[$cap_id])) {
             $groups2 = $this->cpt_caps[$cap_id];
         }
@@ -337,6 +355,10 @@ class URE_Capabilities_Groups_Manager {
         $groups = apply_filters('ure_custom_capability_groups', $groups, $cap_id);        
         $groups[] = 'all'; // Every capability belongs to the 'all' group        
         $groups = array_unique($groups);
+        
+        foreach($groups as $key=>$value) {
+            $groups[$key] = 'ure-'. $value;            
+        }
         
         return $groups;
     }
