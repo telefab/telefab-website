@@ -14,6 +14,7 @@ require_once(URE_PLUGIN_DIR .'includes/classes/task-queue.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/own-capabilities.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/bbpress.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/assign-role.php');
+require_once(URE_PLUGIN_DIR .'includes/classes/grant-roles.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/user-other-roles.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/protect-admin.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/ajax-processor.php');
@@ -25,6 +26,7 @@ require_once(URE_PLUGIN_DIR .'includes/classes/woocommerce-capabilities.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/capabilities-groups-manager.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/view.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/role-view.php');
+require_once(URE_PLUGIN_DIR .'includes/classes/tools.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/user-view.php');
 require_once(URE_PLUGIN_DIR .'includes/classes/user-role-editor.php');
 

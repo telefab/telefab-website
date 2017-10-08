@@ -154,10 +154,10 @@ class URE_Capabilities_Groups_Manager {
         $caps['manage_options'] = array('core', 'general');
         $caps['moderate_comments'] = array('core', 'posts', 'general');
         $caps['manage_categories'] = array('core', 'posts', 'general');
-        $caps['manage_links'] = array('core', 'others');
+        $caps['manage_links'] = array('core', 'general');
         $caps['upload_files'] = array('core', 'general'); 
         $caps['import'] = array('core', 'general');
-        $caps['unfiltered_html'] = array('core');
+        $caps['unfiltered_html'] = array('core','general');
         if ($multisite) {
             $caps['unfiltered_html'] = array('deprecated');
         }
@@ -215,13 +215,15 @@ class URE_Capabilities_Groups_Manager {
         $caps['delete_users'] = array('core', 'users');
         $caps['create_users'] = array('core', 'users');
         if ($multisite) {
-            $caps['manage_network'] = array('core', 'multisite', 'general');
-            $caps['manage_sites'] = array('core', 'multisite', 'general');
             $caps['create_sites'] = array('core', 'multisite', 'general');
+            $caps['delete_sites'] = array('core', 'multisite', 'general');
+            $caps['manage_network'] = array('core', 'multisite', 'general');
+            $caps['manage_sites'] = array('core', 'multisite', 'general');            
             $caps['manage_network_users'] = array('core', 'multisite', 'users');
-            $caps['manage_network_themes'] = array('core', 'multisite', 'themes');
             $caps['manage_network_plugins'] = array('core', 'multisite', 'plugins');
+            $caps['manage_network_themes'] = array('core', 'multisite', 'themes');           
             $caps['manage_network_options'] = array('core', 'multisite', 'general');
+            $caps['upgrade_network'] = array('core', 'multisite', 'general');
         }
 
         $caps['create_posts'] = array('core', 'posts');

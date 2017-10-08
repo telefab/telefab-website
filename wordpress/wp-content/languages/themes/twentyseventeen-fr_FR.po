@@ -2,12 +2,12 @@
 # This file is distributed under the same license as the Themes - Twenty Seventeen package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2016-12-09 10:37:36+0000\n"
+"PO-Revision-Date: 2017-06-26 16:46:25+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/2.3.0-alpha\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: fr\n"
 "Project-Id-Version: Themes - Twenty Seventeen\n"
 
@@ -19,8 +19,16 @@ msgstr "Twenty Seventeen donne vie à votre site avec un en-tête vidéo et des 
 msgid "Twenty Seventeen"
 msgstr "Twenty Seventeen"
 
-#: template-parts/header/site-branding.php:31
-#: template-parts/navigation/navigation-top.php:20
+#: functions.php:317
+msgid "Add widgets here to appear in your sidebar on blog posts and archive pages."
+msgstr "Ajoutez ici des widgets pour les faire apparaître dans votre colonne latérale d’articles de blog ou de pages d’archives."
+
+#: functions.php:315
+msgid "Blog Sidebar"
+msgstr "Colonne latérale du blog"
+
+#: template-parts/header/site-branding.php:34
+#: template-parts/navigation/navigation-top.php:27
 msgid "Scroll down to content"
 msgstr "Descendre au contenu"
 
@@ -39,21 +47,17 @@ msgctxt "Theme starter content"
 msgid "Espresso"
 msgstr "Expresso"
 
-#: inc/custom-header.php:117
+#: inc/custom-header.php:119
 msgid "Pause background video"
 msgstr "Arrière plan vidéo en pause"
 
-#: inc/custom-header.php:116
+#: inc/custom-header.php:118
 msgid "Play background video"
 msgstr "Lecture d’arrière-plan vidéo"
 
-#: inc/template-tags.php:154
+#: inc/template-tags.php:150
 msgid "Front Page Section %1$s Placeholder"
 msgstr "Texte indicatif de la section %1$s de la page d’accueil"
-
-#: inc/customizer.php:80
-msgid "When the two column layout is assigned, the page title is in one column and content is in the other."
-msgstr "Quand la mise en page en deux colonnes est sélectionnée, le titre de la page est sur une colonne et le contenu sur l’autre."
 
 #: single.php:32
 msgid "Next Post"
@@ -103,11 +107,11 @@ msgstr "Sélectionnez les pages à mettre en avant dans chaque zone depuis la li
 msgid "Front Page Section %d Content"
 msgstr "Contenu %d de section de page d’accueil"
 
-#: inc/customizer.php:83 inc/customizer.php:130
+#: inc/customizer.php:83 inc/customizer.php:132
 msgid "Two Column"
 msgstr "Deux colonnes"
 
-#: inc/customizer.php:82 inc/customizer.php:129
+#: inc/customizer.php:82 inc/customizer.php:131
 msgid "One Column"
 msgstr "Une colonne"
 
@@ -147,6 +151,9 @@ msgstr "Ajoutez ici des widgets qui apparaîtront dans votre pied de page."
 msgid "Footer 1"
 msgstr "Pied de page 1"
 
+#. Translators: If there are characters in your language that are not supported
+#. by Libre Franklin, translate this to 'off'. Do not translate into your own
+#. language.
 #: functions.php:269
 msgctxt "Libre Franklin font: on or off"
 msgid "on"
@@ -189,17 +196,17 @@ msgstr "Précédent"
 msgid "Next"
 msgstr "Suivant"
 
-#: searchform.php:19
+#: searchform.php:20
 msgctxt "submit button"
 msgid "Search"
 msgstr "Recherche"
 
-#: searchform.php:18
+#: searchform.php:19
 msgctxt "placeholder"
 msgid "Search &hellip;"
 msgstr "Recherche&hellip;"
 
-#: searchform.php:16
+#: searchform.php:17
 msgctxt "label"
 msgid "Search for:"
 msgstr "Recherche pour :"
@@ -209,12 +216,12 @@ msgid "Search Results for: %s"
 msgstr "Résultats de recherche pour&nbsp;: %s"
 
 #. translators: %s: Name of current post
-#: functions.php:362 template-parts/page/content-front-page-panels.php:43
+#: functions.php:363 template-parts/page/content-front-page-panels.php:43
 #: template-parts/page/content-front-page.php:44
-#: template-parts/post/content-audio.php:80
-#: template-parts/post/content-gallery.php:66
-#: template-parts/post/content-image.php:56
-#: template-parts/post/content-video.php:78 template-parts/post/content.php:54
+#: template-parts/post/content-audio.php:83
+#: template-parts/post/content-gallery.php:70
+#: template-parts/post/content-image.php:59
+#: template-parts/post/content-video.php:82 template-parts/post/content.php:56
 msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Continuer la lecture<span class=\"screen-reader-text\"> de &laquo;&nbsp;%s&nbsp;&raquo;</span>"
 
@@ -227,19 +234,19 @@ msgid "Twenty Seventeen requires at least WordPress version 4.7. You are running
 msgstr "Twenty Seventeen ne fonctionne qu'à partir de WordPress 4.7. Vous utilisez la version %s. Veuillez mettre à jour et réessayer. "
 
 #. translators: %s: Name of current post
-#: inc/template-tags.php:117
+#: inc/template-tags.php:116
 msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
 msgstr "Modifier<span class=\"screen-reader-text\"> \"%s\"</span>"
 
 #: template-parts/page/content-page.php:25
-#: template-parts/post/content-audio.php:85
-#: template-parts/post/content-gallery.php:71
-#: template-parts/post/content-image.php:61
-#: template-parts/post/content-video.php:83 template-parts/post/content.php:59
+#: template-parts/post/content-audio.php:88
+#: template-parts/post/content-gallery.php:75
+#: template-parts/post/content-image.php:64
+#: template-parts/post/content-video.php:87 template-parts/post/content.php:61
 msgid "Pages:"
 msgstr "Pages&nbsp;:"
 
-#: template-parts/navigation/navigation-top.php:13
+#: template-parts/navigation/navigation-top.php:17
 msgid "Menu"
 msgstr "Menu"
 
@@ -247,21 +254,13 @@ msgstr "Menu"
 msgid "Skip to content"
 msgstr "Aller au contenu principal"
 
-#: functions.php:445
+#: functions.php:446
 msgid "Collapse child menu"
 msgstr "Fermer le sous-menu"
 
-#: functions.php:444
+#: functions.php:445
 msgid "Expand child menu"
 msgstr "Ouvrir le sous-menu"
-
-#: functions.php:317
-msgid "Add widgets here to appear in your sidebar."
-msgstr "Ajoutez des widgets ici pour les faire apparaître dans votre colonne latérale."
-
-#: functions.php:315
-msgid "Sidebar"
-msgstr "Colonne latérale"
 
 #: functions.php:64 functions.php:194
 msgid "Social Links Menu"
@@ -271,7 +270,7 @@ msgstr "Menu des liens de réseaux sociaux"
 msgid "Proudly powered by %s"
 msgstr "Fièrement propulsé par %s"
 
-#. #-#-#-#-#  twentyseventeen.pot (Twenty Seventeen 1.1)  #-#-#-#-#
+#. #-#-#-#-#  twentyseventeen.pot (Twenty Seventeen 1.3)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: template-parts/footer/site-info.php:13
 msgid "https://wordpress.org/"
