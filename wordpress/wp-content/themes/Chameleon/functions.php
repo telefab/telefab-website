@@ -260,7 +260,7 @@ function et_set_font_properties(){
 		$et_header_font_id = str_replace( ' ', '_', $et_header_font_id );
 
 		if ( $et_header_font <> '' ) {
-			$font_style .= "<link id='" . esc_attr($et_header_font_id) . "' href='" . esc_url( "http://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_header_font ) . ( 'Raleway' == $et_header_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
+			$font_style .= "<link id='" . esc_attr($et_header_font_id) . "' href='" . esc_url( "https://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_header_font ) . ( 'Raleway' == $et_header_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
 			$font_family = "font-family: '" . str_replace( '+', ' ', $et_header_font ) . "', Arial, sans-serif !important; ";
 		}
 
@@ -297,7 +297,7 @@ function et_set_font_properties(){
 		$et_body_font_id = str_replace( ' ', '_', $et_body_font_id );
 
 		if ( $et_body_font <> '' ) {
-			$font_style .= "<link id='" . esc_attr($et_body_font_id) . "' href='" . esc_url( "http://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_body_font ) . ( 'Raleway' == $et_body_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
+			$font_style .= "<link id='" . esc_attr($et_body_font_id) . "' href='" . esc_url( "https://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_body_font ) . ( 'Raleway' == $et_body_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
 			$font_family = "font-family: '" . str_replace( '+', ' ', $et_body_font ) . "', Arial, sans-serif !important; ";
 		}
 

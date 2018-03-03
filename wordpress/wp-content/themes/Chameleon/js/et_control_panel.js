@@ -59,7 +59,7 @@ jQuery(document).ready(function(){
 		et_link_tag_id = et_link_tag_id.replace(' ','_');
 
 		if ( !jQuery( 'link#' + et_link_tag_id ).length )
-			jQuery('head').append("<link id='" + et_link_tag_id + "' href='http://fonts.googleapis.com/css?family="+et_header_font_value.replace(/ /g,'+')+( 'Raleway' == et_header_font_value ? ':100' : '' )+"' rel='stylesheet' type='text/css' />");
+			jQuery('head').append("<link id='" + et_link_tag_id + "' href='https://fonts.googleapis.com/css?family="+et_header_font_value.replace(/ /g,'+')+( 'Raleway' == et_header_font_value ? ':100' : '' )+"' rel='stylesheet' type='text/css' />");
 
 		jQuery('head').append("<style type='text/css'>" + et_header_font_elements + " { font-family: '" + et_header_font_value.replace(/\+/g,' ') + "', Arial, sans-serif !important; }</style>");
 
@@ -89,7 +89,7 @@ jQuery(document).ready(function(){
 		et_link_tag_id = et_link_tag_id.replace(' ','_');
 
 		if ( !jQuery( 'link#' + et_link_tag_id ).length )
-			jQuery('head').append("<link id='" + et_link_tag_id + "' href='http://fonts.googleapis.com/css?family="+et_body_font_value.replace(/ /g,'+')+( 'Raleway' == et_body_font_value ? ':100' : '' )+"' rel='stylesheet' type='text/css' />");
+			jQuery('head').append("<link id='" + et_link_tag_id + "' href='https://fonts.googleapis.com/css?family="+et_body_font_value.replace(/ /g,'+')+( 'Raleway' == et_body_font_value ? ':100' : '' )+"' rel='stylesheet' type='text/css' />");
 
 		jQuery('head').append("<style type='text/css'>" + et_body_font_elements + " { font-family: '" + et_body_font_value.replace(/\+/g,' ') + "', Arial, sans-serif !important; }</style>");
 
