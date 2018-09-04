@@ -8,6 +8,9 @@ TEMPLATE_DEBUG = DEBUG
 # Email to send from
 EMAIL_FROM = 'contact@' + WEBSITE_CONFIG['host']
 
+# Detect if HTTPS behind a proxy
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO","https")
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
