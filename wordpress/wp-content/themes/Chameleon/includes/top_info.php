@@ -2,6 +2,7 @@
 	<div id="category-inner">
 		<?php
 			$et_tagline = '';
+			$et_page_title = '';
 			if( is_tag() ) {
 				$et_page_title = esc_html__('Posts Tagged &quot;','Chameleon') . single_tag_title('',false) . '&quot;';
 			} elseif (is_day()) {
@@ -15,6 +16,8 @@
 			} elseif (is_category()) {
 				$et_page_title = single_cat_title('',false);
 				$et_tagline = category_description();
+			} elseif (is_404()) {
+				$et_page_title = esc_html__('No results found','Chameleon');
 			} elseif (is_author()) {
 				global $wp_query;
 				$curauth = $wp_query->get_queried_object();

@@ -25,8 +25,13 @@ function get_the_series( $id = false, $cache = true ) {
 
 	$series = apply_filters('get_the_series', $series); //adds a new filter for users to hook into
 
-	if ( !empty($series) )
-		usort($series, '_usort_terms_by_name');
+	if ( !empty($series) ) {
+	    if ( function_exists('wp_list_sort') ) {
+	        wp_list_sort($series);
+        } else {
+		    usort( $series, '_usort_terms_by_name' );
+	    }
+	}
 
 	return $series;
 }
@@ -470,6 +475,7 @@ function wp_set_post_series( $post_ID = 0, $post, $update, $series_id = array(),
 		return;
 	}
 
+
 	$post_ID = (int) $post_ID;
 	$old_series = wp_get_post_series($post_ID);
 
@@ -480,12 +486,12 @@ function wp_set_post_series( $post_ID = 0, $post, $update, $series_id = array(),
 	}
 
 	$post_series = os_strarr_to_intarr($post_series);
+
 	if ( empty($post_series) || (count($post_series) >= count($old_series)) ) {
 		$match = false;
 	} else {
 		$match = array_diff($old_series, $post_series);
 	}
-
 
 	if (empty($post_series) || ( count($post_series) == 1 && $post_series[0] == 0 ) ) $post_series = array();
 
@@ -512,7 +518,8 @@ function wp_set_post_series( $post_ID = 0, $post, $update, $series_id = array(),
 		$count = count($post_series);
 		$c_chk = 0;
 		foreach ( $post_series as $ser ) {
-			if (in_array($ser, $old_series) && $series_part[$ser] == wp_series_part($post_ID, $ser) && !$dont_skip ) {
+			$post_series_part = wp_series_part( $post_ID, $ser );
+			if ( in_array($ser, $old_series) && isset( $series_part[$ser] ) && ! empty( $post_series_part ) && $series_part[$ser] == $post_series_part && ! $dont_skip ) {
 				$c_chk++;
 				continue;
 			} else {
@@ -719,6 +726,96 @@ function bulk_edit_series($column_name, $type) {
 function inline_edit_series_js() {
 	wp_enqueue_script('inline-edit-series');
 }
+
+
+
+
+
+/**
+ * Callback for split_shared_term action in WP.
+ * This is used to help migrate users of Organize Series Multiples when term ids change.  This fix also will apply for
+ * users of Organize Series Groups as well.
+ * @param $old_term_id
+ * @param $new_term_id
+ * @param $term_taxonomy_id
+ * @param $taxonomy
+ */
+function org_series_maybe_update_post_parts( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	global $wpdb;
+	//fix for series part for users of Organize Series Multiples
+	$old_meta_key = SERIES_PART_KEY . '_' . $old_term_id;
+	$new_meta_key = SERIES_PART_KEY . '_' . $new_term_id;
+	$wpdb->update(
+		$wpdb->postmeta,
+		array( 'meta_key' => $new_meta_key ),
+		array( 'meta_key' => $old_meta_key ),
+		array( '%s' ),
+		array( '%s' )
+	);
+
+	//fix for orgseries_grouping
+	$old_group_title = 'series_grouping_' . $old_term_id;
+	$new_group_title = 'series_grouping_' . $new_term_id;
+	$wpdb->update(
+		$wpdb->posts,
+		array(
+			'post_title' => $new_group_title,
+			'post_name' => $new_group_title
+		),
+		array(
+			'post_type' => 'series_grouping',
+			'post_name' => $old_group_title
+		),
+		array( '%s', '%s' ),
+		array( '%s', '%s' )
+	);
+}
+
+
+
+function orgseries_fix_terms_changed() {
+	if ( get_option( 'series_has_been_fixed', false ) ) {
+		return;
+	}
+	global $wpdb;
+	$terms_to_update = get_option('_split_terms');
+
+	if ( $terms_to_update ) {
+		foreach ( $terms_to_update as $old_term_id => $new_term_info ) {
+			foreach ( $new_term_info as $taxonomy => $new_term_id ) {
+				//fix series parts.
+				$old_meta_key = SERIES_PART_KEY . '_' . $old_term_id;
+				$new_meta_key = SERIES_PART_KEY . '_' . $new_term_id;
+				$wpdb->update(
+					$wpdb->postmeta,
+					array( 'meta_key' => $new_meta_key ),
+					array( 'meta_key' => $old_meta_key ),
+					array( '%s' ),
+					array( '%s' )
+				);
+				//fix for orgseries_grouping
+				$old_group_title = 'series_grouping_' . $old_term_id;
+				$new_group_title = 'series_grouping_' . $new_term_id;
+				$wpdb->update(
+					$wpdb->posts,
+					array(
+						'post_title' => $new_group_title,
+						'post_name'  => $new_group_title
+					),
+					array(
+						'post_type' => 'series_grouping',
+						'post_name' => $old_group_title
+					),
+					array( '%s', '%s' ),
+					array( '%s', '%s' )
+				);
+			}
+		}
+	}
+	update_option( 'series_has_been_fixed', true );
+}
+
+
 /**
  * add_action() and add_filter() calls go here.
 */
@@ -741,4 +838,7 @@ add_action('untrash_post', 'reset_series_order_on_trash', 1);
 add_action('created_series', 'wp_insert_series',1, 2);
 add_action('edited_series', 'wp_update_series',1, 2);
 add_action('delete_series', 'wp_delete_series', 10, 2);
-?>
+
+//prep for term splitting that happens in WP4.2+ (this is more for taking care of Organize Series Multiples users
+add_action( 'split_shared_term', 'org_series_maybe_update_post_parts', 10, 4 );
+add_action( 'admin_init', 'orgseries_fix_terms_changed' );

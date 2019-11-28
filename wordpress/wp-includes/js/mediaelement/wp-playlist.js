@@ -1,7 +1,10 @@
-/*globals window, document, jQuery, _, Backbone, _wpmejsSettings */
+/* global _wpmejsSettings, MediaElementPlayer */
 
 (function ($, _, Backbone) {
-	"use strict";
+	'use strict';
+
+	/** @namespace wp */
+	window.wp = window.wp || {};
 
 	var WPPlaylistView = Backbone.View.extend({
 		initialize : function (options) {
@@ -31,7 +34,7 @@
 			_.bindAll( this, 'bindPlayer', 'bindResetPlayer', 'setPlayer', 'ended', 'clickTrack' );
 
 			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
-				this.settings = _wpmejsSettings;
+				this.settings = _.clone( _wpmejsSettings );
 			}
 			this.settings.success = this.bindPlayer;
 			this.setPlayer();
@@ -164,11 +167,32 @@
 		}
 	});
 
-    $(document).ready(function () {
-		$('.wp-playlist').each( function() {
-			return new WPPlaylistView({ el: this });
+	/**
+	 * Initialize media playlists in the document.
+	 *
+	 * Only initializes new playlists not previously-initialized.
+	 *
+	 * @since 4.9.3
+	 * @returns {void}
+	 */
+	function initialize() {
+		$( '.wp-playlist:not(:has(.mejs-container))' ).each( function() {
+			new WPPlaylistView( { el: this } );
 		} );
-    });
+	}
+
+	/**
+	 * Expose the API publicly on window.wp.playlist.
+	 *
+	 * @namespace wp.playlist
+	 * @since 4.9.3
+	 * @type {object}
+	 */
+	window.wp.playlist = {
+		initialize: initialize
+	};
+
+	$( document ).ready( initialize );
 
 	window.WPPlaylistView = WPPlaylistView;
 

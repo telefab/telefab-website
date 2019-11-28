@@ -1,9 +1,9 @@
 <?php class AdvWidget extends WP_Widget
 {
-    function AdvWidget(){
+    function __construct(){
 		$widget_ops = array('description' => 'Displays Advertisements');
 		$control_ops = array('width' => 400, 'height' => 500);
-		parent::WP_Widget(false,$name='ET Advertisement',$widget_ops,$control_ops);
+		parent::__construct(false,$name='ET Advertisement',$widget_ops,$control_ops);
 	}
 
   /* Displays the Widget in the front-end */

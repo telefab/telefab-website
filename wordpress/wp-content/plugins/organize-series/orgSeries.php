@@ -2,17 +2,18 @@
 /*
 Plugin Name: Organize Series
 Plugin URI: http://organizeseries.com
-Version: 2.5.0
+Version: 2.5.7
 Description: This plugin adds a number of features to wordpress that enable you to easily write and organize a series of posts and display the series dynamically in your blog. You can associate "icons" or "logos" with the various series. This version of Organize Series Plugin requires at least WordPress 3.4+ and PHP 5.2+ to work.
 Author: Darren Ethier
 Author URI: http://www.unfoldingneurons.com
+Text Domain: organize-series
 */
 
 ### INSTALLATION/USAGE INSTRUCTIONS ###
 //	Installation and/or usage instructions for the Organize Series Plugin
 //	can be found at http://www.unfoldingneurons.com/neurotic-plugins/organize-series-wordpress-plugin/
 
-$os_version = '2.5.0';
+$os_version = '2.5.7';
 ######################################
 
 ######################################
@@ -72,6 +73,7 @@ $org_series_loc = $plugin_url;
 /**
   * This sets the defaults for the constants for orgSeries
 */
+define( 'SERIES_PATH_URL', $plugin_url );
 define('ORG_SERIES_VERSION', $os_version); //the current version of the plugin
 define('SERIES_DIR' , $org_dir_name); //the name of the directory that orgSeries files are located.
 define('SERIES_LOC', $org_series_loc); //the uri of the orgSeries files.
@@ -83,6 +85,11 @@ define('SERIES_SEARCHURL','search'); //local search URL (from mod_rewrite_rules)
 define('SERIES_PART_KEY', '_series_part'); //the default key for the Custom Field that distinguishes what part a post is in the series it belongs to. The underscore makes this hidden on edit post/page screens.
 define('SPOST_SHORTTITLE_KEY', '_spost_short_title');
 define('SERIES_REWRITERULES','1'); //flag to determine if plugin can change WP rewrite rules.
+
+/**
+ * PHP Version warning
+ */
+require_once $plugin_path . 'orgSeries-version-check.php';
 
 /*
 *include all related files here

@@ -1,9 +1,9 @@
 <?php class ETFromBlogWidget extends WP_Widget
 {
-    function ETFromBlogWidget(){
+    function __construct(){
 		$widget_ops = array('description' => 'Displays Posts from the Blog category');
 		$control_ops = array('width' => 400, 'height' => 300);
-		parent::WP_Widget(false,$name='ET From The Blog Widget',$widget_ops,$control_ops);
+		parent::__construct(false,$name='ET From The Blog Widget',$widget_ops,$control_ops);
     }
 
   /* Displays the Widget in the front-end */

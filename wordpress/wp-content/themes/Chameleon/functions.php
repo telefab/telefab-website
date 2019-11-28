@@ -28,9 +28,11 @@ if ( ! function_exists( 'et_setup_theme' ) ){
 
 		require_once($template_dir . '/epanel/core_functions.php');
 
-		require_once($template_dir . '/epanel/post_thumbnails_chameleon.php');
+		require_once($template_dir . '/includes/post_thumbnails_chameleon.php');
 
 		include($template_dir . '/includes/widgets.php');
+
+		remove_action( 'admin_init', 'et_epanel_register_portability' );
 
 		add_action( 'wp_enqueue_scripts', 'et_add_responsive_shortcodes_css', 11 );
 
@@ -39,8 +41,23 @@ if ( ! function_exists( 'et_setup_theme' ) ){
 		add_action( 'et_epanel_changing_options', 'et_delete_featured_ids_cache' );
 		add_action( 'delete_post', 'et_delete_featured_ids_cache' );
 		add_action( 'save_post', 'et_delete_featured_ids_cache' );
+
+		add_theme_support( 'title-tag' );
 	}
 }
+
+if ( ! function_exists( '_wp_render_title_tag' ) ) :
+/**
+ * Manually add <title> tag in head for WordPress 4.1 below for backward compatibility
+ * Title tag is automatically added for WordPress 4.1 above via theme support
+ * @return void
+ */
+	function et_add_title_tag_back_compat() { ?>
+		<title><?php wp_title( '-', true, 'right' ); ?></title>
+<?php
+	}
+	add_action( 'wp_head', 'et_add_title_tag_back_compat' );
+endif;
 
 add_action('wp_head','et_portfoliopt_additional_styles',100);
 function et_portfoliopt_additional_styles(){ ?>
@@ -176,10 +193,8 @@ function et_load_chameleon_scripts(){
 	if ( $et_slider_type == 'nivo' )
 		wp_enqueue_script('jquery_nivo', $template_dir . '/js/jquery.nivo.slider.pack.js', array('jquery'), '1.0', true);
 
-	if ( $et_slider_type == 'flexslider' ){
-		wp_enqueue_script('fitvids', $template_dir . '/js/jquery.fitvids.js', array('jquery'), '1.0', true);
+	if ( $et_slider_type == 'flexslider' )
 		wp_enqueue_script('flexslider', $template_dir . '/js/jquery.flexslider-min.js', array('jquery'), '1.0', true);
-	}
 
 	wp_enqueue_script($et_slider_type . '_script', $template_dir . '/js/et_'.$et_slider_type.'.js', array('jquery'), '1.0', true);
 
@@ -245,7 +260,7 @@ function et_set_font_properties(){
 		$et_header_font_id = str_replace( ' ', '_', $et_header_font_id );
 
 		if ( $et_header_font <> '' ) {
-			$font_style .= "<link id='" . esc_attr($et_header_font_id) . "' href='" . esc_url( "http://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_header_font ) . ( 'Raleway' == $et_header_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
+			$font_style .= "<link id='" . esc_attr($et_header_font_id) . "' href='" . esc_url( "https://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_header_font ) . ( 'Raleway' == $et_header_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
 			$font_family = "font-family: '" . str_replace( '+', ' ', $et_header_font ) . "', Arial, sans-serif !important; ";
 		}
 
@@ -282,7 +297,7 @@ function et_set_font_properties(){
 		$et_body_font_id = str_replace( ' ', '_', $et_body_font_id );
 
 		if ( $et_body_font <> '' ) {
-			$font_style .= "<link id='" . esc_attr($et_body_font_id) . "' href='" . esc_url( "http://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_body_font ) . ( 'Raleway' == $et_body_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
+			$font_style .= "<link id='" . esc_attr($et_body_font_id) . "' href='" . esc_url( "https://fonts.googleapis.com/css?family=" . str_replace( ' ', '+', $et_body_font ) . ( 'Raleway' == $et_body_font ? ':100' : '' ) ) . "' rel='stylesheet' type='text/css' />";
 			$font_family = "font-family: '" . str_replace( '+', ' ', $et_body_font ) . "', Arial, sans-serif !important; ";
 		}
 
@@ -391,3 +406,21 @@ function et_epanel_custom_colors_css(){
 	</style>
 
 <?php }
+
+function et_remove_additional_epanel_styles() {
+	return true;
+}
+add_filter( 'et_epanel_is_divi', 'et_remove_additional_epanel_styles' );
+
+function et_register_updates_component() {
+	require_once( get_template_directory() . '/core/updates_init.php' );
+
+	et_core_enable_automatic_updates( get_template_directory_uri(), et_get_theme_version() );
+}
+add_action( 'admin_init', 'et_register_updates_component' );
+
+if ( ! function_exists( 'et_core_portability_link' ) && ! class_exists( 'ET_Builder_Plugin' ) ) :
+function et_core_portability_link() {
+	return '';
+}
+endif;

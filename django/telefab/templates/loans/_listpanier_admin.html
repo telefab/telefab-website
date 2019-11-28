@@ -1,0 +1,53 @@
+<table class="nicetable">
+	<tr>
+		<th>Emprunteur</th>
+		<th>Panier</th>
+		<th>Retour programmé</th>
+		<th>Actions</th>
+	</tr>
+	{% for loan in loans %}
+		<tr>
+			<td>
+				{{loan.borrower.get_profile}}
+			</td>
+			<td>
+				<ul>
+					{% for booking in loan.bookings.all %}
+						<li>{{ booking.equipment.name }}{% if booking.quantity > 1 %} (x{{booking.quantity}}){% endif %}</li>
+					{% endfor %}
+				</ul>
+				{% if loan.comment %}
+					<p class="comment">
+						{{ loan.comment }}
+					</p>
+				{% endif %}
+			</td>
+			<td>
+				{{ loan.scheduled_return_date|date:"d/m/Y" }}
+			</td>
+			<td>
+				<ul>
+					{% if not loan.cancel_time %}
+						<li>
+							<a href="{% url 'main.views.manage_panier' loan_id=loan.id action='valid' value=1 %}">Valider le panier</a>
+						</li>
+						<li>
+							<a href="{% url 'main.views.edit' loan.id 1 %}">Modifier</a>
+						</li>
+					{% endif %}
+					<li>
+						{% if loan.cancel_time %}
+							<a href="{% url 'main.views.manage_panier' loan_id=loan.id action='cancel' value=0 %}">Rétablir le panier</a>
+						{% else %}
+							<a href="{% url 'main.views.manage_panier' loan_id=loan.id action='cancel' value=1 %}">Annuler le panier</a>
+						{% endif %}
+					</li>
+				</ul>
+			</td>
+		</tr>
+	{% empty %}
+		<tr>
+			<td colspan="5">Aucun panier</td>
+		</tr>
+	{% endfor %}
+</table>

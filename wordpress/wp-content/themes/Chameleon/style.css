@@ -1,7 +1,7 @@
 /*
 Theme Name: Chameleon
 Theme URI: http://www.elegantthemes.com/gallery/
-Version: 3.3
+Version: 3.9.5
 Description: 2 Column theme from Elegant Themes
 Author: Elegant Themes
 Author URI: http://www.elegantthemes.com
@@ -145,6 +145,7 @@ img#about-image { float: left; margin: 3px 8px 8px 0px; }
 			.fullwidth #left-area { width: 100%; }
 			#sidebar { width: 238px; float:left; padding-top: 35px; padding-left: 40px; }
 				.post { padding:35px 35px 25px 0px; }
+				.fullwidth .post { padding-right: 0px; }
 					.post-thumbnail { display:block; float:left; position:relative; margin-right: 35px; margin-top: 6px; }
 						.post-thumb { margin-top:7px; margin-left:7px; }
 						span.post-overlay { background:url(images/post-overlay.png) no-repeat;
@@ -351,6 +352,7 @@ img.alignright { display:inline; float:right; margin-left:15px; }
 		.nav li li a:link, .nav li li a:visited {	display: block; height: auto; float: left; }
 		.nav li:hover { visibility: inherit; /* fixes IE7 'sticky bug' */ }
 
+.nav.sf-arrows li.menu-item-has-children > a:after { content: " \00bb"; }
 
 /*------------------------------------------------*/
 /*-----------------[WP CALENDAR]-----------------*/
@@ -457,3 +459,8 @@ h3#reply-title small { display: block; }
 	.js #featured .slide, .js #featured-modest .slide { display: none; }
 
 .service .thumb a { display: block; }
+
+#featured .flex-direction-nav li a { z-index: 99; }
+
+#ie7 #header { position: relative; z-index: 2; }
+#ie7 .flex-container, #ie7 #category-name, #ie7 #content-area { position: relative; z-index: 1; }

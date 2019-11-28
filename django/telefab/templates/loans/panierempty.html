@@ -1,0 +1,15 @@
+{% extends "layout/default.html" %}
+{% load static from staticfiles %}
+{% block title %}
+	Mon panier
+{% endblock %}
+{% block page_title %}
+	Mon panier
+{% endblock %}
+{% block page_link %}
+	Matériel
+{% endblock %}
+{% block content %}
+	<strong>Votre panier est vide.</strong><br/>
+	<a href="{% url 'main.views.show_equipment_categories' choice=False %}"> <strong> Retourner à la liste du matériel </strong> </a>
+{% endblock %}

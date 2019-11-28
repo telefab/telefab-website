@@ -10,35 +10,35 @@
 		 */
 		init : function(ed, url) {
 			ed.addButton('et_learn_more', {
-				title : 'Add ET Learn more block',
+				title : et_quicktags_strings.learn_more,
 				image : url + '/../images/icon-toggle.gif',
 				onclick : function() {
 					CustomButtonClick('learn_more');
 				}
 			});
 			ed.addButton('et_box', {
-				title : 'Add ET Box',
+				title : et_quicktags_strings.box,
 				image : url + '/../images/icon-boxes.gif',
 				onclick : function() {
 					CustomButtonClick('box');
 				}
 			});
 			ed.addButton('et_button', {
-				title : 'Add ET Button',
+				title : et_quicktags_strings.button,
 				image : url + '/../images/icon-buttons.gif',
 				onclick : function() {
 					CustomButtonClick('button');
 				}
 			});
 			ed.addButton('et_tabs', {
-				title : 'Add ET Tabs',
+				title : et_quicktags_strings.tabs,
 				image : url + '/../images/icon-tabs.gif',
 				onclick : function() {
 					CustomButtonClick('tabs');
 				}
 			});
 			ed.addButton('et_author', {
-				title : 'Add Author Bio',
+				title : et_quicktags_strings.author,
 				image : url + '/../images/icon-author.gif',
 				onclick : function() {
 					CustomButtonClick('author');
@@ -67,7 +67,7 @@
 		 */
 		getInfo : function() {
 			return {
-				longname : "Elegant Themes Shortcodes",
+				longname : "Elegant Themes " + et_quicktags_strings.shortcodes,
 				author : 'Elegant Themes',
 				authorurl : 'http://www.elegantthemes.com/',
 				infourl : 'http://www.elegantthemes.com/',

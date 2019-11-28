@@ -2,7 +2,7 @@
 
 /********* Shortcodes v.3.0 ************/
 
-define( 'ET_SHORTCODES_VERSION', '3.0' );
+if ( ! defined( 'ET_SHORTCODES_VERSION' ) ) define( 'ET_SHORTCODES_VERSION', '3.0' );
 if ( ! defined( 'ET_SHORTCODES_DIR' ) ) define( 'ET_SHORTCODES_DIR', get_template_directory_uri() . '/epanel/shortcodes' );
 
 add_action('wp_enqueue_scripts', 'et_shortcodes_css_and_js');
@@ -12,7 +12,7 @@ function et_shortcodes_css_and_js(){
 
 	wp_enqueue_style( 'et-shortcodes-css', ET_SHORTCODES_DIR . '/css/shortcodes.css', false, ET_SHORTCODES_VERSION, 'all' );
 	wp_register_script( 'et-shortcodes-js', ET_SHORTCODES_DIR . "/js/et_shortcodes_frontend{$suffix}.js", array('jquery'), ET_SHORTCODES_VERSION, false );
-	wp_localize_script( 'et-shortcodes-js', 'et_shortcodes_strings', array( 'previous' => __( 'Previous', $themename ), 'next' => __( 'Next', $themename ) ) );
+	wp_localize_script( 'et-shortcodes-js', 'et_shortcodes_strings', array( 'previous' => esc_html__( 'Previous', $themename ), 'next' => esc_html__( 'Next', $themename ) ) );
 }
 
 function et_add_simple_buttons(){
@@ -170,14 +170,6 @@ function et_add_simple_buttons(){
 						'key' => ''
 					));
 
-	$buttons[] = array('name' => 'buzz',
-					'options' => array(
-						'display_name' => 'buzz',
-						'open_tag' => '\n[buzz]',
-						'close_tag' => '[/buzz]\n',
-						'key' => ''
-					));
-
 	$buttons[] = array('name' => 'twitter',
 					'options' => array(
 						'display_name' => 'twitter',
@@ -254,18 +246,11 @@ function et_facebook($atts, $content = null){
 	return $output;
 }
 
-add_shortcode('buzz','et_buzz');
-function et_buzz($atts, $content = null){
-	$output = "<a title='Post to Google Buzz' class='google-buzz-button' href='http://www.google.com/buzz/post' data-button-style='normal-count'></a>
-<script type='text/javascript' src='http://www.google.com/buzz/api/button.js'></script>";
-	return $output;
-}
-
 add_shortcode('twitter','et_twitter');
 function et_twitter($atts, $content = null){
 	extract(shortcode_atts(array(
 		"name" => 'name'
-	), $atts));
+	), $atts, 'twitter'));
 	$output = "<script type='text/javascript' src='" . esc_url( "http://twittercounter.com/embed/{$name}/ffffff/111111" ) . "'></script>";
 	return $output;
 }
@@ -274,7 +259,7 @@ add_shortcode('feedburner','et_feedburner');
 function et_feedburner($atts, $content = null){
 	extract(shortcode_atts(array(
 		"name" => 'name'
-	), $atts));
+	), $atts, 'feedburner'));
 	$output = "<a href='" . esc_url( "http://feeds.feedburner.com/{$name}" ) . "'><img src='" . esc_url( "http://feeds.feedburner.com/~fc/{$name}?bg=99CCFF&amp;fg=444444&amp;anim=0" ) . "' height='26' width='88' style='border:0' alt='' />
 </a>";
 	return $output;
@@ -283,7 +268,9 @@ function et_feedburner($atts, $content = null){
 
 add_shortcode('retweet','et_retweet');
 function et_retweet($atts, $content = null){
-	$output = "<a href='http://twitter.com/share' class='twitter-share-button' data-count='vertical'>Tweet</a><script type='text/javascript' src='http://platform.twitter.com/widgets.js'></script>";
+	global $themename;
+
+	$output = "<a href='http://twitter.com/share' class='twitter-share-button' data-count='vertical'>" . esc_html__( 'Tweet', $themename ) . "</a><script type='text/javascript' src='http://platform.twitter.com/widgets.js'></script>";
 	return $output;
 }
 
@@ -321,7 +308,7 @@ function et_box($atts, $content = null) {
 				"type" => 'shadow',
 				"id" => '',
 				"class" => ''
-			), $atts));
+			), $atts, 'box'));
 	$content = et_content_helper($content);
 
 	$id = ($id <> '') ? " id='" . esc_attr( $id ) . "'" : '';
@@ -343,7 +330,7 @@ function et_tooltip($atts, $content = null) {
 				"text" => esc_html__( 'Add a Tooltip Text', $themename ),
 				"id" => '',
 				"class" => ''
-			), $atts));
+			), $atts, 'tooltip'));
 
 	wp_enqueue_script( 'et-shortcodes-js' );
 
@@ -362,11 +349,11 @@ function et_learnmore($atts, $content = null) {
 	global $themename;
 
 	extract(shortcode_atts(array(
-				"caption" => __( 'Click here to learn more', $themename ),
+				"caption" => esc_html__( 'Click here to learn more', $themename ),
 				"state" => 'close',
 				"id" => '',
 				"class" => ''
-			), $atts));
+			), $atts, 'learn_more'));
 
 	wp_enqueue_script( 'et-shortcodes-js' );
 
@@ -398,7 +385,7 @@ function et_button($atts, $content = null) {
 				"id" => '',
 				"class" => '',
 				"br" => 'no'
-			), $atts));
+			), $atts, 'button'));
 
 	$output = '';
 	$target = ($newwindow == 'yes') ? ' target="_blank"' : '';
@@ -426,7 +413,7 @@ function et_slide($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
-	), $atts));
+	), $atts, 'slide'));
 
 	$content = et_content_helper($content);
 
@@ -449,7 +436,7 @@ function et_tabs($atts, $content = null) {
 				"id" => '',
 				"slidertype" => 'top tabs',
 				"class" => ''
-			), $atts));
+			), $atts, 'tabs'));
 
 	wp_enqueue_script( 'et-shortcodes-js' );
 
@@ -516,22 +503,27 @@ function et_tabcontainer($atts, $content = null) {
 
 add_shortcode('imagetabcontainer', 'et_imagetabcontainer');
 function et_imagetabcontainer($atts, $content = null) {
+	global $themename;
+
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
-	), $atts));
+	), $atts, 'imagetabcontainer'));
 
 	$content = et_content_helper($content);
 
 	$id = ($id <> '') ? " id='" . esc_attr( $id ) . "'" : '';
 	$class = ($class <> '') ? esc_attr( ' ' . $class ) : '';
 
+	$previous = esc_html__( 'Previous', $themename );
+	$next     = esc_html__( 'Next', $themename );
+
 	$output = "
 		<div{$id} class='controllers-wrapper{$class}'>
 			<div class='controllers'>
-				<a class='left-arrow' href='#'>Previous</a>
+				<a class='left-arrow' href='#'>{$previous}</a>
 				{$content}
-				<a class='right-arrow' href='#'>Next</a>
+				<a class='right-arrow' href='#'>{$next}</a>
 			</div> <!-- end #controllers -->
 			<div class='controllers-right'></div>
 		</div><!-- end #controllers-wrapper -->";
@@ -556,7 +548,7 @@ function et_tabtext($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
-	), $atts));
+	), $atts, 'tabtext'));
 
 	$content = et_content_helper($content);
 
@@ -576,7 +568,7 @@ function et_tabcontent($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
-	), $atts));
+	), $atts, 'tabcontent'));
 
 	$content = et_content_helper($content);
 
@@ -585,8 +577,10 @@ function et_tabcontent($atts, $content = null) {
 
 	$output = "
 		<div{$id} class='et-tabs-content{$class}'>
-			<div class='et-tabs-content-wrapper'>
-				{$content}
+			<div class='et-tabs-content-main-wrap'>
+				<div class='et-tabs-content-wrapper'>
+					{$content}
+				</div>
 			</div>
 		</div>";
 
@@ -598,7 +592,7 @@ function et_tab($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
-	), $atts));
+	), $atts, 'tab'));
 
 	$content = et_content_helper($content);
 
@@ -623,7 +617,7 @@ function et_imagetab($atts, $content = null) {
 		"link"		=> '',
 		"newwindow"	=> '',
 		"alt"		=> ''
-	), $atts));
+	), $atts, 'imagetab'));
 
 	$target = '' != $newwindow ? ' target="_blank"' : '';
 	$content = et_content_helper($content);
@@ -644,7 +638,7 @@ function et_author($atts, $content = null) {
 		'class' => '',
 		'name' => '',
 		'description' => ''
-	), $atts));
+	), $atts, 'author'));
 
 	$content = et_content_helper($content);
 
@@ -665,7 +659,7 @@ add_shortcode('author_image', 'et_author_image');
 function et_author_image($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"timthumb" => 'on'
-	), $atts));
+	), $atts, 'author_image'));
 
 	$content = et_content_helper($content);
 
@@ -711,7 +705,7 @@ add_shortcode('custom_list', 'et_custom_list');
 function et_custom_list($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"type" => 'checkmark'
-	), $atts));
+	), $atts, 'custom_list'));
 
 	$content = et_content_helper($content);
 
@@ -727,16 +721,18 @@ function et_custom_list($atts, $content = null) {
 
 add_shortcode('pricing', 'et_pricing');
 function et_pricing($atts, $content = null) {
+	global $themename;
+
 	extract(shortcode_atts(array(
 		"price" => '19.95',
 		"title" => "professional",
 		"desc" => "",
 		"url" => "#",
 		"window" => "",
-		"moretext" => 'Join Now',
+		"moretext" => esc_html__( 'Join Now', $themename ),
 		"type" => "small",
 		"currency" => "$"
-	), $atts));
+	), $atts, 'pricing'));
 
 	$content = et_content_helper($content);
 
@@ -775,12 +771,12 @@ add_shortcode('feature', 'et_pricing_feature');
 function et_pricing_feature($atts, $content = null) {
 	extract(shortcode_atts(array(
 		"checkmark" => 'normal'
-	), $atts));
+	), $atts, 'feature'));
 
 	$content = et_content_helper($content);
 	$class = ( $checkmark == 'x' ) ? ' class="x-mark"' : '';
 
-	$output = "<li{$class}>{$content}<span></span></li>";
+	$output = "<li{$class}>{$content}<span class='pricing-mark'></span></li>";
 
 	return $output;
 }
@@ -791,7 +787,7 @@ function et_dropcap($atts, $content = null) {
 		'style' => '',
 		'id' => '',
 		'class' => ''
-	), $atts));
+	), $atts, 'dropcap'));
 
 	$content = et_content_helper($content);
 	$style = ( $style <> '' ) ? ' style="' . esc_attr( $style ) . '"' : '';
@@ -813,7 +809,7 @@ function et_testimonial($atts, $content = null) {
 		'company' => '',
 		'image' => '',
 		'timthumb' => 'on'
-	), $atts));
+	), $atts, 'testimonial'));
 
 	$content = et_content_helper($content);
 	$style = ( $style <> '' ) ? ' style="' . esc_attr( $style ) . '"' : '';
@@ -860,7 +856,7 @@ function et_quote($atts, $content = null) {
 		'id' => '',
 		'class' => '',
 		'type' => 'normal'
-	), $atts));
+	), $atts, 'quote'));
 
 	$content = et_content_helper($content);
 	$style = ( $style <> '' ) ? ' style="' . esc_attr( $style ) . '"' : '';
@@ -895,7 +891,7 @@ function et_columns($atts, $content = null, $name='') {
 	extract(shortcode_atts(array(
 		"id" => '',
 		"class" => ''
-	), $atts));
+	), $atts, $name));
 
 	$content = et_content_helper($content);
 
@@ -904,7 +900,7 @@ function et_columns($atts, $content = null, $name='') {
 	$pos = strpos($name,'_last');
 
 	if($pos !== false)
-		$name = str_replace('_last',' last',$name);
+		$name = str_replace('_last',' et_column_last',$name);
 
 	$output = "<div{$id} class='" . esc_attr( $name . $class ) . "'>
 					{$content}
@@ -966,7 +962,15 @@ function et_advanced_buttons(){
 		var defaultSettings = {},
 			outputOptions = '',
 			selected ='',
-			content = '';
+			content = '',
+			et_quicktags_strings = {
+				learn_more : "<?php esc_html_e( 'Add ET Learn more block', $themename ); ?>",
+				box        : "<?php esc_html_e( 'Add ET Box', $themename ); ?>",
+				button     : "<?php esc_html_e( 'Add ET Button', $themename ); ?>",
+				tabs       : "<?php esc_html_e( 'Add ET Tabs', $themename ); ?>",
+				author     : "<?php esc_html_e( 'Add Author Bio', $themename ); ?>",
+				shortcodes : "<?php esc_html_e( 'Shortcodes', $themename ); ?>",
+			};
 
 		defaultSettings['learn_more'] = {
 			caption: {

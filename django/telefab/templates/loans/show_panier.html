@@ -1,0 +1,21 @@
+{% extends "layout/lab.html" %}
+{% block title %}
+	{% if animator %}Tous les paniers{% else %}Tous les paniers{% endif %}
+{% endblock %}
+{% block page_title %}
+	{% if animator %}Tous les paniers{% else %}Tous les paniers{% endif %}
+{% endblock %}
+{% block lab_link %}
+	{% if animator %}Tous les paniers{% else %}Tous les paniers{% endif %}
+{% endblock %}
+{% block content %}
+	{% if error == 1 %}
+	<div class="msg_error">
+		<p>La quantité demandée pour "<strong>{{equipment}}</strong>" dépasse la quantité disponible, veuillez modifier le panier</p>
+		</div>
+	{% endif %}
+	<h2>Tous les paniers</h2>
+	{% include "loans/_listpanier_admin.html" with loans=loans animator=animator only %}
+	<h2>Paniers annulés (visibles sous 7 jours)</h2>
+	{% include "loans/_listpanier_admin.html" with loans=old_loans animator=animator only %}
+{% endblock %}

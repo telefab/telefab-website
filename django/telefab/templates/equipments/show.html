@@ -24,7 +24,7 @@
 		{% for equipment in equipments %}
 			<li>
 				<h4>
-					{{ equipment.name|capfirst }}
+					<a href="{% url 'main.views.show_equipment_sheet' equipment.id %}">{{ equipment.name|capfirst }}</a>
 					{% if choice %}
 						{% if equipment.available_quantity > 0 %}
 							- <a href="#" class="select_equipment" data-name="{{equipment.name}}">Sélectionner</a>
