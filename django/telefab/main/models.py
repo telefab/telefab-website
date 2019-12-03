@@ -207,7 +207,7 @@ class Loan(models.Model):
 			title = u"Téléfab : matériel prêté à rendre"
 		else:
 			title = u"Téléfab : emprunt de matériel"
-		send_mail(title, message, EMAIL_FROM, [self.borrower.email])
+		#send_mail(title, message, EMAIL_FROM, [self.borrower.email])
 
 
 class EquipmentLoan(models.Model):
