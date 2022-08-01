@@ -3,8 +3,15 @@
 
 class PlaceOpenNow extends WP_Widget {
     
-	function PlaceOpenNow() {
-		parent::WP_Widget(false, $name = 'Téléfab ouvert', array("description" => "Affichage de l'état du Téléfab de Brest (ouvert ou non)"));
+	/**
+	 * Sets up the widgets name etc
+	 */
+	public function __construct() {
+		$widget_ops = array( 
+			'classname' => "PlaceOpenNow",
+			'description' => "Affichage de l'état du Téléfab de Brest (ouvert ou non)",
+		);
+		parent::__construct( 'PlaceOpenNow', 'Téléfab ouvert', $widget_ops );
 	}
 
 	function widget($args, $instance)
@@ -37,6 +44,6 @@ class PlaceOpenNow extends WP_Widget {
     }
 }
 
-add_action('widgets_init', create_function('', 'return register_widget("PlaceOpenNow");'));
+add_action('widgets_init', function() { return register_widget("PlaceOpenNow"); });
 
 ?>

@@ -9,15 +9,13 @@
  **/
 class URE_User_View extends URE_View {
  
-    private $lib = null;
     private $user_to_edit = null;
     
     
     public function __construct() {
         
         parent::__construct();
-        $this->lib = URE_Lib::get_instance();
-        $this->user_to_edit = $this->lib->get('user_to_edit');
+        $this->user_to_edit = $this->editor->get('user_to_edit');
         
     }
     // end of __construct()
@@ -107,10 +105,10 @@ class URE_User_View extends URE_View {
         $show_admin_role = $this->lib->show_admin_role_allowed();
         $values = array_values($this->user_to_edit->roles);
         $primary_role = array_shift($values);  // get 1st element from roles array
-        $roles = $this->lib->get('roles');
+        $roles = $this->editor->get('roles');
         foreach ($roles as $role_id => $role) {
             if (($show_admin_role || $role_id != 'administrator') && ($role_id !== $primary_role)) {
-                if ($this->lib->user_can($role_id)) {
+                if ($this->editor->user_can($role_id)) {
                     $checked = 'checked="checked"';
                 } else {
                     $checked = '';
@@ -124,10 +122,11 @@ class URE_User_View extends URE_View {
     // end of show_secondary_roles()
     
     
-    public function display() {        
-        $caps_readable = $this->lib->get('caps_readable');
-        $show_deprecated_caps = $this->lib->get('show_deprecated_caps');
-        $edit_user_caps_mode = $this->lib->get_edit_user_caps_mode();
+    public function display() {       
+        
+        $caps_readable = $this->editor->get('caps_readable');
+        $show_deprecated_caps = $this->editor->get('show_deprecated_caps');
+        $edit_user_caps_mode = $this->editor->get_edit_user_caps_mode();
         $caps_access_restrict_for_simple_admin = $this->lib->get_option('caps_access_restrict_for_simple_admin', 0);        
         $user_info = $this->get_user_info();  
         $select_primary_role = apply_filters('ure_users_select_primary_role', true);
@@ -143,7 +142,7 @@ class URE_User_View extends URE_View {
 		<td>&nbsp;</td>		
 		<td style="padding-left: 10px; padding-bottom: 5px;">
   <?php    
-    if ($this->lib->is_super_admin() || !$this->multisite || !class_exists('User_Role_Editor_Pro') || !$caps_access_restrict_for_simple_admin) {  
+    if ($this->lib->is_super_admin() || !is_multisite() || !class_exists('User_Role_Editor_Pro') || !$caps_access_restrict_for_simple_admin) {  
         if ($caps_readable) {
             $checked = 'checked="checked"';
         } else {
@@ -193,7 +192,7 @@ class URE_User_View extends URE_View {
     $this->show_secondary_roles();    
 ?>
 		</td>
-		<td style="padding-left: 5px; padding-top: 5px; border-top: 1px solid #ccc;">  	
+		<td style="padding-left: 5px; padding-top: 5px; border-top: 1px solid #ccc; vertical-align: top;">  	
     <?php $this->display_caps(false, $edit_user_caps_mode ); ?>
 		</td>
 	</tr>

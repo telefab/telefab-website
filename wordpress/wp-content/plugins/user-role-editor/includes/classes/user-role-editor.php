@@ -30,7 +30,7 @@ class User_Role_Editor {
     
     
     public static function get_instance() {
-        if (self::$instance===null) {        
+        if ( self::$instance===null ) {
             self::$instance = new User_Role_Editor();
         }
         
@@ -40,23 +40,22 @@ class User_Role_Editor {
     
     
     /**
-     * Private clone method to prevent cloning of the instance of the *Singleton* 
+     * Prevent cloning of a *Singleton* instance 
      *
      * @return void
      */
-    private function __clone() {
-        
+    public function __clone() {
+        throw new \Exception('Do not clone a singleton instance.');
     }
     // end of __clone()
     
     /**
-     * Private unserialize method to prevent unserializing of the *Singleton*
-     * instance.
+     * Prevent unserializing of a *Singleton* instance.
      *
      * @return void
      */
-    private function __wakeup() {
-        
+    public function __wakeup() {
+        throw new \Exception('Do not unserialize a singleton instance.');
     }
     // end of __wakeup()
 
@@ -81,12 +80,12 @@ class User_Role_Editor {
         }
         $this->ure_hook_suffixes = array($this->settings_hook_suffix, $this->main_page_hook_suffix);
         
-        // activation action
-        register_activation_hook(URE_PLUGIN_FULL_PATH, array($this, 'setup'));
+        // Activation action
+        register_activation_hook( URE_PLUGIN_FULL_PATH, array($this, 'setup') );
 
-        // deactivation action
-        register_deactivation_hook(URE_PLUGIN_FULL_PATH, array($this, 'cleanup'));
-        		
+        // Deactivation action
+        register_deactivation_hook( URE_PLUGIN_FULL_PATH, array($this, 'cleanup') );
+                        		
         // Who can use this plugin
         $this->key_capability = URE_Own_Capabilities::get_key_capability();
                 
@@ -105,7 +104,7 @@ class User_Role_Editor {
         if ($multisite) {
             // new blog may be registered not at admin back-end only but automatically after new user registration, e.g. 
             // Gravity Forms User Registration Addon does
-            add_action( 'wpmu_new_blog', array($this, 'duplicate_roles_for_new_blog'), 10, 2);                        
+            add_action( 'wp_initialize_site', array($this, 'duplicate_roles_for_new_blog'), 99, 1);
         }
                 
         // setup additional options hooks for the roles
@@ -115,7 +114,7 @@ class User_Role_Editor {
             return;
         }
         
-        add_action('admin_init', array($this, 'plugin_init'), 1);
+        add_action( 'admin_init', array($this, 'plugin_init'), 1 );
 
         // Add the translation function after the plugins loaded hook.
         add_action('plugins_loaded', array($this, 'load_translation'));
@@ -123,9 +122,9 @@ class User_Role_Editor {
         // add own submenu 
         add_action('admin_menu', array($this, 'plugin_menu'));
       		
-        if ($multisite) {
+        if ( $multisite ) {
             // add own submenu 
-            add_action('network_admin_menu', array($this, 'network_plugin_menu'));
+            add_action( 'network_admin_menu', array($this, 'network_plugin_menu') );
         }
 
 
@@ -146,6 +145,16 @@ class User_Role_Editor {
     }
     // end of is_pro()
         
+    
+    public function load_users_page() {
+        
+        add_action('restrict_manage_users', array($this, 'show_move_users_from_no_role_button'));
+        add_action('admin_head', array($this, 'add_css_to_users_page'));
+        add_action('admin_footer', array($this, 'add_js_to_users_page'));        
+        
+    }
+    // end of load_users_page()
+    
     
     /**
      * Plugin initialization
@@ -171,20 +180,26 @@ class User_Role_Editor {
         if ($multisite) {
             $allow_edit_users_to_not_super_admin = $this->lib->get_option('allow_edit_users_to_not_super_admin', 0);
             if ($allow_edit_users_to_not_super_admin) {
-                add_filter('map_meta_cap', array($this, 'restore_users_edit_caps'), 1, 4);
+                // Make this as late as possible, to overwrite settings made by other plugins, like WooCommerce
+                add_filter('map_meta_cap', array($this, 'restore_users_edit_caps'), 99, 4);
                 remove_all_filters('enable_edit_any_user_configuration');
                 add_filter('enable_edit_any_user_configuration', '__return_true');
+                // make this as early as you can, to not provide superadmin privilege when it's not needed
                 add_action('admin_head', array($this, 'edit_user_permission_check'), 1);
                 if ($pagenow == 'user-new.php') {
                     add_filter('site_option_site_admins', array($this, 'allow_add_user_as_superadmin'));
                 }
             }
+            
+            if ( $pagenow=='site-users.php' ) {
+                // Try to execute before any other function linked to this filter
+                add_filter('editable_roles', array($this, 'fix_network_admin_roles_dropdown'), 9 );
+            }
+            
         } else {
             $count_users_without_role = $this->lib->get_option('count_users_without_role', 0);
             if ($count_users_without_role) {
-                add_action('restrict_manage_users', array($this, 'move_users_from_no_role_button'));
-                add_action('admin_head', array($this, 'add_css_to_users_page'));
-                add_action('admin_footer', array($this, 'add_js_to_users_page'));
+                add_action( 'load-users.php', array($this, 'load_users_page') );                
             }
         }
 
@@ -194,9 +209,22 @@ class User_Role_Editor {
         }
        
         add_action('wp_ajax_ure_ajax', array($this, 'ure_ajax'));
+        
+        add_action('editable_roles', array( $this, 'translate_custom_roles' ), 10, 1 );
+        
+        // Input parameter $roles_sorting_order = false by default 
+        // Acceptable values: 
+        // true - sort by role ID (for backward compatibility),
+        // 'id' - sort roles by role ID, 
+        // 'name' -  sort roles by role name.
+        $roles_sorting_order = apply_filters( 'ure_sort_wp_roles_list', false);
+        if ( !empty( $roles_sorting_order ) ) {
+            $this->lib->set('roles_sorting_order', $roles_sorting_order );
+            add_filter('editable_roles', array( $this, 'sort_wp_roles_list' ), 11, 1 );
+        }
     }
     // end of plugin_init()
-    
+
 
     /**
    * Allow non-superadmin user to add/create users to the site as superadmin does.
@@ -235,12 +263,9 @@ class User_Role_Editor {
   // end of allow_add_user_as_superadmin()
   
   
-  public function move_users_from_no_role_button() {
+  public function show_move_users_from_no_role_button() {
       
-      if (!$this->lib->is_right_admin_path('users.php')) {      
-            return;
-      }
-      if (!current_user_can('edit_users')) {
+      if ( !current_user_can( 'promote_users' ) ) {
           return;
       }
       
@@ -249,35 +274,21 @@ class User_Role_Editor {
       
   }
   // end of move_users_from_no_role()
-  
+      
   
   public function add_css_to_users_page() {
       
-      if (isset($_GET['page'])) {
-          return;
-      }
-      if (!$this->lib->is_right_admin_path('users.php')) {
-          return;
-      }                  
-
-      wp_enqueue_style('wp-jquery-ui-dialog');
-      wp_enqueue_style('ure-admin-css', URE_PLUGIN_URL . 'css/ure-admin.css', array(), false, 'screen');
+      wp_enqueue_style( 'wp-jquery-ui-dialog' );
+      wp_enqueue_style( 'ure-admin-css', URE_PLUGIN_URL . 'css/ure-admin.css', array(), false, 'screen' );
       
   }
   // end of add_css_to_users_page()
   
   
   public function add_js_to_users_page() {
-  
-      if (isset($_GET['page'])) {
-          return;
-      }
-      if (!$this->lib->is_right_admin_path('users.php')) {
-          return;
-      }             
-      
+              
       wp_enqueue_script('jquery-ui-dialog', '', array('jquery-ui-core','jquery-ui-button', 'jquery') );
-      wp_register_script( 'ure-users', plugins_url( '/js/users.js', URE_PLUGIN_FULL_PATH ) );
+      wp_register_script( 'ure-users', plugins_url( '/js/users.js', URE_PLUGIN_FULL_PATH ), array(), URE_VERSION );
       wp_enqueue_script ( 'ure-users' );      
       wp_localize_script( 'ure-users', 'ure_users_data', array(
         'wp_nonce' => wp_create_nonce('user-role-editor'),
@@ -394,33 +405,42 @@ class User_Role_Editor {
 
   
   /**
-   * every time when new blog created - duplicate to it roles from the main blog (1)  
+   * Every time when new blog is created - duplicate for it the roles from the main blog  
    * @global wpdb $wpdb
    * @global WP_Roles $wp_roles
-   * @param int $blog_id
+   * @param WP_Site $site
    * @param int $user_id
    *
    */
-    public function duplicate_roles_for_new_blog($blog_id) {
+    public function duplicate_roles_for_new_blog( $site ) {
         global $wpdb, $wp_roles;
 
         // get Id of 1st (main) blog
         $main_blog_id = $this->lib->get_main_blog_id();
-        if (empty($main_blog_id)) {
+        if ( empty( $main_blog_id ) ) {
             return;
         }
         $current_blog = $wpdb->blogid;
-        switch_to_blog($main_blog_id);
-        $main_roles = new WP_Roles();  // get roles from primary blog
-        $default_role = get_option('default_role');  // get default role from primary blog
-        switch_to_blog($blog_id);  // switch to the new created blog
+        if ( $current_blog!=$main_blog_id ) {
+            switch_to_blog( $main_blog_id );
+        }
+        $main_roles = new WP_Roles();  // Get roles from primary blog
+        $default_role = get_option( 'default_role' );  // get default role from primary blog
+        $addons_data = apply_filters( 'ure_get_addons_data_for_new_blog', array() );   // Load addons data to replicate later for the new site - for internal use in a Pro version
+        
+        $blog_id = $site->blog_id;
+        switch_to_blog( $blog_id );  // switch to the new created blog
         $main_roles->use_db = false;  // do not touch DB
-        $main_roles->add_cap('administrator', 'dummy_123456');   // just to save current roles into new blog
+        $main_roles->add_cap( 'administrator', 'dummy_123456' );   // just to save current roles into new blog
         $main_roles->role_key = $wp_roles->role_key;
         $main_roles->use_db = true;  // save roles into new blog DB
-        $main_roles->remove_cap('administrator', 'dummy_123456');  // remove unneeded dummy capability
-        update_option('default_role', $default_role); // set default role for new blog as it set for primary one
-        switch_to_blog($current_blog);  // return to blog where we were at the begin
+        $main_roles->remove_cap( 'administrator', 'dummy_123456' );  // remove unneeded dummy capability
+        update_option( 'default_role', $default_role ); // set default role for new blog as it set for primary one
+        if ( !empty($addons_data) ) {
+            do_action('ure_set_addons_data_for_new_blog', $blog_id, $addons_data);  // save addons data from the main site/blog to the new site/blog - for internal use in a Pro version
+        }
+        
+        switch_to_blog( $current_blog );  // return to blog where we were at the begin
     }
     // end of duplicate_roles_for_new_blog()
     
@@ -461,6 +481,16 @@ class User_Role_Editor {
     function load_translation() {
 
         load_plugin_textdomain('user-role-editor', '', dirname( plugin_basename( URE_PLUGIN_FULL_PATH ) ) .'/lang');
+        
+        if ( function_exists('pll_register_string') ) {   
+            // Integration with PolyLang plugin (https://wordpress.org/plugins/polylang/)
+            $all_roles = wp_roles()->roles;
+            foreach( $all_roles as $role_id=>$role ) {
+                if ( !$this->lib->is_wp_built_in_role( $role_id ) ) {                    
+                    pll_register_string( $role_id, $role['name'], 'user-role-editor' );
+                }
+            }
+        }
         
     }
     // end of ure_load_translation()
@@ -550,12 +580,11 @@ class User_Role_Editor {
     
     public function plugin_menu() {
 
-        $translated_title = esc_html__('User Role Editor', 'user-role-editor');
         if (function_exists('add_submenu_page')) {
             $ure_page = add_submenu_page(
                     'users.php', 
-                    $translated_title,
-                    $translated_title,
+                    esc_html__('User Role Editor', 'user-role-editor'),
+                    esc_html__('User Role Editor', 'user-role-editor'),
                     'ure_edit_roles', 
                     'users-' . URE_PLUGIN_FILE, 
                     array($this, 'edit_roles'));
@@ -567,8 +596,8 @@ class User_Role_Editor {
         if ( !$multisite || ($multisite && !$active_for_network) ) {
             $settings_capability = URE_Own_Capabilities::get_settings_capability();
             $this->settings_page_hook = add_options_page(
-                    $translated_title,
-                    $translated_title,
+                    esc_html__('User Role Editor', 'user-role-editor'),
+                    esc_html__('User Role Editor', 'user-role-editor'),
                     $settings_capability, 
                     'settings-' . URE_PLUGIN_FILE, 
                     array($this, 'settings'));
@@ -581,11 +610,10 @@ class User_Role_Editor {
 
     public function network_plugin_menu() {        
         if (is_multisite()) {
-            $translated_title = esc_html__('User Role Editor', 'user-role-editor');
             $this->settings_page_hook = add_submenu_page(
                     'settings.php', 
-                    $translated_title,
-                    $translated_title, 
+                    esc_html__('User Role Editor', 'user-role-editor'),
+                    esc_html__('User Role Editor', 'user-role-editor'), 
                     $this->key_capability, 
                     'settings-' . URE_PLUGIN_FILE, 
                     array(&$this, 'settings'));
@@ -637,17 +665,43 @@ class User_Role_Editor {
             wp_die(esc_html__('Insufficient permissions to work with User Role Editor', 'user-role-editor'));
         }
 
-        $this->lib->editor();
+        $editor = URE_Editor::get_instance();
+        $editor->show();
     }
     // end of edit_roles()
 	
+    
+    /**
+     * Create backup record for the WordPress user roles
+     * Run once on URE activation
+     * 
+     * @global wpdb $wpdb
+     * @global WP_Roles $wp_roles
+     * @return type
+     */        
+    protected function backup_wp_roles() {
+        global $wpdb;
+
+        $site_id = get_current_blog_id();
+        $backup_roles_key = $wpdb->get_blog_prefix($site_id) .'backup_user_roles';
+        // check if backup user roles record exists already
+        $result = get_option($backup_roles_key, false);        
+        if (!empty($result)) {
+            return;
+        }
+        
+        $wp_roles = wp_roles();
+        update_option($backup_roles_key, $wp_roles->roles, false);
+
+    }
+    // end of backup_wp_roles()    
 
     /**
      *  execute on plugin activation
      */
     function setup() {
 
-        $this->lib->backup_wp_roles();
+        $this->backup_wp_roles();
         URE_Own_Capabilities::init_caps();
         
         $task_queue = URE_Task_Queue::get_instance();
@@ -657,20 +711,46 @@ class User_Role_Editor {
     // end of setup()
             
     
+    protected function get_ure_page_url() {
+
+        $page_url = admin_url() . URE_PARENT . '?page=users-' . URE_PLUGIN_FILE;
+        $object = $this->lib->get_request_var('object', 'get');
+        $user_id = (int) $this->lib->get_request_var('user_id', 'get', 'int');
+        if ($object=='user' && $user_id>0) {
+            $page_url .= '&object=user&user_id='. $user_id;
+        }
+        
+        return $page_url;
+    }
+    // end of get_ure_page_url()
+    
+    
     protected function load_main_page_js() {
         
         $confirm_role_update = $this->lib->get_option('ure_confirm_role_update', 1);        
-        $page_url = $this->lib->get_ure_page_url();
+        $page_url = $this->get_ure_page_url();
+        
+        $multisite = $this->lib->get('multisite');
+        if ( !( $multisite && $this->lib->is_super_admin() ) ) {
+            $do_not_revoke_from_admin = true;
+        } else {
+            // do not limit SuperAdmin for multi-site        
+            $do_not_revoke_from_admin = false;
+        }
         
         wp_enqueue_script('jquery-ui-dialog', '', array('jquery-ui-core', 'jquery-ui-button', 'jquery'));
-        wp_enqueue_script('jquery-ui-selectable', '', array('jquery-ui-core', 'jquery'));
-        wp_register_script('ure', plugins_url('/js/ure.js', URE_PLUGIN_FULL_PATH));
+        wp_enqueue_script('jquery-ui-selectable', '', array('jquery-ui-core', 'jquery'));        
+        wp_enqueue_script('notifyjs', plugins_url('/js/notify.min.js', URE_PLUGIN_FULL_PATH ), array(), URE_VERSION );
+        //wp_enqueue_script('notifyjs', plugins_url('/js/notify.js', URE_PLUGIN_FULL_PATH ), array(), URE_VERSION );
+        
+        wp_register_script('ure', plugins_url('/js/ure.js', URE_PLUGIN_FULL_PATH ), array(), URE_VERSION );
         wp_enqueue_script('ure');
         wp_localize_script('ure', 'ure_data', array(
             'wp_nonce' => wp_create_nonce('user-role-editor'),
             'network_admin' => is_network_admin() ? 1 : 0,
             'page_url' => $page_url,
             'is_multisite' => is_multisite() ? 1 : 0,
+            'do_not_revoke_from_admin' => $do_not_revoke_from_admin ? 1 : 0,
             'confirm_role_update' => $confirm_role_update ? 1 : 0,
             'confirm_title' => esc_html__('Confirm', 'user-role-editor'),
             'yes_label' => esc_html__('Yes', 'user-role-editor'),
@@ -688,7 +768,6 @@ class User_Role_Editor {
             'cancel' => esc_html__('Cancel', 'user-role-editor'),
             'add_capability' => esc_html__('Add Capability', 'user-role-editor'),
             'delete_capability' => esc_html__('Delete Capability', 'user-role-editor'),
-            esc_html__('Continue?', 'user-role-editor'),
             'default_role' => esc_html__('Default Role', 'user-role-editor'),
             'set_new_default_role' => esc_html__('Set New Default Role', 'user-role-editor'),
             'delete_capability' => esc_html__('Delete Capability', 'user-role-editor'),
@@ -706,15 +785,15 @@ class User_Role_Editor {
     
     protected function load_settings_js() {
     
-        $page_url = $this->lib->get_ure_page_url();
+        $page_url = $this->get_ure_page_url();
         
         wp_enqueue_script('jquery-ui-tabs', '', array('jquery-ui-core', 'jquery'));
         wp_enqueue_script('jquery-ui-dialog', '', array('jquery-ui-core', 'jquery'));
         wp_enqueue_script('jquery-ui-button', '', array('jquery-ui-core', 'jquery'));
-        wp_register_script('ure-js', plugins_url('/js/settings.js', URE_PLUGIN_FULL_PATH));
-        wp_enqueue_script('ure-js');
+        wp_register_script('ure-settings', plugins_url('/js/settings.js', URE_PLUGIN_FULL_PATH ), array(), URE_VERSION );
+        wp_enqueue_script('ure-settings');
         
-        wp_localize_script('ure-js', 'ure_data', array(
+        wp_localize_script('ure-settings', 'ure_data', array(
             'wp_nonce' => wp_create_nonce('user-role-editor'),
             'network_admin' => is_network_admin() ? 1 : 0,
             'page_url' => $page_url,
@@ -728,7 +807,8 @@ class User_Role_Editor {
             esc_html__('If any plugins (such as WooCommerce, S2Member and many others) have changed user roles and capabilities during installation, all those changes will be LOST!', 'user-role-editor') .'<br>'.
             esc_html__('For more information on how to undo undesired changes and restore plugin capabilities go to', 'user-role-editor') .'<br>'.
             '<a href="http://role-editor.com/how-to-restore-deleted-wordpress-user-roles/">http://role-editor.com/how-to-restore-deleted-wordpress-user-roles/</a>' .'<br><br>'.
-            esc_html__('Continue?', 'user-role-editor')
+            esc_html__('Continue?', 'user-role-editor'),
+            'reset_roles_secure_text' => URE_Tools::RESET_ROLES_SECURE_TEXT
         ));
                 
         do_action('ure_load_js_settings');
@@ -758,7 +838,7 @@ class User_Role_Editor {
     
     public function ure_ajax() {
                 
-        $ajax_processor = new URE_Ajax_Processor($this->lib);
+        $ajax_processor = new URE_Ajax_Processor();
         $ajax_processor->dispatch();
         
     }
@@ -772,14 +852,131 @@ class User_Role_Editor {
         
     }
     // end of set_role_additional_options_hooks()
+
+    
+    private function sort_roles_by_name( $roles ) {
+        
+        $role_names = array();
+        foreach( $roles  as $role_id=>$role ) {
+            $role_names[$role_id] = $role['name'];
+        }
+        asort( $role_names );
+        
+        $roles1 = array();
+        foreach( $role_names as $role_id=>$role_name ) {
+            $roles1[$role_id] = $roles[$role_id];
+        }
+        
+        return $roles1;
+    }
+    // end of sort_roles_by_name()
+    
+
+    /**
+     * Sort roles array alphabetically
+     * @param array $roles
+     * @return array
+     */
+    public function sort_wp_roles_list( $roles ) {
+        
+        $roles_sorting_order = $this->lib->get('roles_sorting_order');
+        if ( $roles_sorting_order==='id' || $roles_sorting_order===true ) {
+            // sort by role ID
+            ksort( $roles );
+            return $roles;
+        } else if ( $roles_sorting_order==='name') {
+            // sort by role name
+            $roles1 = $this->sort_roles_by_name( $roles );
+            return $roles1;
+        } else {    
+            // change nothing
+            return $roles;
+        }
+        // wp-admin/includes/template.php: wp_dropdown_roles() showed roles returned by get_editable_roles() in reversed order, #932:
+        // $editable_roles = array_reverse( get_editable_roles() );
+        // so we may need to reverse them 1st, in order they will be reversed back to the ascending order
+        //$roles = array_reverse( $roles  );
+        
+        return $roles;
+    }
+    // end of sort_wp_roles_list()
+
+
+    /** Currently WordPress (tested up to version 5.9.3) shows "Change role to..." drop-down list at Network admin->Sites->selected site->Users with roles filled from the main site,
+    /*  but should use roles list from the selected site. This function replaces roles list with roles from the selected site and 
+     *  excludes error messsage "Sorry, you are not allowed to give users that role.", when you try to grant to a user a role which does not exist at the selected site.
+     * 
+     * @param array $roles
+     * @return array
+     */
+    public function fix_network_admin_roles_dropdown( $roles ) {
+                        
+        // get selected site ID
+        $selected_blog_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
+        if ( !$selected_blog_id ) {
+            return $roles;
+        }
+        
+        $current_blog_id = get_current_blog_id();        
+        if ( $current_blog_id!==$selected_blog_id ) {
+            switch_to_blog( $selected_blog_id );
+        }
+        
+        remove_filter( 'editable_roles', array($this, 'fix_network_admin_roles_dropdown'), 9 );
+        $roles1 = get_editable_roles();
+        add_filter( 'editable_roles', array($this, 'fix_network_admin_roles_dropdown'), 9 );
+        
+        if ( $current_blog_id!==$selected_blog_id ) {
+            restore_current_blog();
+        }
+                
+        return $roles1;
+    }
+    // end of fix_network_admin_roles_dropdown()
+
+
+    /*
+     *  Translate user role names, inluding custom roles added by user
+     * 
+     */
+    function translate_custom_roles( $roles ) {                
+        
+        foreach ($roles as $key => $value) {
+            $translated_name = esc_html__( $value['name'], 'user-role-editor' );  // get translation from URE language file, if exists
+            if ( $translated_name === $value['name'] ) { 
+                if ( $this->lib->is_wp_built_in_role( $key ) ) {
+                    // get WordPress internal translation
+                    $translated_name = translate_user_role( $translated_name );
+                } elseif ( function_exists('pll_register_string') ) {   
+                    // Integration with PolyLang plugin (https://wordpress.org/plugins/polylang/)                        
+                    $translated_name = pll__( $translated_name );
+                }
+            }
+            $roles[$key]['name'] = $translated_name;
+        }
+        
+        $roles = apply_filters('ure_editable_roles', $roles );
+        
+        return $roles;
+    } 
+    // end of translate_custom_roles()
     
     
     // execute on plugin deactivation
-    function cleanup() {
+    public function cleanup() {
 		
     }
-    // end of setup()
+    // end of cleanup()
+   
+    
+    // excute on plugin uninstall via WordPress->Plugins->Delete
+    public static function uninstall() {
+
+        $uninstall = new URE_Uninstall;
+        $uninstall->act();
         
+    }
+    // end of uninstall()
  
 }
 // end of User_Role_Editor

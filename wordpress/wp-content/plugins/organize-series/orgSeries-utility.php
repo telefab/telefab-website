@@ -5,7 +5,7 @@
  * 2. Is it a hook into the WordPress core?  Then it doesn't belong in here.
  * 3. Is it a "template tag" function?  Then it belongs in series-template-tags.php
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.2
 */
 
@@ -79,6 +79,7 @@ function token_replace($replace, $referral = 'other', $id = 0, $ser_ID = 0) {
 	global $post, $orgseries;
 	$p_id = ( $id == 0 ) ? $post->ID : $id;
 	$ser_id = ( $ser_ID == 0 ) ? $id : $ser_ID;
+	$id     = ( (int)$id === 0 ) ? $ser_ID : $id;
 
 	//$p_id = (empty($post->ID) || $post->ID == '') ? $id : $post->ID;
 	$settings = $orgseries->settings;
@@ -106,22 +107,32 @@ function token_replace($replace, $referral = 'other', $id = 0, $ser_ID = 0) {
 	$replace = str_replace('%series_title_linked%', the_series_title($ser_id), $replace);
 	if( stristr($replace, '%post_title_list%') )
 	$replace = str_replace('%post_title_list%', get_series_posts($id, $referral), $replace);
+	if( stristr($replace, '%post_title_list_short%') )
+	$replace = str_replace('%post_title_list_short%', get_series_posts($id, TRUE), $replace);
 	if( stristr($replace, '%post_title%') )
 	$replace = str_replace('%post_title%', series_post_title($id, FALSE), $replace);
 	if( stristr($replace, '%post_title_linked%') )
 	$replace = str_replace('%post_title_linked%', series_post_title($id), $replace);
-	if( stristr($replace, '%series_part%') )
-	$replace = str_replace('%series_part%', wp_series_part($p_id, $ser_id), $replace);
+	if( stristr($replace, '%series_part%') ){
+		if(empty(trim(wp_series_part($p_id, $ser_id)))){
+			$replace = str_replace('%series_part%', '<font color="red">[part not set]</font>', $replace);
+		}else{
+			$replace = str_replace('%series_part%', wp_series_part($p_id, $ser_id), $replace);
+		}
+	}
 	if( stristr($replace, '%series_description%') )
 	$replace = str_replace('%series_description%', series_description($ser_id), $replace);
 	if( stristr($replace, '%next_post%') )
 	$replace = str_replace('%next_post%', wp_series_nav($id), $replace);
 	if( stristr($replace, '%previous_post%') )
 	$replace = str_replace('%previous_post%', wp_series_nav($id, FALSE), $replace);
+	if( stristr($replace, '%first_post%') )
+	$replace = str_replace('%first_post%', wp_series_nav($id, 2), $replace);
 	if( stristr($replace, '%next_post_custom%') )
 	$replace = str_replace('%next_post_custom%', wp_series_nav($id, TRUE, TRUE), $replace);
 	if( stristr($replace, '%previous_post_custom%') )
 	$replace = str_replace('%previous_post_custom%', wp_series_nav($id, FALSE, TRUE), $replace);
+
 
 	$replace = apply_filters('post_orgseries_token_replace', $replace, $referral, $id, $p_id, $ser_id);
 	return $replace;
@@ -141,7 +152,7 @@ function get_series_permastruct() {
 	$series_token = '%' . SERIES_QUERYVAR . '%';
 
 	if ( $custom_base == '' )
-		$series_structure = trailingslashit( $wp_rewrite->front . SERIES_URL . "/$series_token");
+		$series_structure = trailingslashit( $wp_rewrite->front . ppseries_get_series_slug() . "/$series_token");
 
 	else
 		$series_structure = trailingslashit( $wp_rewrite->root . $custom_base . "/$series_token");
@@ -255,5 +266,159 @@ function _os_update_post_term_count( $terms, $taxonomy ) {
 		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
 	}
+}
+
+
+
+function ppseries_admin_pages(){
+
+    $pseries_pages = [
+        'orgseries_options_page'
+    ];
+
+   return apply_filters('ppseries_admin_pages', $pseries_pages);
+}
+
+function is_ppseries_admin_pages(){
+
+	global $pagenow;
+
+    $admin_pages = ppseries_admin_pages();
+
+    if (
+        ( ( 'edit-tags.php' == $pagenow || 'term.php' == $pagenow  ) && ( isset($_GET['taxonomy']) && ppseries_get_series_slug() == $_GET['taxonomy'])  ) ||
+        ( isset( $_GET['page'] ) && in_array( $_GET['page'], $admin_pages ) )
+    ) {
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+function ppseries_admin_settings_tabs(){
+
+    $settings_tabs = [
+        'series_automation_settings' 	=> 'Display',
+		'series_icon_settings' 			=> 'Icons',
+		'series_templates_settings' 	=> 'Templates',
+    ];
+
+   return apply_filters('ppseries_admin_settings_tabs', $settings_tabs);
+}
+
+/**
+ * Prints out all settings sections added to a particular settings page
+ *
+ * Part of the Settings API. Use this in a settings page callback function
+ * to output all the sections and fields that were added to that $page with
+ * add_settings_section() and add_settings_field()
+ *
+ * @global array $wp_settings_sections Storage array of all settings sections added to admin pages.
+ * @global array $wp_settings_fields Storage array of settings fields and info about their pages/sections.
+ * @since 2.7.0
+ *
+ * @param string $page The slug name of the page whose settings sections you want to output.
+ */
+function ppseries_do_settings_sections( $page ) {
+	global $wp_settings_sections, $wp_settings_fields;
+
+	if ( ! isset( $wp_settings_sections[ $page ] ) ) {
+		return;
+	}
+
+	foreach ( (array) $wp_settings_sections[ $page ] as $section ) {
+
+		echo '<div id="'. esc_attr($section['id']).'-series-content" class="ppseries-settings-tab-content ppseries-hide-content">';
+		/*if ( $section['title'] ) {
+			echo "<h2>{$section['title']}</h2>\n";
+		}*/
+
+		if ( $section['callback'] ) {
+			call_user_func( $section['callback'], $section );
+		}
+
+		if ( ! isset( $wp_settings_fields ) || ! isset( $wp_settings_fields[ $page ] ) || ! isset( $wp_settings_fields[ $page ][ $section['id'] ] ) ) {
+			continue;
+		}
+		echo '<table class="form-table" role="presentation">';
+		ppseries_do_settings_fields( $page, $section['id'] );
+		echo '</table>';
+		echo '</div>';
+	}
+}
+
+/**
+ * Print out the settings fields for a particular settings section.
+ *
+ * Part of the Settings API. Use this in a settings page to output
+ * a specific section. Should normally be called by do_settings_sections()
+ * rather than directly.
+ *
+ * @global array $wp_settings_fields Storage array of settings fields and their pages/sections.
+ *
+ * @since 2.7.0
+ *
+ * @param string $page Slug title of the admin page whose settings fields you want to show.
+ * @param string $section Slug title of the settings section whose fields you want to show.
+ */
+function ppseries_do_settings_fields( $page, $section ) {
+	global $wp_settings_fields;
+
+	if ( ! isset( $wp_settings_fields[ $page ][ $section ] ) ) {
+		return;
+	}
+
+	foreach ( (array) $wp_settings_fields[ $page ][ $section ] as $field ) {
+		$class = '';
+
+		if ( ! empty( $field['args']['class'] ) ) {
+			$class = ' class="' . esc_attr( $field['args']['class'] ) . '"';
+		}
+        
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo "<tr{$class}>";
+
+		if ( ! empty( $field['args']['label_for'] ) ) {
+			//echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
+		} else {
+			//echo '<th scope="row">' . $field['title'] . '</th>';
+		}
+
+		echo '<td>';
+		call_user_func( $field['callback'], $field['args'] );
+		echo '</td>';
+		echo '</tr>';
+	}
+}
+
+function ppseries_series_settings_page(){
+
+   return admin_url( 'admin.php?page=orgseries_options_page');
+}
+
+function ppseries_get_series_list() {
+	$series_get = get_series(['hide_empty' => false]);
+
+	$series_list = array();
+	$series_list[0] = __('Auto/None', 'organize-series');
+
+	foreach ($series_get as $series) {
+		$series_list[$series->term_id] = $series->name;
+	}
+
+	return $series_list;
+}
+
+function ppseries_get_series_slug() {
+    global $orgseries;
+
+	$series_slug = get_option('pp_series_taxonomy_slug');
+
+    $series_slug = (!empty(trim($series_slug))) ? $series_slug : 'series';
+
+	return $series_slug;
 }
 ?>

@@ -1,10 +1,10 @@
 === User Role Editor ===
 Contributors: shinephp
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=vladimir%40shinephp%2ecom&lc=RU&item_name=ShinePHP%2ecom&item_number=User%20Role%20Editor%20WordPress%20plugin&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Tags: user, role, editor, security, access, permission, capability
-Requires at least: 4.3
-Tested up to: 4.9.2
-Stable tag: 4.40
+Requires at least: 4.4
+Tested up to: 6.0.1
+Stable tag: 4.63
+Requires PHP: 7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ User Role Editor WordPress plugin makes user roles and capabilities changing eas
 
 == Description ==
 
-With User Role Editor WordPress plugin you can change user role (except Administrator) capabilities easy, with a few clicks.
+User Role Editor WordPress plugin allows you to change user roles and capabilities easy.
 Just turn on check boxes of capabilities you wish to add to the selected role and click "Update" button to save your changes. That's done. 
 Add new roles and customize its capabilities according to your needs, from scratch of as a copy of other existing role. 
 Unnecessary self-made role can be deleted if there are no users whom such role is assigned.
@@ -20,6 +20,8 @@ Role assigned every new created user by default may be changed too.
 Capabilities could be assigned on per user basis. Multiple roles could be assigned to user simultaneously.
 You can add new capabilities and remove unnecessary capabilities which could be left from uninstalled plugins.
 Multi-site support is provided.
+
+Try it out on your free TasteWP [test site](https://demo.tastewp.com/user-role-editor)
 
 To read more about 'User Role Editor' visit [this page](http://www.shinephp.com/user-role-editor-wordpress-plugin/) at [shinephp.com](http://shinephp.com)
 
@@ -33,7 +35,7 @@ Do you need more functionality with quality support in a real time? Do you wish 
 <li>Block selected widgets under "Appearance" menu for role.</li>
 <li>Show widgets at front-end for selected roles.</li>
 <li>Block selected meta boxes (dashboard, posts, pages, custom post types) for role.</li>
-<li>"Export/Import" module. You can export user roles to the local file and import them then to any WordPress site or other sites of the multi-site WordPress network.</li> 
+<li>"Export/Import" module. You can export user role to the local file and import it to any WordPress site or other sites of the multi-site WordPress network.</li> 
 <li>Roles and Users permissions management via Network Admin  for multisite configuration. One click Synchronization to the whole network.</li>
 <li>"Other roles access" module allows to define which other roles user with current role may see at WordPress: dropdown menus, e.g assign role to user editing user profile, etc.</li>
 <li>Manage user access to editing posts/pages/custom post type using posts/pages, authors, taxonomies ID list.</li>
@@ -80,24 +82,19 @@ https://translate.wordpress.org/projects/wp-plugins/user-role-editor/
 
 == Changelog =
 
-= [4.40] 31.01.2018 =
-* Update: use wp_roles() function from WordPress API instead of initializing $wp_roles global variable directly.
-* Fix: Bug was introduced by version 4.37 with users recalculation for "All" tab after excluding users with "administrator" role. Code worked incorrectly for Japanese locale.
+= [4.63] 11.07.2022 =
+* Update: Marked as compatible with WordPress 6.1
+* Update: Few notices (e.g. "Constant FILTER_SANITIZE_STRING is deprecated") was fixed for better compatibility with PHP 8.1.
+* Update: URE does not try to deactivate itself in case another instance is active, just shows notice and stops execution. 
 
-= [4.39] 19.12.2017 =
-* Update: Plugin settings management code moved to the separate URE_Settings class.
-* Update: 'create_posts', 'create_pages' user capabilities are not added by default to WordPress built-in capabilities groups as they are supported by the Pro version only.
-* Update: Type checking enhanced for values received from a user input and for variable arguments inside database queries.
-* Update: Own code to build usermeta db table name was excluded. A value from $wpdb->usermeta is used instead.
-
-= [4.38] 27.11.2017 =
-* Security: XSS vulnerability was fixed at URE's options page. Bug was discovered and fixed at tab index value numeric type checking. Tab index value is additionally escaped before output also.
-* Security: Deprecated code for debug output to the .log file in case of database query error was removed.
-* Security: Multiple select jQuery plugin (https://github.com/wenzhixin/multiple-select/) was updated to the latest available version 1.2.1, which fixed XSS vulnerability, existed in earlier versions.
-
-
-For full list of changes applied to User Role Editor plugin look changelog.txt file.
-
+= [4.62] 05.05.2022 =
+* Update: Marked as compatible with WordPress 6.0
+* New: It's possible to translate custom role names using [PolyLang](https://wordpress.org/plugins/polylang/) plugin.
+* Update: URE does not sort roles in WordPress dropdown lists. In order to sort roles by name return 'name' from 'ure_sort_wp_roles_list' filter.
+* Update: User capabilities view page minor CSS enhancements.
+* Update: Settings->About: "Donate" link was removed.
+ 
+File changelog.txt contains the full list of changes.
 
 == Additional Documentation ==
 
@@ -106,6 +103,11 @@ You can find more information about "User Role Editor" plugin at [this page](htt
 I am ready to answer on your questions about plugin usage. Use [plugin page comments](http://www.shinephp.com/user-role-editor-wordpress-plugin/) for that.
 
 == Upgrade Notice ==
-= [4.40] 31.01.2018 =
-* Update: use wp_roles() function from WordPress API instead of initializing $wp_roles global variable directly.
-* Fix: Bug was introduced by version 4.37 with users recalculation for "All" tab after excluding users with "administrator" role. Code worked incorrectly for Japanese locale.
+
+= [4.63] 11.07.2022 =
+* Update: Marked as compatible with WordPress 6.1
+* Update: Few notices (e.g. "Constant FILTER_SANITIZE_STRING is deprecated") was fixed for better compatibility with PHP 8.1.
+* Update: URE does not try to deactivate itself in case another instance is active, just shows notice and stops execution. 
+
+
+

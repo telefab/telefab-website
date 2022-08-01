@@ -2,6 +2,26 @@
 
 ## Changelog
 
+### 2.7.2, 2018-12-04
+
+* fixed: was missing some hard-coded link elements (e.g. stylesheets) when href was the first attribute
+
+### 2.7.1, 2018-11-21
+
+* tested: WordPress 5.0
+
+### 2.7.0, 2018-06-30
+
+* added: fix for responsive images loaded by JavaScript from image data attributes
+* fixed: call to undefined function `hash_equals()` on environments with obsolete PHP versions (i.e. < 5.6)
+* fixed: don't run the fixer when a WooCommerce download request is detected
+
+### 2.6.0, 2018-05-08
+
+* added: new filter `ssl_insecure_content_pcre_version_permissive` allowing sites that can't update PCRE beyond 7.2 to function
+* added: fix for plugins / themes overriding avatars and breaking them with insecure content
+* changed: no longer sets a cookie on test or settings pages
+
 ### 2.5.0, 2017-11-23
 
 * changed: .htaccess rules file for non-WP test script now supports Apache v2.4; thanks, [Andreas Schneider](https://github.com/cryptomilk)!

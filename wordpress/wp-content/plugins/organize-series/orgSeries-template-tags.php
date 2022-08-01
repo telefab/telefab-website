@@ -1,16 +1,18 @@
 <?php
 /**
- * This file contains all the functions that users and theme developers can use to add series related information in the blog/theme.  IF it is desired that there be more control on the display of series related information it is important to disable the auto-tag option for that particular function in the series options page of the WordPress admin.  Functions that are toggable in this way will be indicated in the comments.  Usage instructions are given in more detail in the orgSeries Usage Tips series (http://UnfoldingNeurons.com/series/organize-series-usage-tips).
+ * This file contains all the functions that users and theme developers can use to add series related information in the blog/theme.  IF it is desired that there be more control on the display of series related information it is important to disable the auto-tag option for that particular function in the series options page of the WordPress admin.  Functions that are toggable in this way will be indicated in the comments.
+
  * THEME AUTHORS/POWER USERS NOTE:  if you see AUTOTAG in the function description that means that you need to disable the corresponding autotag toggle in the series options page before being able to use the function manually in your theme.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
 */
 
 /**
 * get_series_posts() - use to call up the list of posts in a supplied series id.  The style of the outputted display is determined by the PostList template on the Series Options page in the WordPress admin.
 * AUTOTAG - is part of the postlist_template call [autotag option - "Display list of series on post pages"
-* @package Organize Series WordPress Plugin
+ *
+* @package Publishpress Series WordPress Plugin
 * @since 2.0
 *
 * @uses is_single() - checks if this is a single post page being displayed.
@@ -37,7 +39,8 @@ function get_series_posts( $ser_ID = array(), $referral = false, $display = fals
 	if ( !is_single() && ( !isset($ser_ID) ) )
 		return false;
 
-	if (!empty($ser_ID) ) $ser_ID = is_array($ser_ID) ? $ser_ID : array($ser_ID);
+	$ser_ID = $ser_ID === '' ? array() : $ser_ID;
+	$ser_ID = is_array($ser_ID) ? $ser_ID : array($ser_ID);
 
 	if ( !isset($ser_ID) || empty($ser_ID) ) {
 		$serarray = get_the_series();
@@ -52,8 +55,9 @@ function get_series_posts( $ser_ID = array(), $referral = false, $display = fals
 	$posts_in_series = array();
 	$settings = $orgseries->settings;
 	$result = '';
+	$limit = isset($settings['series_post_list_limit']) ? (int)$settings['series_post_list_limit'] : 0;
 	foreach ( $ser_ID as $ser ) {
-		$series_post = get_objects_in_term($ser, 'series');
+		$series_post = get_objects_in_term($ser, ppseries_get_series_slug());
 		$is_unpub_template = TRUE;
 		$is_unpub_template = apply_filters('unpublished_post_template', $is_unpub_template);
 
@@ -64,38 +68,74 @@ function get_series_posts( $ser_ID = array(), $referral = false, $display = fals
 			$result .= '<ul>';
 		}
 
+		$result_list = [];
+	   	$last_array_key = 0;
 		foreach($posts_in_series as $seriespost) {
+			$current_result = '';
 			$short_title = get_post_meta($seriespost['id'], SPOST_SHORTTITLE_KEY, true);
 			if ($cur_id == $seriespost['id']) {
+				$current_post_id = $seriespost['id'];
 				if ( 'widget' == $referral ) {
-					$result .= '<li class="serieslist-current-li">' . series_post_title($seriespost['id'], true, $short_title) . '</li>';
+					$current_result .= '<li class="serieslist-current-li">' . series_post_title($seriespost['id'], true, $short_title) . '</li>';
+				} else{
+					$current_result .= token_replace(stripslashes($settings['series_post_list_currentpost_template']), 'other', $seriespost['id'], $ser);
 				}
-				else
-					$result .= token_replace(stripslashes($settings['series_post_list_currentpost_template']), 'other', $seriespost['id'], $ser);
+				$result_list[$seriespost['id']] = $current_result;
 				continue;
 			}
 
 			$post_status = get_post_status( $seriespost['id'] );
 
 			if ( in_array( $post_status, array( 'publish', 'private' ) ) ) {
-				if ( 'widget' == $referral )
-					$result .= '<li>' . series_post_title($seriespost['id']) . '</li>';
-				else
-					$result .= token_replace(stripslashes($settings['series_post_list_post_template']), 'other', $seriespost['id'], $ser);
+				if ( 'widget' == $referral ){
+					$current_result .= '<li>' . series_post_title($seriespost['id'], true, $short_title ) . '</li>';
+				}else{
+					$current_result .= token_replace(stripslashes($settings['series_post_list_post_template']), 'other', $seriespost['id'], $ser);
+				}
+			} else{
+				$current_result .= apply_filters('unpublished_post_template', $settings, $seriespost, $ser);
 			}
-			else
-				$result .= apply_filters('unpublished_post_template', $settings, $seriespost, $ser);
+			$result_list[$seriespost['id']] = $current_result;
 		}
+
+		if ( 'post-list' === $referral && $limit > 0 && count($result_list) >  $limit) {
+
+
+			$current_post_data 	= $result_list[$current_post_id];
+			$result_limit    	= array_chunk($result_list, $limit, true);
+			$result_limit    	= $result_limit[0];
+
+			if(!array_key_exists($current_post_id, $result_limit)){
+				$last_array_key = key(array_slice($result_limit, -1, 1, true));
+				unset($result_limit[$last_array_key]);
+			}else {
+				unset($result_limit[$current_post_id]);
+			}
+            //add to the middle of array
+            $add_position = round(count($result_limit)/2);
+            $new_item[$current_post_id] = $current_post_data;
+            $result_list = array_merge(array_slice($result_limit, 0, $add_position), $new_item, array_slice($result_limit, $add_position));
+
+
+			$result .= join(" ", $result_list);
+		}else{
+			$result .= join(" ", $result_list);
+		}
+
 
 		if ( 'widget' == $referral ) {
 			$result .= '</ul>';
 		}
 	}
 
-	if ( !$display )
-		return $result;
-	else
-		echo $result;
+
+    if (!$display) {
+        return $result;
+    }
+	else{
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $result;
+    }
 }
 
 /**
@@ -103,7 +143,7 @@ function get_series_posts( $ser_ID = array(), $referral = false, $display = fals
  * Use this on a single post display page (is_single()).  Use this template tag in the loop.
  * AUTOTAG - uses the postlist display template on the series->options page [AUTOTAG option - "Display list of series on post page?"]
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_option() - pull all the 'org_series_options' for templating info.
@@ -117,14 +157,14 @@ function wp_postlist_display() {
 	$settings = $orgseries->settings;
 	$serarray = get_the_series();
 	$postlist = '';
-	$count = count($serarray);
+	$count = is_array($serarray) ? count($serarray) : 0;
 	$i = 1;
 	$trigger = false;
 
 		if (!empty($serarray)) {
 			foreach ($serarray as $series) {
 				$serID = $series->term_id;
-				$postlist .= token_replace(stripslashes($settings['series_post_list_template']), 'post-list', $serID);
+				$postlist .= token_replace(stripslashes($settings['series_post_list_template']), 'post-list', 0, $serID);
 				if ( $i != $count || $trigger ) {
 					$pos = strpos($postlist, '%postcontent%');
 					if ( $pos == 0 ) $trigger = true;
@@ -143,7 +183,7 @@ function wp_postlist_display() {
 /**
  * get_series_toc() - use this to display or return the link for the series table of contents
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_option()  'org_series_options' from the _options table.
@@ -159,24 +199,30 @@ function get_series_toc( $link = TRUE ) {
 	$url = get_bloginfo('url').'/'.$series_toc;
 	$title = __('All the Series I\'ve Written', 'organize-series');
 	if (isset($wp_rewrite) && $wp_rewrite->using_permalinks()) {
-		if ( $link )
-			echo sprintf(__('<a href="%s" title="%s">Series</a>', 'organize-series'), $url, $title);
-		else
-			return $url;
+        if ($link) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo sprintf(__('<a href="%s" title="%s">Series</a>', 'organize-series'), esc_url($url), esc_html($title));
+        }
+		else{
+            return $url;
+        }
 	} else {
 		$url = parse_url(get_bloginfo('url'));
 		$url = $url['path'] . '/?seriestoc=1';
-		if ( $link )
-			echo sprintf(__('<a href="%s" title="%s">Series</a>', 'organize-series'), $url, $title);
-		else
-			return $url;
+        if ($link) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo sprintf(__('<a href="%s" title="%s">Series</a>', 'organize-series'), esc_url($url), esc_html($title));
+        }
+		else{
+            return $url;
+        }
 	}
 }
 
 /**
  * wp_postlist_count() - counts the number of posts in the series the post belongs to IF it belongs to a series.
  * Should be used in the WordPress loop.
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_orgserial - returns the series information for a single series (using the supplied series_id)
@@ -212,7 +258,7 @@ function wp_postlist_count($ser_id = false, $calc = false) {
 /**
  * wp_series_part() - For a post that is part of a series, this function returns the value for what part this post is in the series.
  * Should be used in the WordPress loop.
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_post_meta() - Gets the part of the series the post is from the post metadata table.
@@ -223,8 +269,10 @@ function wp_postlist_count($ser_id = false, $calc = false) {
  *
  * @return int $series_part - The part the post is in a series IF it is part of a series.
 */
-function wp_series_part( $id = 0, $ser_id = 0, $calc = false ) {
-	global $post;
+function wp_series_part( $id = 0, $ser_id = 0, $calc = false, $post = false ) {
+    if (!$post) {
+        global $post;
+    }
 	if ( $id == 0 ) {
 		if ( isset($post) )
 			$id = $post->ID;
@@ -250,7 +298,7 @@ function wp_series_part( $id = 0, $ser_id = 0, $calc = false ) {
  * wp_seriesmeta_write() - use this to insert meta information (post part and series count) about the series the post belongs to IF it belongs to a series.
  * AUTOTAG - part of the series meta template [AUTOTAG OPTION "Display series meta information with posts?"]
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_option() - pull org_series_options for templating information.
@@ -264,7 +312,7 @@ function wp_seriesmeta_write($excerpt = FALSE) {
 	$settings = $orgseries->settings;
 	$serarray = get_the_series();
 	$series_meta = '';
-	$count = count($serarray);
+	$count = is_array($serarray) ? count($serarray) : 0;
 	$i = 1;
 	$trigger = false;
 	if (!empty($serarray) ) {
@@ -295,7 +343,7 @@ function wp_seriesmeta_write($excerpt = FALSE) {
  * wp_serieslist_display_code() - Will output the a formatted list of the indicated series.
  * Does not have to be in the loop.   Requires a series id for the $series param.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_option() - for getting 'series_table_of_contents_box_template' info from the series options field in the options db table.
@@ -316,11 +364,13 @@ function wp_serieslist_display_code( $series, $referral = false, $display = true
 			$serID = $series;
 
 		if (isset($serID)) {
-			$series_display = token_replace(stripslashes($settings['series_table_of_contents_box_template']), 'series-toc', $serID);
-			if ( $display )
-				echo $series_display;
-			else
-				return $series_display;
+			$series_display = token_replace(stripslashes($settings['series_table_of_contents_box_template']), 'series-toc', 0, $serID);
+            if ($display) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo $series_display;
+            } else{
+                return $series_display;
+            }
 		}
 		return false;
 }
@@ -329,7 +379,7 @@ function wp_serieslist_display_code( $series, $referral = false, $display = true
  * wp_serieslist_display() - Will output a formatted list of all series
  * Does not have to be in the loop.  Is used in the default template for the series table of contents page.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_series() - gets all the series data from the blog (but won't grab empty series).
@@ -362,7 +412,7 @@ function wp_serieslist_display( $referral = false, $args='' ) {
 /**
 * series_toc_paginate() - Will do the pagination for queried terms of selected custom taxonomy.
 *
-* @package Organize Series WordPress Plugin
+* @package Publishpress Series WordPress Plugin
 *
 * @param string $prev  A symbol or a word to be displayed in the pagination as a link to the previous page.
 * @param string $next  A symbol or a word to be displayed in the pagination as a link to the next page.
@@ -373,7 +423,7 @@ function series_toc_paginate($prev = "<< ", $next = " >>", $type = '' ) {
 	$options = is_object($orgseries) ? $orgseries->settings : NULL;
 	$per_page = is_array($options) && isset($options['series_perp_toc']) ? $options['series_perp_toc'] : 5;
 	$current = $wp_query->query_vars['paged'] > 1 ? $wp_query->query_vars['paged'] : 1;
-	$total_terms = (int) wp_count_terms('series', array('hide_empty' => true));
+	$total_terms = (int) wp_count_terms(ppseries_get_series_slug(), array('hide_empty' => true));
 	$max_num_pages = ceil($total_terms/$per_page);;
 	$pagination = array(
 		'base' => esc_url_raw( add_query_arg('paged','%#%') ),
@@ -395,6 +445,7 @@ function series_toc_paginate($prev = "<< ", $next = " >>", $type = '' ) {
 	if ( $type == 'array' ) {
 		return $links;
 	} else {
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo  paginate_links( $pagination );
 	}
 }
@@ -404,7 +455,7 @@ function series_toc_paginate($prev = "<< ", $next = " >>", $type = '' ) {
  * wp_series_nav() - assembles the links for the next or previous post links.
  * YOU can call this if you simply want to output either the next post in a series or the previous post in a series but it will not return both.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_post_meta() - will get the current series part for the displayed post.
@@ -416,7 +467,7 @@ function series_toc_paginate($prev = "<< ", $next = " >>", $type = '' ) {
  *
  * @param int $series_ID REQUIRED
  * @param bool $next  if TRUE will output the next post in the series.  if FALSE will output the previous post in the series.
- * @param bool $customtext (THIS paramater is deprecated as of Organize Series 2.3.6)
+ * @param bool $customtext (THIS paramater is deprecated as of Publishpress Series 2.3.6)
  * @param bool $display if TRUE will echo the linked post.  if FALSE will return the linked post.
  * @param bool $calc = indicates whether the function should try to figure out the $series_id for the user.
  *
@@ -432,22 +483,32 @@ function wp_series_nav($series_ID, $next = TRUE, $customtext = 'deprecated', $di
 		}
 	}
 
+	$prev = false;
+	if(!$next){
+		$prev = true;
+	}
+	$first = false;
+	if((int)$next ===2){
+		$next = $prev = false;
+		$first = true;
+	}
+
 
 	if (empty($series_ID)) return false; //we can't do anything without the series_ID;
 	$cur_id = $post->ID;
 	$settings = $orgseries->settings;
 	$series_part_key = apply_filters('orgseries_part_key', SERIES_PART_KEY, $series_ID);
-	$cur_part = get_post_meta($cur_id, $series_part_key, true);
-	$series_posts = get_objects_in_term($series_ID, 'series');
-	$posts_in_series = array();
+	$cur_part = (int) get_post_meta($cur_id, $series_part_key, true);
+	$series_posts = get_objects_in_term($series_ID, ppseries_get_series_slug());
 	$posts_in_series = get_series_order($series_posts, $cur_id, $series_ID);
 	$result = '';
 
 	foreach ($posts_in_series as $seriespost) {
 		$custom_next = esc_html(token_replace($settings['series_nextpost_nav_custom_text'], 'other', $seriespost['id'], $series_ID));
-		$custom_prev = esc_html(token_replace($settings['series_prevpost_nav_custom_text'], 'other', $seriespost['id'], $series_ID))  ;
-		if ($next) {
-			if ( ($seriespost['part'] - $cur_part) == 1) {
+		$custom_prev = esc_html(token_replace($settings['series_prevpost_nav_custom_text'], 'other', $seriespost['id'], $series_ID));
+		$custom_first = isset($settings['series_firstpost_nav_custom_text']) ? esc_html(token_replace($settings['series_firstpost_nav_custom_text'], 'other', $seriespost['id'], $series_ID)) : '';
+		if ($next && !$first) {
+			if ( ( (int) $seriespost['part'] - $cur_part) === 1) {
 					if ( !empty($custom_next) ) $title = $custom_next;
 					else $title = get_the_title($seriespost['id']);
 					$link = get_permalink($seriespost['id']);
@@ -455,24 +516,44 @@ function wp_series_nav($series_ID, $next = TRUE, $customtext = 'deprecated', $di
 					}
 		}
 
-		if (!$next) {
-			if (($cur_part - $seriespost['part']) == 1) {
+		if (!$next && !$first) {
+			if (($cur_part - (int) $seriespost['part']) === 1) {
 					if (!empty($custom_prev)) $title = $custom_prev;
 						else $title = get_the_title($seriespost['id']);
 					$link = get_permalink($seriespost['id']);
 					$result .= '<a href="' . $link . '" title="' . $title . '">' . $title . '</a>';
 				}
 		}
+
+
+		if($first && !$next && !$prev){
+			if((int) $seriespost['part'] === 1)
+			{
+				if ( !empty($custom_first) ){
+					$title = $custom_first;
+				}else{
+					$title = get_the_title($seriespost['id']);
+				}
+				$link = get_permalink($seriespost['id']);
+				$result .= '<a href="' . $link . '" title="' . $title . '">' . $title . '</a>';
+			}
+		}
+
+
 	}
-		if ($display) echo $result;
-			else return $result;
+        if ($display) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+            echo $result;
+        } else {
+            return $result;
+        }
 }
 
 /**
  * wp_assemble_series_nav() - outputs the entire series nav "strip" according to the template set in series options.
  * Needs to be in the loop.  AUTOTAG - will display automatically with posts that are a part of a series IF the %postcontent% token is in the series nav template.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_option() - gets the 'series_post_nav_template' from the options table.
@@ -486,7 +567,7 @@ function wp_assemble_series_nav() {
 	$settings = $orgseries->settings;
 	$series = get_the_series();
 	$nav = '';
-	$count = count($series);
+	$count = is_array($series) ? count($series) : 0;
 	$i = 1;
 	$trigger = false;
 		if (!empty($series)) {
@@ -494,7 +575,7 @@ function wp_assemble_series_nav() {
 				$series_id = $ser->term_id;
 				$series_count = $ser->count;
 				if ( $series_count > 1 ) {
-					$nav .= token_replace(stripslashes($settings['series_post_nav_template']), 'other', $series_id);
+					$nav .= token_replace(stripslashes($settings['series_post_nav_template']), 'other', 0, $series_id);
 					if ( $i != $count || $trigger ) {
 						$pos = strpos($nav, '%postcontent%');
 						if ( $pos == 0 ) $trigger = true; //%postcontent% is at the top in the template so we need to erase all %postcontent% to fix.
@@ -514,7 +595,7 @@ function wp_assemble_series_nav() {
 /**
  * latest_series() - gets the most recent series from the database according to the latest post-modified date and uses the latest_series template from series options for how it is displayed.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.1
  *
  * @uses get_option() - to get the 'latest_series_template' from the options table.
@@ -553,17 +634,19 @@ function latest_series($display = true, $args = '') {
 
 	$result .= stripslashes($settings['latest_series_after_template']);
 
-	if ($display)
-		echo $result;
-	else
-		return $result;
+    if ($display) {
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo $result;
+    } else {
+        return $result;
+    }
 }
 
 /**
  * get_series_link() - returns what the url is for the series id passed as the parameter.
  * requires series_id
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_series_permastruct() - gets the permastructure for series.
@@ -583,9 +666,9 @@ function get_series_link( $series_id = '' ) {
 		$series_slug = get_query_var(SERIES_QUERYVAR);
 
 	if ( is_numeric($series_id) ) {
-		$series_slug = get_term_field( 'slug', $series_id, 'series' );
+		$series_slug = get_term_field( 'slug', $series_id, ppseries_get_series_slug() );
 	} else {
-		if ( $series_slug_get = get_term_by('name', htmlentities2($series_id), 'series' ) ) {
+		if ( $series_slug_get = get_term_by('name', htmlentities2($series_id), ppseries_get_series_slug() ) ) {
 				$series_slug = $series_slug_get;
 		}
 	}
@@ -593,7 +676,9 @@ function get_series_link( $series_id = '' ) {
 	if ( empty($series_slug) || $series_slug == null || $series_slug == '' )
 		return false;
 
-	$serieslink = get_term_link($series_slug, 'series');
+	$serieslink = get_term_link($series_slug, ppseries_get_series_slug());
+
+	$serieslink = is_wp_error($serieslink) ? '' : $serieslink;
 
 	return apply_filters('series_link', $serieslink, $series_id);
 }
@@ -601,7 +686,7 @@ function get_series_link( $series_id = '' ) {
 /**
  * get_the_series_by_ID() - providing a series_id this function will return the series name.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_orgserial() - calls up the series information for one series by the provided series_Id
@@ -623,7 +708,7 @@ function get_the_series_by_ID( $series_ID ) {
  * in_series() - will check if the current post is in a given series OR if the post is in ANY series (when series ID isn't provided. Works similarily to in_category()
  * Needs to be in the loop.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_object_term_cache() - pulls info from the wp_cache if there.
@@ -648,10 +733,10 @@ function in_series( $series_term = 0 ) { //check if the current post is in the g
 	if ( $ser_ID )
 		$series_term = $ser_ID;
 
-	$series = get_object_term_cache($post->ID, 'series');
+	$series = get_object_term_cache($post->ID, ppseries_get_series_slug());
 
 	if ( false === $series )
-		$series = wp_get_object_terms($post->ID, 'series');
+		$series = wp_get_object_terms($post->ID, ppseries_get_series_slug());
 
 	if ( $check_any ) {
 		if ( $series ) return true;
@@ -667,7 +752,7 @@ function in_series( $series_term = 0 ) { //check if the current post is in the g
 /**
  * get_series_name() - Using the supplied series_id this function will return the series name.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_orgSerial() - returns series information for supplied series ID.
@@ -691,7 +776,7 @@ function get_series_name($series_id, $slug = false) {
  *
  * This is different from get_series_name in that it allows for choosing to have the title hyperlinked or not & displayed or not.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_series_name()
@@ -725,10 +810,12 @@ function the_series_title($series_id=0, $linked=TRUE, $display=FALSE) {
 			}
 
 			$result = $prefix . $series_name . $suffix;
-			if ( $display )
-				echo $result;
-			else
-				return $result;
+            if ($display) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo $result;
+            } else {
+                return $result;
+            }
 		}
 	}
 	return false;
@@ -737,7 +824,7 @@ function the_series_title($series_id=0, $linked=TRUE, $display=FALSE) {
 /**
  * series_description() - Gets the description of the series from the database for the supplied series_id
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_term_field()
@@ -749,20 +836,20 @@ function series_description($series_id = 0) {
 	global $orgseries;
 	if ( !$series_id ) {
 		$ser_var = get_query_var(SERIES_QUERYVAR);
-		$ser_var = term_exists( $ser_var, 'series' );
+		$ser_var = term_exists( $ser_var, ppseries_get_series_slug() );
 		if ( !empty($ser_var) )
 			$series_id = $ser_var['term_id'];
 	}
 
 	if ($series_id == '') return false;
 
-	return get_term_field('description', $series_id, 'series');
+	return get_term_field('description', $series_id, ppseries_get_series_slug());
 }
 
 /**
  * series_post_title() - gets the post title of a post that is part of the series with the supplied post_ID (if not in loop - if in loop the post ID will be taken from the global $post object)
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_the_title() - get's the title of the post with the supplied post ID.
@@ -782,7 +869,7 @@ function series_post_title($post_ID, $linked=TRUE, $short_title = false) {
 		$title = get_the_title($post_ID);
 	if ($linked) {
 		$link = get_permalink($post_ID);
-		$return = '<a href="' . $link . '" title="' . $title . '">' . $title . '</a>';
+		$return = '<a href="' . $link . '" title="' . esc_attr($title) . '">' . $title . '</a>';
 	} else {
 		$return = $title;
 	}
@@ -792,7 +879,7 @@ function series_post_title($post_ID, $linked=TRUE, $short_title = false) {
 /**
  * is_series() - checks if displayed page is a series related page.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.1
  *
  * @ $wp_query;
@@ -802,6 +889,10 @@ function series_post_title($post_ID, $linked=TRUE, $short_title = false) {
 */
 function is_series( $slug = '' ) {
 	global $wp_query;
+
+  if (!defined('SERIES_QUERYVAR')) {
+    return false;
+  }
 
 	if ( $wp_query instanceof WP_Query ) {
 		$series = get_query_var( SERIES_QUERYVAR );
@@ -818,10 +909,10 @@ function is_series( $slug = '' ) {
 			if ( $series == $slug ) {
 				return true;
 			}
-			
+
 			//query_var may not be a slug but may be an id.
 			if ( is_numeric( $series ) ) {
-				$series_object = get_term_by( 'id', $series, 'series' );
+				$series_object = get_term_by( 'id', $series, ppseries_get_series_slug() );
 				if ( $series_object ) {
 					return true;
 				}
@@ -830,14 +921,14 @@ function is_series( $slug = '' ) {
 
 		$has_series_query_var = false;
 	}
-	
+
 	return $has_series_query_var;
 }
 
 /**
  * is_seriestoc() - checks if displayed page is the main seriestoc page.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.1
  *
  * @ $wp_query;
@@ -855,7 +946,7 @@ function is_seriestoc() {
 /**
  * get_series_icon() -  Template tag for insertion of series-icons
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses parse_str()
@@ -920,8 +1011,9 @@ function is_seriestoc() {
 	if (is_file($file)) {
 		list($width, $height, $type, $attr) = getimagesize($file);
 		list($w, $h) = series_fit_rect($width, $height, $p['fit_width'], $p['fit_height'], $p['expand']);
-		$series_icon = $p['prefix'] . '<img class="' . $p['class'] . '" src="' . $url . '" width="' . $w . '" height="' . $h . '"  alt="' . $icon . '" />' . $p['suffix'];
+		$series_icon = $p['prefix'] . '<img class="' . esc_attr($p['class']) . '" src="' . esc_url($url) . '" width="' . esc_attr($w) . '" height="' . esc_attr($h) . '"  alt="' . esc_attr($icon) . '" />' . $p['suffix'];
 		if ($p['display'] == 1) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $series_icon;
 		 } else {
 			return $series_icon;
@@ -933,7 +1025,7 @@ function is_seriestoc() {
 /**
  * single_series_title() - another function to get a series name except this calls a series name on a series archive page without having to supply the series_id.
  *
- * @package Organize Series WordPress Plugin
+ * @package Publishpress Series WordPress Plugin
  * @since 2.0
  *
  * @uses get_query_var() - to get the series_id
@@ -956,15 +1048,18 @@ function single_series_title($prefix = '', $display = true) {
 	}
 
 	if ( !empty($series_id) ) {
-		$my_series = get_term($series_id, 'series', OBJECT, 'display');
+		$my_series = get_term($series_id, ppseries_get_series_slug(), OBJECT, 'display');
 		if ( is_wp_error( $my_series ) )
 			return false;
 		$my_series_name = apply_filters('single_series_title', $my_series->name);
 		if ( !empty($my_series_name) ) {
-			if ( $display )
-				echo $prefix, $my_series_name;
-			else
-				return $my_series_name;
+            if ($display) {
+                // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                echo $prefix, $my_series_name;
+            }
+			else{
+                return $my_series_name;
+            }
 		}
 	}
 }
