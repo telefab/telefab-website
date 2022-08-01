@@ -1,5 +1,5 @@
 # Python packages requirements from pip
-Django==1.6
+Django==2.2.28
 MySQL-python==1.2.3
 -e git://github.com/KTHse/django-cas2@e8a18601349f551d4949905fd6221e2041fe49c1#egg=django_cas-master
 python-dateutil==1.5
