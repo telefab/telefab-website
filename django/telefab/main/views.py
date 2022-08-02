@@ -13,7 +13,7 @@ from .forms import *
 from datetime import date, datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django_cas_ng.views import LoginView as cas_login
+from django_cas_ng.views import LoginView as casLoginView
 from telefab.local_settings import WEBSITE_CONFIG, API_PASSWORD
 from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME, URL_ROOT, CAS_SERVER_URL
 import math
@@ -599,7 +599,7 @@ def cas_connection(request):
 		return redirect(reverse('main.views.welcome'))
 	# Remember the login method
 	request.session['auth_method'] = 'CAS'
-	return cas_login(request)
+	return casLoginView.as_view()(request)
 
 @login_required
 def logout(request):
