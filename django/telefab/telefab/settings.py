@@ -3,7 +3,7 @@
 
 from local_settings import *
 
-TEMPLATE_DEBUG = DEBUG
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Email to send from
 EMAIL_FROM = 'contact@' + WEBSITE_CONFIG['host']
@@ -71,25 +71,31 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': [GLOBAL_ROOT + 'templates/'],
+        'OPTIONS': {
+             'context_processors': [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+             ],
+        },
+    },
+]
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django_cas.middleware.CASMiddleware',
+    'django_cas_ng.middleware.CASMiddleware',
 )
 
 ROOT_URLCONF = 'telefab.urls'
@@ -97,42 +103,22 @@ ROOT_URLCONF = 'telefab.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'telefab.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    GLOBAL_ROOT + 'templates/',
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
-    'django_cas',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django_cas_ng',
 	'main',
 )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'django_cas.backends.CASBackend',
+    'django_cas_ng.backends.CASBackend',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.contrib.messages.context_processors.messages',
-)
-
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -159,7 +145,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'django_cas.backends': {
+        'django_cas_ng.backends': {
             'handlers': ['file_error'],
             'level': 'ERROR',
             'propagate': True,
@@ -169,7 +155,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
-        'django_cas.backends': {
+        'django_cas_ng.backends': {
             'handlers': ['file_debug'],
             'level': 'DEBUG',
             'propagate': True,
@@ -201,10 +187,10 @@ LOGIN_REDIRECT_URL_FAILURE = URL_ROOT + "connexion"
 CAS_SERVER_URL = "https://login.telecom-bretagne.eu/cas/"
 
 # Create users in database automatically
-CAS_AUTO_CREATE_USERS = True
+CAS_CREATE_USERS = True
 
-# Browser ID request options
-BROWSERID_REQUEST_ARGS = {'siteName': u'Téléfab'}
+# Global URL (used by CAS)
+CAS_RESIRECT_URL = WEBSITE_CONFIG['protocol'] + "://" + WEBSITE_CONFIG['host'] + WEBSITE_CONFIG['path']
 
 # References to data in the DB (to create before running the website!)
 ANIMATORS_GROUP_NAME = u"Animateurs"

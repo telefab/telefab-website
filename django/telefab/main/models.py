@@ -6,10 +6,9 @@ from django.contrib.auth.models import User
 from django.utils.timezone import get_default_timezone as tz
 from telefab.local_settings import WEBSITE_CONFIG
 from telefab.settings import ANIMATORS_GROUP_NAME, MAIN_PLACE_NAME, EMAIL_FROM
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from datetime import datetime, date
 from django.core.mail import send_mail
-from django_cas.models import Tgt
 
 class UserProfile(models.Model):
 	"""
@@ -19,10 +18,10 @@ class UserProfile(models.Model):
 		verbose_name = u"profil"
 		verbose_name_plural = u"profils"
 	
-	user = models.OneToOneField(User, verbose_name = u"utilisateur", related_name = 'profile')
+	user = models.OneToOneField(User, verbose_name = u"utilisateur", related_name = 'profile', on_delete = models.CASCADE)
 	description = models.TextField(verbose_name = u"description", blank = True)
 	
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		Returns a string representation
 		"""
@@ -64,8 +63,8 @@ class Equipment(models.Model):
 		verbose_name = u"équipement"
 		verbose_name_plural = u"matériel"
 
-	manufacturer = models.ForeignKey("EquipmentManufacturer", verbose_name = u"fabriquant", blank = True, null = True)
-	category = models.ForeignKey("EquipmentCategory", verbose_name = u"type")
+	manufacturer = models.ForeignKey("EquipmentManufacturer", verbose_name = u"fabriquant", blank = True, null = True, on_delete = models.SET_NULL)
+	category = models.ForeignKey("EquipmentCategory", verbose_name = u"type", on_delete = models.CASCADE)
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
 	reference = models.CharField(verbose_name = u"référence", max_length = 100, blank = True)
 	description = models.TextField(verbose_name = u"description", blank = True)
@@ -75,7 +74,7 @@ class Equipment(models.Model):
 	datasheet = models.FileField(verbose_name = u"datasheet", upload_to = "datasheet", blank = True, null = True)
 	image = models.ImageField(verbose_name = u"photo", upload_to = "equipmentpic", blank = True, null = True)
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		Returns a string representation
 		"""
@@ -109,7 +108,7 @@ class EquipmentManufacturer(models.Model):
 
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		Returns a string representation
 		"""
@@ -126,7 +125,7 @@ class EquipmentCategory(models.Model):
 	name = models.CharField(verbose_name = u"nom", max_length = 100)
 	slug = models.SlugField(verbose_name = u"permalien", max_length = 100)
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		Returns a string representation
 		"""
@@ -141,18 +140,18 @@ class Loan(models.Model):
 		verbose_name = u"prêt"
 		verbose_name_plural = u"prêts"
 
-	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", related_name='loans')
-	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan", blank = True, null=True) # On a rajouté blank = True, null=True (groupe 20)
+	borrower = models.ForeignKey(User, verbose_name = u"emprunteur", related_name='loans', on_delete = models.RESTRICT)
+	equipments = models.ManyToManyField(Equipment, verbose_name=u"matériel", through="EquipmentLoan", blank = True)
 	comment = models.TextField(verbose_name = u"commentaire", blank = True)
 	loan_time = models.DateTimeField(verbose_name = u"date du prêt", blank = True, null=True)
-	lender = models.ForeignKey(User, verbose_name = u"prêteur", blank = True, null=True, related_name='validated_loans', limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
+	lender = models.ForeignKey(User, verbose_name = u"prêteur", blank = True, null=True, related_name='validated_loans', limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME), on_delete = models.SET_NULL)
 	scheduled_return_date = models.DateField(verbose_name = u"date de retour programmée", blank = True, null=True)
 	return_time = models.DateTimeField(verbose_name = u"date de retour", blank = True, null=True)
 	cancel_time = models.DateTimeField(verbose_name = u"date d'annulation", blank = True, null=True)
-	cancelled_by = models.ForeignKey(User, verbose_name = u"annulé par", blank = True, null=True, related_name='cancelled_loans')
+	cancelled_by = models.ForeignKey(User, verbose_name = u"annulé par", blank = True, null=True, related_name='cancelled_loans', on_delete = models.SET_NULL)
 	panier = models.PositiveIntegerField(verbose_name = u"panier", default = 0)
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		String representation of the loan
 		"""
@@ -217,11 +216,11 @@ class EquipmentLoan(models.Model):
 	class Meta:
 		verbose_name = "équipement"
 		verbose_name_plural = "matériel"
-	equipment = models.ForeignKey(Equipment, verbose_name = u"équipement")
-	loan = models.ForeignKey(Loan, related_name="bookings")
+	equipment = models.ForeignKey(Equipment, verbose_name = u"équipement", on_delete = models.RESTRICT)
+	loan = models.ForeignKey(Loan, related_name="bookings", on_delete = models.RESTRICT)
 	quantity = models.PositiveIntegerField(verbose_name = u"quantité", default = 1)
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		String representation of the equipment loan
 		"""
@@ -271,7 +270,7 @@ class Place(models.Model):
 		opening.save()
 		return opening
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		String representation
 		"""
@@ -292,12 +291,12 @@ class PlaceOpening(models.Model):
 		verbose_name = "ouverture"
 		verbose_name_plural = "ouvertures"
 
-	place = models.ForeignKey(Place, verbose_name = u"lieu", related_name='openings')
+	place = models.ForeignKey(Place, verbose_name = u"lieu", related_name='openings', on_delete=models.CASCADE)
 	start_time = models.DateTimeField(verbose_name = u"début")
 	end_time = models.DateTimeField(verbose_name = u"fin", blank = True, null = True)
-	animator = models.ForeignKey(User, verbose_name = u"animateur", blank=True, null = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME))
+	animator = models.ForeignKey(User, verbose_name = u"animateur", blank=True, null = True, limit_choices_to = Q(groups__name = ANIMATORS_GROUP_NAME), on_delete=models.SET_NULL)
 	
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		Returns a string representation
 		"""
@@ -331,7 +330,7 @@ class Announcement(models.Model):
 		"""
 		return reverse("main.views.announcements")
 
-	def __unicode__(self):
+	def __str__(self):
 		"""
 		Returns a string representation
 		"""

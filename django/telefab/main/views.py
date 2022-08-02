@@ -1,23 +1,30 @@
 # This file uses the following encoding: utf-8 
 from django.db.models import Q
-from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.template import RequestContext, Context, Template
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseForbidden
-from django.core import urlresolvers
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import auth
-from urlparse import urljoin
-from urllib import urlencode
-from models import *
-from forms import *
+from urllib.parse import urljoin, urlencode
+from .models import *
+from .forms import *
 from datetime import date, datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django_cas.views import login as cas_login
+from django_cas_ng.views import LoginView as cas_login
 from telefab.local_settings import WEBSITE_CONFIG, API_PASSWORD
 from telefab.settings import SITE_URL, EMAIL_FROM, MAIN_PLACE_NAME, URL_ROOT, CAS_SERVER_URL
 import math
+
+def get_or_post(request):
+	"""
+	Return the GET or POST dict depending on the used method
+	"""
+	if request.method == "POST":
+		return request.POST
+	return request.GET
 
 @login_required
 def edit_event(request, event_id=None):
@@ -43,7 +50,7 @@ def edit_event(request, event_id=None):
 		'saving_errors': saving_errors,
 		'hours': range(24)
 	}
-	return render_to_response("events/edit.html", template_data, context_instance = RequestContext(request))
+	return render(request, "events/edit.html", template_data)
 
 # Equipments
 
@@ -58,7 +65,7 @@ def show_equipment_categories(request, choice=False):
 		'categories': categories,
 		'choice': choice
 	}
-	return render_to_response("equipments/categories.html", template_data, context_instance = RequestContext(request))
+	return render(request, "equipments/categories.html", template_data)
 
 def show_equipments(request, category=None, choice=False):
 	"""
@@ -77,7 +84,7 @@ def show_equipments(request, category=None, choice=False):
 		'equipments': equipments,
 		'choice': choice
 	}
-	return render_to_response("equipments/show.html", template_data, context_instance = RequestContext(request))
+	return render(request, "equipments/show.html", template_data)
 
 
 def show_equipment_sheet(request, equipment_id):
@@ -88,7 +95,7 @@ def show_equipment_sheet(request, equipment_id):
 		'equipment': equipment,
 		'error': 0
 	}
-	return render_to_response("equipments/sheet.html", template_data, context_instance = RequestContext(request))
+	return render(request, "equipments/sheet.html", template_data)
 
 # Rajouté par le groupe 20
 
@@ -101,7 +108,7 @@ def my_panier(request):
 		'error' : error,
 		'loans': loans,
 		}
-		return render_to_response("loans/panier.html", template_data, context_instance = RequestContext(request))
+		return render(request, "loans/panier.html", template_data)
 
 def access_panier(request, equipment_id):
 
@@ -117,10 +124,10 @@ def access_panier(request, equipment_id):
 		'equipment': equipment,
 		'error': 1
 		}
-		return render_to_response("equipments/sheet.html", template_data, context_instance = RequestContext(request))
+		return render(request, "equipments/sheet.html", template_data)
 
 	else:
-		if request.user.is_authenticated(): # La personne accède à son panier si elle est identifiée
+		if request.user.is_authenticated: # La personne accède à son panier si elle est identifiée
 			
 			if Loan.objects.filter(borrower_id = request.user.id ,panier = 1, cancel_time= None): # si le panier existe déjà, on y ajoute du matériel
 
@@ -139,7 +146,7 @@ def access_panier(request, equipment_id):
 							'equipment': equipment,
 							'error': 2
 							}
-							return render_to_response("equipments/sheet.html", template_data, context_instance = RequestContext(request))
+							return render(request, "equipments/sheet.html", template_data)
 						else: # s'il n'y a pas d'erreur on modifie convenablement le panier
 							equipment_.quantity = equipment_.quantity + b
 							flag=1
@@ -171,13 +178,13 @@ def access_panier(request, equipment_id):
 			'error' : 0,
 			'loans': loans,
 			}
-			return render_to_response("loans/panier.html", template_data, context_instance = RequestContext(request))
+			return render(request, "loans/panier.html", template_data)
 
 		else: # si la personne n'est pas authentifiée elle doit se connecter
 			template_data = {
-			'next': request.REQUEST.get('next', ''),
+			'next': get_or_post(request).get('next', ''),
 			}
-			return render_to_response("account/connection.html", template_data, context_instance = RequestContext(request))
+			return render(request, "account/connection.html", template_data)
 
 def delete_panier(request):
 	# ce bout de code permet d'annuler un panier en gardant dans la BD que le panier a été annulé et non pas en faisant emprunt.delete()
@@ -187,7 +194,7 @@ def delete_panier(request):
 	emprunt.save()
 	template_data = {
 	}
-	return render_to_response("loans/panierempty.html", template_data, context_instance = RequestContext(request))
+	return render(request, "loans/panierempty.html", template_data)
 
 @login_required
 def show_panier(request): # Montre les paniers en cours aux administrateurs
@@ -205,7 +212,7 @@ def show_panier(request): # Montre les paniers en cours aux administrateurs
 	'old_loans': old_loans,
 	'error': 0
 	}
-	return render_to_response("loans/show_panier.html", template_data, context_instance = RequestContext(request))
+	return render(request, "loans/show_panier.html", template_data)
 
 @login_required
 def manage_panier(request, loan_id, action, value):
@@ -243,13 +250,13 @@ def manage_panier(request, loan_id, action, value):
 					'error': 1,
 					'equipment': equipment_.equipment
 					}
-					return render_to_response("loans/show_panier.html", template_data, context_instance = RequestContext(request))
+					return render(request, "loans/show_panier.html", template_data)
 			loan.panier = 0
 			loan.lender = request.user
 	else:
 		return HttpResponseNotFound()
 	loan.save()
-	return redirect(urlresolvers.reverse('main.views.show_panier'))
+	return redirect(reverse('main.views.show_panier'))
 
 def soumettre_panier(request):
 	now = datetime.now()
@@ -279,7 +286,7 @@ def soumettre_panier(request):
 		'nom': request.user.username,
 		'error' : 1
 		}
-		return render_to_response("loans/panier.html", template_data, context_instance = RequestContext(request))
+		return render(request, "loans/panier.html", template_data)
 	if error == 0:
 		emprunt = Loan.objects.get(borrower_id= request.user.id ,panier = 1, cancel_time = None)
 		emprunt.scheduled_return_date = request.POST.get("scheduled_return_date")
@@ -296,7 +303,7 @@ def soumettre_panier(request):
 			pass
 		auth.logout(request)
 		# Log out from CAS if needed
-		return render_to_response("loans/panier_soumis.html", template_data, context_instance = RequestContext(request))
+		return render(request, "loans/panier_soumis.html", template_data)
 	
 
 @login_required
@@ -443,9 +450,9 @@ def edit(request, loan_id=None, panier=1): # Modifie les paniers et les prets su
 				loan.send_reminder()
 			# Redirect
 			if int(panier) == 1:
-				return redirect(urlresolvers.reverse('main.views.show_panier'))
+				return redirect(reverse('main.views.show_panier'))
 			elif int(panier) ==0:
-				return redirect(urlresolvers.reverse('main.views.show_all_loans'))
+				return redirect(reverse('main.views.show_all_loans'))
 	# Render
 	all_equipments = Equipment.objects.filter(quantity__gt = 0)
 	equipments = []
@@ -465,7 +472,7 @@ def edit(request, loan_id=None, panier=1): # Modifie les paniers et les prets su
 		'saving_errors': saving_errors,
 		'panier': int(panier),
 	}
-	return render_to_response("loans/edit.html", template_data, context_instance = RequestContext(request))
+	return render(request, "loans/edit.html", template_data)
 
 # Fin du rajout
 
@@ -484,7 +491,7 @@ def show_loans(request):
 		'loans': loans,
 		'old_loans': old_loans
 	}
-	return render_to_response("loans/show.html", template_data, context_instance = RequestContext(request))
+	return render(request, "loans/show.html", template_data)
 
 @login_required
 def show_all_loans(request):
@@ -503,7 +510,7 @@ def show_all_loans(request):
 		'old_loans': old_loans,
 		'animator': True
 	}
-	return render_to_response("loans/show.html", template_data, context_instance = RequestContext(request))
+	return render(request, "loans/show.html", template_data)
 
 @login_required
 def manage_loan(request, loan_id, action, value):
@@ -531,7 +538,7 @@ def manage_loan(request, loan_id, action, value):
 	else:
 		return HttpResponseNotFound()
 	loan.save()
-	return redirect(urlresolvers.reverse('main.views.show_all_loans'))
+	return redirect(reverse('main.views.show_all_loans'))
 
 # Account
 
@@ -543,53 +550,53 @@ def welcome(request):
 	# If the user has not filled its profile: ask (only once)
 	if (not request.user.first_name or not request.user.last_name or not request.user.email) and not request.session.get("already_welcome", False):
 		request.session["already_welcome"] = True
-		return redirect(urlresolvers.reverse('main.views.profile') + "?first_edit=1")
+		return redirect(reverse('main.views.profile') + "?first_edit=1")
 	template_data = {
 		'telefab_open': Place.get_main_place().now_open,
 		'api_password': API_PASSWORD
 	}
-	return render_to_response("account/welcome.html", template_data, context_instance = RequestContext(request))
+	return render(request, "account/welcome.html", template_data)
 
 def connection(request):
 	"""
 	Default page to log in
 	"""
-	if request.user.is_authenticated():
-		return redirect(urlresolvers.reverse('main.views.welcome'))
+	if request.user.is_authenticated:
+		return redirect(reverse('main.views.welcome'))
 	else:
 		template_data = {
-			'next': request.REQUEST.get('next', '')
+			'next': get_or_post(request).get('next', '')
 		}
-		return render_to_response("account/connection.html", template_data, context_instance = RequestContext(request))
+		return render(request, "account/connection.html", template_data)
 
 def local_connection(request):
 	"""
 	Allows to log in locally
 	"""
 	error = False
-	if request.user.is_authenticated():
-		return redirect(urlresolvers.reverse('main.views.welcome'))
+	if request.user.is_authenticated:
+		return redirect(reverse('main.views.welcome'))
 	# Remember the login method
 	request.session['auth_method'] = 'local'
 	if request.method == 'POST':
-		user = auth.authenticate(username=request.REQUEST.get('username'), password=request.REQUEST.get('password'))
+		user = auth.authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
 		if user is not None and user.is_active:
 			auth.login(request, user)
-			return redirect(urlresolvers.reverse('main.views.welcome'))
+			return redirect(reverse('main.views.welcome'))
 		else:
 			error = True
 	template_data = {
 		'error': error,
-		'next': request.REQUEST.get('next', '')
+		'next': get_or_post(request).get('next', '')
 	}
-	return render_to_response("account/local_connection.html", template_data, context_instance = RequestContext(request))
+	return render(request, "account/local_connection.html", template_data)
 
 def cas_connection(request):
 	"""
 	Allows to log in using CAS
 	"""
-	if request.user.is_authenticated():
-		return redirect(urlresolvers.reverse('main.views.welcome'))
+	if request.user.is_authenticated:
+		return redirect(reverse('main.views.welcome'))
 	# Remember the login method
 	request.session['auth_method'] = 'CAS'
 	return cas_login(request)
@@ -631,7 +638,7 @@ def profile(request):
 	"""
 	just_saved = False
 	# Did the user get sent here automatically at login?
-	first_edit = request.REQUEST.get('first_edit', False)
+	first_edit = get_or_post(request).get('first_edit', False)
 	# Get data if any
 	if request.method == 'POST':
 		form = ProfileForm(request.POST, instance = request.user)
@@ -640,7 +647,7 @@ def profile(request):
 			just_saved = True
 			if first_edit:
 				# Go home if first time
-				return redirect(urlresolvers.reverse('main.views.welcome'))
+				return redirect(reverse('main.views.welcome'))
 	else:
 		initial = {}
 		if not request.user.email:
@@ -652,7 +659,7 @@ def profile(request):
 		'first_edit': first_edit,
 		'just_saved': just_saved
 	}
-	return render_to_response("account/profile.html", template_data, context_instance = RequestContext(request))
+	return render(request, "account/profile.html", template_data)
 
 # Announcement screens
 
@@ -679,7 +686,7 @@ def announcements(request):
 		'announcements': announcements,
 		'first_event': first_event
 	}
-	return render_to_response("announcements/show.html", template_data, context_instance = RequestContext(request))
+	return render(request, "announcements/show.html", template_data)
 
 # Places
 
@@ -698,7 +705,7 @@ def update_place(request):
 		place.do_close_now()
 	else:
 		place.do_open_now(request.user)
-	return redirect(urlresolvers.reverse('main.views.welcome'))
+	return redirect(reverse('main.views.welcome'))
 
 def update_place_mobile(request, password):
 	"""
@@ -708,7 +715,7 @@ def update_place_mobile(request, password):
 		raise PermissionDenied()
 	place = Place.get_main_place()
 	user = None
-	if request.user.is_authenticated():
+	if request.user.is_authenticated:
 		user = request.user
 	if request.POST.get('action', None) == "switch":
 		if place.now_open():
@@ -719,7 +726,7 @@ def update_place_mobile(request, password):
 		'place': place,
 		'api_password': API_PASSWORD
 	}
-	return render_to_response("mobile/place.html", template_data, context_instance = RequestContext(request))
+	return render(request, "mobile/place.html", template_data)
 
 
 @csrf_exempt
