@@ -561,11 +561,14 @@ def connection(request):
 	"""
 	Default page to log in
 	"""
+	next_url = get_or_post(request).get('next', '')
+	if next_url == '':
+		next_url = reverse('main.views.welcome')
 	if request.user.is_authenticated:
-		return redirect(reverse('main.views.welcome'))
+		return redirect(next_url)
 	else:
 		template_data = {
-			'next': get_or_post(request).get('next', '')
+			'next': next_url
 		}
 		return render(request, "account/connection.html", template_data)
 
@@ -574,20 +577,23 @@ def local_connection(request):
 	Allows to log in locally
 	"""
 	error = False
+	next_url = get_or_post(request).get('next', '')
+	if next_url == '':
+		next_url = reverse('main.views.welcome')
 	if request.user.is_authenticated:
-		return redirect(reverse('main.views.welcome'))
+		return redirect(next_url)
 	# Remember the login method
 	request.session['auth_method'] = 'local'
 	if request.method == 'POST':
 		user = auth.authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
 		if user is not None and user.is_active:
 			auth.login(request, user)
-			return redirect(reverse('main.views.welcome'))
+			return redirect(next_url)
 		else:
 			error = True
 	template_data = {
 		'error': error,
-		'next': get_or_post(request).get('next', '')
+		'next': next_url
 	}
 	return render(request, "account/local_connection.html", template_data)
 
@@ -595,8 +601,11 @@ def cas_connection(request):
 	"""
 	Allows to log in using CAS
 	"""
+	next_url = get_or_post(request).get('next', '')
+	if next_url == '':
+		next_url = reverse('main.views.welcome')
 	if request.user.is_authenticated:
-		return redirect(reverse('main.views.welcome'))
+		return redirect(next_url)
 	# Remember the login method
 	request.session['auth_method'] = 'CAS'
 	return casLoginView.as_view()(request)
