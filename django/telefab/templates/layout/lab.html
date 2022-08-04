@@ -4,5 +4,5 @@
 	<a href="{% url 'main.views.welcome' %}">Mon lab</a> <span class="raquo">»</span> {% block lab_link %}{% endblock %}
 {% endblock %}
 {% block context_menu %}
-	{{ user.get_profile }} <a href="{% url 'main.views.logout' %}">Se déconnecter</a>
+	{{ user.profile }} <a href="{% url 'main.views.logout' %}">Se déconnecter</a>
 {% endblock %}

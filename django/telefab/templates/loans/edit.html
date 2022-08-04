@@ -163,7 +163,7 @@
 			{% for user in users %}
 				{
 					'id': "{{user.username|escapejs}}",
-					'name': "{{user.get_profile|escapejs}}",
+					'name': "{{user.profile|escapejs}}",
 					'email': "{{user.email|escapejs}}"
 				}{% if not forloop.last %},{% endif %}
 			{% endfor %}

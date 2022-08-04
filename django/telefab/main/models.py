@@ -36,17 +36,6 @@ class UserProfile(models.Model):
 		"""
 		return len(self.user.groups.filter(name = ANIMATORS_GROUP_NAME)) > 0
 
-	def is_cas_auth(self):
-		"""
-		Is this user connected using CAS?
-		"""
-		try:
-			Tgt.get_tgt_for_user(self.user)
-		except Tgt.DoesNotExist:
-			return False
-		else:
-			return True
-
 	@staticmethod
 	def get_animators():
 		"""
