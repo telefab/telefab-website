@@ -2,8 +2,8 @@
 Contributors: kenjigarland, drywallbmb, jakemgold, thinkoomph
 Tags: navigation, section, cms, pages, top level, hierarchy
 Requires at least: 2.8
-Tested up to: 6.0
-Stable tag: 1.5.5
+Tested up to: 5.7.1
+Stable tag: 1.6
 Requires PHP: 5.6
 
 Creates a new widget for listing section-based navigation. Essential for contextual navigation when using WordPress as a CMS! Also implements a function for template developers and a shortcode.
@@ -32,6 +32,8 @@ Beginning with version 1.5, Better Section Navigation also incorporates the feat
 Compatible with WordPress Multisite.
 
 This plugin started life as [Simple Section Navigation Widget](https://wordpress.org/plugins/simple-section-navigation/), but since that plugin hasn't been updated in a while, we've taken up the reins with the goal of keeping it up to date with the latest WordPress conventions (i.e. getting rid of deprecation warnings) and adding a few nice-to-have features while retaining some of the simplicity of the original plugin.
+
+Simple Section Navigation Widget is incompatible with PHP 8.x, so as of October 2022, Better Section Navigation is now a drop-in replacement for Simple Section Navigation Widget. If you've been using Simple Section Navigation, you can now use this one instead without changing any settings! *NOTE: Deactivate Simple Section Navigation Widget* before activating Better Section Navigation.
 
 == Frequently Asked Questions ==
 
@@ -87,6 +89,9 @@ Here’s the complete list:
 
 
 == Changelog ==
+
+= 1.6 =
+* Add full backward compatibility for Simple Section Navigation. Better Section Navigation is now a drop-in replacement.
 
 = 1.5.5 =
 * Eliminating warning-level error regarding undefined nonces in the admin.

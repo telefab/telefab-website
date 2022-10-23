@@ -11,12 +11,15 @@ class Better_Section_Nav extends WP_Widget {
 	/**
 	 * Widget constructor.
 	 */
-	function __construct() {
+	function __construct( $id_base = 'better-section-nav', $name = '' ) {
+		if ( empty( $name ) ) {
+			$name = __( 'Better Section Navigation', 'better-section-nav' );
+		}
 		$widget_ops = array(
-			'classname' => 'better-section-nav',
+			'classname' => 'better-section-nav simple-section-nav',
 			'description' => __( 'Shows page ancestory (parents, grandparents, etc), siblings of ancestory and current page, and immediate children of the current page beneath the current top level page.', 'better-section-nav' ),
 		);
-		parent::__construct( 'better-section-nav', __( 'Better Section Navigation' ), $widget_ops );
+		parent::__construct( $id_base, $name, $widget_ops );
 	}
 
 	/**
@@ -203,5 +206,13 @@ class Better_Section_Nav extends WP_Widget {
 		</p>
 		<!-- p><small><a href="https://cornershopcreative.com/plugins/better-section-navigation/" target="_blank">Help &amp; Support</a></small></p -->
 		<?php
+	}
+}
+
+class SimpleSectionNav extends Better_Section_Nav {
+
+
+	public function __construct() {
+		parent::__construct( 'simple-section-nav', __( 'Simple Section Navigation', 'better-section-navigation' ) );
 	}
 }

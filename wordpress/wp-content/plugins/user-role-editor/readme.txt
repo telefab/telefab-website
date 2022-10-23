@@ -2,8 +2,8 @@
 Contributors: shinephp
 Tags: user, role, editor, security, access, permission, capability
 Requires at least: 4.4
-Tested up to: 6.0.1
-Stable tag: 4.63
+Tested up to: 6.0.2
+Stable tag: 4.63.1
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,7 @@ Capabilities could be assigned on per user basis. Multiple roles could be assign
 You can add new capabilities and remove unnecessary capabilities which could be left from uninstalled plugins.
 Multi-site support is provided.
 
-Try it out on your free TasteWP [test site](https://demo.tastewp.com/user-role-editor)
+Try it out on your free TasteWP [test site](https://demo.tastewp.com/user-role-editor).
 
 To read more about 'User Role Editor' visit [this page](http://www.shinephp.com/user-role-editor-wordpress-plugin/) at [shinephp.com](http://shinephp.com)
 
@@ -82,8 +82,13 @@ https://translate.wordpress.org/projects/wp-plugins/user-role-editor/
 
 == Changelog =
 
+= [4.63.1] 20.09.2022 =
+* Marked as compatible with WordPress version 6.0.2
+* Fix: PHP Warning: Attempt to read property “ID” on null in /wp-content/plugins/user-role-editor/includes/classes/user-role-editor.php on line 369
+* Fix: Deprecated: Automatic conversion of false to array is deprecated in ./includes/classes/base-lib.php on line 212
+
 = [4.63] 11.07.2022 =
-* Update: Marked as compatible with WordPress 6.1
+* Update: Marked as compatible with WordPress 6.0.1
 * Update: Few notices (e.g. "Constant FILTER_SANITIZE_STRING is deprecated") was fixed for better compatibility with PHP 8.1.
 * Update: URE does not try to deactivate itself in case another instance is active, just shows notice and stops execution. 
 
@@ -104,10 +109,10 @@ I am ready to answer on your questions about plugin usage. Use [plugin page comm
 
 == Upgrade Notice ==
 
-= [4.63] 11.07.2022 =
-* Update: Marked as compatible with WordPress 6.1
-* Update: Few notices (e.g. "Constant FILTER_SANITIZE_STRING is deprecated") was fixed for better compatibility with PHP 8.1.
-* Update: URE does not try to deactivate itself in case another instance is active, just shows notice and stops execution. 
+= [4.63.1] 19.09.2022 =
+* Marked as compatible with WordPress version 6.0.2
+* Fix: PHP Warning: Attempt to read property “ID” on null in /wp-content/plugins/user-role-editor/includes/classes/user-role-editor.php on line 369
+* Fix: Deprecated: Automatic conversion of false to array is deprecated in ./includes/classes/base-lib.php on line 212
 
 
 

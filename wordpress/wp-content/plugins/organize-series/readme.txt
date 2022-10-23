@@ -1,11 +1,11 @@
-=== Issues and Series for Newspapers, Magazines, Publishers, Writers  ===
+=== PublishPress Series: Issues for Newspapers, Magazines, Publishers, Writers  ===
 Contributors: publishpress, kevinB, stevejburge, andergmartins, olatechpro
 Author: publishpress
-Tags: issue, series, magazine, newspaper, publication
+Tags: issue, series, magazine, newspaper, publisher
 Requires at least: 4.7
 Requires PHP: 5.6
 Tested up to: 6.0
-Stable tag: 2.9.2
+Stable tag: 2.10.0
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,7 +38,7 @@ It's easy to keep track of what posts have been added to a series. You can also 
 
 ## Display options for your Series information ##
 
-Right out-of-the-box, the Series meta box will be automatically added to posts that are a part of a series. You can modify how this meta box appears using the template for it in the Series Options Page. Plus, there are at least four different displays that your visitors may see in PublishPress Series.
+Immediately after you install PublishPress Series, a box will be automatically added to posts that are a part of a series. This will give visitors all the information they need about the series. There are at least four different styles that you can choose. Plus, you can modify how this box appears using the template for it in the Series Options Page. 
 
 [Click here to see more about displaying Series](https://publishpress.com/knowledge-base/displays-series/).
 
@@ -54,7 +54,7 @@ PublishPress Series plugin provides two widgets you can use to display your seri
 
 [Click here to see more about Series widgets](https://publishpress.com/knowledge-base/series-widgets/).
 
-## Order, schedule, publish and unpublish posts in your series
+## Order, schedule, and publish posts in your series ##
 
 The Publish Series feature is available in the Free and Pro versions of PublishPress Series. This feature allows you to quickly manage all posts linked to a Series. You can use this screen to re-order, schedule publish, and unpublish all the posts in a Series.
 
@@ -78,14 +78,13 @@ The Pro version of PublishPress Series allows you to add posts to more than one 
 
 [Click here to see more about the Multiples feature](https://publishpress.com/knowledge-base/overview-multiples/).
 
-## Series Pro: Extra Tokens
+## Series Pro: Extra Tokens ##
 
- token is a specific format for indicating where you want series information to appear. Tokens can be added in any of the PublishPress Series templates available on the Series Options screen. Extra tokens are available in the Pro version of PublishPress Series. This adds new tokens to the “Templates” screen for customizing the various series templates.
+Tokens allow you to indicate where you want series information to appear. Tokens can be added in any of the PublishPress Series templates available on the Series Options screen. Extra tokens are available in the Pro version of PublishPress Series. 
 
 [Click here to see more about the extra tokens](https://publishpress.com/knowledge-base/overview-tokens/).
 
-
-= Join PublishPress and get the Pro plugins =
+## Join PublishPress and get the Pro plugins ##
 
 The Pro versions of the PublishPress plugins are well worth your investment. The Pro versions have extra features and faster support. [Click here to join PublishPress](https://publishpress.com/pricing/).
 
@@ -172,6 +171,31 @@ Yes, Publishpress Series introduces a new taxonomy "series". Thanks to the rich 
 
 
 == Changelog ==
+
+v2.10.0- 2022-10-04
+* Feature: Add Series and Series Group re-order field with term drag and drop feature #584
+* Feature: Add series order link to series and new post selected series #612
+* Feature: Add series Groups(Categories) overview page shortcode [publishpress_series_categories] #591
+* Feature: Add search box to series metabox #239
+* Feature: Add settings to limit series meta display to single page only #588
+* Fixed: Only allow valid numbers in series part input #634
+* Update: Set series part if empty irrespective of Automatic Numbering settings #636
+* Feature: Add filter, search and pagination to "Publish Series" screen #510
+* Update: Enable "Show "Series Part"" by default #617
+* Fixed: Font styles and font sizes inconsistency on 'Series Table of Contents' widget page #604
+* Fixed: Syntax Error on 'Edit Series' page #607
+* Update: Simplify the Publish Series screen #614
+* Update: Change the menu links inside Series #615
+* Fixed: TOC template header and footer deprecated in FSE themes #623
+* Fixed: Groups template header and footer deprecated in FSE themes #416
+* Fixed: Series taxonomy template header and footer deprecated in FSE themes #409
+* Feature: Add "Series Groups" into a Free feature #613
+* Fixed: Remove new taxonomy metabox #595
+* Fixed: Float left for next post navigation #586
+* Update: Series-Translation updates for Spanish July 21 #578
+* Update: Series-Translation updates for French-Spanish-Italian #567
+* Update: Remove "Create as unpublished"? #655
+* Fixed: Series link in "Posts" table doesn't go anywhere #651
 
 v2.9.2- 2022-07-12
 * Fixed: Problem with series navigation and List #568

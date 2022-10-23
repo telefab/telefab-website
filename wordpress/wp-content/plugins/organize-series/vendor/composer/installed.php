@@ -5,18 +5,18 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '017e1a9efbd2ca4b953ce3778363f8ccfd84724b',
+        'reference' => '156617c926c470296b01a6fd0602f2cb00a76c05',
         'name' => 'roughsmoothengine/organize-series',
         'dev' => false,
     ),
     'versions' => array(
         'alledia/edd-sl-plugin-updater' => array(
-            'pretty_version' => 'v1.6.21',
-            'version' => '1.6.21.0',
+            'pretty_version' => 'v1.6.22',
+            'version' => '1.6.22.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../alledia/edd-sl-plugin-updater',
             'aliases' => array(),
-            'reference' => '0c87ee916d3a4fafa1c940691b101aa48ec8622c',
+            'reference' => '56525f1acd28e340f7a7e523638c1424ca7f0e0a',
             'dev_requirement' => false,
         ),
         'alledia/wordpress-edd-license-integration' => array(
@@ -65,12 +65,12 @@
             'dev_requirement' => false,
         ),
         'publishpress/wordpress-banners' => array(
-            'pretty_version' => 'v1.3.0',
-            'version' => '1.3.0.0',
+            'pretty_version' => 'v1.3.1',
+            'version' => '1.3.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../publishpress/wordpress-banners',
             'aliases' => array(),
-            'reference' => '08e20b98320367bdbc59105095c72e7ccbf968f1',
+            'reference' => 'bcb5f9f00973d53e2db027f9a05c059f18743fae',
             'dev_requirement' => false,
         ),
         'publishpress/wordpress-reviews' => array(
@@ -97,7 +97,7 @@
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '017e1a9efbd2ca4b953ce3778363f8ccfd84724b',
+            'reference' => '156617c926c470296b01a6fd0602f2cb00a76c05',
             'dev_requirement' => false,
         ),
         'sabre/vobject' => array(

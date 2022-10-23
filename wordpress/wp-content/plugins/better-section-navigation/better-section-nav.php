@@ -9,7 +9,7 @@
  parents and grandparents (up to top level page), and any immediate children of
  the current page. Can also be called via function inside template files or by
  shortcode.
- Version: 1.5.5
+ Version: 1.6
  Author: Cornershop Creative
  Author URI: https://cornershopcreative.com/
  Text Domain: better-section-nav
@@ -46,8 +46,10 @@ define( 'BSN_EP_OPTION_NAME', 'bsn_exclude_pages' );
  */
 require_once 'class-better-section-nav.php';
 add_action( 'widgets_init', function() {
-	return register_widget( 'Better_Section_Nav' );
+	register_widget( 'SimpleSectionNav' );
+	register_widget( 'Better_Section_Nav' );
 } );
+
 
 
 /**
@@ -99,6 +101,41 @@ function better_section_nav( $args = '', $echo = true ) {
 	}
 }
 
+function simple_section_nav($atts){
+	$args = wp_parse_args( $args, array(
+		'show_all'         => false,
+		'exclude'          => '',
+		'hide_on_excluded' => true,
+		'show_on_home'     => false,
+		'show_empty'       => false,
+		'sort_by'          => 'menu_order',
+		'a_heading'        => false,
+		'before_widget'    => '<div>',
+		'after_widget'     => '</div>',
+		'before_title'     => '<h2 class="widgettitle">',
+		'after_title'      => '</h2>',
+		'title'            => '',
+	) );
+
+	if ( ! $echo ) {
+		ob_start();
+	}
+
+	the_widget(
+		'SimpleSectionNav',
+		$args,
+		array(
+			'before_widget' => $args['before_widget'],
+			'after_widget'  => $args['after_widget'],
+			'before_title'  => $args['before_title'],
+			'after_title'   => $args['after_title'],
+		)
+	);
+
+	if ( ! $echo ) {
+		return ob_get_clean();
+	}
+}
 
 /**
  * Shortcode to display section-based navigation.
@@ -126,6 +163,27 @@ function better_section_nav_shortcode( $atts ) {
 }
 add_shortcode( 'better-section-nav', 'better_section_nav_shortcode' );
 
+function simple_section_nav_shortcode( $atts ) {
+
+	$args = shortcode_atts( array(
+		'show_all'         => false,
+		'exclude'          => '',
+		'hide_on_excluded' => true,
+		'show_on_home'     => false,
+		'show_empty'       => false,
+		'sort_by'          => 'menu_order',
+		'a_heading'        => false,
+		'before_widget'    => '<div>',
+		'after_widget'     => '</div>',
+		'before_title'     => '<h2 class="widgettitle">',
+		'after_title'      => '</h2>',
+		'title'            => '',
+	), $atts );
+
+	return simple_section_nav( $args, false );
+}
+add_shortcode( 'simple-section-nav', 'simple_section_nav_shortcode' );
+
 
 /**
  * Implement Exclude Pages plugin functionality
@@ -137,3 +195,29 @@ require_once 'exclude-pages.php';
  * Register activation hook
  */
 register_activation_hook( __FILE__, 'bsn_activate' );
+
+function simple_section_nav_activate() 
+{
+	if (get_option('ssn_sortby') === false) return false;	//if not upgrading, leave
+	
+	$show_all = (get_option('ssn_show_all')) ? 1 : 0;
+	$exclude =  str_replace(" ","",get_option('ssn_exclude'));
+	$hide_on_excluded = (get_option('ssn_hide_on_excluded')) ? 1 : 0;
+	$show_on_home = (get_option('ssn_show_on_home')) ? 1 : 0;
+	$show_empty = (get_option('ssn_show_empty')) ? 1 : 0;
+	$a_heading = (get_option('ssn_a_heading')) ? 1 : 0;
+	
+	$settings = array('show_all'=>$show_all, 'exclude'=>$exclude, 'hide_on_excluded'=>$hide_on_excluded,'show_on_home'=>$show_on_home,'show_empty'=>$show_empty,'sort_by'=>get_option('ssn_sortby'),'a_heading'=>$a_heading);
+	wp_convert_widget_settings('simple-section-nav','widget_simple-section-nav',$settings);
+		
+	//delete old settings ... done supporting 1.x
+	delete_option('ssn_show_all');
+	delete_option('ssn_exclude');
+	delete_option('ssn_hide_on_excluded');
+	delete_option('ssn_show_on_home');
+	delete_option('ssn_show_empty');
+	delete_option('ssn_sortby');
+	delete_option('ssn_a_heading');
+}
+register_activation_hook(__FILE__, 'simple_section_nav_activate');
+

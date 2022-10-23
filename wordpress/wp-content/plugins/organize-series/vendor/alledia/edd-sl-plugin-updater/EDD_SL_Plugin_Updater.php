@@ -17,7 +17,7 @@ if ( ! class_exists('Alledia\\EDD_SL_Plugin_Updater')) {
  */
 class EDD_SL_Plugin_Updater {
     
-    const VERSION = '1.6.21';
+    const VERSION = '1.6.22';
 
     private $api_url     = '';
     private $api_data    = array();
@@ -320,6 +320,10 @@ class EDD_SL_Plugin_Updater {
             $_data = $edd_api_request_transient;
         }
 
+        if (is_bool($_data)) {
+            return $_data;
+        }
+
         // Convert sections into an associative array, since we're getting an object, but Core expects an array.
         if ( isset( $_data->sections ) && ! is_array( $_data->sections ) ) {
             $_data->sections = $this->convert_object_to_array( $_data->sections );
@@ -389,7 +393,7 @@ class EDD_SL_Plugin_Updater {
     }
 
     /**
-     * Calls the API and, if successfull, returns the object delivered by the API.
+     * Calls the API and, if successful, returns the object delivered by the API.
      *
      * @uses get_bloginfo()
      * @uses wp_remote_post()
@@ -419,18 +423,18 @@ class EDD_SL_Plugin_Updater {
             } else {
                 $test_url = $scheme . '://' . $host . $port;
                 $response = wp_remote_get( $test_url, array( 'timeout' => $this->health_check_timeout, 'sslverify' => $verify_ssl ) );
-                $edd_plugin_url_available[ $store_hash ] = is_wp_error( $response ) ? false : true;
+                $edd_plugin_url_available[ $store_hash ] = ! is_wp_error($response);
             }
         }
 
         if ( false === $edd_plugin_url_available[ $store_hash ] ) {
-            return;
+            return false;
         }
 
         $data = array_merge( $this->api_data, $_data );
 
         if ( $data['slug'] != $this->slug ) {
-            return;
+            return false;
         }
 
         if( $this->api_url == trailingslashit ( home_url() ) ) {
